@@ -1,4 +1,4 @@
-# Current status
+npm# Current status
 
 As of 2017/09/06: This is the most recent version of the new React-based UI for NRP. It was forked from https://github.com/django-rea/rea-app. It is in process, and has been tested a bit, but not used in production yet.  It contains some queries, but no creating, updating, or deleting of data. This version will probably not have much done to it for at least a month or two, as that project is working on an alternative "card and panel" view for one group of users, which is not available yet on github.  This version may even be discarded or radically changed.
 
