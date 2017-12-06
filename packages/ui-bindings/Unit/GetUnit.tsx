@@ -12,8 +12,8 @@ import { gql, graphql, compose } from 'react-apollo'
 import { AppState } from '@vflows/store/types'
 import { getActiveLoginToken } from '@vflows/store/selectors/auth'
 
-export const Unit = gql`
-fragment coreAgentFields on Agent {
+export const unitInterface = gql`
+fragment unitInterface on Unit {
   id
   name
   symbol
@@ -21,80 +21,14 @@ fragment coreAgentFields on Agent {
 
 
 const query = gql`
-query($token: String, $agentId: Int) {
+query($token: String, $unitId: Int) {
   viewer(token: $token) {
-    agent(id: $agentId) {
-      ...coreAgentFields
-      agentRelationships {
-
-        subject {
-          name
-          type
-          id
-          image
-        }
-        relationship {
-          label
-          category
-        }
-        object {
-          name
-          type
-          image
-          id
-        }
-      }
-      ...coreEventsFields
-      agentProcesses(isFinished: false) {
-        # :TODO: use fragment for this
-        id
-        name
-        isStarted
-        plannedStart
-        plannedDuration
-        isFinished
-        note
-        unplannedEconomicEvents {
-          action
-        }
-        processEconomicEvents {
-          action
-        }
-        processCommitments {
-          action
-        }
-        inputs {
-          action
-        }
-        outputs {
-          action
-        }
-        workingAgents {
-          id
-          name
-          image
-        }
-      }
-      ownedEconomicResources {
-        resourceClassifiedAs {
-          name
-          category
-        }
-        trackingIdentifier
-        currentQuantity {
-          numericValue
-          unit {
-            name
-          }
-        }
-        image
-        note
-        category
-      }
+    unit(id: $unitId) {
+      ...unitInterface
     }
   }
 }
-${Unit}
+${unitInterface}
 `
 
 interface Unit {
@@ -114,14 +48,14 @@ export default compose(
     // read query vars into query from input data above
     options: (props) => ({ variables: {
         ...props.variables,
-        agentId: props.agentId,
+        unitId: props.unitId,
       } }),
     // transform output data
     props: ({ ownProps, data: { viewer, loading, error, refetch } }) => ({
       loading,
       error,
       refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-      agent: viewer ? viewer.agent : null,
+      unit: viewer ? viewer.unit : null,
     }),
   })
 )
