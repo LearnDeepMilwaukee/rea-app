@@ -24,11 +24,10 @@ const query = gql`
 query($token: String, $unitId: Int) {
   viewer(token: $token) {
     unit(id: $unitId) {
-      ...unitInterface
+      name
     }
   }
 }
-${unitInterface}
 `
 
 export interface Unit {
@@ -48,10 +47,12 @@ export default compose(
     // read query vars into query from input data above
     options: (props) => ({ variables: {
         ...props.variables,
-        unitId: props.unitId,
+        //unitId: props.unitId
       } }),
     // transform output data
-    props: ({ ownProps, data: { viewer, loading, error, refetch } }) => ({
+    props: ({ ownProps, data: { viewer, loading, error, refetch } }) => (
+      console.log("viewer: ", viewer, "\nerror: ", error),
+      {
       loading,
       error,
       refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
