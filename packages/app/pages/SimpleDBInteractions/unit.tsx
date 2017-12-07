@@ -1,28 +1,27 @@
-import * as React from "react"
+import * as React from 'react';
+import './SimpleDBInteractions.css'
+import './unit.css'
 
-class MyComponent extends React.Component{
-  constructor(private props) {
-    super(props);
-  }
-  render() {
-    return(
+const unit = (props) =>{
+  return(
+    <div>
       <div>
-        <div>
-          <div>{this.props.id}</div>
-          <div>{this.props.name}</div>
-          <div>{this.props.symbol}</div>
-        </div>
+        <div>{props.id}</div>
+        <div>{props.name}</div>
+        <div>{props.symbol}</div>
       </div>
-    )
-  }
-
+    </div>
+  )
 };
 
 class Unit extends React.Component{
-  render() {
+  state = {
+    units: []
+  };
+  render(){
     return(
       <div>
-        <MyComponent id={"1"} name={"2"} symbol={"3"}/>
+        <unit id="1" name="2" symbol="3"/>
       </div>
     )
   };
