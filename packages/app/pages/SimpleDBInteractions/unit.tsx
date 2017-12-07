@@ -21,7 +21,7 @@ const UnitList = BindAgent(({ unit, loading, error}: Props) => {
       error ? <p style={{ color: "#F00" }}>API error</p> : (
         <div >
           <div>
-            {unit.map( (id, name, symbol) => (<Unit id={id} name={name} symbol={symbol}/>))}
+            <Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>
           </div>
         </div>
       )
