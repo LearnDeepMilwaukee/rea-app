@@ -10,6 +10,7 @@ const Unit = (props) =>{
         <div>id: {props.id}</div>
         <div>name: {props.name}</div>
         <div>symbol: {props.symbol}</div>
+        <br/>
       </div>
     </div>
   )
