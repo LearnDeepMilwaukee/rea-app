@@ -1,8 +1,10 @@
 import * as React from "react"
 
-class uni extends React.Component{
-  constructor(private props){super();}
-  render(){
+class MyComponent extends React.Component{
+  constructor(private props) {
+    super(props);
+  }
+  render() {
     return(
       <div>
         <div>
@@ -17,10 +19,10 @@ class uni extends React.Component{
 };
 
 class Unit extends React.Component{
-  render(){
+  render() {
     return(
       <div>
-        <uni id={"1"} name={"2"} symbol={"3"}/>
+        <MyComponent id={"1"} name={"2"} symbol={"3"}/>
       </div>
     )
   };
