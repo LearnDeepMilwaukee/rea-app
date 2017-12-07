@@ -21,7 +21,7 @@ fragment unitInterface on Unit {
 
 
 const query = gql`
-query($token: String, $unitId: Int) {
+query($token: String) {
   viewer(token: $token) {
     allUnits{
       ...unitInterface
@@ -57,7 +57,7 @@ export default compose(
       loading,
       error,
       refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-      unit: viewer ? viewer.unit : null,
+      unitList: viewer ? viewer.allUnits : null,
     }),
   })
 )
