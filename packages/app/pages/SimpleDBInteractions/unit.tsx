@@ -14,7 +14,7 @@ const unit = (props) =>{
   )
 };
 
-class Unit extends React.Component {
+class Unit {
   state = {
     units: []
   };
