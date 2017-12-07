@@ -11,6 +11,7 @@ import ProcessesPage from './pages/Processes'
 import InventoryPage from './pages/Inventory'
 import AccountsPage from './pages/Accounts'
 import SingleProjectTemplate from '../ui-views/templates/SingleProjectTemplate'
+import Unit from './pages/SimpleDBInteractions/unit'
 import ProjectTemplate from '../ui-views/templates/ProjectTemplate'
 
 const routes = (
@@ -41,6 +42,11 @@ const routes = (
       <IndexRoute component={Todo} />
       <Route path="my-account" component={Todo} />
       <Route path="my-skills" component={Todo} />
+    </Route>
+
+    <Route path="simpledbinteractions" component={Todo}>
+      <IndexRoute component={Todo} />
+      <Route path="unit" component={Unit} />
     </Route>
   </Route>
 )
