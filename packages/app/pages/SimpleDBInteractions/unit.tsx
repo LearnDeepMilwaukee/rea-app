@@ -2,7 +2,7 @@ import * as React from 'react';
 import './SimpleDBInteractions.css'
 import './unit.css'
 
-const unit = (props) =>{
+const Unit = (props) =>{
   return(
     <div>
       <div>
@@ -14,17 +14,17 @@ const unit = (props) =>{
   )
 };
 
-class Unit extends React.Component{
+class UnitList extends React.Component{
   state = {
     units: []
   };
   render(){
     return(
       <div>
-        <unit id="1" name="2" symbol="3"/>
+        <Unit id="1" name="2" symbol="3"/>
       </div>
     )
   };
 }
 
-export default Unit;
+export default UnitList;
