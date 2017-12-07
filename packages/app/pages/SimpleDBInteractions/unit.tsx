@@ -1,17 +1,15 @@
-import * as React from 'react';
-import './SimpleDBInteractions.css'
-import './unit.css'
+import * as React from "react";
+import "./SimpleDBInteractions.css"
+import "./unit.css"
 import BindAgent from "../../../ui-bindings/Unit/GetUnit";
 
-const Unit = (props) =>{
+const Unit = (props) => {
   return(
     <div>
-      <div>
-        <div>id: {props.id}</div>
-        <div>name: {props.name}</div>
-        <div>symbol: {props.symbol}</div>
-        <br/>
-      </div>
+      <div>id: {props.id}</div>
+      <div>name: {props.name}</div>
+      <div>symbol: {props.symbol}</div>
+      <br/>
     </div>
   )
 };

@@ -6,7 +6,7 @@
  * @since:   2017-06-23
  */
 
-import { gql } from 'react-apollo'
+import { gql } from "react-apollo"
 
 export const coreCommitmentFields = gql`
 fragment coreCommitmentFields on Commitment {
@@ -50,8 +50,7 @@ fragment coreCommitmentFields on Commitment {
     id
     name
   }
-}`
-
+}`;
 
 export const coreEventFields = gql`
 fragment coreEventFields on EconomicEvent {
@@ -94,4 +93,4 @@ fragment coreEventFields on EconomicEvent {
     id
     name
   }
-}`
+}`;
