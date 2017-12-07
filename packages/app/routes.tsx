@@ -44,8 +44,8 @@ const routes = (
       <Route path="my-skills" component={Todo} />
     </Route>
 
-    <Route path="simpledbinteractions" component={Todo}>
-      <IndexRoute component={Todo} />
+    <Route path="simpledbinteractions" component={UnitList}>
+      <IndexRoute component={UnitList} />
       <Route path="unit" component={UnitList} />
     </Route>
   </Route>
