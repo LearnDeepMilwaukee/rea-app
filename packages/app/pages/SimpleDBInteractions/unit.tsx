@@ -7,21 +7,21 @@ const Unit = (props) =>{
   return(
     <div>
       <div>
-        <div>{props.id}</div>
-        <div>{props.name}</div>
-        <div>{props.symbol}</div>
+        <div>id: {props.id}</div>
+        <div>name: {props.name}</div>
+        <div>symbol: {props.symbol}</div>
       </div>
     </div>
   )
 };
 
-const UnitList = BindAgent(({ unit, loading, error}: Props) => {
+const UnitList = BindAgent(({ unitList, loading, error}: Props) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{ color: "#F00" }}>API error</p> : (
         <div >
           <div>
-            <Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>
+            {unitList.map( (unit) => (<Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>))}
           </div>
         </div>
       )
