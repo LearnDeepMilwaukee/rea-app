@@ -23,11 +23,12 @@ fragment unitInterface on Unit {
 const query = gql`
 query($token: String, $unitId: Int) {
   viewer(token: $token) {
-    unit(id: $unitId) {
-      name
+    allUnits{
+      ...unitInterface
     }
   }
 }
+${unitInterface}
 `
 
 export interface Unit {
