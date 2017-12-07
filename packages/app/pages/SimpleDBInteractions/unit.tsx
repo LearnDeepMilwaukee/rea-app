@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from "react"
 import './SimpleDBInteractions.css'
 import './unit.css'
 
@@ -14,17 +14,14 @@ const unit = (props) =>{
   )
 };
 
-class Unit {
-  state = {
-    units: []
-  };
+class Unit extends React.Component{
   render(){
     return(
       <div>
-        <unit id="1" name="2" symbol="3"/>
+        <unit props={{id: "1",  name: "2",  symbol: "3"}}/>
       </div>
     )
   };
 }
 
-export default unit;
+export default Unit;
