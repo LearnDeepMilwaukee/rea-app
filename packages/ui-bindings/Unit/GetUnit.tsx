@@ -31,7 +31,7 @@ query($token: String, $unitId: Int) {
 ${unitInterface}
 `
 
-interface Unit {
+export interface Unit {
   id: number
   name: String
   symbol: String

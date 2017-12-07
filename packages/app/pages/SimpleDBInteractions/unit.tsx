@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './SimpleDBInteractions.css'
 import './unit.css'
+import BindAgent from "../../../ui-bindings/Unit/GetUnit";
 
 const Unit = (props) =>{
   return(
@@ -14,17 +15,18 @@ const Unit = (props) =>{
   )
 };
 
-class UnitList extends React.Component{
-  state = {
-    units: []
-  };
-  render(){
-    return(
-      <div>
-        <Unit id="1" name="2" symbol="3"/>
-      </div>
+const UnitList = BindAgent(({ unit, loading, error}: Props) => {
+  return (
+    loading ? <strong>Loading...</strong> : (
+      error ? <p style={{ color: "#F00" }}>API error</p> : (
+        <div >
+          <div>
+            {unit.map( (id, name, symbol) => (<Unit id={id} name={name} symbol={symbol}/>))}
+          </div>
+        </div>
+      )
     )
-  };
-}
+  );
+});
 
 export default UnitList;
