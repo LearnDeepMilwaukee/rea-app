@@ -13,6 +13,8 @@ import AccountsPage from './pages/Accounts'
 import SingleProjectTemplate from '../ui-views/templates/SingleProjectTemplate'
 import ProjectTemplate from '../ui-views/templates/ProjectTemplate'
 
+import AgentSandbox from "./pages/AgentSandbox"
+
 const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Landing} />
@@ -41,6 +43,10 @@ const routes = (
       <IndexRoute component={Todo} />
       <Route path="my-account" component={Todo} />
       <Route path="my-skills" component={Todo} />
+    </Route>
+
+    <Route path="AgentSandbox" component={AgentSandbox}>
+      <IndexRoute component={AgentSandbox} />
     </Route>
   </Route>
 )
