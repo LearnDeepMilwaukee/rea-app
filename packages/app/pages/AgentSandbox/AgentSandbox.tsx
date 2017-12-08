@@ -21,14 +21,14 @@ const AgentRelationshipRoleList = BindAgent(   (  { roles, loading, error}: Prop
       error ? <p style={{ color: "#F00" }}>API error</p> : (
         <div >
           <div>
-            {roles.map( (arr) => (
+            {/*{roles.map( (arr) => (*/}
               <AgentRelationshipRole
-                id={arr.id}
-                label={arr.label}
-                inverseLabel={arr.inverseLabel}
-                category={arr.category}
+                id={roles.id}
+                label={roles.label}
+                inverseLabel={roles.inverseLabel}
+                category={roles.category}
               />
-            ))}
+            // ))}
           </div>
         </div>
       )

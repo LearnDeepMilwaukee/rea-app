@@ -36,9 +36,9 @@ export interface AgentRelationshipRole {
  * authenticate you to use the database.
  */
 const query = gql`
-query($id: String = "4", $token: String) {
+query($id: Int = 5, $token: String){
   viewer(token: $token) {
-    allAgentRelationshipRoles(id: $id) {
+    agentRelationshipRole(id: $id) {
       id
       label
       inverseLabel
@@ -48,13 +48,138 @@ query($id: String = "4", $token: String) {
 }
 `;
 
+/*
+const query = gql`
+query($id: Int = 4, $token: String) {
+  #viewer(token: $token) {
+    agentRelationshipRole(id: $id) {
+      id
+      label
+      inverseLabel
+      category
+    }
+  #}
+}
+`;
+ */
+
 // ${agentRelationshipRole}
+
+
+
+
+//
+// const introspectiveQuery = gql`
+// query IntrospectionQuery {
+//   __schema {
+//     queryType {
+//       name
+//     }
+//     mutationType {
+//       name
+//     }
+//     subscriptionType {
+//       name
+//     }
+//     types {
+//     ...FullType
+//     }
+//     directives {
+//       name
+//       description
+//       args {
+//       ...InputValue
+//       }
+//       onOperation
+//       onFragment
+//       onField
+//     }
+//   }
+// }
+// ${FullType}
+// ${InputValue}
+// `;
+//
+// const FullType = gql`
+// fragment FullType on __Type {
+//   kind
+//   name
+//   description
+//   fields(includeDeprecated: true) {
+//     name
+//     description
+//     args {
+//     ...InputValue
+//     }
+//     type {
+//     ...TypeRef
+//     }
+//     isDeprecated
+//     deprecationReason
+//   }
+//   inputFields {
+//   ...InputValue
+//   }
+//   interfaces {
+//   ...TypeRef
+//   }
+//   enumValues(includeDeprecated: true) {
+//     name
+//     description
+//     isDeprecated
+//     deprecationReason
+//   }
+//   possibleTypes {
+//   ...TypeRef
+//   }
+// }
+// ${InputValue}
+// ${TypeRef}
+// `;
+//
+// const InputValue = gql`
+// fragment InputValue on __InputValue {
+//   name
+//   description
+//   type {
+//   ...TypeRef
+//   }
+//   defaultValue
+// }
+// ${TypeRef}
+// `;
+//
+// const TypeRef = gql`
+// fragment TypeRef on __Type {
+//   kind
+//   name
+//   ofType {
+//     kind
+//     name
+//     ofType {
+//       kind
+//       name
+//       ofType {
+//         kind
+//         name
+//       }
+//     }
+//   }
+// }
+// `;
+//
+//
+
+
+
+
+
 
 export default compose(
   connect((state: Appstate) => ({
     variables: {
       token: getActiveLoginToken(state),
-      // id: 4
+      id: 4
     },
   })),
 
@@ -63,11 +188,12 @@ export default compose(
       ...props.variables,
     }}),
     props: ({ownProps, data: {viewer, loading, error, refetch }}) => (
+      console.log(loading, error),
       {
         loading,
         error,
         refetchAgent: refetch,
-        roles: viewer ? viewer.allAgentRelationshipRoles : null,
+        roles: viewer ? viewer.agentRelationshipRole : null,
       }
     ),
   })
