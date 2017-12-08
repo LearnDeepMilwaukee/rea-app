@@ -3,6 +3,7 @@ import "./SimpleDBInteractions.css"
 import "./unit.css"
 import GetUnits from "../../../ui-bindings/Unit/getAllUnits";
 import GetUnit from "../../../ui-bindings/Unit/getUnitById";
+import {AppState} from "../../../store/types";
 
 const Unit = (props) => {
   return(
@@ -29,7 +30,9 @@ const UnitList = GetUnits(({ unitList, loading, error}) => {
   );
 });
 
-const SingleUnit = GetUnit(({ unit, loading, error}) => {
+const Please = 4
+
+const SingleUnit = GetUnit(({ unit, loading, error, unitId = Please}) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{ color: "#F00" }}>API error</p> : (
