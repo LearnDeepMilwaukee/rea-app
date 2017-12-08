@@ -16,7 +16,7 @@ const Unit = (props) =>{
   )
 };
 
-const UnitList = BindAgent(({ unitList, loading, error}: Props) => {
+const UnitList = BindAgent(({ unitList, loading, error}) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{ color: "#F00" }}>API error</p> : (
