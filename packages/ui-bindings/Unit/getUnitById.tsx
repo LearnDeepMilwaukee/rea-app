@@ -15,9 +15,9 @@ import { getActiveLoginToken } from '@vflows/store/selectors/auth'
 import { unitInterface } from "./unit";
 
 const query = gql`
-query($token: String) {
+query($token: String, $UnitId: Int) {
   viewer(token: $token) {
-    unit(id: 4){
+    unit(id: $UnitId){
       ...unitInterface
     }
   }
@@ -30,6 +30,7 @@ export default compose(
   connect((state: AppState) => ({
     variables: {
       token: getActiveLoginToken(state),
+      UnitId: 4
     },
   })),
 
