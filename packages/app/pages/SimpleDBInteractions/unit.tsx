@@ -1,7 +1,8 @@
 import * as React from "react";
 import "./SimpleDBInteractions.css"
 import "./unit.css"
-import BindAgent from "../../../ui-bindings/Unit/GetUnit";
+import GetUnits from "../../../ui-bindings/Unit/getAllUnits";
+import GetUnit from "../../../ui-bindings/Unit/getUnitById";
 
 const Unit = (props) => {
   return(
@@ -14,7 +15,7 @@ const Unit = (props) => {
   )
 };
 
-const UnitList = BindAgent(({ unitList, loading, error}) => {
+const UnitList = GetUnits(({ unitList, loading, error}) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{ color: "#F00" }}>API error</p> : (
@@ -28,4 +29,18 @@ const UnitList = BindAgent(({ unitList, loading, error}) => {
   );
 });
 
-export default UnitList;
+const SingleUnit = GetUnit(({ unit, loading, error}) => {
+  return (
+    loading ? <strong>Loading...</strong> : (
+      error ? <p style={{ color: "#F00" }}>API error</p> : (
+        <div >
+          <div>
+            <Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>
+          </div>
+        </div>
+      )
+    )
+  );
+});
+
+export default SingleUnit;
