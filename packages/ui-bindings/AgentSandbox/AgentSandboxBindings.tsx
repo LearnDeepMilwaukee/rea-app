@@ -3,6 +3,12 @@ import { gql, graphql, compose } from "react-apollo"
 import { AppState } from "@vflows/store/types"
 import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 
+/**
+ * Fragment example to illustrate designing re-usable
+ * components. In this example. the properties of the
+ * AgentRelationshipRole. This fragment can be expanded
+ * in the query.
+ */
 export const agentRelationshipRole = gql`
 fragment agentRelationshipRole on AgentRelationshipRole {
   id
@@ -25,8 +31,6 @@ export interface AgentRelationshipRole {
   category: number
 }
 
-// # ...agentRelationshipRole
-
 /**
  * This is the GraphQL query. The entire thing is wrapped
  * in tick marks (``) with the gql took from react-apollo.
@@ -39,142 +43,27 @@ const query = gql`
 query($id: Int = 5, $token: String){
   viewer(token: $token) {
     agentRelationshipRole(id: $id) {
-      id
-      label
-      inverseLabel
-      category
+      ...agentRelationshipRole
     }
   }
 }
+${agentRelationshipRole}
 `;
 
-/*
-const query = gql`
-query($id: Int = 4, $token: String) {
-  #viewer(token: $token) {
-    agentRelationshipRole(id: $id) {
-      id
-      label
-      inverseLabel
-      category
-    }
-  #}
-}
-`;
+/**
+ * This is the part of the binding that connects to the
+ * database, authenticates you, and allows the query to be
+ * executed.
+ *
+ * It takes two arguments. The first is the function to
+ * connect to the database / API and can take in variables
+ * which will be _attempted_ to fit into the query.
+ *
+ * The second is the query object which defines what can go
+ * into the query, and the expected format of the data that
+ * comes out of the query. In the last props section, you
+ * can define the JSON object it should return to the front end
  */
-
-// ${agentRelationshipRole}
-
-
-
-
-//
-// const introspectiveQuery = gql`
-// query IntrospectionQuery {
-//   __schema {
-//     queryType {
-//       name
-//     }
-//     mutationType {
-//       name
-//     }
-//     subscriptionType {
-//       name
-//     }
-//     types {
-//     ...FullType
-//     }
-//     directives {
-//       name
-//       description
-//       args {
-//       ...InputValue
-//       }
-//       onOperation
-//       onFragment
-//       onField
-//     }
-//   }
-// }
-// ${FullType}
-// ${InputValue}
-// `;
-//
-// const FullType = gql`
-// fragment FullType on __Type {
-//   kind
-//   name
-//   description
-//   fields(includeDeprecated: true) {
-//     name
-//     description
-//     args {
-//     ...InputValue
-//     }
-//     type {
-//     ...TypeRef
-//     }
-//     isDeprecated
-//     deprecationReason
-//   }
-//   inputFields {
-//   ...InputValue
-//   }
-//   interfaces {
-//   ...TypeRef
-//   }
-//   enumValues(includeDeprecated: true) {
-//     name
-//     description
-//     isDeprecated
-//     deprecationReason
-//   }
-//   possibleTypes {
-//   ...TypeRef
-//   }
-// }
-// ${InputValue}
-// ${TypeRef}
-// `;
-//
-// const InputValue = gql`
-// fragment InputValue on __InputValue {
-//   name
-//   description
-//   type {
-//   ...TypeRef
-//   }
-//   defaultValue
-// }
-// ${TypeRef}
-// `;
-//
-// const TypeRef = gql`
-// fragment TypeRef on __Type {
-//   kind
-//   name
-//   ofType {
-//     kind
-//     name
-//     ofType {
-//       kind
-//       name
-//       ofType {
-//         kind
-//         name
-//       }
-//     }
-//   }
-// }
-// `;
-//
-//
-
-
-
-
-
-
 export default compose(
   connect((state: Appstate) => ({
     variables: {
@@ -188,7 +77,6 @@ export default compose(
       ...props.variables,
     }}),
     props: ({ownProps, data: {viewer, loading, error, refetch }}) => (
-      console.log(loading, error),
       {
         loading,
         error,
