@@ -17,7 +17,7 @@ import { unitInterface } from "./unit";
 const query = gql`
 query($token: String) {
   viewer(token: $token) {
-    Unit(id: 4){
+    unit(id: 4){
       ...unitInterface
     }
   }
@@ -42,11 +42,11 @@ export default compose(
     // transform output data
     props: ({ ownProps, data: { viewer, loading, error, refetch } }) => (
       console.log("viewer: ", viewer, "\nerror: ", error),
-        {
-          loading,
-          error,
-          refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-          unitList: viewer ? viewer.allUnits : null,
-        }),
+      {
+        loading,
+        error,
+        refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
+        unit: viewer ? viewer.unit : null,
+      }),
   })
 )
