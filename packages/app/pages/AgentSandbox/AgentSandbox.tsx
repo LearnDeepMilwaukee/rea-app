@@ -1,33 +1,53 @@
 import * as React from "react";
-import "./SimpleDBInteractions.css"
-import "./unit.css"
-import BindAgent from "../../../ui-bindings/Unit/GetUnit";
+import BindAgent from "../../../ui-bindings/AgentSandbox/AgentSandboxBindings";
 
-const Unit = (props) => {
+const AgentRelationshipRole = (props) => {
   return(
     <div>
       <div>
-        <div>id: {props.id}</div>
-        <div>name: {props.name}</div>
-        <div>symbol: {props.symbol}</div>
+        <p>id: {props.id}</p>
+        <p>label: {props.name}</p>
+        <p>inverseLabel: {props.symbol}</p>
+        <p>category: {props.category}</p>
         <br/>
       </div>
     </div>
   )
 };
 
-const UnitList = BindAgent(({ unitList, loading, error}: Props) => {
+const AgentRelationshipRoleList = BindAgent(   (  { roles, loading, error}: Props) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{ color: "#F00" }}>API error</p> : (
         <div >
           <div>
-            {unitList.map( (unit) => (<Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>))}
+            {roles.map( (arr) => (
+              <AgentRelationshipRole
+                id={arr.id}
+                label={arr.label}
+                inverseLabel={arr.inverseLabel}
+                category={arr.category}
+              />
+            ))}
           </div>
         </div>
       )
     )
   );
-});
+}      );
 
-export default UnitList;
+class AgentSandbox extends React.Component {
+  constructor(private props) {
+    super (props);
+  }
+
+  render() {
+    return (
+      <div>
+        <AgentRelationshipRoleList />
+      </div>
+    )
+  }
+}
+
+export default AgentSandbox;

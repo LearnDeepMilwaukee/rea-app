@@ -13,7 +13,7 @@ import AccountsPage from './pages/Accounts'
 import SingleProjectTemplate from '../ui-views/templates/SingleProjectTemplate'
 import ProjectTemplate from '../ui-views/templates/ProjectTemplate'
 
-import AgentSandbox from "./pages/AgentSandbox"
+import AgentSandbox from "./pages/AgentSandbox/AgentSandbox"
 
 const routes = (
   <Route path="/" component={App}>
