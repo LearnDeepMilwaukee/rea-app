@@ -1,5 +1,6 @@
 import * as React from "react";
 import BindAgent from "../../../ui-bindings/AgentSandbox/AgentSandboxBindings";
+import BindAgentRelationship from "../../../ui-bindings/AgentSandbox/AgentRelationship";
 
 const AgentRelationshipRole = (props) => {
   return(
@@ -15,7 +16,16 @@ const AgentRelationshipRole = (props) => {
   )
 };
 
-const AgentRelationshipRoleList = BindAgent(   (  { roles, loading, error}: Props) => {
+const AgentRelationship = (props) => {
+  return (
+    <div>
+      <p>id: {props.id}</p>
+      <AgentRelationshipRole props={props}/>
+    </div>
+  )
+};
+
+const AgentRelationshipRoleList = BindAgent(({roles, loading, error}: Props) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{ color: "#F00" }}>API error</p> : (
@@ -34,7 +44,27 @@ const AgentRelationshipRoleList = BindAgent(   (  { roles, loading, error}: Prop
       )
     )
   );
-}      );
+});
+
+const AgentRelationshipList = BindAgentRelationship(({agentRelationships, loading, error}: Props) => {
+  return (
+    loading ? <strong>Loading...</strong> : (
+      error ? <p style={{ color: "#F00" }}>API error</p> : (
+        <div >
+          <div>
+            {console.log("AgentRelationships:", agentRelationships)}
+            {/*{roles.map( (arr) => (*/}
+              <AgentRelationship
+                id={agentRelationships.id}
+                props={agentRelationships}
+              />
+              // ))}
+          </div>
+        </div>
+      )
+    )
+  );
+});
 
 class AgentSandbox extends React.Component {
   constructor(private props) {
@@ -44,7 +74,12 @@ class AgentSandbox extends React.Component {
   render() {
     return (
       <div>
+        <p>AgentRelationshipRole</p>
         <AgentRelationshipRoleList />
+        <br />
+
+        <p>AgentRelationship</p>
+        <AgentRelationshipList />
       </div>
     )
   }

@@ -3,33 +3,7 @@ import { gql, graphql, compose } from "react-apollo"
 import { AppState } from "@vflows/store/types"
 import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 
-/**
- * Fragment example to illustrate designing re-usable
- * components. In this example. the properties of the
- * AgentRelationshipRole. This fragment can be expanded
- * in the query.
- */
-export const agentRelationshipRole = gql`
-fragment agentRelationshipRole on AgentRelationshipRole {
-  id
-  label
-  inverseLabel
-  category
-}`;
-
-/**
- * This is a Typescript interface. It works the same
- * way as an interface in Java, except this defines
- * attributes instead of methods. You can use it in
- * Typescript to make your variables strongly
- * typed and give the compiler a way to help you
- */
-export interface AgentRelationshipRole {
-  id: number
-  label: String
-  inverseLabel: String
-  category: number
-}
+import { AgentRelationshipRole, agentRelationshipRole } from "./AgentSandboxBindings";
 
 /**
  * This is the GraphQL query. The entire thing is wrapped
@@ -40,10 +14,13 @@ export interface AgentRelationshipRole {
  * authenticate you to use the database.
  */
 const query = gql`
-query($id: Int = 5, $token: String){
+query($token: String){
   viewer(token: $token) {
-    agentRelationshipRole(id: $id) {
-      ...agentRelationshipRole
+    allAgentRelationships {
+      id
+      # relationship {
+      #   ...agentRelationshipRole
+      # }
     }
   }
 }
@@ -67,8 +44,7 @@ ${agentRelationshipRole}
 export default compose(
   connect((state: Appstate) => ({
     variables: {
-      token: getActiveLoginToken(state),
-      id: 4
+      token: getActiveLoginToken(state)
     },
   })),
 
@@ -77,11 +53,13 @@ export default compose(
       ...props.variables,
     }}),
     props: ({ownProps, data: {viewer, loading, error, refetch }}) => (
+      console.log("Viewer:", viewer),
+      console.log("AgentRelationship:", viewer.agentRelationship),
       {
         loading,
         error,
         refetchAgent: refetch,
-        roles: viewer ? viewer.agentRelationshipRole : null,
+        agentRelationships: viewer ? viewer.agentRelationship : null,
       }
     ),
   })
