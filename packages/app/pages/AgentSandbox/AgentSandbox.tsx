@@ -1,5 +1,5 @@
 import * as React from "react";
-import BindAgent from "../../../ui-bindings/AgentSandbox/AgentSandboxBindings";
+import { queryAPI } from "../../../ui-bindings/AgentSandbox/AgentSandboxBindings";
 import BindAgentRelationship from "../../../ui-bindings/AgentSandbox/AgentRelationship";
 
 const AgentRelationshipRole = (props) => {
@@ -25,26 +25,56 @@ const AgentRelationship = (props) => {
   )
 };
 
+
+let myPromise = queryAPI();
+
+const AgentRelationshipRoleList = myPromise.then(result => {
+  console.log(result);
+  return (
+    <div>
+      <p>result</p>
+    </div>
+  //   loading ? <strong>Loading...</strong> : (
+  //     error ? <p style={{ color: "#F00" }}>API error</p> : (
+  //       <div >
+  //         <div>
+  //           {roles.map( (arr) => (
+  //             <AgentRelationshipRole
+  //               id={roles.id}
+  //               label={roles.label}
+  //               inverseLabel={roles.inverseLabel}
+  //               category={roles.category}
+  //             />
+  //           ))}
+  //         </div>
+  //       </div>
+  //     )
+  //   )
+  );
+});
+
+/*
 const AgentRelationshipRoleList = BindAgent(({roles, loading, error}: Props) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{ color: "#F00" }}>API error</p> : (
         <div >
           <div>
-            {/*{roles.map( (arr) => (*/}
+            {roles.map( (arr) => (
               <AgentRelationshipRole
                 id={roles.id}
                 label={roles.label}
                 inverseLabel={roles.inverseLabel}
                 category={roles.category}
               />
-            // ))}
+            ))}
           </div>
         </div>
       )
     )
   );
 });
+*/
 
 const AgentRelationshipList = BindAgentRelationship(({agentRelationships, loading, error}: Props) => {
   return (
@@ -78,8 +108,8 @@ class AgentSandbox extends React.Component {
         <AgentRelationshipRoleList />
         <br />
 
-        <p>AgentRelationship</p>
-        <AgentRelationshipList />
+        {/*<p>AgentRelationship</p>*/}
+        {/*<AgentRelationshipList />*/}
       </div>
     )
   }

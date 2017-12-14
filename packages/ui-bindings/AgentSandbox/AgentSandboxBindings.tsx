@@ -1,5 +1,5 @@
-import { connect } from "react-redux"
-import { gql, graphql, compose } from "react-apollo"
+// import { connect } from "react-redux"
+//  import { gql, graphql, compose } from "react-apollo"
 import { AppState } from "@vflows/store/types"
 import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 import { createApolloFetch } from "apollo-fetch";
@@ -29,16 +29,17 @@ let fetch = createApolloFetch({uri: "localhost:8080/api"});
  * authenticate you to use the database.
  */
 const query = `
-query($id: Int, $token: String){
+query($token: String){
   viewer(token: $token) {
-    agentRelationshipRole(id: $id) {
+    allAgentRelationshipRoles {
       id
       label
       inverseLabel
       category
     }
   }
-}`;
+}
+`;
 // #${agentRelationshipRole}
 
 // /**
@@ -106,8 +107,8 @@ query($id: Int, $token: String){
 //   })
 // );
 
-function queryAPI(options: Object) {
-  return fetch(query, {...options, token: getActiveLoginToken(AppState)});
+export function queryAPI(options: Object) {
+  return fetch(query, {token: "F1hrHoXxDqQM16b60VE8KEjuY6gwbnFdkYzfK66teXlszdfzUigmdaglIDYI6vN6"});
 }
 
-export default queryAPI;
+// export default queryAPI;

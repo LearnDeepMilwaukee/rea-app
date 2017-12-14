@@ -3,7 +3,22 @@ import { gql, graphql, compose } from "react-apollo"
 import { AppState } from "@vflows/store/types"
 import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 
-import { AgentRelationshipRole, agentRelationshipRole } from "./AgentSandboxBindings";
+// import { AgentRelationshipRole, agentRelationshipRole } from "./AgentSandboxBindings";
+
+export interface AgentRelationshipRole {
+  id: number
+  label: String
+  inverseLabel: String
+  category: number
+}
+
+export const agentRelationshipRole = `
+fragment agentRelationshipRole on AgentRelationshipRole {
+  id
+  label
+  inverseLabel
+  category
+}`;
 
 /**
  * This is the GraphQL query. The entire thing is wrapped
