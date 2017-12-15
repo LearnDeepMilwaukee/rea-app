@@ -1,6 +1,8 @@
 import * as React from "react";
-import { queryAPI } from "../../../ui-bindings/AgentSandbox/AgentSandboxBindings";
+import queryAPI from "../../../ui-bindings/AgentSandbox/AgentSandboxBindings";
 import BindAgentRelationship from "../../../ui-bindings/AgentSandbox/AgentRelationship";
+
+import { FetchError } from "apollo-fetch";
 
 const AgentRelationshipRole = (props) => {
   return(
@@ -25,15 +27,14 @@ const AgentRelationship = (props) => {
   )
 };
 
-
 let myPromise = queryAPI();
 
-const AgentRelationshipRoleList = myPromise.then(result => {
-  console.log(result);
-  return (
-    <div>
-      <p>result</p>
-    </div>
+// const AgentRelationshipRoleList = myPromise.then(result => {
+//   console.log(result);
+//   return (
+//     <div>
+//       <p>result</p>
+//     </div>
   //   loading ? <strong>Loading...</strong> : (
   //     error ? <p style={{ color: "#F00" }}>API error</p> : (
   //       <div >
@@ -50,8 +51,41 @@ const AgentRelationshipRoleList = myPromise.then(result => {
   //       </div>
   //     )
   //   )
-  );
-});
+//   );
+// });
+
+class AgentRelationshipRoles extends React.Component {
+
+  constructor(private props) {
+    this.state = {};
+
+    queryAPI().then(result => {
+
+      let {data, error, extensions} = result;
+      console.log("Received result from API!");
+      console.log("Data:", data);
+      console.log("Error:", error);
+      console.log("Extensions:", extensions);
+      this.setState(result);
+    }).catch((error: FetchError) => {
+      console.log("Promise Error:", error);
+      console.log(error.resonse);
+      console.log(error.parseError);
+    });
+  }
+
+  render() {
+    if (!this.state.result) {
+      return <p>Loading...</p>
+    }
+    return (
+      <div>
+        <p>It loaded!</p>
+        {console.log(this.state.result)}
+      </div>
+    )
+  }
+}
 
 /*
 const AgentRelationshipRoleList = BindAgent(({roles, loading, error}: Props) => {
@@ -76,25 +110,25 @@ const AgentRelationshipRoleList = BindAgent(({roles, loading, error}: Props) => 
 });
 */
 
-const AgentRelationshipList = BindAgentRelationship(({agentRelationships, loading, error}: Props) => {
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{ color: "#F00" }}>API error</p> : (
-        <div >
-          <div>
-            {console.log("AgentRelationships:", agentRelationships)}
-            {/*{roles.map( (arr) => (*/}
-              <AgentRelationship
-                id={agentRelationships.id}
-                props={agentRelationships}
-              />
-              // ))}
-          </div>
-        </div>
-      )
-    )
-  );
-});
+// const AgentRelationshipList = BindAgentRelationship(({agentRelationships, loading, error}: Props) => {
+//   return (
+//     loading ? <strong>Loading...</strong> : (
+//       error ? <p style={{ color: "#F00" }}>API error</p> : (
+//         <div >
+//           <div>
+//             {console.log("AgentRelationships:", agentRelationships)}
+//             {/*{roles.map( (arr) => (*/}
+//               <AgentRelationship
+//                 id={agentRelationships.id}
+//                 props={agentRelationships}
+//               />
+//               // ))}
+//           </div>
+//         </div>
+//       )
+//     )
+//   );
+// });
 
 class AgentSandbox extends React.Component {
   constructor(private props) {
@@ -105,7 +139,7 @@ class AgentSandbox extends React.Component {
     return (
       <div>
         <p>AgentRelationshipRole</p>
-        <AgentRelationshipRoleList />
+        <AgentRelationshipRoles />
         <br />
 
         {/*<p>AgentRelationship</p>*/}

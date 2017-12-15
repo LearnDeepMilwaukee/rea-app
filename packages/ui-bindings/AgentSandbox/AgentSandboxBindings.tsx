@@ -4,7 +4,16 @@ import { AppState } from "@vflows/store/types"
 import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 import { createApolloFetch } from "apollo-fetch";
 
-let fetch = createApolloFetch({uri: "localhost:8080/api"});
+let fetch = createApolloFetch({uri: "http://localhost:8000/api/graph"});
+
+// fetch.use(({ request, options }, next) => {
+//   if (!options.headers) {
+//     options.headers = {};  // Create the headers object if needed.
+//   }
+//   options.headers["Content-Type"] = "application/json";
+//
+//   next();
+// });
 
 /**
  * Fragment example to illustrate designing re-usable
@@ -107,8 +116,14 @@ query($token: String){
 //   })
 // );
 
-export function queryAPI(options: Object) {
-  return fetch(query, {token: "F1hrHoXxDqQM16b60VE8KEjuY6gwbnFdkYzfK66teXlszdfzUigmdaglIDYI6vN6"});
-}
+const queryAPI = (options: Object) => {
+  console.log("About to query API");
+  return fetch({
+    query,
+    variables: {
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5vciIsImlhdCI6MTUxMjAxNjMzNSwicGFzc3dvcmQiOiI3YzA4ODliOWU5ZmNjYzAxZDIzMDcwNzljNDk5OTcyNDFlNTZlNzU0IiwiaWQiOjZ9.ZnL7fgWfA6bCBU_BLakP_ejyAD71hLXufePExB1p-ps"
+    }
+  });
+};
 
-// export default queryAPI;
+export default queryAPI;
