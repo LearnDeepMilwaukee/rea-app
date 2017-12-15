@@ -7,9 +7,9 @@ import {AppState} from "../../../store/types";
 export const Unit = (props) => {
   return(
     <div>
-      <div>Id: {props.id}</div>
-      <div>Name: {props.name}</div>
-      <div>Symbol: {props.symbol}</div>
+      <div>id: {props.id}</div>
+      <div>name: {props.name}</div>
+      <div>symbol: {props.symbol}</div>
       <br/>
     </div>
   )
@@ -18,8 +18,8 @@ export const Unit = (props) => {
 const UnitList = GetUnits(({ unitList, loading, error}) => {
   return (
     loading ? <strong>Loading...</strong> : (
-      error ? <p style={{ color: "#F00" }}>API error</p> : (
-        <div >
+      error ? <p style={{color: "#F00"}}>API error</p> : (
+        <div>
           <div>
             {unitList.map( (unit) => (<Unit key={unit.id} id={unit.id} name={unit.name} symbol={unit.symbol}/>))}
           </div>
@@ -46,8 +46,8 @@ export const GetSingleUnit = GetUnit(
   ) => {
     return (
       loading ? <strong>Loading...</strong> : (
-        error ? <p style={{ color: "#F00" }}>API error</p> : (
-          <div >
+        error ? <p style={{color: "#F00"}}>API error</p> : (
+          <div>
             <div>
               <Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>
             </div>
@@ -60,7 +60,7 @@ export const GetSingleUnit = GetUnit(
 
 class app extends React.Component{
 
-  state={
+  state = {
     getOneUnitId: null,
     setOneUnitId: null
   };
