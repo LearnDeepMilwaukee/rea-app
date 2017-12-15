@@ -44,7 +44,7 @@ const UnitField = (props) =>{
 
 const SingleUnit = GetUnit(
   (
-    { unit, loading, error, refetch }
+    { unit, loading, error }
   ) => {
     return (
       loading ? <strong>Loading...</strong> : (
@@ -63,16 +63,18 @@ const SingleUnit = GetUnit(
 class app extends React.Component{
 
   state={
-    getOneUnitId: 4,
-    setOneUnitID: 4
+    getOneUnitId: null,
+    setOneUnitId: null
   };
 
+  //Runs every time the input field changes
   getUnitById = (event) => {
-    this.setState({setOneUnitID: parseInt(event.target.value)});
+    this.setState({setOneUnitId: parseInt(event.target.value)});
   };
 
+  //Runs when "submit" is selected
   knockItOff = (event) => {
-    this.setState({getOneUnitId: this.state.setOneUnitID});
+    this.setState({getOneUnitId: this.state.setOneUnitId});
     event.preventDefault();
   }
 
@@ -87,7 +89,7 @@ class app extends React.Component{
         <h2>Get Unit by Id: </h2>
         <br/>
         <UnitField setUnit={this.getUnitById} knockItOff={this.knockItOff}/>
-        <SingleUnit unitId={getOneUnitId}/>
+        {getOneUnitId ? <SingleUnit unitId={getOneUnitId}/> : <div>Enter a value</div>}
       </div>
     )
   }
