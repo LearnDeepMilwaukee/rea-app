@@ -6,13 +6,13 @@
  * @since:   2017-12-04
  */
 
-import { connect } from 'react-redux'
-import { gql, graphql, compose} from 'react-apollo'
+import {connect} from 'react-redux'
+import {gql, graphql, compose} from 'react-apollo'
 
-import { AppState } from '@vflows/store/types'
-import { getActiveLoginToken } from '@vflows/store/selectors/auth'
+import {AppState} from '@vflows/store/types'
+import {getActiveLoginToken} from '@vflows/store/selectors/auth'
 
-import { unitInterface } from "./unit";
+import {unitInterface} from "./unit";
 
 const query = gql`
 query($token: String, $UnitId: Int) {
@@ -37,18 +37,18 @@ export default compose(
     // read query vars into query from input data above
     options: (props) => (
       {
-          variables: {
+        variables: {
           ...props.variables,
-            UnitId: props.unitId
+          UnitId: props.unitId
         }
-        }),
+      }),
 
     // transform output data
-    props: ({ ownProps, data: { viewer, loading, error } }) => (
-        {
-          loading,
-          error,
-          unit: viewer ? viewer.unit : null,
-        }),
+    props: ({ownProps, data: {viewer, loading, error}}) => (
+      {
+        loading,
+        error,
+        unit: viewer ? viewer.unit : null,
+      }),
   })
 )

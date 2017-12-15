@@ -7,7 +7,7 @@ import GetUnit from "../../../ui-bindings/Unit/getUnitById"
 import {AppState} from "../../../store/types";
 
 const Unit = (props) => {
-  return(
+  return (
     <div>
       <div>id: {props.id}</div>
       <div>name: {props.name}</div>
@@ -17,13 +17,13 @@ const Unit = (props) => {
   )
 };
 
-const UnitList = GetUnits(({ unitList, loading, error}) => {
+const UnitList = GetUnits(({unitList, loading, error}) => {
   return (
     loading ? <strong>Loading...</strong> : (
-      error ? <p style={{ color: "#F00" }}>API error</p> : (
-        <div >
+      error ? <p style={{color: "#F00"}}>API error</p> : (
+        <div>
           <div>
-            {unitList.map( (unit) => (<Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>))}
+            {unitList.map((unit) => (<Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>))}
           </div>
         </div>
       )
@@ -31,8 +31,8 @@ const UnitList = GetUnits(({ unitList, loading, error}) => {
   );
 });
 
-const UnitField = (props) =>{
-  return(
+const UnitField = (props) => {
+  return (
     <div>
       <form onSubmit={props.knockItOff}>
         Enter an Id: <input type="text" name="value" onChange={props.setUnit}/>
@@ -43,13 +43,11 @@ const UnitField = (props) =>{
 }
 
 const SingleUnit = GetUnit(
-  (
-    { unit, loading, error }
-  ) => {
+  ({unit, loading, error}) => {
     return (
       loading ? <strong>Loading...</strong> : (
-        error ? <p style={{ color: "#F00" }}>API error</p> : (
-          <div >
+        error ? <p style={{color: "#F00"}}>API error</p> : (
+          <div>
             <div>
               <Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>
             </div>
@@ -60,9 +58,9 @@ const SingleUnit = GetUnit(
   }
 );
 
-class app extends React.Component{
+class app extends React.Component {
 
-  state={
+  state = {
     getOneUnitId: null,
     setOneUnitId: null
   };
@@ -78,7 +76,7 @@ class app extends React.Component{
     event.preventDefault();
   }
 
-  render(){
+  render() {
     const {getOneUnitId} = this.state;
     return (
       <div>
