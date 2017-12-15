@@ -18,117 +18,51 @@ const AgentRelationshipRole = (props) => {
   )
 };
 
-const AgentRelationship = (props) => {
-  return (
-    <div>
-      <p>id: {props.id}</p>
-      <AgentRelationshipRole props={props}/>
-    </div>
-  )
-};
-
-let myPromise = queryAPI();
-
-// const AgentRelationshipRoleList = myPromise.then(result => {
-//   console.log(result);
+// const AgentRelationship = (props) => {
 //   return (
 //     <div>
-//       <p>result</p>
+//       <p>id: {props.id}</p>
+//       <AgentRelationshipRole props={props}/>
 //     </div>
-  //   loading ? <strong>Loading...</strong> : (
-  //     error ? <p style={{ color: "#F00" }}>API error</p> : (
-  //       <div >
-  //         <div>
-  //           {roles.map( (arr) => (
-  //             <AgentRelationshipRole
-  //               id={roles.id}
-  //               label={roles.label}
-  //               inverseLabel={roles.inverseLabel}
-  //               category={roles.category}
-  //             />
-  //           ))}
-  //         </div>
-  //       </div>
-  //     )
-  //   )
-//   );
-// });
+//   )
+// };
 
 class AgentRelationshipRoles extends React.Component {
 
   constructor(private props) {
+    super(props);
     this.state = {};
 
-    queryAPI().then(result => {
-
+    queryAPI({id: 5}).then(result => {
       let {data, error, extensions} = result;
-      console.log("Received result from API!");
-      console.log("Data:", data);
-      console.log("Error:", error);
-      console.log("Extensions:", extensions);
-      this.setState(result);
+      this.setState({data: data});
     }).catch((error: FetchError) => {
       console.log("Promise Error:", error);
-      console.log(error.resonse);
-      console.log(error.parseError);
     });
   }
 
   render() {
-    if (!this.state.result) {
+    if (this.state.data === undefined) {
       return <p>Loading...</p>
     }
+
+    let data = this.state.data.viewer.allAgentRelationshipRoles;
+
     return (
       <div>
         <p>It loaded!</p>
-        {console.log(this.state.result)}
+        {data.map(singleRelationship => (
+          <div>
+            <p>{singleRelationship.id}</p>
+            <p>{singleRelationship.label}</p>
+            <p>{singleRelationship.inverseLabel}</p>
+            <p>{singleRelationship.category}</p>
+          </div>
+        ))}
       </div>
     )
   }
 }
-
-/*
-const AgentRelationshipRoleList = BindAgent(({roles, loading, error}: Props) => {
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{ color: "#F00" }}>API error</p> : (
-        <div >
-          <div>
-            {roles.map( (arr) => (
-              <AgentRelationshipRole
-                id={roles.id}
-                label={roles.label}
-                inverseLabel={roles.inverseLabel}
-                category={roles.category}
-              />
-            ))}
-          </div>
-        </div>
-      )
-    )
-  );
-});
-*/
-
-// const AgentRelationshipList = BindAgentRelationship(({agentRelationships, loading, error}: Props) => {
-//   return (
-//     loading ? <strong>Loading...</strong> : (
-//       error ? <p style={{ color: "#F00" }}>API error</p> : (
-//         <div >
-//           <div>
-//             {console.log("AgentRelationships:", agentRelationships)}
-//             {/*{roles.map( (arr) => (*/}
-//               <AgentRelationship
-//                 id={agentRelationships.id}
-//                 props={agentRelationships}
-//               />
-//               // ))}
-//           </div>
-//         </div>
-//       )
-//     )
-//   );
-// });
 
 class AgentSandbox extends React.Component {
   constructor(private props) {
@@ -141,9 +75,6 @@ class AgentSandbox extends React.Component {
         <p>AgentRelationshipRole</p>
         <AgentRelationshipRoles />
         <br />
-
-        {/*<p>AgentRelationship</p>*/}
-        {/*<AgentRelationshipList />*/}
       </div>
     )
   }
