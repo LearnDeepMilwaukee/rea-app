@@ -31,6 +31,17 @@ const UnitList = GetUnits(({ unitList, loading, error}) => {
   );
 });
 
+const UnitField = (props) =>{
+  return(
+    <div>
+      <form onSubmit={props.knockItOff}>
+        Enter an Id: <input type="text" name="value" onChange={props.setUnit}/>
+        <input type="submit" value="query"/>
+      </form>
+    </div>
+  )
+}
+
 const SingleUnit = GetUnit(
   (
     { unit, loading, error, refetch }
@@ -49,19 +60,24 @@ const SingleUnit = GetUnit(
   }
 );
 
-const Run = () => {
-  let getUnitById = new GetUnitById();
-  return (
-    <div>
-      <div>run goes here</div>
-      <div>{getUnitById.run()}</div>
-    </div>
-  )
-};
-
 class app extends React.Component{
 
+  state={
+    getOneUnitId: 4,
+    setOneUnitID: 4
+  };
+
+  getUnitById = (event) => {
+    this.setState({setOneUnitID: parseInt(event.target.value)});
+  };
+
+  knockItOff = (event) => {
+    this.setState({getOneUnitId: this.state.setOneUnitID});
+    event.preventDefault();
+  }
+
   render(){
+    const {getOneUnitId} = this.state;
     return (
       <div>
         <h2>List of all units: </h2>
@@ -70,7 +86,8 @@ class app extends React.Component{
         <br/>
         <h2>Get Unit by Id: </h2>
         <br/>
-        <SingleUnit unitId={4}/>
+        <UnitField setUnit={this.getUnitById} knockItOff={this.knockItOff}/>
+        <SingleUnit unitId={getOneUnitId}/>
       </div>
     )
   }
