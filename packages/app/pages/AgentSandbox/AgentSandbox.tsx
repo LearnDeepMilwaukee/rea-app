@@ -18,15 +18,6 @@ const AgentRelationshipRole = (props) => {
   )
 };
 
-// const AgentRelationship = (props) => {
-//   return (
-//     <div>
-//       <p>id: {props.id}</p>
-//       <AgentRelationshipRole props={props}/>
-//     </div>
-//   )
-// };
-
 class AgentRelationshipRoles extends React.Component {
 
   constructor(private props) {
@@ -34,8 +25,7 @@ class AgentRelationshipRoles extends React.Component {
     this.state = {};
 
     queryAPI({id: 5}).then(result => {
-      let {data, error, extensions} = result;
-      this.setState({data: data});
+      this.setState({data: result.data});
     }).catch((error: FetchError) => {
       console.log("Promise Error:", error);
     });
@@ -50,34 +40,17 @@ class AgentRelationshipRoles extends React.Component {
 
     return (
       <div>
-        <p>It loaded!</p>
         {data.map(singleRelationship => (
-          <div>
-            <p>{singleRelationship.id}</p>
-            <p>{singleRelationship.label}</p>
-            <p>{singleRelationship.inverseLabel}</p>
-            <p>{singleRelationship.category}</p>
-          </div>
+          <AgentRelationshipRole
+            id={singleRelationship.id}
+            label={singleRelationship.label}
+            inverseLabel={singleRelationship.inverseLabel}
+            category={singleRelationship.category}
+          />
         ))}
       </div>
     )
   }
 }
 
-class AgentSandbox extends React.Component {
-  constructor(private props) {
-    super (props);
-  }
-
-  render() {
-    return (
-      <div>
-        <p>AgentRelationshipRole</p>
-        <AgentRelationshipRoles />
-        <br />
-      </div>
-    )
-  }
-}
-
-export default AgentSandbox;
+export default AgentRelationshipRoles;
