@@ -13,7 +13,8 @@ import AccountsPage from './pages/Accounts'
 import SingleProjectTemplate from '../ui-views/templates/SingleProjectTemplate'
 import ProjectTemplate from '../ui-views/templates/ProjectTemplate'
 
-import AgentSandbox from "./pages/AgentSandbox/AgentSandbox"
+import AgentSandbox from "./pages/AgentSandbox/AgentSandbox";
+import EconomicEvent from "./pages/EconomicEvent/EconomicEvent";
 
 const routes = (
   <Route path="/" component={App}>
@@ -48,6 +49,11 @@ const routes = (
     <Route path="AgentSandbox" component={AgentSandbox}>
       <IndexRoute component={AgentSandbox} />
     </Route>
+
+    <Route path="EconomicEvent" component={EconomicEvent}>
+      <IndexRoute component={EconomicEvent} />
+    </Route>
+
   </Route>
 )
 

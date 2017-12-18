@@ -25,27 +25,25 @@ class AgentRelationshipRoles extends React.Component {
     this.state = {};
 
     queryAPI({id: 5}).then(result => {
-      this.setState({data: result.data});
+      this.setState({allAgentRelationshipRoles: result.data.viewer.allAgentRelationshipRoles});
     }).catch((error: FetchError) => {
       console.log("Promise Error:", error);
     });
   }
 
   render() {
-    if (this.state.data === undefined) {
+    if (this.state.allAgentRelationshipRoles === undefined) {
       return <p>Loading...</p>
     }
 
-    let data = this.state.data.viewer.allAgentRelationshipRoles;
-
     return (
       <div>
-        {data.map(singleRelationship => (
+        {this.state.allAgentRelationshipRoles.map(agentRelationshipRole => (
           <AgentRelationshipRole
-            id={singleRelationship.id}
-            label={singleRelationship.label}
-            inverseLabel={singleRelationship.inverseLabel}
-            category={singleRelationship.category}
+            id={agentRelationshipRole.id}
+            label={agentRelationshipRole.label}
+            inverseLabel={agentRelationshipRole.inverseLabel}
+            category={agentRelationshipRole.category}
           />
         ))}
       </div>
