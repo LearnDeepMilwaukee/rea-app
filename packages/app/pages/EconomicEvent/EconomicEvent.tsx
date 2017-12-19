@@ -10,6 +10,24 @@ class EconomicEvent extends React.Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    document.getElementById("form").addEventListener("submit", this.handleSubmit);
+  }
+
+  readonly handleSubmit = (event) => {
+    event.preventDefault();
+    let form = document.getElementById("form");
+    let data = this.formToJSON(form.elements);
+    console.log("Data:", JSON.stringify(data));
+  };
+
+  readonly formToJSON = elements => [].reduce.call(elements, (data, element) => {
+
+    data[element.name] = element.value;
+    return data;
+
+  }, {});
+
   // sendQuery(jsonOptions: Object) {
   //   let options = {};
   //   options["receiverId"] = document.getElementById("receiverId").innerHTML;
@@ -29,90 +47,88 @@ class EconomicEvent extends React.Component {
       console.log("EconomicEvent is undefined");
       return (
         <div>
-          <form>
+          <form id="form">
             receiverId: Int,
-            <input id="receiverId" type="text" />
+            <input name="receiverId" type="text" />
             <br/><br/>
 
             fulfillsCommitmentId: Int,
-            <input id="fulfillsCommitmentId" type="text" />
+            <input name="fulfillsCommitmentId" type="text" />
             <br/><br/>
 
             createResource: Boolean,
-            <input id="createResource" type="text" />
+            <input name="createResource" type="text" />
             <br/><br/>
 
             inputOfId: Int,
-            <input id="inputOfId" type="text" />
+            <input name="inputOfId" type="text" />
             <br/><br/>
 
             url: String,
-            <input id="url" type="text" />
+            <input name="url" type="text" />
             <br/><br/>
 
             resourceImage: String,
-            <input id="resourceImage" type="text" />
+            <input name="resourceImage" type="text" />
             <br/><br/>
 
             affectedUnitId: Int,
-            <input id="affectedUnitId" type="text" />
+            <input name="affectedUnitId" type="text" />
             <br/><br/>
 
             affectsId: Int,
-            <input id="affectsId" type="text" />
+            <input name="affectsId" type="text" />
             <br/><br/>
 
             providerId: Int,
-            <input id="providerId" type="text" />
+            <input name="providerId" type="text" />
             <br/><br/>
 
             resourceNote: String,
-            <input id="resourceNote" type="text" />
+            <input name="resourceNote" type="text" />
             <br/><br/>
 
             note: String,
-            <input id="note" type="text" />
+            <input name="note" type="text" />
             <br/><br/>
 
             start: String,
-            <input id="start" type="text" />
+            <input name="start" type="text" />
             <br/><br/>
 
             token: String!,
-            <input id="token" type="text" />
+            <input name="token" type="text" />
             <br/><br/>
 
             scopeId: Int,
-            <input id="scopeId" type="text" />
+            <input name="scopeId" type="text" />
             <br/><br/>
 
             requestDistribution: Boolean,
-            <input id="requestDistribution" type="text" />
+            <input name="requestDistribution" type="text" />
             <br/><br/>
 
             action: String,
-            <input id="action" type="text" />
+            <input name="action" type="text" />
             <br/><br/>
 
             affectedNumericValue: String!,
-            <input id="affectedNumericValue" type="text" />
+            <input name="affectedNumericValue" type="text" />
             <br/><br/>
 
             outputOfId: Int,
-            <input id="outputOfId" type="text" />
+            <input name="outputOfId" type="text" />
             <br/><br/>
 
             affectedResourceClassifiedAsId: Int,
-            <input id="affectedResourceClassifiedAsId" type="text" />
+            <input name="affectedResourceClassifiedAsId" type="text" />
             <br/><br/>
 
             resourceTrackingIdentifier: String
-            <input id="resourceTrackingIdentifier" type="text" />
+            <input name="resourceTrackingIdentifier" type="text" />
             <br/><br/>
 
-            <br /> <br />
-
-            {/*<input type="button" id="submit" onClick="console.log('Clicked')" value="Create Economic Event"/>*/}
+            <input type="submit" id="submit" value="Create Economic Event"/>
           </form>
         </div>
       )
