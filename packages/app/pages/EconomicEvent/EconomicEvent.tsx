@@ -34,8 +34,18 @@ class EconomicEvent extends React.Component {
 
   readonly formToJSON = elements => [].reduce.call(elements, (data, element) => {
 
+    let value = element.value;
+
+    if (value.toLowerCase() === "true") {
+      value = true;
+    } else if (value.toLowerCase() === "false") {
+      value = false;
+    } else if (isNaN(value) === false) {
+      value = Number(value);
+    }
+
     if (element.name && element.value) {
-      data[element.name] = element.value;
+      data[element.name] = value;
     }
     return data;
 
