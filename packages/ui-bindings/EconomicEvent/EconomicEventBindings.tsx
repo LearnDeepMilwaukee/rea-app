@@ -14,7 +14,7 @@ let fetch = createApolloFetch({uri: "http://localhost:8000/api/graph"});
  * the query. In this case, it needs a user token to
  * authenticate you to use the database.
  */
-const query = `
+export const createEconomicEvent = `
 mutation($token: String){
   viewer(token: $token) {
     createEconomicEvent (
@@ -25,31 +25,18 @@ mutation($token: String){
 }
 `;
 
-/*
-createEconomicEvent(
-  receiverId: Int,
-  fulfillsCommitmentId: Int,
-  createResource: Boolean,
-  inputOfId: Int,
-  url: String,
-  resourceImage: String,
-  affectedUnitId: Int,
-  affectsId: Int,
-  providerId: Int,
-  resourceNote: String,
-  note: String,
-  start: String,
-  token: String!,
-  scopeId: Int,
-  requestDistribution: Boolean,
-  action: String,
-  affectedNumericValue: String!,
-  outputOfId: Int,
-  affectedResourceClassifiedAsId: Int,
-  resourceTrackingIdentifier: String): CreateEconomicEvent
-  */
+export const allEconomicEvents = `
+query($token: String) {
+  viewer(token: $token) {
+    allEconomicEvents {
+      id
+      note
+    }
+  }
+}
+`;
 
-const queryAPI = (options?: Object) => {
+const queryAPI = (query = allEconomicEvents, options?: Object) => {
   console.log("Received", options, "as options");
   return fetch({
     query,

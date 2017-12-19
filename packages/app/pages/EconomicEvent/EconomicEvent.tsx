@@ -1,8 +1,11 @@
 import * as React from "react";
-import queryAPI from "../../../ui-bindings/EconomicEvent/EconomicEventBindings";
+import queryAPI, { allEconomicEvents, createEconomicEvent } from "../../../ui-bindings/EconomicEvent/EconomicEventBindings";
 
 import { FetchError } from "apollo-fetch";
 
+/**
+ * Inspiration for formToJSON from https://code.lengstorf.com/get-form-values-as-json/
+ */
 class EconomicEvent extends React.Component {
 
   constructor(private props) {
@@ -18,28 +21,25 @@ class EconomicEvent extends React.Component {
     event.preventDefault();
     let form = document.getElementById("form");
     let data = this.formToJSON(form.elements);
+
+    const queryUpdate = () => {
+      queryAPI(allEconomicEvents).then(result => {
+        this.setState({allEconomicEvents: result.data.viewer.allEconomicEvents});
+      }).catch(error => console.log(error));
+    };
+
+    queryAPI(createEconomicEvent, data).then(() => queryUpdate()).catch(error => console.log(error));
     console.log("Data:", JSON.stringify(data));
   };
 
   readonly formToJSON = elements => [].reduce.call(elements, (data, element) => {
 
-    data[element.name] = element.value;
+    if (element.name && element.value) {
+      data[element.name] = element.value;
+    }
     return data;
 
   }, {});
-
-  // sendQuery(jsonOptions: Object) {
-  //   let options = {};
-  //   options["receiverId"] = document.getElementById("receiverId").innerHTML;
-  //
-  //
-  //
-  //   queryAPI({id: 5}).then(result => {
-  //     this.setState({economicEvent: result.data.viewer.economicEvent});
-  //   }).catch((error: FetchError) => {
-  //     console.log("Promise Error:", error);
-  //   });
-  // }
 
   render() {
 
