@@ -45,8 +45,6 @@ export default compose(
 
     // transform output data
     props: ({ ownProps, data: { viewer, loading, error } }) => (
-        console.log('viewer: ', viewer),
-        console.log('error: ', error),
         {
           loading,
           error,
