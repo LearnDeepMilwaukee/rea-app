@@ -38,30 +38,32 @@ mutation(
   $resourceTrackingIdentifier: String,
   $resourceCurrentLocationId: Int
 ){
-  viewer(token: $token) {
-    createEconomicEvent (
-			receiverId: $receiverId,
-			fulfillsCommitmentId: $fulfillsCommitmentId,
-			createResource: $createResource,
-			inputOfId: $inputOfId,
-			url: $url,
-			resourceImage: $resourceImage,
-			affectedUnitId: $affectedUnitId,
-			affectsId: $affectsId,
-			providerId: $providerId,
-			resourceNote: $resourceNote,
-			note: $note,
-			start: $start,
-			token: $token,
-			scopeId: $scopeId,
-			requestDistribution: $requestDistribution,
-			action: $action,
-			affectedNumericValue: $affectedNumericValue,
-			outputOfId: $outputOfId,
-			affectedResourceClassifiedAsId: $affectedResourceClassifiedAsId,
-			resourceTrackingIdentifier: $resourceTrackingIdentifier
-			resourceCurrentLocationId: $resourceCurrentLocationId
-		) {}
+  createEconomicEvent (
+    token: $token,
+    receiverId: $receiverId,
+    fulfillsCommitmentId: $fulfillsCommitmentId,
+    createResource: $createResource,
+    inputOfId: $inputOfId,
+    url: $url,
+    resourceImage: $resourceImage,
+    affectedUnitId: $affectedUnitId,
+    affectsId: $affectsId,
+    providerId: $providerId,
+    resourceNote: $resourceNote,
+    note: $note,
+    start: $start,
+    scopeId: $scopeId,
+    requestDistribution: $requestDistribution,
+    action: $action,
+    affectedNumericValue: $affectedNumericValue,
+    outputOfId: $outputOfId,
+    affectedResourceClassifiedAsId: $affectedResourceClassifiedAsId,
+    resourceTrackingIdentifier: $resourceTrackingIdentifier
+    resourceCurrentLocationId: $resourceCurrentLocationId
+  ) {
+    economicEvent {
+      id
+    } 
   }
 }
 `;
