@@ -29,14 +29,14 @@ mutation(
   $resourceNote: String,
   $note: String,
   $start: String,
-  $token: String,
   $scopeId: Int,
   $requestDistribution: Boolean,
   $action: String,
   $affectedNumericValue: String,
   $outputOfId: Int,
   $affectedResourceClassifiedAsId: Int,
-  $resourceTrackingIdentifier: String
+  $resourceTrackingIdentifier: String,
+  $resourceCurrentLocationId: Int
 ){
   viewer(token: $token) {
     createEconomicEvent (
@@ -60,6 +60,7 @@ mutation(
 			outputOfId: $outputOfId,
 			affectedResourceClassifiedAsId: $affectedResourceClassifiedAsId,
 			resourceTrackingIdentifier: $resourceTrackingIdentifier
+			resourceCurrentLocationId: $resourceCurrentLocationId
 		) {}
   }
 }

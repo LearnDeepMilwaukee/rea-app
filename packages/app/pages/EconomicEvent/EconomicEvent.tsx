@@ -59,15 +59,15 @@ class EconomicEvent extends React.Component {
         <div>
           <form id="form">
             receiverId: Int,
-            <input name="receiverId" type="text" />
+            <input name="receiverId" type="text" defaultValue="8"/>
             <br/><br/>
 
             fulfillsCommitmentId: Int,
-            <input name="fulfillsCommitmentId" type="text" />
+            <input name="fulfillsCommitmentId" type="text" defaultValue="0"/>
             <br/><br/>
 
             createResource: Boolean,
-            <input name="createResource" type="text" />
+            <input name="createResource" type="text" defaultValue="true"/>
             <br/><br/>
 
             inputOfId: Int,
@@ -75,11 +75,11 @@ class EconomicEvent extends React.Component {
             <br/><br/>
 
             url: String,
-            <input name="url" type="text" />
+            <input name="url" type="text" defaultValue="http://www.msoe.edu"/>
             <br/><br/>
 
             resourceImage: String,
-            <input name="resourceImage" type="text" />
+            <input name="resourceImage" type="text" defaultValue="https://getuikit.com/v2/docs/images/placeholder_600x400.svg"/>
             <br/><br/>
 
             affectedUnitId: Int,
@@ -91,39 +91,39 @@ class EconomicEvent extends React.Component {
             <br/><br/>
 
             providerId: Int,
-            <input name="providerId" type="text" />
+            <input name="providerId" type="text" defaultValue="8"/>
             <br/><br/>
 
             resourceNote: String,
-            <input name="resourceNote" type="text" />
+            <input name="resourceNote" type="text" defaultValue="This is a test resource"/>
             <br/><br/>
 
             note: String,
-            <input name="note" type="text" />
+            <input name="note" type="text" defaultValue="This is a test note"/>
             <br/><br/>
 
             start: String,
-            <input name="start" type="text" />
+            <input name="start" type="text" defaultValue="2017-12-20"/>
             <br/><br/>
 
-            token: String!,
-            <input name="token" type="text" />
-            <br/><br/>
+            {/*token: String!,*/}
+            {/*<input name="token" type="text" defaultValue="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5vciIsImlhdCI6MTUxMjAxNjMzNSwicGFzc3dvcmQiOiI3YzA4ODliOWU5ZmNjYzAxZDIzMDcwNzljNDk5OTcyNDFlNTZlNzU0IiwiaWQiOjZ9.ZnL7fgWfA6bCBU_BLakP_ejyAD71hLXufePExB1p-ps"/>*/}
+            {/*<br/><br/>*/}
 
             scopeId: Int,
             <input name="scopeId" type="text" />
             <br/><br/>
 
             requestDistribution: Boolean,
-            <input name="requestDistribution" type="text" />
+            <input name="requestDistribution" type="text" defaultValue="true"/>
             <br/><br/>
 
             action: String,
-            <input name="action" type="text" />
+            <input name="action" type="text" defaultValue="take"/>
             <br/><br/>
 
             affectedNumericValue: String!,
-            <input name="affectedNumericValue" type="text" />
+            <input name="affectedNumericValue" type="text" defaultValue="5"/>
             <br/><br/>
 
             outputOfId: Int,
@@ -136,6 +136,10 @@ class EconomicEvent extends React.Component {
 
             resourceTrackingIdentifier: String
             <input name="resourceTrackingIdentifier" type="text" />
+            <br/><br/>
+
+            resourceCurrentLocationId: Int
+            <input name="resourceCurrentLocationId" type="text" defaultValue="1"/>
             <br/><br/>
 
             <input type="submit" id="submit" value="Create Economic Event"/>
