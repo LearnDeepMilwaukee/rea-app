@@ -45,8 +45,7 @@ const routes = (
       <Route path="my-skills" component={Todo} />
     </Route>
 
-    <Route path="api" component={QuantityValue}>
-      <IndexRoute component={UnitList} />
+    <Route path="api">
       <Route path="unit" component={UnitList} />
       <Route path="quantityValue" component={QuantityValue} />
     </Route>
