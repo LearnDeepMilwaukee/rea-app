@@ -12,17 +12,17 @@ import { gql, graphql, compose} from 'react-apollo'
 import { AppState } from '@vflows/store/types'
 import { getActiveLoginToken } from '@vflows/store/selectors/auth'
 
-import { unitInterface } from "./unit";
+import { quantityValueInterface } from "./quantityValue";
 
 const query = gql`
-query($token: String, $UnitId: Int) {
+query($token: String, $QuantityValueId: Int) {
   viewer(token: $token) {
-    unit(id: $UnitId){
-      ...unitInterface
+    quantityValue(id: $QuantityValueId){
+      ...quantityValueInterface
     }
   }
 }
-${unitInterface}
+${quantityValueInterface}
 `
 
 export default compose(
@@ -37,20 +37,20 @@ export default compose(
     // read query vars into query from input data above
     options: (props) => (
       {
-          variables: {
+        variables: {
           ...props.variables,
-            UnitId: props.unitId
+          QuantityValueId: props.quantityValueId
         }
-        }),
+      }),
 
     // transform output data
     props: ({ ownProps, data: { viewer, loading, error } }) => (
-        console.log('viewer: ', viewer),
-        console.log('error: ', error),
-        {
-          loading,
-          error,
-          unit: viewer ? viewer.unit : null,
-        }),
+      console.log('viewer: ', viewer),
+      console.log('error: ', error),
+      {
+        loading,
+        error,
+        quantityValue: viewer ? {numericValue: viewer.quantityValue.numericValue, unitId: viewer.quantityValue.unit.id} : null,
+      }),
   })
 )

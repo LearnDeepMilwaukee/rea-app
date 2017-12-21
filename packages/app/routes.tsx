@@ -11,7 +11,8 @@ import ProcessesPage from './pages/Processes'
 import InventoryPage from './pages/Inventory'
 import AccountsPage from './pages/Accounts'
 import SingleProjectTemplate from '../ui-views/templates/SingleProjectTemplate'
-import UnitList from './pages/SimpleDBInteractions/unit'
+import UnitList from './pages/Api/unit'
+import QuantityValue from './pages/Api/quantityValue'
 import ProjectTemplate from '../ui-views/templates/ProjectTemplate'
 
 const routes = (
@@ -44,9 +45,10 @@ const routes = (
       <Route path="my-skills" component={Todo} />
     </Route>
 
-    <Route path="simpledbinteractions" component={UnitList}>
+    <Route path="api" component={QuantityValue}>
       <IndexRoute component={UnitList} />
       <Route path="unit" component={UnitList} />
+      <Route path="quantityValue" component={QuantityValue} />
     </Route>
   </Route>
 )

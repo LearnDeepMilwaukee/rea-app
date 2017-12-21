@@ -1,17 +1,15 @@
 import * as React from "react";
-import "./SimpleDBInteractions.css"
-import "./unit.css"
-import {GetUnitById} from "../../../ui-bindings/Unit/getUnitById"
+import "./api.css"
 import GetUnits from "../../../ui-bindings/Unit/getAllUnits";
 import GetUnit from "../../../ui-bindings/Unit/getUnitById"
 import {AppState} from "../../../store/types";
 
-const Unit = (props) => {
+export const Unit = (props) => {
   return(
     <div>
-      <div>id: {props.id}</div>
-      <div>name: {props.name}</div>
-      <div>symbol: {props.symbol}</div>
+      <div>Id: {props.id}</div>
+      <div>Name: {props.name}</div>
+      <div>Symbol: {props.symbol}</div>
       <br/>
     </div>
   )
@@ -23,7 +21,7 @@ const UnitList = GetUnits(({ unitList, loading, error}) => {
       error ? <p style={{ color: "#F00" }}>API error</p> : (
         <div >
           <div>
-            {unitList.map( (unit) => (<Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>))}
+            {unitList.map( (unit) => (<Unit key={unit.id} id={unit.id} name={unit.name} symbol={unit.symbol}/>))}
           </div>
         </div>
       )
@@ -34,7 +32,7 @@ const UnitList = GetUnits(({ unitList, loading, error}) => {
 const UnitField = (props) =>{
   return(
     <div>
-      <form onSubmit={props.knockItOff}>
+      <form onSubmit={props.onSubmitAction}>
         Enter an Id: <input type="text" name="value" onChange={props.setUnit}/>
         <input type="submit" value="query"/>
       </form>
@@ -42,7 +40,7 @@ const UnitField = (props) =>{
   )
 }
 
-const SingleUnit = GetUnit(
+export const GetSingleUnit = GetUnit(
   (
     { unit, loading, error }
   ) => {
@@ -73,7 +71,8 @@ class app extends React.Component{
   };
 
   //Runs when "submit" is selected
-  knockItOff = (event) => {
+  stopRefresh = (event) => {
+    //Sets the value to query to the current value of the input field
     this.setState({getOneUnitId: this.state.setOneUnitId});
     event.preventDefault();
   }
@@ -88,8 +87,8 @@ class app extends React.Component{
         <br/>
         <h2>Get Unit by Id: </h2>
         <br/>
-        <UnitField setUnit={this.getUnitById} knockItOff={this.knockItOff}/>
-        {getOneUnitId ? <SingleUnit unitId={getOneUnitId}/> : <div>Enter a value</div>}
+        <UnitField setUnit={this.getUnitById} onSubmitAction={this.stopRefresh}/>
+        {getOneUnitId ? <GetSingleUnit unitId={getOneUnitId}/> : <div>Enter a value</div>}
       </div>
     )
   }
