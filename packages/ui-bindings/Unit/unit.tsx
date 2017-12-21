@@ -1,8 +1,4 @@
-import { connect } from 'react-redux'
-import { gql, graphql, compose } from 'react-apollo'
-
-import { AppState } from '@vflows/store/types'
-import { getActiveLoginToken } from '@vflows/store/selectors/auth'
+import { gql } from 'react-apollo'
 
 export const unitInterface = gql`
 fragment unitInterface on Unit {
