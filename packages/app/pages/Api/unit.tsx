@@ -15,6 +15,17 @@ export const Unit = (props) => {
   )
 };
 
+const UnitField = (props) =>{
+  return(
+    <div>
+      <form onSubmit={props.onSubmitAction}>
+        Enter an Id: <input type="text" name="value" onChange={props.setUnit}/>
+        <input type="submit" value="query"/>
+      </form>
+    </div>
+  )
+};
+
 const UnitList = GetUnits(({ unitList, loading, error}) => {
   return (
     loading ? <strong>Loading...</strong> : (
@@ -28,17 +39,6 @@ const UnitList = GetUnits(({ unitList, loading, error}) => {
     )
   );
 });
-
-const UnitField = (props) =>{
-  return(
-    <div>
-      <form onSubmit={props.onSubmitAction}>
-        Enter an Id: <input type="text" name="value" onChange={props.setUnit}/>
-        <input type="submit" value="query"/>
-      </form>
-    </div>
-  )
-}
 
 export const GetSingleUnit = GetUnit(
   (
