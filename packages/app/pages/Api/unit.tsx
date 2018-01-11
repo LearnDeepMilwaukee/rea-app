@@ -26,7 +26,7 @@ const UnitField = (props) =>{
   )
 };
 
-const UnitList = GetUnits(({ unitList, loading, error}) => {
+export const UnitList = GetUnits(({ unitList, loading, error}) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
