@@ -22,13 +22,21 @@ class EconomicEvent extends React.Component {
     let form = document.getElementById("form");
     let data = this.formToJSON(form.elements);
 
+    data = {"affectedNumericValue": "4", "fulfillsCommitmentId": 1, "affectedUnitId": 4, "affectsId": 4, "outputOfId": 8, "resourceImage": "Three", "url": "Three", "inputOfId": 2, "receiverId": 8, "requestDistribution": false, "note": "New item for Shorewood", "start": "2017-1-1", "scopeId": 6, "providerId": 4, "createResource": true, "resourceCurrentLocationId": 1, "action": "take", "resourceTrackingIdentifier": "Nine", "affectedResourceClassifiedAsId": 8, "resourceNote": "Five"};
+
     const queryUpdate = () => {
       queryAPI(allEconomicEvents).then(result => {
         this.setState({allEconomicEvents: result.data.viewer.allEconomicEvents});
       }).catch(error => console.log(error));
     };
 
-    queryAPI(createEconomicEvent, data).then(() => queryUpdate()).catch(error => console.log(error));
+    // queryAPI(createEconomicEvent, data).then(() => queryUpdate()).catch(error => console.log(error));
+
+    queryAPI(createEconomicEvent, data).then(() => console.log("Query!!!")).catch(error => console.log("Error", error));
+
+
+
+
     console.log("Data:", JSON.stringify(data));
   };
 
@@ -51,9 +59,11 @@ class EconomicEvent extends React.Component {
 
   }, {});
 
+  readonly state;
+
   render() {
 
-    if (this.state.economicEvent === undefined) {
+    if (this.state.allEconomicEvents === undefined) {
       console.log("EconomicEvent is undefined");
       return (
         <div>

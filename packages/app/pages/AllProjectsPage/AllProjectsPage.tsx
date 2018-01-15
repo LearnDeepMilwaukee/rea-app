@@ -41,15 +41,13 @@ class NavBar extends React.Component {
 
   /**
    * Handler function for when buttons are pressed.
-   * TODO apply the filter to the user agents
    * @param buttonName the text of the button that was clicked
    */
   handleClick = (buttonName) => {
     this.setState({ activeButton: buttonName })
-    this.forceUpdate(() => console.log('Finished Updating'))
+    this.forceUpdate(() => console.log("Finished Updating"))
     // this.state.activeButton  = buttonName
     console.log("Clicked", buttonName)
-    // TODO refresh the list and filter
   };
 
   /**
