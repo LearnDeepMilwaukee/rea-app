@@ -1,3 +1,12 @@
+/**
+ * This exports a React element which displays a list o all units,
+ * and provides a section to select a single unit out of that list
+ *
+ * @package: REA app
+ * @author:  Steven Fontaine <fontainesw@msoe.edu>
+ * @since:   2018-01-18
+ */
+
 import * as React from "react";
 import "./api.css"
 import GetUnits from "../../../ui-bindings/Unit/getAllUnits";

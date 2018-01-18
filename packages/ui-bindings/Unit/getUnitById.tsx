@@ -1,5 +1,5 @@
 /**
- * A method to get all Units
+ * A method to get a single Unit
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>

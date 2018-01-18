@@ -1,3 +1,11 @@
+/**
+ * Test file for the Unit react element
+ *
+ * @package: REA app
+ * @author:  Steven Fontaine <fontainesw@msoe.edu>
+ * @since:   2019-01-18
+ */
+
 import React from 'react';
 import { createRenderer } from 'react-dom/test-utils';
 import createComponent from 'react-unit';
@@ -24,4 +32,3 @@ t.jsxEquals(result, <div>
 
 t.end();
 });
-//change to file
