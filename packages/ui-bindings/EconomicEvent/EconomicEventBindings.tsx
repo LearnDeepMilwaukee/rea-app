@@ -3,6 +3,7 @@ import { gql, graphql, compose } from "react-apollo"
 import { AppState } from "@vflows/store/types"
 import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 import { createApolloFetch } from "apollo-fetch";
+import { create } from "domain";
 
 let fetch = createApolloFetch({uri: "http://localhost:8000/api/graph"});
 
@@ -69,7 +70,7 @@ export const createEconomicEvent = gql`
   }
 `;
 
-export const allEconomicEvents = `
+export const allEconomicEvents = gql`
 query($token: String) {
   viewer(token: $token) {
     allEconomicEvents {
@@ -80,30 +81,101 @@ query($token: String) {
 }
 `;
 
-const queryAPI = (query = allEconomicEvents, options?: Object) => {
-  console.log("Received", options, "as options");
+// const queryAPI = (query = allEconomicEvents, options?: Object) => {
+//   console.log("Received", options, "as options");
+//
+//   let variables = {
+//     ...options,
+//     "token": ""
+//   };
+//
+//   connect(state => ({
+//     variables: {
+//       token: getActiveLoginToken(state)
+//     }
+//   }));
+//
+//   variables.token = this.props.token;
+//
+//   console.log("Querying with variables:", variables);
+//
+//   fetch({ query }).then(result => {
+//     console.log("Received back ", result.data);
+//   }).catch(error => console.log("We received fetch error", error));
+//
+//   return "There was a query";
+// };
 
+// export default queryAPI;
 
-  let variables = {
-    ...options
-  };
+// export default compose(
+//   connect(state => ({
+//     myFilterString: myFilterStringSelector(state)
+//   })),
+//   graphql(query, {
+//     options: ({ myFilterString }) => ({
+//       variables: { filter: myFilterString },
+//       fetchPolicy: 'cache-and-network'
+//     })
+//   })
+// )(MyComponent);
 
-  connect((state: AppState) => ({
-    variabls: {
-      token: getActiveLoginToken(state)
+const orgQuery = gql`
+query($token: String) {
+  viewer(token: $token) {
+    allOrganizations {
+      id
+      name
+      image
+      note
+      type
+      __typename
     }
-  }));
+  }
+}
+`;
 
+export function allOrgs(component, args) {
+  console.log("Querying for", component);
+  // queryAPI(component, orgQuery, args);
 
-  console.log("Querying with variables:", variables);
+  compose(
+    connect(state => ({
+      variables: {
+        token: getActiveLoginToken(state)
+      }
+    })),
 
-  return fetch({
-    query,
-    variables
-  });
-};
+    graphql(orgQuery, {
+      options: (props) => ({
+        variables: {
+          ...props.variables
+        }
+      })
+    })
+  )(component);
+}
 
-export default queryAPI;
+export function queryAPI(component, query, args) {
+  compose(
+    connect(state => ({
+      variables: {
+        token: getActiveLoginToken(state)
+      }
+    })),
+
+    graphql(query, {
+      options: (props) => ({
+        variables: {
+          ...props.variables
+        }
+      })
+    })
+  )(component);
+}
+
+// export allOrgs;
+// export default DoShit;
 
 //
 // export default compose(
