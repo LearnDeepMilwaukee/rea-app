@@ -21,7 +21,7 @@ export const Unit = (props) => {
       <div>symbol: {props.symbol}</div>
       <br/>
     </div>
-  )
+  );
 };
 
 const UnitField = (props) =>{
@@ -32,7 +32,7 @@ const UnitField = (props) =>{
         <input type="submit" value="query"/>
       </form>
     </div>
-  )
+  );
 };
 
 export const UnitList = GetUnits(({ unitList, loading, error}) => {
@@ -84,7 +84,7 @@ class app extends React.Component{
     //Sets the value to query to the current value of the input field
     this.setState({getOneUnitId: this.state.setOneUnitId});
     event.preventDefault();
-  }
+  };
 
   render(){
     const {getOneUnitId} = this.state;
@@ -99,7 +99,7 @@ class app extends React.Component{
         <UnitField setUnit={this.getUnitById} onSubmitAction={this.stopRefresh}/>
         {getOneUnitId ? <GetSingleUnit unitId={getOneUnitId}/> : <div>Enter a value</div>}
       </div>
-    )
+    );
   }
 }
 

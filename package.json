@@ -19,6 +19,7 @@
     "lerna": "^2.0.0-rc.4",
     "redux-devtools-extension": "^2.13.2",
     "tape": "^4.8.0",
-    "typings": "^2.1.1"
+    "typings": "^2.1.1",
+    "babel-tape-runner": "^2.0.1"
   }
 }
