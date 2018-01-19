@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development concurrently --kill-others \"npm run remotedev\" \"npm run dev:compile\" \"nodemon -w webpack/webpack-assets.json -w node_modules/@vflows .\" \"node webpack/webpack-dev-server\"",
     "dev:compile": "tsc --watch",
     "remotedev": "remotedev --hostname=localhost --port=7999",
-    "test": "babel-tape-runner tests/**/*.js",
+    "test": "npm run build && babel-tape-runner tests/**/*.js",
     "coverage": "nyc --reporter=lcov --reporter=html npm run test && nyc report",
     "lint": "eslint .",
     "prebuild": "npm run build:clean && npm run build:copy",
