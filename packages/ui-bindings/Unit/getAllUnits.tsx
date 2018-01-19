@@ -9,8 +9,8 @@
 import { connect } from 'react-redux';
 import { gql, graphql, compose } from 'react-apollo';
 
-import { AppState } from '@vflows/store/types';
-import { getActiveLoginToken } from '@vflows/store/selectors/auth';
+import { AppState } from '@vflows/store/types.tsx';
+import { getActiveLoginToken } from '@vflows/store/selectors/auth.tsx';
 
 import { unitInterface } from "./unit";
 
