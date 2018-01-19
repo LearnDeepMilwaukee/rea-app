@@ -9,8 +9,8 @@
 
 import * as React from "react";
 import "./api.css"
-import GetUnits from "../../../ui-bindings/Unit/getAllUnits";
-import GetUnit from "../../../ui-bindings/Unit/getUnitById"
+import GetUnits from "../../../ui-bindings/Unit/getAllUnits.tsx";
+import GetUnit from "../../../ui-bindings/Unit/getUnitById.tsx"
 import {AppState} from "../../../store/types";
 
 export const Unit = (props) => {
