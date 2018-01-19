@@ -15,7 +15,7 @@ import jsxEquals from 'tape-jsx-equals';
 const test = addAssertions(tape, {jsxEquals});
 
 // Component to test
-import {Unit, UnitList, GetSingleUnit}  from 'packages/app/pages/Api/unit';
+import {Unit, UnitList, GetSingleUnit}  from '../../pages/Api/unit';
 
 
 test('UnitDisplaysUnit', (t) => {
