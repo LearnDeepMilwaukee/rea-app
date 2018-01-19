@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "npm run bootstrap && typings install",
     "bootstrap": "lerna bootstrap --npm-client=yarn",
-    "test": " */*/tests/**/*.js",
+    "test": " cd packages/app && npm test",
     "coverage": "lerna run coverage",
     "lint": "lerna run lint",
     "dev": "cd packages/app && npm run dev",
