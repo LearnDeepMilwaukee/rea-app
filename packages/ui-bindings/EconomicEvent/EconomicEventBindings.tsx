@@ -135,11 +135,11 @@ query($token: String) {
 }
 `;
 
-export function allOrgs(component, args) {
-  console.log("Querying for", component);
+export function allOrgs(args?, query = orgQuery) {
+  // console.log("Querying for", component);
   // queryAPI(component, orgQuery, args);
 
-  compose(
+  return compose(
     connect(state => ({
       variables: {
         token: getActiveLoginToken(state)
@@ -153,11 +153,11 @@ export function allOrgs(component, args) {
         }
       })
     })
-  )(component);
+  );
 }
 
-export function queryAPI(component, query, args) {
-  compose(
+export function queryAPI(query, args) {
+  return compose(
     connect(state => ({
       variables: {
         token: getActiveLoginToken(state)
@@ -171,7 +171,7 @@ export function queryAPI(component, query, args) {
         }
       })
     })
-  )(component);
+  );
 }
 
 // export allOrgs;
