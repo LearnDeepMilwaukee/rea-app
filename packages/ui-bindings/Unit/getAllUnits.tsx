@@ -6,11 +6,11 @@
  * @since:   2017-12-04
  */
 
-import { connect } from 'react-redux'
-import { gql, graphql, compose } from 'react-apollo'
+import { connect } from 'react-redux';
+import { gql, graphql, compose } from 'react-apollo';
 
-import { AppState } from '@vflows/store/types'
-import { getActiveLoginToken } from '@vflows/store/selectors/auth'
+import { AppState } from '@vflows/store/types';
+import { getActiveLoginToken } from '@vflows/store/selectors/auth';
 
 import { unitInterface } from "./unit";
 
