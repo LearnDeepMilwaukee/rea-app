@@ -135,7 +135,7 @@ query($token: String) {
 }
 `;
 
-export function allOrgs(args?, query = orgQuery) {
+export function allOrgs(args?, query? = orgQuery) {
   // console.log("Querying for", component);
   // queryAPI(component, orgQuery, args);
 
@@ -146,7 +146,7 @@ export function allOrgs(args?, query = orgQuery) {
       }
     })),
 
-    graphql(orgQuery, {
+    graphql(query, {
       options: (props) => ({
         variables: {
           ...props.variables
@@ -174,8 +174,8 @@ export function queryAPI(query, args) {
   );
 }
 
-// export allOrgs;
-// export default DoShit;
+
+
 
 //
 // export default compose(

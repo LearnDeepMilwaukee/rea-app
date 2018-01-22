@@ -1,28 +1,21 @@
 import * as React from "react";
-// import { allEconomicEvents, createEconomicEvent, allOrgs } from "../../../ui-bindings/EconomicEvent/EconomicEventBindings";
-
-// import { FetchError } from "apollo-fetch";
-// import queryAP from "../../../ui-bindings/agent/allOrganizations";
+import { allEconomicEvents, createEconomicEvent, allOrgs } from "../../../ui-bindings/EconomicEvent/EconomicEventBindings";
 
 interface EconomicEventState {
 
 }
 
 interface EconomicEventProps {
-  allOrgs: any
+  economicEvents: Object
 }
-
 
 /**
  * Inspiration for formToJSON from https://code.lengstorf.com/get-form-values-as-json/
  */
-class EconomicEvent2 extends React.Component<EconomicEventState, EconomicEventProps> {
+class EconomicEvent2 extends React.Component {
 
   constructor(props: EconomicEventProps) {
     super(props);
-
-    // this.state = {};
-    // this.setState({ economicEvents: undefined});
   }
 
   componentDidMount() {
@@ -38,43 +31,29 @@ class EconomicEvent2 extends React.Component<EconomicEventState, EconomicEventPr
     // let form = document.getElementById("form");
     // let data = this.formToJSON(form.elements);
 
-    // let data = {
-    //   affectedNumericValue: "4",
-    //   fulfillsCommitmentId: 1,
-    //   affectedUnitId: 4,
-    //   affectsId: 4,
-    //   outputOfId: 8,
-    //   resourceImage: "Three",
-    //   url: "Three",
-    //   inputOfId: 2,
-    //   receiverId: 8,
-    //   requestDistribution: false,
-    //   note: "New item for Shorewood",
-    //   start: "2017-1-1",
-    //   scopeId: 6,
-    //   providerId: 4,
-    //   createResource: true,
-    //   resourceCurrentLocationId: 1,
-    //   action: "take",
-    //   resourceTrackingIdentifier: "Nine",
-    //   affectedResourceClassifiedAsId: 8,
-    //   resourceNote: "Five"
-    // };
+    let data = {
+      affectedNumericValue: "4",
+      fulfillsCommitmentId: 1,
+      affectedUnitId: 4,
+      affectsId: 4,
+      outputOfId: 8,
+      resourceImage: "Three",
+      url: "Three",
+      inputOfId: 2,
+      receiverId: 8,
+      requestDistribution: false,
+      note: "New item for Shorewood",
+      start: "2017-1-1",
+      scopeId: 6,
+      providerId: 4,
+      createResource: true,
+      resourceCurrentLocationId: 1,
+      action: "take",
+      resourceTrackingIdentifier: "Nine",
+      affectedResourceClassifiedAsId: 8,
+      resourceNote: "Five"
+    };
 
-    // allOrgs()(this);
-
-    // const queryUpdate = () => {
-    //   queryAPI(allEconomicEvents).then(result => {
-    //     this.setState({allEconomicEvents: result.data.viewer.allEconomicEvents});
-    //   }).catch(error => console.log(error));
-    // };
-    //
-    // // queryAPI(createEconomicEvent, data).then(() => queryUpdate()).catch(error => console.log(error));
-    //
-    // // queryAPI(createEconomicEvent, data).then(() => console.log("Query!!!")).catch(error => console.log("Error", error));
-    // queryAPI(createEconomicEvent, data);
-
-    // console.log("Client Data:", this.props);
   };
 
   // readonly formToJSON = elements => [].reduce.call(elements, (data, element) => {
@@ -98,9 +77,6 @@ class EconomicEvent2 extends React.Component<EconomicEventState, EconomicEventPr
 
   render() {
 
-    // if (this.state.allEconomicEvents === undefined) {
-      //   console.log("EconomicEvent is undefined");
-
     if (!this.props.allOrgs) {
       return (
         <div>
@@ -109,6 +85,7 @@ class EconomicEvent2 extends React.Component<EconomicEventState, EconomicEventPr
             <input name="myInput" />
             <input type="submit" id="submit" value="Create Economic Event"/>
           </form>
+          {console.log("Props", this.props)}
         </div>
       );
     }
@@ -203,46 +180,124 @@ class EconomicEvent2 extends React.Component<EconomicEventState, EconomicEventPr
     //     </div>
     //   )
     // }
-
-    if (!this.state.economicEvents) {
-      return (
-        <h1>No Economic Events</h1>
-      );
-    }
-
-    // return (
-    //   <div>
-    //     {this.state.economicEvent.map(agentRelationshipRole => (
-    //       <AgentRelationshipRole
-    //         id={agentRelationshipRole.id}
-    //         label={agentRelationshipRole.label}
-    //         inverseLabel={agentRelationshipRole.inverseLabel}
-    //         category={agentRelationshipRole.category}
-    //       />
-    //     ))}
-    //   </div>
-    // )
   }
 }
 
-// class MyComponent extends React.Component {
-//
-//   constructor() {
-//     super();
-//   }
-//
-//   render() {
-//     let allOrgs = this.props.allOrgs;
-//
-//     return (
-//       <div>
-//         <h1>EconomicEvent 2.0</h1>
-//         {console.log("h1 log", allOrgs)}
-//       </div>
-//     )
-//   }
-// }
-//
-// const EconomicEvent = queryAPI(MyComponent);
 
-export default EconomicEvent2;
+/**
+ * Single EconomicEvent component used to map returned results to
+ * output on the screen
+ */
+const SingleEconomicEvent = (economicEvent) => {
+  return (
+    <div>
+      EconomicEvent #{economicEvent.id}
+      {console.log("#", economicEvent.id, economicEvent)}
+    </div>
+  );
+};
+
+class EconomicEvent extends React.Component<EconomicEventProps, any> {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        {
+          this.state.economicEvent.map(economicEvent => (
+            <SingleEconomicEvent economicEvent={economicEvent} />
+          ))
+        }
+      </div>
+    )
+  }
+}
+
+/**
+ * Binds to the GraphQL database, using the EconomicEventBindings API collection
+ * to form the query needed. Results are returned as (data, loading, error)
+ * indicating if anything went wrong with the query. Data is then rendered with
+ * the React Component when the data is ready.
+ */
+export default allEconomicEvents(allEconomicEvents)(
+  function drawData(economicEvents: Object, loading: Boolean, error: Boolean) {
+    if (loading) {
+      return <h1>Loading...</h1>;
+    } else if (error) {
+      return <h1>Error</h1>;
+    } else {
+      return (
+        <div>
+          <EconomicEvent economicEvents={economicEvents}/>
+        </div>
+      );
+    }
+  }
+);
+
+
+
+
+/*
+
+ * This exports a React element which displays a list o all units,
+ * and provides a section to select a single unit out of that list
+ *
+ * @package: REA app
+ * @author:  Steven Fontaine <fontainesw@msoe.edu>
+ * @since:   2018-01-18
+
+
+
+const UnitField = (props) =>{
+  return(
+    <div>
+      <form onSubmit={props.onSubmitAction}>
+        Enter an Id: <input type="text" name="value" onChange={props.setUnit}/>
+        <input type="submit" value="query"/>
+      </form>
+    </div>
+  );
+};
+
+class app extends React.Component{
+
+  state = {
+    getOneUnitId: null,
+    setOneUnitId: null
+  };
+
+  //Runs every time the input field changes
+  getUnitById = (event) => {
+    this.setState({setOneUnitId: parseInt(event.target.value)});
+  };
+
+  //Runs when "submit" is selected
+  stopRefresh = (event) => {
+    //Sets the value to query to the current value of the input field
+    this.setState({getOneUnitId: this.state.setOneUnitId});
+    event.preventDefault();
+  };
+
+  render(){
+    const {getOneUnitId} = this.state;
+    return (
+      <div>
+        <h2>List of all units: </h2>
+        <br/>
+        <UnitList/>
+        <br/>
+        <h2>Get Unit by Id: </h2>
+        <br/>
+        <UnitField setUnit={this.getUnitById} onSubmitAction={this.stopRefresh}/>
+        {getOneUnitId ? <GetSingleUnit unitId={getOneUnitId}/> : <div>Enter a value</div>}
+      </div>
+    );
+  }
+}
+
+export default app;
+ */
