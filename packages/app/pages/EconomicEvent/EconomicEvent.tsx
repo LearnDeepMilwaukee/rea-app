@@ -190,13 +190,15 @@ interface EconomicEventProps {
  * output on the screen
  */
 const SingleEconomicEvent = (economicEvent) => {
+  console.log("Economic Event #", economicEvent.economicEvent.id);
+  console.log(economicEvent);
   return (
     <div>
-      <p>A single element</p>
+      <p>Economic Event # {economicEvent.id}</p>
+      <p>Note: {economicEvent.note}</p>
     </div>
   );
 };
-
 
 // EconomicEvent #{economicEvent.id}
 // {console.log("#", economicEvent.id, economicEvent)}
@@ -207,7 +209,7 @@ class EconomicEvent extends React.Component<EconomicEventProps, any> {
     return (
       <div>
         {
-          this.state.economicEvents.map(economicEvent => (
+          this.props.economicEvents.map(economicEvent => (
             <SingleEconomicEvent economicEvent={economicEvent} />
           ))
         }
@@ -229,13 +231,16 @@ export default allEconomicEvents( ({economicEvents, loading, error}) => {
   } else if (error) {
     console.log("Error");
     return <h1>Error</h1>;
-  } else {
+  } else if (economicEvents) {
     console.log("Economic Events", economicEvents);
     return (
       <div>
         <EconomicEvent economicEvents={economicEvents}/>
       </div>
     );
+  } else {
+    console.log("Economic Events was undefined");
+    return <h1>Loading...</h1>
   }
 });
 

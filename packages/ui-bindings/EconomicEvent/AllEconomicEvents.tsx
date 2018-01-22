@@ -14,40 +14,41 @@ query($token: String) {
 }
 `;
 
-function allEconomicEvents(args?: Object) {
+// function allEconomicEvents(args?: Object) {
+//
+//   return
 
-  return compose(
-    connect(state => ({
+export default compose(
+  connect(state => ({
+    variables: {
+      token: getActiveLoginToken(state)
+    }
+  })),
+
+  graphql(query, {
+    options: (props) => ({
       variables: {
-        token: getActiveLoginToken(state)
+        ...props.variables
       }
-    })),
+    }),
 
-    graphql(query, {
-      options: (props) => ({
-        variables: {
-          ...props.variables
-        }
-      }),
-
-      props: (
-        { ownProps,
-          data: {
-            viewer,
-            loading,
-            error
-          }
-        }) => ({
-          economicEvents: viewer ? viewer.AllEconomicEvents : null,
+    props: (
+      { data: {
+          viewer,
           loading,
           error
         }
-      ),
-    })
-  );
-}
+      }) => ({
+        economicEvents: viewer ? viewer.allEconomicEvents : null,
+        loading,
+        error
+      }
+    ),
+  })
+);
+// }
 
-export default allEconomicEvents;
+// export default allEconomicEvents;
 
 //
 // export default compose(
