@@ -37,18 +37,18 @@ export default compose(
     // read query vars into query from input data above
     options: (props) => (
       {
-          variables: {
+        variables: {
           ...props.variables,
-            UnitId: props.unitId
+          UnitId: props.unitId
         }
-        }),
+      }),
 
     // transform output data
     props: ({ ownProps, data: { viewer, loading, error } }) => (
-        {
-          loading,
-          error,
-          unit: viewer ? viewer.unit : null,
-        }),
+      {
+        loading,
+        error,
+        unit: viewer ? viewer.unit : null,
+      }),
   })
 )
