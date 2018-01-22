@@ -1,5 +1,7 @@
 import * as React from "react";
-import { allEconomicEvents, createEconomicEvent, allOrgs } from "../../../ui-bindings/EconomicEvent/EconomicEventBindings";
+// import { allEconomicEvents, createEconomicEvent, allOrgs } from "../../../ui-bindings/EconomicEvent/EconomicEventBindings";
+
+import allEconomicEvents from "../../../ui-bindings/EconomicEvent/AllEconomicEvents";
 
 interface EconomicEventState {
 
@@ -12,177 +14,176 @@ interface EconomicEventProps {
 /**
  * Inspiration for formToJSON from https://code.lengstorf.com/get-form-values-as-json/
  */
-class EconomicEvent2 extends React.Component {
-
-  constructor(props: EconomicEventProps) {
-    super(props);
-  }
-
-  componentDidMount() {
-    console.log("It loaded");
-    document.getElementById("form").addEventListener("submit", this.handleSubmit);
-  }
-
-  readonly handleSubmit = (event) => {
-    event.preventDefault();
-
-    console.log("Button Clicked");
-
-    // let form = document.getElementById("form");
-    // let data = this.formToJSON(form.elements);
-
-    let data = {
-      affectedNumericValue: "4",
-      fulfillsCommitmentId: 1,
-      affectedUnitId: 4,
-      affectsId: 4,
-      outputOfId: 8,
-      resourceImage: "Three",
-      url: "Three",
-      inputOfId: 2,
-      receiverId: 8,
-      requestDistribution: false,
-      note: "New item for Shorewood",
-      start: "2017-1-1",
-      scopeId: 6,
-      providerId: 4,
-      createResource: true,
-      resourceCurrentLocationId: 1,
-      action: "take",
-      resourceTrackingIdentifier: "Nine",
-      affectedResourceClassifiedAsId: 8,
-      resourceNote: "Five"
-    };
-
-  };
-
-  // readonly formToJSON = elements => [].reduce.call(elements, (data, element) => {
-  //
-  //   let value = element.value;
-  //
-  //   if (value.toLowerCase() === "true") {
-  //     value = true;
-  //   } else if (value.toLowerCase() === "false") {
-  //     value = false;
-  //   } else if (isNaN(value) === false) {
-  //     value = Number(value);
-  //   }
-  //
-  //   if (element.name && element.value) {
-  //     data[element.name] = value;
-  //   }
-  //   return data;
-  //
-  // }, {});
-
-  render() {
-
-    if (!this.props.allOrgs) {
-      return (
-        <div>
-          This is a form
-          <form id="form">
-            <input name="myInput" />
-            <input type="submit" id="submit" value="Create Economic Event"/>
-          </form>
-          {console.log("Props", this.props)}
-        </div>
-      );
-    }
-
-    //     <div>
-    //
-    //       <p>Orgs: {this.props}</p>
-    //
-    //       <form id="form">
-    //         receiverId: Int,
-    //         <input name="receiverId" type="text" defaultValue="8"/>
-    //         <br/><br/>
-    //
-    //         fulfillsCommitmentId: Int,
-    //         <input name="fulfillsCommitmentId" type="text" defaultValue="0"/>
-    //         <br/><br/>
-    //
-    //         createResource: Boolean,
-    //         <input name="createResource" type="text" defaultValue="true"/>
-    //         <br/><br/>
-    //
-    //         inputOfId: Int,
-    //         <input name="inputOfId" type="text" />
-    //         <br/><br/>
-    //
-    //         url: String,
-    //         <input name="url" type="text" defaultValue="http://www.msoe.edu"/>
-    //         <br/><br/>
-    //
-    //         resourceImage: String,
-    //         <input name="resourceImage" type="text" defaultValue="https://getuikit.com/v2/docs/images/placeholder_600x400.svg"/>
-    //         <br/><br/>
-    //
-    //         affectedUnitId: Int,
-    //         <input name="affectedUnitId" type="text" />
-    //         <br/><br/>
-    //
-    //         affectsId: Int,
-    //         <input name="affectsId" type="text" />
-    //         <br/><br/>
-    //
-    //         providerId: Int,
-    //         <input name="providerId" type="text" defaultValue="8"/>
-    //         <br/><br/>
-    //
-    //         resourceNote: String,
-    //         <input name="resourceNote" type="text" defaultValue="This is a test resource"/>
-    //         <br/><br/>
-    //
-    //         note: String,
-    //         <input name="note" type="text" defaultValue="This is a test note"/>
-    //         <br/><br/>
-    //
-    //         start: String,
-    //         <input name="start" type="text" defaultValue="2017-12-20"/>
-    //         <br/><br/>
-    //
-    //         scopeId: Int,
-    //         <input name="scopeId" type="text" />
-    //         <br/><br/>
-    //
-    //         requestDistribution: Boolean,
-    //         <input name="requestDistribution" type="text" defaultValue="true"/>
-    //         <br/><br/>
-    //
-    //         action: String,
-    //         <input name="action" type="text" defaultValue="take"/>
-    //         <br/><br/>
-    //
-    //         affectedNumericValue: String!,
-    //         <input name="affectedNumericValue" type="text" defaultValue="5"/>
-    //         <br/><br/>
-    //
-    //         outputOfId: Int,
-    //         <input name="outputOfId" type="text" />
-    //         <br/><br/>
-    //
-    //         affectedResourceClassifiedAsId: Int,
-    //         <input name="affectedResourceClassifiedAsId" type="text" />
-    //         <br/><br/>
-    //
-    //         resourceTrackingIdentifier: String
-    //         <input name="resourceTrackingIdentifier" type="text" />
-    //         <br/><br/>
-    //
-    //         resourceCurrentLocationId: Int
-    //         <input name="resourceCurrentLocationId" type="text" defaultValue="1"/>
-    //         <br/><br/>
-    //
-    //         <input type="submit" id="submit" value="Create Economic Event"/>
-    //       </form>
-    //     </div>
-    //   )
-    // }
-  }
-}
-
+// class EconomicEvent2 extends React.Component {
+//
+//   constructor(props: EconomicEventProps) {
+//     super(props);
+//   }
+//
+//   componentDidMount() {
+//     console.log("It loaded");
+//     document.getElementById("form").addEventListener("submit", this.handleSubmit);
+//   }
+//
+//   readonly handleSubmit = (event) => {
+//     event.preventDefault();
+//
+//     console.log("Button Clicked");
+//
+//     // let form = document.getElementById("form");
+//     // let data = this.formToJSON(form.elements);
+//
+//     let data = {
+//       affectedNumericValue: "4",
+//       fulfillsCommitmentId: 1,
+//       affectedUnitId: 4,
+//       affectsId: 4,
+//       outputOfId: 8,
+//       resourceImage: "Three",
+//       url: "Three",
+//       inputOfId: 2,
+//       receiverId: 8,
+//       requestDistribution: false,
+//       note: "New item for Shorewood",
+//       start: "2017-1-1",
+//       scopeId: 6,
+//       providerId: 4,
+//       createResource: true,
+//       resourceCurrentLocationId: 1,
+//       action: "take",
+//       resourceTrackingIdentifier: "Nine",
+//       affectedResourceClassifiedAsId: 8,
+//       resourceNote: "Five"
+//     };
+//
+//   };
+//
+//   // readonly formToJSON = elements => [].reduce.call(elements, (data, element) => {
+//   //
+//   //   let value = element.value;
+//   //
+//   //   if (value.toLowerCase() === "true") {
+//   //     value = true;
+//   //   } else if (value.toLowerCase() === "false") {
+//   //     value = false;
+//   //   } else if (isNaN(value) === false) {
+//   //     value = Number(value);
+//   //   }
+//   //
+//   //   if (element.name && element.value) {
+//   //     data[element.name] = value;
+//   //   }
+//   //   return data;
+//   //
+//   // }, {});
+//
+//   render() {
+//
+//     if (!this.props.allOrgs) {
+//       return (
+//         <div>
+//           This is a form
+//           <form id="form">
+//             <input name="myInput" />
+//             <input type="submit" id="submit" value="Create Economic Event"/>
+//           </form>
+//           {console.log("Props", this.props)}
+//         </div>
+//       );
+//     }
+//
+//     //     <div>
+//     //
+//     //       <p>Orgs: {this.props}</p>
+//     //
+//     //       <form id="form">
+//     //         receiverId: Int,
+//     //         <input name="receiverId" type="text" defaultValue="8"/>
+//     //         <br/><br/>
+//     //
+//     //         fulfillsCommitmentId: Int,
+//     //         <input name="fulfillsCommitmentId" type="text" defaultValue="0"/>
+//     //         <br/><br/>
+//     //
+//     //         createResource: Boolean,
+//     //         <input name="createResource" type="text" defaultValue="true"/>
+//     //         <br/><br/>
+//     //
+//     //         inputOfId: Int,
+//     //         <input name="inputOfId" type="text" />
+//     //         <br/><br/>
+//     //
+//     //         url: String,
+//     //         <input name="url" type="text" defaultValue="http://www.msoe.edu"/>
+//     //         <br/><br/>
+//     //
+//     //         resourceImage: String,
+//     //         <input name="resourceImage" type="text" defaultValue="https://getuikit.com/v2/docs/images/placeholder_600x400.svg"/>
+//     //         <br/><br/>
+//     //
+//     //         affectedUnitId: Int,
+//     //         <input name="affectedUnitId" type="text" />
+//     //         <br/><br/>
+//     //
+//     //         affectsId: Int,
+//     //         <input name="affectsId" type="text" />
+//     //         <br/><br/>
+//     //
+//     //         providerId: Int,
+//     //         <input name="providerId" type="text" defaultValue="8"/>
+//     //         <br/><br/>
+//     //
+//     //         resourceNote: String,
+//     //         <input name="resourceNote" type="text" defaultValue="This is a test resource"/>
+//     //         <br/><br/>
+//     //
+//     //         note: String,
+//     //         <input name="note" type="text" defaultValue="This is a test note"/>
+//     //         <br/><br/>
+//     //
+//     //         start: String,
+//     //         <input name="start" type="text" defaultValue="2017-12-20"/>
+//     //         <br/><br/>
+//     //
+//     //         scopeId: Int,
+//     //         <input name="scopeId" type="text" />
+//     //         <br/><br/>
+//     //
+//     //         requestDistribution: Boolean,
+//     //         <input name="requestDistribution" type="text" defaultValue="true"/>
+//     //         <br/><br/>
+//     //
+//     //         action: String,
+//     //         <input name="action" type="text" defaultValue="take"/>
+//     //         <br/><br/>
+//     //
+//     //         affectedNumericValue: String!,
+//     //         <input name="affectedNumericValue" type="text" defaultValue="5"/>
+//     //         <br/><br/>
+//     //
+//     //         outputOfId: Int,
+//     //         <input name="outputOfId" type="text" />
+//     //         <br/><br/>
+//     //
+//     //         affectedResourceClassifiedAsId: Int,
+//     //         <input name="affectedResourceClassifiedAsId" type="text" />
+//     //         <br/><br/>
+//     //
+//     //         resourceTrackingIdentifier: String
+//     //         <input name="resourceTrackingIdentifier" type="text" />
+//     //         <br/><br/>
+//     //
+//     //         resourceCurrentLocationId: Int
+//     //         <input name="resourceCurrentLocationId" type="text" defaultValue="1"/>
+//     //         <br/><br/>
+//     //
+//     //         <input type="submit" id="submit" value="Create Economic Event"/>
+//     //       </form>
+//     //     </div>
+//     //   )
+//     // }
+//   }
+// }
 
 /**
  * Single EconomicEvent component used to map returned results to
@@ -191,28 +192,27 @@ class EconomicEvent2 extends React.Component {
 const SingleEconomicEvent = (economicEvent) => {
   return (
     <div>
-      EconomicEvent #{economicEvent.id}
-      {console.log("#", economicEvent.id, economicEvent)}
+      <p>A single element</p>
     </div>
   );
 };
 
-class EconomicEvent extends React.Component<EconomicEventProps, any> {
 
-  constructor(props) {
-    super(props);
-  }
+// EconomicEvent #{economicEvent.id}
+// {console.log("#", economicEvent.id, economicEvent)}
+
+class EconomicEvent extends React.Component<EconomicEventProps, any> {
 
   render() {
     return (
       <div>
         {
-          this.state.economicEvent.map(economicEvent => (
+          this.state.economicEvents.map(economicEvent => (
             <SingleEconomicEvent economicEvent={economicEvent} />
           ))
         }
       </div>
-    )
+    );
   }
 }
 
@@ -222,23 +222,22 @@ class EconomicEvent extends React.Component<EconomicEventProps, any> {
  * indicating if anything went wrong with the query. Data is then rendered with
  * the React Component when the data is ready.
  */
-export default allEconomicEvents(allEconomicEvents)(
-  function drawData(economicEvents: Object, loading: Boolean, error: Boolean) {
-    if (loading) {
-      return <h1>Loading...</h1>;
-    } else if (error) {
-      return <h1>Error</h1>;
-    } else {
-      return (
-        <div>
-          <EconomicEvent economicEvents={economicEvents}/>
-        </div>
-      );
-    }
+export default allEconomicEvents( ({economicEvents, loading, error}) => {
+  if (loading) {
+    console.log("Loading");
+    return <h1>Loading...</h1>;
+  } else if (error) {
+    console.log("Error");
+    return <h1>Error</h1>;
+  } else {
+    console.log("Economic Events", economicEvents);
+    return (
+      <div>
+        <EconomicEvent economicEvents={economicEvents}/>
+      </div>
+    );
   }
-);
-
-
+});
 
 
 /*
