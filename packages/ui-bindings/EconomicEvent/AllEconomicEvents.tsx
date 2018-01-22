@@ -33,7 +33,7 @@ export default compose(
     }),
 
     props: (
-      { data: {
+      { ownProps, data: {
           viewer,
           loading,
           error

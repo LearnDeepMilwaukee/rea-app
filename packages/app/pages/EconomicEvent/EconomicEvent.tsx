@@ -2,6 +2,7 @@ import * as React from "react";
 // import { allEconomicEvents, createEconomicEvent, allOrgs } from "../../../ui-bindings/EconomicEvent/EconomicEventBindings";
 
 import allEconomicEvents from "../../../ui-bindings/EconomicEvent/AllEconomicEvents";
+import _EconomicEvent from "../../../ui-bindings/EconomicEvent/EconomicEvent.tsx";
 
 interface EconomicEventState {
 
@@ -189,9 +190,9 @@ interface EconomicEventProps {
  * Single EconomicEvent component used to map returned results to
  * output on the screen
  */
-const SingleEconomicEvent = (economicEvent) => {
-  console.log("Economic Event #", economicEvent.economicEvent.id);
-  console.log(economicEvent);
+const SingleEconomicEvent = (props) => {
+  let economicEvent = props.economicEvent;
+
   return (
     <div>
       <p>Economic Event # {economicEvent.id}</p>
