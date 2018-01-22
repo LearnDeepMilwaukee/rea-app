@@ -6,11 +6,11 @@
  * @since:   2017-12-04
  */
 
-import { connect } from 'react-redux';
-import { gql, graphql, compose} from 'react-apollo';
+import { connect } from "react-redux";
+import { gql, graphql, compose } from "react-apollo";
 
-import { AppState } from '@vflows/store/types.js';
-import { getActiveLoginToken } from '@vflows/store/selectors/auth.js';
+import { AppState } from "@vflows/store/types.js";
+import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 
 import { unitInterface } from "./unit";
 
@@ -23,7 +23,7 @@ query($token: String, $UnitId: Int) {
   }
 }
 ${unitInterface}
-`
+`;
 
 export default compose(
   // bind input data from the store

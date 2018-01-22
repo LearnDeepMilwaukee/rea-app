@@ -11,7 +11,6 @@ import * as React from "react";
 import "./api.css"
 import GetUnits from "../../../ui-bindings/Unit/getAllUnits.js";
 import GetUnit from "../../../ui-bindings/Unit/getUnitById.js"
-import {AppState} from "../../../store/types";
 
 export const Unit = (props) => {
   return(
@@ -24,7 +23,7 @@ export const Unit = (props) => {
   );
 };
 
-const UnitField = (props) =>{
+const UnitField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
@@ -67,26 +66,26 @@ export const GetSingleUnit = GetUnit(
   }
 );
 
-class app extends React.Component{
+class App extends React.Component {
 
   state = {
     getOneUnitId: null,
     setOneUnitId: null
   };
 
-  //Runs every time the input field changes
+  // Runs every time the input field changes
   getUnitById = (event) => {
-    this.setState({setOneUnitId: parseInt(event.target.value)});
+    this.setState({setOneUnitId: parseInt(event.target.value, 10)});
   };
 
-  //Runs when "submit" is selected
+  // Runs when "submit" is selected
   stopRefresh = (event) => {
-    //Sets the value to query to the current value of the input field
+    // Sets the value to query to the current value of the input field
     this.setState({getOneUnitId: this.state.setOneUnitId});
     event.preventDefault();
   };
 
-  render(){
+  render() {
     const {getOneUnitId} = this.state;
     return (
       <div>
@@ -103,4 +102,4 @@ class app extends React.Component{
   }
 }
 
-export default app;
+export default App;
