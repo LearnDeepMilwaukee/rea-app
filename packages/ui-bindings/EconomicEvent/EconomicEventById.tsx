@@ -2,7 +2,6 @@ import { connect } from "react-redux"
 import { gql, graphql, compose } from "react-apollo"
 import { AppState } from "@vflows/store/types"
 import { getActiveLoginToken } from "@vflows/store/selectors/auth"
-import { createApolloFetch } from "apollo-fetch";
 import { create } from "domain";
 
 export interface Args {
@@ -21,23 +20,35 @@ query($token: String, $id: Int) {
 `;
 
 export default compose(
-    connect(state => ({
+  connect(state => ({
+    variables: {
+      token: getActiveLoginToken(state)
+    }
+  })),
+
+  graphql(query, {
+    options: (props) => ({
       variables: {
-        token: getActiveLoginToken(state)
+        ...props.variables,
+        id: props.eventId
       }
-    })),
+    }),
 
-    graphql(query, {
-      options: (props) => ({
-        variables: {
-          ...props.variables,
-          id: props.eventId
-        }
-      })
-    })
-  );
-}
-
+    props: (
+      { ownProps, data: {
+        viewer,
+        loading,
+        error
+      }
+      }) => ({
+        economicEvent: viewer ? viewer.economicEvent : null,
+        loading,
+        error
+      }
+    ),
+  })
+);
+// }
 
 //
 // export default compose(

@@ -3,53 +3,40 @@ import * as React from "react";
 import allEconomicEvents from "../../../ui-bindings/EconomicEvent/AllEconomicEvents";
 import economicEventById from "../../../ui-bindings/EconomicEvent/EconomicEventById";
 
-interface EconomicEventState {
-  eventId: number
-}
-
-interface EconomicEventProps {
-  economicEvents: Object
-}
-
 /**
  * Main component for the page
  */
 class EconomicEvent extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      eventId: 57
-    };
-  }
+  state = {
+    eventId: 57
+  };
 
   handleClick(event) {
     event.preventDefault();
 
     let eventId = document.getElementById("idForm").value;
-
-    console.log("Input was", event.target.value);
-
-    console.log("Button Clicked Event:", eventId);
-
+    console.log("Setting the state to", eventId);
     this.setState({eventId});
+    console.log("State is", this.state);
   }
 
   render() {
     return (
       <div>
+        <h1>Economic Events</h1>
 
-        Search by ID:
+        <h3>Search by ID:</h3>
         <form onSubmit={this.handleClick}>
           <input type="text" id="idForm" defaultValue="57"/>
         </form>
 
-        {/*<SingleEconomicEvent id={this.state.eventId}/>*/}
-        {/*{economicEventById( {id: this.state.eventId} )(SingleEconomicEvent)}*/}
+        <h4>Results</h4>
+        ======================================================<br/>
+        <EconomicEventById eventId={this.state.eventId} />
+        ======================================================<br/>
 
-        <EconomicEventById eventId={57} />
-
+        <h3>All Economic Events</h3>
         <EconomicEventList />
       </div>
     );
@@ -57,23 +44,14 @@ class EconomicEvent extends React.Component {
 }
 
 /**
- * Single EconomicEvent component used to map returned results to
- * output on the screen
+ * Binds to the database passing in any variables defined in props. Then maps
+ * the response from the database to a component that can be rendered on the screen
  */
 const EconomicEventById = economicEventById( ({economicEvent, loading, error}) => {
-
-  console.log("Initial Data:", economicEvent, loading, error);
-
   if (loading) {
     return <h3>Loading...</h3>
   } else if (error) {
     return <h3>Error!</h3>
-  }
-
-  if (!economicEvent) {
-    console.log("economicEvent wasn't defined");
-    console.log("Declined Data:", economicEvent, loading, error);
-    return <div>Nope</div>
   }
 
   return <SingleEconomicEvent economicEvent={economicEvent} />
@@ -91,7 +69,6 @@ const SingleEconomicEvent = (props) => {
     <div>
       ID: {economicEvent.id} <br />
       Notes: {economicEvent.note} <br/>
-      ====================================<br/>
     </div>
   );
 };
@@ -143,6 +120,10 @@ const SingleEconomicEvent = (props) => {
 //   }
 // }
 
+/**
+ * Binds to the database to get all economic events. Then maps
+ * the response from the database to a component that can be rendered on the screen
+ */
 const EconomicEventList = allEconomicEvents( ({economicEvents, loading, error}) => {
   if (loading) {
     return <h2>Loading...</h2>
@@ -152,10 +133,13 @@ const EconomicEventList = allEconomicEvents( ({economicEvents, loading, error}) 
 
   return (
     <div>
-      List goes here
       {
         economicEvents.map(economicEvent => (
-          <SingleEconomicEvent economicEvent={economicEvent} />
+          <div>
+            ======================================================<br/>
+            <SingleEconomicEvent economicEvent={economicEvent} />
+            ======================================================<br/>
+          </div>
         ))
       }
     </div>
