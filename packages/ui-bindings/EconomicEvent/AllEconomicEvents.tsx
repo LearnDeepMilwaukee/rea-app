@@ -14,10 +14,6 @@ query($token: String) {
 }
 `;
 
-// function allEconomicEvents(args?: Object) {
-//
-//   return
-
 export default compose(
   connect(state => ({
     variables: {

@@ -10,9 +10,9 @@ export interface Args {
 }
 
 export const query = gql`
-query($token: String) {
+query($token: String, $id: Int) {
   viewer(token: $token) {
-    allEconomicEvents {
+    economicEvent(id: $id) {
       id
       note
     }
@@ -20,8 +20,7 @@ query($token: String) {
 }
 `;
 
-export function queryAPI(args: Args) {
-  return compose(
+export default compose(
     connect(state => ({
       variables: {
         token: getActiveLoginToken(state)
@@ -31,14 +30,13 @@ export function queryAPI(args: Args) {
     graphql(query, {
       options: (props) => ({
         variables: {
-          ...props.variables
+          ...props.variables,
+          id: props.eventId
         }
       })
     })
   );
 }
-
-
 
 
 //
