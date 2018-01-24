@@ -12,14 +12,16 @@ class EconomicEvent extends React.Component {
     eventId: 57
   };
 
-  handleClick(event) {
+  handleClick = (event) => {
     event.preventDefault();
 
     let eventId = document.getElementById("idForm").value;
     console.log("Setting the state to", eventId);
-    this.setState({eventId});
+
+    console.log("Is this null?", this);
+    this.setState({eventId: eventId});
     console.log("State is", this.state);
-  }
+  };
 
   render() {
     return (
