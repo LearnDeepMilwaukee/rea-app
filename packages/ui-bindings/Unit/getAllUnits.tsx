@@ -12,7 +12,7 @@ import { gql, graphql, compose } from "react-apollo";
 import { AppState } from "@vflows/store/types.js";
 import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 
-import { unitInterface } from "./unit";
+import { unitInterface } from "./unitInterface";
 
 const query = gql`
 query($token: String) {
