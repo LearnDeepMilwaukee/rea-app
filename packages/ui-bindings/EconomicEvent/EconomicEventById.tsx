@@ -4,10 +4,6 @@ import { AppState } from "@vflows/store/types"
 import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 import { create } from "domain";
 
-export interface Args {
-  id: number
-}
-
 export const query = gql`
 query($token: String, $id: Int) {
   viewer(token: $token) {
@@ -30,16 +26,19 @@ export default compose(
     options: (props) => ({
       variables: {
         ...props.variables,
+        // passes in the eventId prop as the id variable
         id: props.eventId
       }
     }),
 
+    // Flattens the data: {} object
     props: (
-      { ownProps, data: {
-        viewer,
-        loading,
-        error
-      }
+      {
+        data: {
+          viewer,
+          loading,
+          error
+        }
       }) => ({
         economicEvent: viewer ? viewer.economicEvent : null,
         loading,
@@ -48,29 +47,3 @@ export default compose(
     ),
   })
 );
-// }
-
-//
-// export default compose(
-//   connect((state: Appstate) => ({
-//     variables: {
-//       token: getActiveLoginToken(state)
-//     },
-//   })),
-//
-//   graphql(createEconomicEvent, {
-//     options: (props) => ({ variables: {
-//         ...props.variables,
-//       }}),
-//     props: ({ownProps, data: {viewer, loading, error, refetch }}) => (
-//       console.log("Viewer:", viewer),
-//         console.log("AgentRelationship:", viewer.agentRelationship),
-//         {
-//           loading,
-//           error,
-//           refetchAgent: refetch,
-//           agentRelationships: viewer ? viewer.agentRelationship : null,
-//         }
-//     ),
-//   })
-// );

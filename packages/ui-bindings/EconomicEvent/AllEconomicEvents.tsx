@@ -25,11 +25,15 @@ export default compose(
     options: (props) => ({
       variables: {
         ...props.variables
+        // Could include more variables here.
+        // Variables are passed in through props
       }
     }),
 
+    // Flattens the data: {} object and stores the elements in props
     props: (
-      { ownProps, data: {
+      {
+        data: {
           viewer,
           loading,
           error
@@ -42,31 +46,3 @@ export default compose(
     ),
   })
 );
-// }
-
-// export default allEconomicEvents;
-
-//
-// export default compose(
-//   connect((state: Appstate) => ({
-//     variables: {
-//       token: getActiveLoginToken(state)
-//     },
-//   })),
-//
-//   graphql(createEconomicEvent, {
-//     options: (props) => ({ variables: {
-//         ...props.variables,
-//       }}),
-//     props: ({ownProps, data: {viewer, loading, error, refetch }}) => (
-//       console.log("Viewer:", viewer),
-//         console.log("AgentRelationship:", viewer.agentRelationship),
-//         {
-//           loading,
-//           error,
-//           refetchAgent: refetch,
-//           agentRelationships: viewer ? viewer.agentRelationship : null,
-//         }
-//     ),
-//   })
-// );
