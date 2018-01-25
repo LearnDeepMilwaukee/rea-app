@@ -14,9 +14,12 @@ import getMyAgent from "../../../ui-bindings/Agent/getMyAgent.js";
 export const Agent = (props) => {
   return(
     <div>
-      <div>id: {props.id}</div>
-      <div>name: {props.name}</div>
-      <div>symbol: {props.symbol}</div>
+      <div>id: {props.agent.id}</div>
+      <div>name: {props.agent.name}</div>
+      <div>type: {props.agent.type}</div>
+      <div>image: {props.agent.image}</div>
+      <div>note: {props.agent.note}</div>
+      <div>ownedEconomicResources: {props.agent.ownedEconomicResources.id ? props.agent.ownedEconomicResources : "null"}</div>
       <br/>
     </div>
   );
@@ -39,7 +42,7 @@ export const GetMyAgent = getMyAgent(({ agent, loading, error}) => {
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
           <div>
-            {<Agent id={agent.id} name={agent.name} symbol={agent.symbol}/>}
+            {<Agent agent={agent}/>}
           </div>
         </div>
       )
