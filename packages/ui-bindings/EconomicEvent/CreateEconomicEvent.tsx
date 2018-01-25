@@ -5,15 +5,7 @@ import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 import { createApolloFetch } from "apollo-fetch";
 import { create } from "domain";
 
-/**
- * This is the GraphQL query. The entire thing is wrapped
- * in tick marks (``) with the gql took from react-apollo.
- *
- * The parentheses allow for arguments to be accepted into
- * the query. In this case, it needs a user token to
- * authenticate you to use the database.
- */
-const query = gql`
+const mutation = gql`
   mutation(
     $receiverId: Int,
     $fulfillsCommitmentId: Int,
@@ -68,50 +60,33 @@ const query = gql`
   }
 `;
 
-function createEconomicEvent(args: Object) {
-  return compose(
-    connect(state => ({
+export default compose(
+  connect(state => ({
+    variables: {
+      token: getActiveLoginToken(state)
+    }
+  })),
+
+  graphql(mutation, {
+    options: (props) => (console.log("Received", props, "for the mutation"), {
       variables: {
-        token: getActiveLoginToken(state)
-      }
-    })),
-
-    graphql(query, {
-      options: (props) => ({
-        variables: {
-          ...props.variables
-        }
-      })
-    })
-  );
-}
-
-export default createEconomicEvent;
-
-
-
-
-//
-// export default compose(
-//   connect((state: Appstate) => ({
-//     variables: {
-//       token: getActiveLoginToken(state)
-//     },
-//   })),
-//
-//   graphql(createEconomicEvent, {
-//     options: (props) => ({ variables: {
-//         ...props.variables,
-//       }}),
-//     props: ({ownProps, data: {viewer, loading, error, refetch }}) => (
-//       console.log("Viewer:", viewer),
-//         console.log("AgentRelationship:", viewer.agentRelationship),
-//         {
-//           loading,
-//           error,
-//           refetchAgent: refetch,
-//           agentRelationships: viewer ? viewer.agentRelationship : null,
-//         }
-//     ),
-//   })
-// );
+        ...props.variables,
+        ...props.data
+      },
+    }),
+    // }), // TODO delete
+    props:
+      ({
+         data: {
+           // createEconomicEvent,
+           loading,
+           error
+         }
+       }) =>
+        (console.log("Inside props", loading, error), {
+          // economicEvent: createEconomicEvent ? createEconomicEvent.economicEvent : null,
+          loading,
+          error
+        }),
+  })
+);

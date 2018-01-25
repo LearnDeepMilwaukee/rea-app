@@ -1,20 +1,21 @@
-import * as React from 'react'
-import { Route, IndexRoute, IndexRedirect } from 'react-router'
+import * as React from "react"
+import { Route, IndexRoute, IndexRedirect } from "react-router"
 
-import App from './main/App'
-import Todo from './pages/Todo'
-import Landing from './pages/Landing'
-import OverviewPage from './pages/Overview'
-import MembersPage from './pages/Members'
-import AllProjectsPage from './pages/AllProjectsPage'
-import ProcessesPage from './pages/Processes'
-import InventoryPage from './pages/Inventory'
-import AccountsPage from './pages/Accounts'
-import SingleProjectTemplate from '../ui-views/templates/SingleProjectTemplate'
-import ProjectTemplate from '../ui-views/templates/ProjectTemplate'
+import App from "./main/App"
+import Todo from "./pages/Todo"
+import Landing from "./pages/Landing"
+import OverviewPage from "./pages/Overview"
+import MembersPage from "./pages/Members"
+import AllProjectsPage from "./pages/AllProjectsPage"
+import ProcessesPage from "./pages/Processes"
+import InventoryPage from "./pages/Inventory"
+import AccountsPage from "./pages/Accounts"
+import SingleProjectTemplate from "../ui-views/templates/SingleProjectTemplate"
+import ProjectTemplate from "../ui-views/templates/ProjectTemplate"
 
 import AgentSandbox from "./pages/AgentSandbox/AgentSandbox";
 import EconomicEvent from "./pages/EconomicEvent/EconomicEvent";
+import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
 
 const routes = (
   <Route path="/" component={App}>
@@ -54,7 +55,11 @@ const routes = (
       <IndexRoute component={EconomicEvent} />
     </Route>
 
+    <Route path="CreateEconomicEvent" component={CreateEconomicEvent}>
+      <IndexRoute component={CreateEconomicEvent} />
+    </Route>
+
   </Route>
-)
+);
 
 export default routes
