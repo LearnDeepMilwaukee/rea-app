@@ -1,9 +1,9 @@
 /**
- * A This file defines common interfaces for the Unit object
+ * A This file defines common interfaces for the Agent object
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
- * @since:   2017-12-04
+ * @since:   2018-1-20
  */
 
 import { gql } from "react-apollo";
