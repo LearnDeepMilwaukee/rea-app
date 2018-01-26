@@ -29,7 +29,7 @@ class CreateEconomicEvent extends React.Component {
       inputOfId: 2,
       receiverId: 8,
       requestDistribution: false,
-      note: "New item for Shorewood",
+      note: "This is happening from the React App",
       start: "2017-1-1",
       scopeId: 6,
       providerId: 4,

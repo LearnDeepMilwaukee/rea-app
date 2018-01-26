@@ -2,8 +2,6 @@ import { connect } from "react-redux"
 import { gql, graphql, compose } from "react-apollo"
 import { AppState } from "@vflows/store/types"
 import { getActiveLoginToken } from "@vflows/store/selectors/auth"
-import { createApolloFetch } from "apollo-fetch";
-import { create } from "domain";
 
 const mutation = gql`
   mutation(
@@ -60,6 +58,26 @@ const mutation = gql`
   }
 `;
 
+let connectFunction = connect(state => ({
+  variables: {
+    token: getActiveLoginToken(state)
+  }
+}));
+
+let graphQLQueryOptions = (props) => (console.log("Received", props, "for the mutation"), {
+  variables: {
+    ...props.variables,
+    ...props.data
+  },
+});
+
+let graphQLQueryProps = (ownProps, { data: { createEconomicEvent, loading, error } }) =>
+  (console.log("Inside props", error), {
+    economicEvent: createEconomicEvent ? createEconomicEvent.economicEvent : null,
+    loading,
+    error
+  });
+
 export default compose(
   connect(state => ({
     variables: {
@@ -68,25 +86,39 @@ export default compose(
   })),
 
   graphql(mutation, {
-    options: (props) => (console.log("Received", props, "for the mutation"), {
-      variables: {
-        ...props.variables,
-        ...props.data
-      },
-    }),
-    // }), // TODO delete
-    props:
-      ({
-         data: {
-           // createEconomicEvent,
-           loading,
-           error
-         }
-       }) =>
-        (console.log("Inside props", loading, error), {
-          // economicEvent: createEconomicEvent ? createEconomicEvent.economicEvent : null,
-          loading,
-          error
-        }),
+    options: graphQLQueryOptions,
+    props: graphQLQueryProps,
   })
 );
+
+
+// export default compose(
+//   connect(state => ({
+//     variables: {
+//       token: getActiveLoginToken(state)
+//     }
+//   })),
+//
+//   graphql(mutation, {
+//     options: (props) => (console.log("Received", props, "for the mutation"), {
+//       variables: {
+//         ...props.variables,
+//         ...props.data
+//       },
+//     }),
+//   // }), // TODO delete
+//     props:
+//       ({
+//          data: {
+//            createEconomicEvent,
+//            loading,
+//            error
+//          }
+//        }) =>
+//         (console.log("Inside props", error), {
+//           // economicEvent: createEconomicEvent ? createEconomicEvent.economicEvent : null,
+//           // loading,
+//           error
+//         }),
+//   })
+// );
