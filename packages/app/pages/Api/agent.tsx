@@ -34,7 +34,7 @@ export const Agent = (props) => {
   );
 };
 
-function concatArray(array) {
+function concatArray(array: JSON[]) {
   var retValue = "";
   console.log("Array: ", array, "\nIndex 0: ", array[0]);
   if (array[0] == null) {
