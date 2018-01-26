@@ -1,9 +1,9 @@
 /**
- * A method to get the current users Agent
+ * A method to get a list of all Agents
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
- * @since:   2017-12-04
+ * @since:   2018-1-26
  */
 
 import { connect } from "react-redux";
@@ -17,7 +17,7 @@ import { agentInterface } from "./agentInterface";
 const query = gql`
 query($token: String) {
   viewer(token: $token) {
-    myAgent{
+    allAgents{
       ...agentInterface
     }
   }
@@ -44,7 +44,7 @@ export default compose(
         loading,
         error,
         refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-        agent: viewer ? viewer.myAgent : null,
+        agent: viewer ? viewer.allAgents : null,
       }),
   })
 )

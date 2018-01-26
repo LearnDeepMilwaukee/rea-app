@@ -1,9 +1,9 @@
 /**
- * A method to get the current users Agent
+ * A method to get a single Agent
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
- * @since:   2017-12-04
+ * @since:   2018-1-26
  */
 
 import { connect } from "react-redux";
@@ -15,9 +15,9 @@ import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 import { agentInterface } from "./agentInterface";
 
 const query = gql`
-query($token: String) {
+query($token: String, $AgentId: Int) {
   viewer(token: $token) {
-    myAgent{
+    agent(id: $AgentId){
       ...agentInterface
     }
   }
@@ -35,16 +35,20 @@ export default compose(
 
   graphql(query, {
     // read query vars into query from input data above
-    options: (props) => ({ variables: {
-      ...props.variables,
-    } }),
+    options: (props) => (
+      {
+        variables: {
+          ...props.variables,
+          AgentId: props.agentId
+        }
+      }),
+
     // transform output data
-    props: ({ ownProps, data: { viewer, loading, error, refetch } }) => (
+    props: ({ ownProps, data: { viewer, loading, error } }) => (
       {
         loading,
         error,
-        refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-        agent: viewer ? viewer.myAgent : null,
+        agent: viewer ? viewer.agent : null,
       }),
   })
 )
