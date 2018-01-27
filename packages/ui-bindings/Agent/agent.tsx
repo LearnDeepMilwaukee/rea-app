@@ -94,7 +94,8 @@ query($token: String, $agentId: Int) {
 }
 ${coreAgentFields}
 ${coreEventsFields}
-`
+`;
+
 // :TODO: see if there's a way to generate these from GraphQL schema
 // :TODO: we should separate Person / Organization to separate interfaces
 interface Events {

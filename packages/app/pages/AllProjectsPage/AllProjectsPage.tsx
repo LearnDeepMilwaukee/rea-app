@@ -8,7 +8,7 @@
 
 import * as React from "react"
 import * as themeable from "react-themeable"
-import BindAgent, { AllOrgsType } from "@vflows/bindings/agent/allOrganizations"
+import BindAgent, { AllOrgsType } from "@vflows/bindings/Agent/allOrganizations"
 import Link from "@vflows/views/atoms/Link"
 import { createStore, applyMiddleware } from "redux"
 import { composeWithDevTools } from "redux-devtools-extension"
@@ -22,7 +22,7 @@ interface Props {
 }
 
 /**
- * Row of buttons to filter which user agent types should be displayed
+ * Row of buttons to filter which user Agent types should be displayed
  */
 class NavBar extends React.Component {
 
@@ -104,8 +104,8 @@ class NavButton extends React.Component {
 }
 
 /**
- * A 'card' to display the user agent name, picture, and controls to
- * join with the user agent.
+ * A 'card' to display the user Agent name, picture, and controls to
+ * join with the user Agent.
  */
 class ProjectCard extends React.Component {
 
