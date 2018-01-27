@@ -14,21 +14,22 @@ import getAllAgents from "../../../ui-bindings/Agent/getAllAgents.js";
 import getAgentById from "../../../ui-bindings/Agent/getAgentById";
 
 export const Agent = (props) => {
+  var agent = props.agent;
   return(
     <div>
-      <div>id: {props.agent.id}</div>
-      <div>name: {props.agent.name}</div>
-      <div>type: {props.agent.type}</div>
-      <div>image: {props.agent.image}</div>
-      <div>note: {props.agent.note}</div>
-      <div>ownedEconomicResources: {concatArray(props.agent.ownedEconomicResources)}</div>
-      <div>agentProcesses: {concatArray(props.agent.agentProcesses)}</div>
-      <div>agentPlans: {concatArray(props.agent.agentPlans)}</div>
-      <div>agentEconomicEvents: {concatArray(props.agent.agentEconomicEvents)}</div>
-      <div>agentCommitments: {concatArray(props.agent.agentCommitments)}</div>
-      <div>agentRelationships: {concatArray(props.agent.agentRelationships)}</div>
-      <div>agentRoles: {concatArray(props.agent.agentRoles)}</div>
-      <div>agentRecipess: {concatArray(props.agent.agentRecipes)}</div>
+      <div>id: {agent.id}</div>
+      <div>name: {agent.name}</div>
+      <div>type: {agent.type}</div>
+      <div>image: {agent.image}</div>
+      <div>note: {agent.note}</div>
+      <div>ownedEconomicResources: {concatArray(agent.ownedEconomicResources)}</div>
+      <div>agentProcesses: {concatArray(agent.agentProcesses)}</div>
+      <div>agentPlans: {concatArray(agent.agentPlans)}</div>
+      <div>agentEconomicEvents: {concatArray(agent.agentEconomicEvents)}</div>
+      <div>agentCommitments: {concatArray(agent.agentCommitments)}</div>
+      <div>agentRelationships: {concatArray(agent.agentRelationships)}</div>
+      <div>agentRoles: {concatArray(agent.agentRoles)}</div>
+      <div>agentRecipess: {concatArray(agent.agentRecipes)}</div>
       <br/>
     </div>
   );
@@ -64,9 +65,7 @@ export const GetMyAgent = getMyAgent(({ agent, loading, error}) => {
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          <div>
-            {<Agent agent={agent}/>}
-          </div>
+          {<Agent agent={agent}/>}
         </div>
       )
     )
@@ -78,9 +77,7 @@ export const GetAllAgents = getAllAgents(({ agent, loading, error}) => {
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          <div>
-            {concatArray(agent)}
-          </div>
+          {concatArray(agent)}
         </div>
       )
     )
@@ -88,19 +85,16 @@ export const GetAllAgents = getAllAgents(({ agent, loading, error}) => {
 });
 
 export const GetSingleAgent = getAgentById(({ agent, loading, error }) => {
-    return (
-      loading ? <strong>Loading...</strong> : (
-        error ? <p style={{color: "#F00"}}>API error</p> : (
-          <div>
-            <div>
-              <Agent agent={agent}/>
-            </div>
-          </div>
-        )
+  return (
+    loading ? <strong>Loading...</strong> : (
+      error ? <p style={{color: "#F00"}}>API error</p> : (
+        <div>
+          <Agent agent={agent}/>
+        </div>
       )
-    );
-  }
-);
+    )
+  );
+});
 
 class App extends React.Component {
 

@@ -39,9 +39,7 @@ export const UnitList = GetUnits(({ unitList, loading, error}) => {
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          <div>
-            {unitList.map( (unit) => (<Unit key={unit.id} id={unit.id} name={unit.name} symbol={unit.symbol}/>))}
-          </div>
+          {unitList.map( (unit) => (<Unit key={unit.id} id={unit.id} name={unit.name} symbol={unit.symbol}/>))}
         </div>
       )
     )
@@ -56,9 +54,7 @@ export const GetSingleUnit = GetUnit(
       loading ? <strong>Loading...</strong> : (
         error ? <p style={{color: "#F00"}}>API error</p> : (
           <div>
-            <div>
-              <Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>
-            </div>
+            <Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>
           </div>
         )
       )
