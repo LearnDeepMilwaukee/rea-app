@@ -14,9 +14,9 @@ fragment processClassificationInterface on ProcessClassification {
   id
   name
   note
-  scope{
-    id
-  }
+  #scope {
+  #  id
+  #}
   estimatedDuration
 }`;
 
