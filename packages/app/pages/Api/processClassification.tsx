@@ -17,7 +17,6 @@ export const ProcessClassification = (props) => {
       <div>id: {props.id}</div>
       <div>name: {props.name}</div>
       <div>note: {props.note}</div>
-      <div>scope: {props.scope}</div>
       <div>estimatedDuration: {props.estimatedDuration}</div>
       <br/>
     </div>
