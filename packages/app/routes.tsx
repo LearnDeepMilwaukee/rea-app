@@ -11,7 +11,9 @@ import ProcessesPage from "./pages/Processes"
 import InventoryPage from "./pages/Inventory"
 import AccountsPage from "./pages/Accounts"
 import SingleProjectTemplate from "../ui-views/templates/SingleProjectTemplate"
-import UnitList from "./pages/Api/unit"
+import UnitPage from "./pages/Api/unit"
+import AgentPage from "./pages/Api/agent"
+
 import ProjectTemplate from "../ui-views/templates/ProjectTemplate"
 
 const routes = (
@@ -45,7 +47,8 @@ const routes = (
     </Route>
 
     <Route path="api">
-      <Route path="unit" component={UnitList} />
+      <Route path="unit" component={UnitPage} />
+      <Route path="agent" component={AgentPage} />
     </Route>
   </Route>
 )

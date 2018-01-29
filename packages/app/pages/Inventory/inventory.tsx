@@ -82,7 +82,7 @@ class InventoryCard extends React.Component {
 /**
  * The inventory page, which contains the basic page structure
  * (menu, sidebar, sub-menus, and the entire inventory list)
- * @param {any} agent The agent who's inventory is displayed
+ * @param {any} agent The Agent who's inventory is displayed
  * @param {any} theme The page's theme that should be used to style
  */
 const Inventory: SFC<Props> = ({ agent, theme }) => {

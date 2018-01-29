@@ -7,7 +7,7 @@
  */
 
 import { gql } from "react-apollo";
-import { Unit } from "../Unit/unit";
+import { Unit } from "../Unit/unitInterface";
 
 export const quantityValueInterface = gql`
 fragment quantityValueInterface on QuantityValue {

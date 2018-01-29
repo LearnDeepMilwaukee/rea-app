@@ -1,5 +1,5 @@
 // /**
-//  * HoC to load members for an agent (Organisation)
+//  * HoC to load all organizations an Agent is part of
 //  *
 //  * @package: REA app
 //  * @author:  pospi <pospi@spadgos.com>
@@ -15,17 +15,12 @@
 // import { coreAgentFields, coreOrganizationFields } from '../_fragments/Agent'
 
 // const query = gql`
-// query($token: String, $agentId_Members: Int) {
+// query($token: String, $agentId_Orgs: Int) {
 //   viewer(token: $token) {
-//     agent(id: $agentId_Members) {
+//     Agent(id: $agentId_Orgs) {
 //       id
-//       ...on Organization {
-//         members {
-//           ...coreAgentFields
-//           ...on Organization {
-//             ...coreOrganizationFields
-//           }
-//         }
+//       organizations {
+//         ...coreOrganizationFields
 //       }
 //     }
 //   }
@@ -45,14 +40,14 @@
 //     // read query vars into query from input data above
 //     options: (props) => ({ variables: {
 //       ...props.variables,
-//       agentId_Members: props.agentId,
+//       agentId_Orgs: props.agentId,
 //     } }),
 //     // transform output data
 //     props: ({ ownProps, data: { viewer, loading, error, refetch } }) => ({
 //       loading,
 //       error,
-//       refetchMembers: refetch,  // :NOTE: call this in the component to force reload the data
-//       members: viewer ? viewer.agent.members : null,
+//       refetchOrganizations: refetch,  // :NOTE: call this in the component to force reload the data
+//       organizations: viewer ? viewer.Agent.organizations : null,
 //     }),
 //   })
 // )

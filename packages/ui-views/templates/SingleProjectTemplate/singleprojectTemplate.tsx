@@ -4,7 +4,7 @@ import SecondaryMenu from "../../organisms/SecondaryMenu"
 import ProcessModal from "../../organisms/ProcessModal"
 import InventoryModal from "../../organisms/InventoryModal"
 import * as themeable from "react-themeable"
-import BindAgent, { AgentType } from "@vflows/bindings/agent/agent"
+import BindAgent, { AgentType } from "@vflows/bindings/Agent/agent"
 import { Vertical } from "../../icons"
 import Modal from "react-modal"
 import Aside from "../../organisms/Aside"
@@ -52,7 +52,8 @@ interface RouterProps {
   },
 }
 
-const SingleProjectTemplate = BindAgent(({ agent, loading, error, theme, children, showModal, handleOpenModal, handleCloseModal, modalId }: Props) => {
+const SingleProjectTemplate = BindAgent(({ agent, loading, error, theme, children, showModal, handleOpenModal,
+                                           handleCloseModal, modalId }: Props) => {
   let currentTheme = themeable(theme)
 
   console.log("Loading:", loading);
