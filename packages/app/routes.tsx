@@ -16,6 +16,9 @@ import AgentPage from "./pages/Api/agent"
 
 import ProjectTemplate from "../ui-views/templates/ProjectTemplate"
 
+import EconomicEvent from "./pages/EconomicEvent/EconomicEvent";
+import AgentRelationshipRoles from "./pages/AgentRelationshipRole/AgentRelationshipRole";
+
 const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Landing} />
@@ -49,8 +52,10 @@ const routes = (
     <Route path="api">
       <Route path="unit" component={UnitPage} />
       <Route path="agent" component={AgentPage} />
+      <Route path="economicevent" component={EconomicEvent} />
+      <Route path="agentrelationshiprole" component={AgentRelationshipRoles} />
     </Route>
   </Route>
-)
+);
 
 export default routes
