@@ -14,7 +14,7 @@ import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 import { processClassificationInterface } from "./processClassification";
 
 const query = gql`
-query($token: String, ProcessClassificationId: Int) {
+query($token: String, $ProcessClassificationId: Int) {
   viewer(token: $token) {
     processClassification(id: $ProcessClassificationId){
       ...processClassificationInterface
