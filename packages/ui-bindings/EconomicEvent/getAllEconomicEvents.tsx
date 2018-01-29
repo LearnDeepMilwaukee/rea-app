@@ -1,17 +1,18 @@
-import { connect } from "react-redux"
-import { gql, graphql, compose } from "react-apollo"
-import { AppState } from "@vflows/store/types"
-import { getActiveLoginToken } from "@vflows/store/selectors/auth"
+import { connect } from "react-redux";
+import { gql, graphql, compose } from "react-apollo";
+import { AppState } from "@vflows/store/types";
+import { getActiveLoginToken } from "@vflows/store/selectors/auth";
+import economicEventInterface from "./EconomicEvent.tsx";
 
 const query = gql`
 query($token: String) {
   viewer(token: $token) {
     allEconomicEvents {
-      id
-      note
+      ...economicEventInterface
     }
   }
 }
+${economicEventInterface}
 `;
 
 export default compose(

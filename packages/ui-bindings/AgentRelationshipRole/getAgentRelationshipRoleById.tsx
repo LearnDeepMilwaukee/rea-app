@@ -1,19 +1,18 @@
-import { connect } from "react-redux"
-import { gql, graphql, compose } from "react-apollo"
-import { AppState } from "@vflows/store/types"
-import { getActiveLoginToken } from "@vflows/store/selectors/auth"
+import { connect } from "react-redux";
+import { gql, graphql, compose } from "react-apollo";
+import { AppState } from "@vflows/store/types";
+import { getActiveLoginToken } from "@vflows/store/selectors/auth";
+import agentRelationshipRole from "./AgentRelationshipRole";
 
 const query = gql`
 query($token: String, $id: Int){
   viewer(token: $token) {
     agentRelationshipRole(id: $id) {
-      id
-      label
-      inverseLabel
-      category
+      ...agentRelationshipRole
     }
   }
 }
+${agentRelationshipRole}
 `;
 
 export default compose(

@@ -1,25 +1,31 @@
+/**
+ * This exposes a page which allows a view of all Agent Relationship Roles in the database,
+ * and allows to query for a single one by ID
+ *
+ * @package: REA app
+ * @author:  Connor Hibbs <chibbs96@gmail.com>
+ * @since:   2018-01-25
+ */
+
 import * as React from "react";
-import allAgentRelationshipRoles from "../../../ui-bindings/AgentRelationshipRole/AllAgentRelationshipRoles";
-import agentRelationshipRoleById from "../../../ui-bindings/AgentRelationshipRole/AgentRelationshipRoleById";
+import allAgentRelationshipRoles from "../../../ui-bindings/AgentRelationshipRole/getAllAgentRelationshipRoles";
+import agentRelationshipRoleById from "../../../ui-bindings/AgentRelationshipRole/getAgentRelationshipRoleById";
 
 const AgentRelationshipRole = (props) => {
   let role = props.agentRelationshipRole;
 
   return(
     <div>
-      <div>
-        <p>id: {role.id}</p>
-        <p>label: {role.name}</p>
-        <p>inverseLabel: {role.symbol}</p>
-        <p>category: {role.category}</p>
-        <br/>
-      </div>
+      <p>id: {role.id}</p>
+      <p>label: {role.name}</p>
+      <p>inverseLabel: {role.symbol}</p>
+      <p>category: {role.category}</p>
+      <br/>
     </div>
   )
 };
 
 const AgentRelationshipRolesList = allAgentRelationshipRoles( ({agentRelatonshipRoles, loading, error}) => {
-  console.log("Rendering Agent Relationship Role List", agentRelatonshipRoles);
   if (loading) {
     return <h2>Loading...</h2>
   } else if (error) {
