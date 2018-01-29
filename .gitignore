@@ -15,5 +15,6 @@ node_modules
 !/packages/app/index.js
 !/packages/test-helpers/*.js
 !/packages/test-helpers/**/*.js
+!/packages/app/tests/**/*.js
 
 .idea/*

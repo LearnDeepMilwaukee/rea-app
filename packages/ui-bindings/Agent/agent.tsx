@@ -6,13 +6,13 @@
  * @since:   2017-06-21
  */
 
-import { connect } from 'react-redux'
-import { gql, graphql, compose } from 'react-apollo'
+import { connect } from "react-redux"
+import { gql, graphql, compose } from "react-apollo"
 
-import { AppState } from '@vflows/store/types'
-import { getActiveLoginToken } from '@vflows/store/selectors/auth'
+import { AppState } from "@vflows/store/types"
+import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 
-import { coreAgentFields, coreOrganizationFields, coreEventsFields } from '../_fragments/Agent'
+import { coreAgentFields, coreOrganizationFields, coreEventsFields } from "../_fragments/Agent"
 
 const query = gql`
 query($token: String, $agentId: Int) {
@@ -51,12 +51,12 @@ query($token: String, $agentId: Int) {
         unplannedEconomicEvents {
           action
         }
-        processEconomicEvents {
-          action
-        }
-        processCommitments {
-          action
-        }
+        #processEconomicEvents {
+        #  action
+        #}
+        #processCommitments {
+        #  action
+        #}
         inputs {
           action
         }
@@ -84,16 +84,21 @@ query($token: String, $agentId: Int) {
         image
         note
         category
+        currentLocation {
+          id
+          name
+        }
       }
     }
   }
 }
 ${coreAgentFields}
 ${coreEventsFields}
-`
+`;
+
 // :TODO: see if there's a way to generate these from GraphQL schema
 // :TODO: we should separate Person / Organization to separate interfaces
- interface Events {
+interface Events {
   id: number
   action: string
   start: string
@@ -106,7 +111,6 @@ ${coreEventsFields}
   receiver: Object
   process: Object
 }
-
 
 export interface AgentType {
   id: number,
