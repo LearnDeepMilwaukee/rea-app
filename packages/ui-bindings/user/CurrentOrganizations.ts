@@ -6,13 +6,13 @@
  * @since:   2017-06-23
  */
 
-import { connect } from 'react-redux'
-import { gql, graphql, compose } from 'react-apollo'
+import { connect } from "react-redux"
+import { gql, graphql, compose } from "react-apollo"
 
-import { AppState } from '@vflows/store/types'
-import { getActiveLoginToken } from '@vflows/store/selectors/auth'
+import { AppState } from "@vflows/store/types"
+import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 
-import { coreAgentFields, coreOrganizationFields } from '../_fragments/Agent'
+import { coreAgentFields, coreOrganizationFields } from "../_fragments/Agent"
 
 const query = gql`
 query($token: String) {
@@ -36,7 +36,7 @@ query($token: String) {
   }
 }
 ${coreAgentFields}
-`
+`;
 
 export default compose(
   // bind input data from the store
