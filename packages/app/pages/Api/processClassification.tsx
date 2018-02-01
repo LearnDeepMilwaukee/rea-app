@@ -27,7 +27,7 @@ const ProcessClassificationField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
-        Enter an Id: <input type="text" name="value" onChange={props.setProcessClassification}/>
+        ID: <input type="text" name="value" onChange={props.setProcessClassification}/>
         <input type="submit" value="query"/>
       </form>
     </div>
@@ -89,14 +89,14 @@ class App extends React.Component {
     const {getOneProcessClassificationId} = this.state;
     return (
       <div>
-        <h2>List of all process classifications: </h2>
+        <h2>All process classifications: </h2>
         <br/>
         <ProcessClassificationList/>
         <br/>
-        <h2>Get ProcessClassification by Id: </h2>
+        <h2>ProcessClassification by Id: </h2>
         <br/>
         <ProcessClassificationField setProcessClassification={this.getProcessClassificationById} onSubmitAction={this.stopRefresh}/>
-        {getOneProcessClassificationId ? <GetSingleProcessClassification processClassificationId={getOneProcessClassificationId}/> : <div>Enter a value</div>}
+        {getOneProcessClassificationId ? <GetSingleProcessClassification processClassificationId={getOneProcessClassificationId}/> : <div>-------------------------------------------</div>}
       </div>
     );
   }
