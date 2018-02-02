@@ -3,13 +3,14 @@
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
- * @since:   2017-02-02
+ * @since:   2018-02-02
  */
 
 import { gql } from "react-apollo";
 import {Agent} from "../Agent/agentInterface";
+import {AgentRelationshipRole} from "../AgentRelationshipRole/AgentRelationshipRole";
 
-export const AgentRelationshipInterface = gql`
+export const agentRelationshipInterface = gql`
 fragment agentRelationshipInterface on AgentRelationship {
   id
   subject{
@@ -27,5 +28,5 @@ export interface AgentRelationship {
   id: number
   name: Agent
   symbol: Agent
-  relationship: Agent
+  relationship: AgentRelationshipRole
 }
