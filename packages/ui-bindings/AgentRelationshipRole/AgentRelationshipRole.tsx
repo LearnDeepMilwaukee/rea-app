@@ -20,5 +20,5 @@ export interface AgentRelationshipRole {
   id: number
   label: string
   inverseLabel: string
-  category: string //AgentRelationshipCategory
+  category: string // AgentRelationshipCategory
 }

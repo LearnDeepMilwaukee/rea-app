@@ -1,9 +1,9 @@
 /**
- * A method to get all Agent Relationships
+ * A method to get one Agent Relationship given its Id
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
- * @since:   2018-02-02
+ * @since:   2018-02-03
  */
 
 import { connect } from "react-redux";
@@ -15,9 +15,9 @@ import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 import { agentRelationshipInterface } from "./agentRelationshipInterface";
 
 const query = gql`
-query($token: String) {
+query($token: String, $AgentRelationshipId: Int) {
   viewer(token: $token) {
-    allAgentRelationships{
+    agentRelationship(id: $AgentRelationshipId){
       ...agentRelationshipInterface
     }
   }
@@ -36,15 +36,16 @@ export default compose(
   graphql(query, {
     // read query vars into query from input data above
     options: (props) => ({ variables: {
-      ...props.variables,
-    } }),
+        ...props.variables,
+        AgentRelationshipId: props.agentRelationshipId
+      } }),
     // transform output data
     props: ({ ownProps, data: { viewer, loading, error, refetch } }) => (
-      {
-        loading,
-        error,
-        refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-        agentRelationshipList: viewer ? viewer.allAgentRelationships : null,
-      }),
+        {
+          loading,
+          error,
+          refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
+          agentRelationship: viewer ? viewer.agentRelationship : null,
+        }),
   })
 )

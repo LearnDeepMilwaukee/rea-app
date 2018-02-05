@@ -9,7 +9,7 @@
 import * as React from "react";
 import "./api.css"
 import getAllAgentRelationships from "../../../ui-bindings/AgentRelationship/getAllAgentRelationships";
-import getAgentById from "../../../ui-bindings/Agent/getAgentById";
+import getAgentRelationshipById from "../../../ui-bindings/AgentRelationship/getAgentRelationshipById";
 
 export const AgentRelationship = (props) => {
   var agentRelationship = props.agentRelationship;
@@ -47,12 +47,12 @@ export const GetAllAgentRelationships = getAllAgentRelationships(({ agentRelatio
   );
 });
 
-export const GetSingleAgentRelationship = getAgentById(({ agent, loading, error }) => {
+export const GetSingleAgentRelationship = getAgentRelationshipById(({ agentRelationship, loading, error }) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          <Agent agent={agent}/>
+          <AgentRelationship agentRelationship={agentRelationship}/>
         </div>
       )
     )
@@ -67,7 +67,7 @@ class App extends React.Component {
   };
 
   // Runs every time the input field changes
-  getAgentById = (event) => {
+  getAgentRelationshipById = (event) => {
     this.setState({setOneAgentRelationshipId: parseInt(event.target.value, 10)});
   };
 
@@ -83,14 +83,14 @@ class App extends React.Component {
     return (
       <div>
         <br/>
+        <h2>Get an Agent By Id: </h2>
+        <br/>
+        <AgentRelationshipField setAgentRelationship={this.getAgentRelationshipById} onSubmitAction={this.stopRefresh}/>
+        {getOneAgentRelationshipId ? <GetSingleAgentRelationship agentRelationshipId={getOneAgentRelationshipId}/> : <div>Enter a value</div>}
+        <br/>
         <h2>All Agent Relationships: </h2>
         <br/>
         <GetAllAgentRelationships/>
-        <br/>
-        <h2>Get an Agent By Id: </h2>
-        <br/>
-        <AgentRelationshipField setAgent={this.getAgentRelationshipById} onSubmitAction={this.stopRefresh}/>
-        {getOneAgenRelationshiptId ? <GetSingleAgentRelationship agentRelationshipId={getOneAgentRelationshipId}/> : <div>Enter a value</div>}
         <br/>
       </div>
     );

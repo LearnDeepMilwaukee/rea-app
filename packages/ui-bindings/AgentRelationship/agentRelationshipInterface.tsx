@@ -7,8 +7,8 @@
  */
 
 import { gql } from "react-apollo";
-import {Agent} from "../Agent/agentInterface";
-import {AgentRelationshipRole} from "../AgentRelationshipRole/AgentRelationshipRole";
+import { Agent } from "../Agent/agentInterface";
+import { AgentRelationshipRole } from "../AgentRelationshipRole/AgentRelationshipRole";
 
 export const agentRelationshipInterface = gql`
 fragment agentRelationshipInterface on AgentRelationship {
