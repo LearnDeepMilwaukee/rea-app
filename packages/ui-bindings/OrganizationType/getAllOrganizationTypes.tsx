@@ -17,7 +17,7 @@ import { orgTypeInterface } from "./orgTypeInterface";
 const query = gql`
 query($token: String) {
   viewer(token: $token) {
-    allOrganizationTypes{
+    organizationTypes{
       ...orgTypeInterface
     }
   }
@@ -44,7 +44,7 @@ export default compose(
         loading,
         error,
         refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-        orgTypeList: viewer ? viewer.allOrganizationTypes : null,
+        orgTypeList: viewer ? viewer.organizationTypes : null,
       }),
   })
 )
