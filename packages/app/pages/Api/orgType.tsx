@@ -1,6 +1,5 @@
 /**
- * This exports a React element which displays a list of all Organization Types,
- * and provides a section to select a single Organization Type out of that list
+ * This exports a React element which displays a list of all Organization Types
  *
  * @package: REA app
  * @author:  Ryan Guinn <guinnrd@msoe.edu>
