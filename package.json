@@ -22,7 +22,6 @@
     "typings": "^2.1.1"
   },
   "dependencies": {
-    "@types/react": "^16.0.34",
-    "apollo-fetch": "^0.7.0"
+    "@types/react": "^16.0.34"
   }
 }
