@@ -1,5 +1,5 @@
 /**
- * A method to get a single OrgType
+ * A method to get a single OrganizationType
  *
  * @package: REA app
  * @author:  Ryan Guinn <guinnrd@msoe.edu>
@@ -15,9 +15,9 @@ import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 import { orgTypeInterface } from "./orgTypeInterface";
 
 const query = gql`
-query($token: String, $OrgTypeId: Int) {
+query($token: String, $OrganizationTypeId: Int) {
   viewer(token: $token) {
-    orgType(id: $OrgTypeId){
+    orgType(id: $OrganizationTypeId){
       ...orgTypeInterface
     }
   }
@@ -39,7 +39,7 @@ export default compose(
       {
         variables: {
           ...props.variables,
-          OrgTypeId: props.orgTypeId
+          OrganizationTypeId: props.orgTypeId
         }
       }),
 

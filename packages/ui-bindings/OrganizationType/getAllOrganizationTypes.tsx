@@ -1,5 +1,5 @@
 /**
- * A method to get all OrgTypes
+ * A method to get all OrganizationTypes
  *
  * @package: REA app
  * @author:  Ryan Guinn <guinnrd@msoe.edu>
@@ -17,7 +17,7 @@ import { orgTypeInterface } from "./orgTypeInterface";
 const query = gql`
 query($token: String) {
   viewer(token: $token) {
-    allOrgTypes{
+    allOrganizationTypes{
       ...orgTypeInterface
     }
   }
@@ -44,7 +44,7 @@ export default compose(
         loading,
         error,
         refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-        orgTypeList: viewer ? viewer.allOrgTypes : null,
+        orgTypeList: viewer ? viewer.allOrganizationTypes : null,
       }),
   })
 )

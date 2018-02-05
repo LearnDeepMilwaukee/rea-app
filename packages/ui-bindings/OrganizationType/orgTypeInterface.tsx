@@ -1,5 +1,5 @@
 /**
- * A This file defines common interfaces for the OrgType object
+ * A This file defines common interfaces for the OrganizationType object
  *
  * @package: REA app
  * @author:  Ryan Guinn <guinnrd@msoe.edu>
@@ -9,12 +9,12 @@
 import { gql } from "react-apollo";
 
 export const orgTypeInterface = gql`
-fragment orgTypeInterface on OrgType {
+fragment orgTypeInterface on OrganizationType {
   id
   name
 }`;
 
-export interface OrgType {
+export interface OrganizationType {
   id: number
   name: String
 }
