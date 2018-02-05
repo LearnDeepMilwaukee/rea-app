@@ -9,7 +9,7 @@
 
 import * as React from "react";
 import "./api.css"
-import GetOrgTypes from "../../../ui-bindings/OrgType/getOrgTypes.js";
+import GetOrgTypes from "../../../ui-bindings/OrgType/getAllOrgTypes.js";
 import GetOrgType from "../../../ui-bindings/OrgType/getOrgTypeById.js"
 
 export const OrgType = (props) => {
