@@ -13,17 +13,21 @@ export const processClassificationInterface = gql`
 fragment processClassificationInterface on ProcessClassification {
   id
   name
-  note
+}`;
+
+/*
+note
   #scope {
   #  id
   #}
   estimatedDuration
-}`;
+ */
+
 
 export interface ProcessClassification {
   id: number
   name: String
-  note: String
+  //note: String
   //scope: Agent
-  estimatedDuration: String
+  //estimatedDuration: String
 }
