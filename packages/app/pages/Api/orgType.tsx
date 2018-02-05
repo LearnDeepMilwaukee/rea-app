@@ -9,8 +9,8 @@
 
 import * as React from "react";
 import "./api.css"
-import GetOrgTypes from "../../../ui-bindings/Unit/getOrgTypes.js";
-import GetOrgType from "../../../ui-bindings/Unit/getOrgTypeById.js"
+import GetOrgTypes from "../../../ui-bindings/OrgType/getOrgTypes.js";
+import GetOrgType from "../../../ui-bindings/OrgType/getOrgTypeById.js"
 
 export const OrgType = (props) => {
   return(
@@ -26,34 +26,34 @@ const OrgTypeField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
-        Enter an Id: <input type="text" name="value" onChange={props.setUnit}/>
+        Enter an Id: <input type="text" name="value" onChange={props.setOrgType}/>
         <input type="submit" value="query"/>
       </form>
     </div>
   );
 };
 
-export const UnitList = GetUnits(({ unitList, loading, error}) => {
+export const OrgTypeList = GetOrgTypes(({ orgTypeList, loading, error}) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          {unitList.map( (unit) => (<Unit key={unit.id} id={unit.id} name={unit.name} symbol={unit.symbol}/>))}
+          {orgTypeList.map( (orgType) => (<OrgType key={orgType.id} id={orgType.id} name={orgType.name}/>))}
         </div>
       )
     )
   );
 });
 
-export const GetSingleUnit = GetUnit(
+export const GetSingleOrgType = GetOrgType(
   (
-    { unit, loading, error }
+    { orgType, loading, error }
   ) => {
     return (
       loading ? <strong>Loading...</strong> : (
         error ? <p style={{color: "#F00"}}>API error</p> : (
           <div>
-            <Unit id={unit.id} name={unit.name} symbol={unit.symbol}/>
+            <OrgType id={orgType.id} name={orgType.name}/>
           </div>
         )
       )
@@ -64,34 +64,34 @@ export const GetSingleUnit = GetUnit(
 class App extends React.Component {
 
   state = {
-    getOneUnitId: null,
-    setOneUnitId: null
+    getOneOrgTypeId: null,
+    setOneOrgTypeId: null
   };
 
   // Runs every time the input field changes
-  getUnitById = (event) => {
-    this.setState({setOneUnitId: parseInt(event.target.value, 10)});
+  getOrgTypeById = (event) => {
+    this.setState({setOneOrgTypeId: parseInt(event.target.value, 10)});
   };
 
   // Runs when "submit" is selected
   stopRefresh = (event) => {
     // Sets the value to query to the current value of the input field
-    this.setState({getOneUnitId: this.state.setOneUnitId});
+    this.setState({getOneOrgTypeId: this.state.setOneOrgTypeId});
     event.preventDefault();
   };
 
   render() {
-    const {getOneUnitId} = this.state;
+    const {getOneOrgTypeId} = this.state;
     return (
       <div>
-        <h2>List of all units: </h2>
+        <h2>List of all organizationTypes: </h2>
         <br/>
-        <UnitList/>
+        <OrgTypeList/>
         <br/>
-        <h2>Get Unit by Id: </h2>
+        <h2>Get OrgType by Id: </h2>
         <br/>
-        <UnitField setUnit={this.getUnitById} onSubmitAction={this.stopRefresh}/>
-        {getOneUnitId ? <GetSingleUnit unitId={getOneUnitId}/> : <div>Enter a value</div>}
+        <OrgTypeField setOrgType={this.getOrgTypeById} onSubmitAction={this.stopRefresh}/>
+        {getOneOrgTypeId ? <GetSingleOrgType orgTypeId={getOneOrgTypeId}/> : <div>Enter a value</div>}
       </div>
     );
   }
