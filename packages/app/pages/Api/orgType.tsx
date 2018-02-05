@@ -34,7 +34,7 @@ const OrganizationTypeField = (props) => {
 };
 
 export const OrganizationTypeList = GetOrganizationTypes(({ orgTypeList, loading, error}) => {
-  console.log("test");
+  console.log("error" + error);
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
