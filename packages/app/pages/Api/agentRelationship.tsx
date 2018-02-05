@@ -86,7 +86,8 @@ class App extends React.Component {
         <h2>Get an Agent By Id: </h2>
         <br/>
         <AgentRelationshipField setAgentRelationship={this.getAgentRelationshipById} onSubmitAction={this.stopRefresh}/>
-        {getOneAgentRelationshipId ? <GetSingleAgentRelationship agentRelationshipId={getOneAgentRelationshipId}/> : <div>Enter a value</div>}
+        {getOneAgentRelationshipId ? <GetSingleAgentRelationship
+          agentRelationshipId={getOneAgentRelationshipId}/> : <div>Enter a value</div>}
         <br/>
         <h2>All Agent Relationships: </h2>
         <br/>
