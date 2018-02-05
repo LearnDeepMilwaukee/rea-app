@@ -16,6 +16,9 @@ export const ProcessClassification = (props) => {
     <div>
       <div>id: {props.id}</div>
       <div>name: {props.name}</div>
+      <div>note: {props.note}</div>
+      <div>scope: {props.scope}</div>
+      <div>estimatedDuration: {props.estimatedDuration}</div>
       <br/>
     </div>
   );
@@ -37,24 +40,21 @@ export const ProcessClassificationList = GetProcessClassifications(({ processCla
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          <div>
-            {processClassificationList.map( (processClassification) => (<ProcessClassification key={processClassification.id} id={processClassification.id} name={processClassification.name}/>))}
-          </div>
+          {processClassificationList.map( (processClassification) => (<ProcessClassification key={processClassification.id} id={processClassification.id} name={processClassification.name}
+                                                                                             note={processClassification.note} scope={processClassification.scope} estimatedDuration={processClassification.estimatedDuration}/>))}
         </div>
       )
     )
   );
 });
 
-export const GetSingleProcessClassification = GetProcessClassification(
-  (
-    { processClassification, loading, error }
-  ) => {
+export const GetSingleProcessClassification = GetProcessClassification(({ processClassification, loading, error }) => {
     return (
       loading ? <strong>Loading...</strong> : (
         error ? <p style={{color: "#F00"}}>API error</p> : (
           <div>
-            <ProcessClassification id={processClassification.id} name={processClassification.name}/>
+            <ProcessClassification id={processClassification.id} name={processClassification.name}
+                                   note={}{processClassification.note} scope={processClassification.scope} estimatedDuration={processClassification.estimatedDuration}/>
           </div>
         )
       )
