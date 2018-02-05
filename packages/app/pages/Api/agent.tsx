@@ -8,7 +8,7 @@
  */
 
 import * as React from "react";
-import "./api.css"
+import "./api.css";
 import getMyAgent from "../../../ui-bindings/Agent/getMyAgent.js";
 import getAllAgents from "../../../ui-bindings/Agent/getAllAgents.js";
 import getAgentById from "../../../ui-bindings/Agent/getAgentById";
@@ -39,14 +39,14 @@ function concatArray(array: JSON[]) {
   var retValue = "";
   console.log("Array: ", array, "\nIndex 0: ", array[0]);
   if (array[0] == null) {
-    return "none"
+    return "none";
   }
   retValue = array[0].id;
   for (var i = 1; i < array.length; i++) {
     retValue += ", ";
     retValue += array[i].id;
   }
-  return retValue
+  return retValue;
 }
 
 const AgentField = (props) => {

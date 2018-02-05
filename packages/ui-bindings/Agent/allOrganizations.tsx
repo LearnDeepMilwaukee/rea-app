@@ -6,11 +6,11 @@
  * @since:   2017-06-21
  */
 
-import { connect } from "react-redux"
-import { gql, graphql, compose } from "react-apollo"
+import { connect } from "react-redux";
+import { gql, graphql, compose } from "react-apollo";
 
-import { AppState } from "@vflows/store/types"
-import { getActiveLoginToken } from "@vflows/store/selectors/auth"
+import { AppState } from "@vflows/store/types";
+import { getActiveLoginToken } from "@vflows/store/selectors/auth";
 
 // import { coreAgentFields, coreOrganizationFields, coreEventsFields } from '../_fragments/Agent'
 
@@ -33,11 +33,11 @@ query($token: String) {
 // :TODO: we should separate Person / Organization to separate interfaces
 
 export interface AllOrgsType {
-  id: number,
-  note: string,
-  image: string,
-  name: string,
-  type: string,
+  id: number
+  note: string
+  image: string
+  name: string
+  type: string
 }
 
 export default compose(
@@ -60,4 +60,4 @@ export default compose(
       allOrgs: viewer ? viewer.allOrganizations : null,
     }),
   })
-)
+);

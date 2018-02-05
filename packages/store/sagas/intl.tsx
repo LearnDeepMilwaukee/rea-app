@@ -8,13 +8,13 @@
  * @since:   2017-03-31
  */
 
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from "redux-saga/effects"
 
 // import Api from 'services/api'
 
-import { ACTION_SET_LANG, ACTION_SET_LANG_FAILED, ACTION_SET_LANG_SUCCEEDED } from '../constants'
+import { ACTION_SET_LANG, ACTION_SET_LANG_FAILED, ACTION_SET_LANG_SUCCEEDED } from "../constants"
 
-import { LangSetActionPayload } from '../actions/intl'
+import { LangSetActionPayload } from "../actions/intl"
 
 export interface LangSetActionFailedPayload {
   type: string,

@@ -6,13 +6,13 @@
  * @since:   2017-06-21
  */
 
-import { connect } from "react-redux"
-import { gql, graphql, compose } from "react-apollo"
+import { connect } from "react-redux";
+import { gql, graphql, compose } from "react-apollo";
 
-import { AppState } from "@vflows/store/types"
-import { getActiveLoginToken } from "@vflows/store/selectors/auth"
+import { AppState } from "@vflows/store/types";
+import { getActiveLoginToken } from "@vflows/store/selectors/auth";
 
-import { coreAgentFields, coreOrganizationFields, coreEventsFields } from "../_fragments/Agent"
+import { coreAgentFields, coreOrganizationFields, coreEventsFields } from "../_fragments/Agent";
 
 const query = gql`
 query($token: String, $agentId: Int) {
@@ -109,20 +109,20 @@ interface Events {
 }
 
 export interface AgentType {
-  id: number,
-  note: string,
-  image: string,
-  name: string,
+  id: number
+  note: string
+  image: string
+  name: string
   agentProcesses?: Array<{
     id: number,
     name: string,
-  }>,
+  }>
   agentEconomicEvents?: Array<Events>
-  agentRelationships?: Array<AgentType>,
+  agentRelationships?: Array<AgentType>
   ownedEconomicResources?: Array<{
     id: number,
     resourceType: string,
-  }>,
+  }>
 }
 
 export default compose(
@@ -146,4 +146,4 @@ export default compose(
       agent: viewer ? viewer.agent : null,
     }),
   })
-)
+);
