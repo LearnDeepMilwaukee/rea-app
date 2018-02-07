@@ -43,7 +43,7 @@ export default compose(
         loading,
         error,
         refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-        processClassificationList: viewer ? viewer.allProcessClassifications : null,
+        processClassification: viewer ? viewer.allProcessClassifications : null,
       }),
   })
 )

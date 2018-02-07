@@ -11,7 +11,7 @@ import ProcessesPage from "./pages/Processes"
 import InventoryPage from "./pages/Inventory"
 import AccountsPage from "./pages/Accounts"
 import SingleProjectTemplate from "../ui-views/templates/SingleProjectTemplate"
-import ProcessClassificationList from "./pages/Api/processClassification"
+import ProcessClassificationPage from "./pages/Api/processClassification"
 import ProjectTemplate from "../ui-views/templates/ProjectTemplate"
 
 const routes = (
@@ -45,7 +45,7 @@ const routes = (
     </Route>
 
     <Route path="api">
-      <Route path="processClassification" component={ProcessClassificationList} />
+      <Route path="processClassification" component={ProcessClassificationPage} />
     </Route>
   </Route>
 )

@@ -8,17 +8,18 @@
 
 import * as React from "react";
 import "./api.css"
-import GetProcessClassifications from "../../../ui-bindings/ProcessClassification/getAllProcessClassifications";
-import GetProcessClassification from "../../../ui-bindings/ProcessClassification/getProcessClassificationById";
+import getAllProcessClassifications from "../../../ui-bindings/ProcessClassification/getAllProcessClassifications";
+import getProcessClassificationById from "../../../ui-bindings/ProcessClassification/getProcessClassificationById";
 
 export const ProcessClassification = (props) => {
+  var proClass = props.processClassification;
   return(
     <div>
-      <div>id: {props.id}</div>
-      <div>name: {props.name}</div>
-      <div>note: {props.note}</div>
-      <div>scope: {props.scope}</div>
-      <div>estimatedDuration: {props.estimatedDuration}</div>
+      <div>id: {proClass.id}</div>
+      <div>name: {proClass.name}</div>
+      <div>note: {proClass.note}</div>
+      <div>scope: {proClass.scope}</div>
+      <div>estimatedDuration: {proClass.estimatedDuration}</div>
       <br/>
     </div>
   );
@@ -35,32 +36,29 @@ const ProcessClassificationField = (props) => {
   );
 };
 
-export const ProcessClassificationList = GetProcessClassifications(({ processClassificationList, loading, error}) => {
+export const GetAllProcessClassifications = getAllProcessClassifications(({ processClassification, loading, error}) => {
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          {processClassificationList.map( (processClassification) => (<ProcessClassification key={processClassification.id} id={processClassification.id} name={processClassification.name}
-                                                                                             note={processClassification.note} scope={processClassification.scope} estimatedDuration={processClassification.estimatedDuration}/>))}
+          {processClassification}
         </div>
       )
     )
   );
 });
 
-export const GetSingleProcessClassification = GetProcessClassification(({ processClassification, loading, error }) => {
-    return (
-      loading ? <strong>Loading...</strong> : (
-        error ? <p style={{color: "#F00"}}>API error</p> : (
-          <div>
-            <ProcessClassification id={processClassification.id} name={processClassification.name}
-                                   note={}{processClassification.note} scope={processClassification.scope} estimatedDuration={processClassification.estimatedDuration}/>
-          </div>
-        )
+export const GetSingleProcessClassification = getProcessClassificationById(({ processClassification, loading, error }) => {
+  return (
+    loading ? <strong>Loading...</strong> : (
+      error ? <p style={{color: "#F00"}}>API error</p> : (
+        <div>
+          <ProcessClassification processClassification={processClassification}/>
+        </div>
       )
-    );
-  }
-);
+    )
+  );
+});
 
 class App extends React.Component {
 
@@ -85,14 +83,14 @@ class App extends React.Component {
     const {getOneProcessClassificationId} = this.state;
     return (
       <div>
-        <h2>All process classifications: </h2>
+        <h2>All ProcessClassifications: </h2>
         <br/>
-        <ProcessClassificationList/>
+        <GetAllProcessClassifications/>
         <br/>
-        <h2>ProcessClassification by Id: </h2>
+        <h2>Get a ProcessClassification by ID: </h2>
         <br/>
         <ProcessClassificationField setProcessClassification={this.getProcessClassificationById} onSubmitAction={this.stopRefresh}/>
-        {getOneProcessClassificationId ? <GetSingleProcessClassification processClassificationId={getOneProcessClassificationId}/> : <div>-------------------------------------------</div>}
+        {getOneProcessClassificationId ? <GetSingleProcessClassification processClassificationId={getOneProcessClassificationId}/> : <div>Enter a value</div>}
       </div>
     );
   }
