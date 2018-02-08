@@ -12,7 +12,7 @@ import getAllProcessClassifications from "../../../ui-bindings/ProcessClassifica
 import getProcessClassificationById from "../../../ui-bindings/ProcessClassification/getProcessClassificationById";
 
 export const ProcessClassification = (props) => {
-  var proClass = props.processClassification;
+  let proClass = props.processClassification;
   return(
     <div>
       <div>id: {proClass.id}</div>
@@ -24,6 +24,20 @@ export const ProcessClassification = (props) => {
     </div>
   );
 };
+
+function concatArray(array: JSON[]) {
+  let retValue = "";
+  console.log("Array: ", array, "\nIndex 0: ", array[0]);
+  if (array[0] == null) {
+    return "none"
+  }
+  retValue = array[0].id;
+  for (let i = 1; i < array.length; i++) {
+    retValue += ", ";
+    retValue += array[i].id;
+  }
+  return retValue
+}
 
 const ProcessClassificationField = (props) => {
   return(
@@ -41,7 +55,7 @@ export const GetAllProcessClassifications = getAllProcessClassifications(({ proc
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          <ProcessClassification processClassification={processClassification}/>
+          {concatArray(processClassification)}
         </div>
       )
     )
