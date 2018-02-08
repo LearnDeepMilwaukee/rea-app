@@ -6,11 +6,11 @@
  * @since:   2017-03-31
  */
 
-import { createReducer, createLeaf } from 'redux-action-helper'
+import { createReducer, createLeaf } from "redux-action-helper"
 
-import { LoginData, SigninActionPayload, SigninFailedPayload, SigninSucceededPayload } from '../actions/auth'
+import { LoginData, SigninActionPayload, SigninFailedPayload, SigninSucceededPayload } from "../actions/auth"
 
-import { ACTION_SIGNIN, ACTION_SIGNIN_SUCCEEDED, ACTION_SIGNIN_FAILED } from '../constants'
+import { ACTION_SIGNIN, ACTION_SIGNIN_SUCCEEDED, ACTION_SIGNIN_FAILED } from "../constants"
 
 export interface AuthState {
   activeLogin: number,
