@@ -13,6 +13,7 @@ import AccountsPage from "./pages/Accounts"
 import SingleProjectTemplate from "../ui-views/templates/SingleProjectTemplate"
 import UnitPage from "./pages/Api/unit"
 import AgentPage from "./pages/Api/agent"
+import EconomicResourcePage from "./pages/Api/economicResource";
 
 import ProjectTemplate from "../ui-views/templates/ProjectTemplate"
 
@@ -49,6 +50,7 @@ const routes = (
     <Route path="api">
       <Route path="unit" component={UnitPage} />
       <Route path="agent" component={AgentPage} />
+      <Route path="economicresource" component={EconomicResourcePage} />
     </Route>
   </Route>
 )
