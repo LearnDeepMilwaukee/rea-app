@@ -41,7 +41,7 @@ export const GetAllProcessClassifications = getAllProcessClassifications(({ proc
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          {processClassification}
+          <ProcessClassification processClassification={processClassification}/>
         </div>
       )
     )
@@ -87,7 +87,7 @@ class App extends React.Component {
         <br/>
         <GetAllProcessClassifications/>
         <br/>
-        <h2>Get a ProcessClassification by ID: </h2>
+        <h2>ProcessClassification by ID: </h2>
         <br/>
         <ProcessClassificationField setProcessClassification={this.getProcessClassificationById} onSubmitAction={this.stopRefresh}/>
         {getOneProcessClassificationId ? <GetSingleProcessClassification processClassificationId={getOneProcessClassificationId}/> : <div>Enter a value</div>}
