@@ -18,11 +18,14 @@ fragment economicResourceInterface on EconomicResource {
   trackingIdentifier
   image
   currentQuantity{
-    id
+    numericValue
+    unit{
+      name
+    }
   }
   note
   category
-  transfer{
+  transfers{
     id
   }
 }`;
@@ -35,5 +38,5 @@ export interface EconomicResource {
   currentQuantity: QuantityValue
   note: string
   category: string
-  transfer: [number] // TODO Replace with Transfer
+  transfers: [number] // TODO Replace with Transfer
 }

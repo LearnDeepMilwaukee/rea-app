@@ -10,15 +10,22 @@
 import * as React from "react";
 import "./api.css";
 import getAllEconomicResources from "../../../ui-bindings/EconomicResource/getAllEconomicResources";
+import {concatArray} from "./agent";
 
 
 export const EconomicResource = (props) => {
   var economicResource = props.economicResource;
   return(
     <div>
-      <div>id: {economicResource.id}</div>
-      <div>image: {economicResource.image}</div>
-      <div>note: {economicResource.note}</div>
+      <div>Id: {economicResource.id}</div>
+      <div>Resource Classification: {economicResource.resourceClassifiedAs.id}</div>
+      <div>Tracking Id: {economicResource.trackingIdentifier}</div>
+      <div>Image: {economicResource.image}</div>
+      <div>currentQuantity: {economicResource.currentQuantity.numericValue}
+        {" " + economicResource.currentQuantity.unit.name}</div>
+      <div>Note: {economicResource.note}</div>
+      <div>Category: {economicResource.category}</div>
+      <div>Transfers: {concatArray(economicResource.transfers)}</div>
       <br/>
     </div>
   );
@@ -72,7 +79,7 @@ class App extends React.Component {
     const {getOneEconomicResourceId} = this.state;
     return (
       <div>
-        <h2>All Agents: </h2>
+        <h2>All Economic Resources: </h2>
         <br/>
         <GetAllEconomicResources/>
       </div>
