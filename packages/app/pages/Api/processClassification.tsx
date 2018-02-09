@@ -25,31 +25,11 @@ export const ProcessClassification = (props) => {
   );
 };
 
-function formatArray(array: JSON[]) {
-  let proClassList = "";
-  console.log("Array: ", array);
-  if (array[0] == null) {
-    proClassList = <div>None</div>;
-  } else {
-    for (let i = 0; i < array.length; i++) {
-      proClassList += (
-        <p>=======================================================
-        id: " + array.id
-        name: " + array.name
-        note: " + array.note
-        estimatedDuration:  array.estimatedDuration
-        =======================================================</p>
-      );
-    }
-  }
-  return proClassList
-}
-
 const ProcessClassificationField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
-        ID: <input type="text" name="value" /*onChange={props.setProcessClassification}*/ id="idform"/>
+        ID: <input type="text" name="value" id="idform"/>
         <input type="submit" value="query"/>
       </form>
     </div>
@@ -60,9 +40,13 @@ export const GetAllProcessClassifications = getAllProcessClassifications(({ proc
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          {formatArray(processClassification)}
-        </div>
+        processClassification.map(processClassification => (
+          <div>
+            =======================================================<br/>
+            <ProcessClassification processClassification={processClassification}/>
+            =======================================================<br/>
+          </div>
+        ))
       )
     )
   );
@@ -127,7 +111,7 @@ class App extends React.Component {
         <br/>
         <h2>ProcessClassification by ID: </h2>
         <br/>
-        <ProcessClassificationField /*setProcessClassification={this.getProcessClassificationById}*/ onSubmitAction={/*this.stopRefresh*/this.getProcessClassificationById}/>
+        <ProcessClassificationField onSubmitAction={/*this.stopRefresh*/this.getProcessClassificationById}/>
         {/*{getOneProcessClassificationId ? <GetSingleProcessClassification processClassificationId={getOneProcessClassificationId}/> : <div>Enter a value</div>}*/}
         <GetSingleProcessClassification processClassificationId={this.state.procId} />
       </div>
