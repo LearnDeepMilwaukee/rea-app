@@ -12,9 +12,9 @@ import getAllProcessClassifications from "../../../ui-bindings/ProcessClassifica
 import getProcessClassificationById from "../../../ui-bindings/ProcessClassification/getProcessClassificationById";
 
 export const ProcessClassification = (props) => {
-  console.log("PROPS: ", props);
+  //console.log("PROPS: ", props);
   let proClass = props.processClassification;
-  console.log(proClass);
+  //console.log(proClass);
   return(
     <div>
       <div>id: {proClass.id}</div>
@@ -53,7 +53,6 @@ export const GetAllProcessClassifications = getAllProcessClassifications( ({ pro
       {
         processClassifications.map(processClassification => (
           <div>
-            <p>{processClassification.id}</p>
             =======================================================<br/>
             <ProcessClassification processClassification={processClassification}/>
             =======================================================<br/>
@@ -83,26 +82,19 @@ class App extends React.Component {
 
   state = {
     procId: undefined
-    // getOneProcessClassificationId: null,
-    // setOneProcessClassificationId: null
   };
 
   // Runs every time the input field changes
   getProcessClassificationById = (event) => {
     event.preventDefault();
-    // this.setState({setOneProcessClassificationId: parseInt(event.target.value, 10)});
-
     let procId = document.getElementById("idForm").value;
     this.setState({procId: procId});
   };
 
-  // Runs when "submit" is selected
-  // stopRefresh = (event) => {
-  //   // Sets the value to query to the current value of the input field
-  //   this.setState({getOneProcessClassificationId: this.state.setOneProcessClassificationId});
-  //   event.preventDefault();
-  // };
-
+  /*
+   *  todo: see if error has any attributes or if it's just a bool
+   *  todo: invalid id should say "no matches"?
+   */
   render() {
     const {getOneProcessClassificationId} = this.state;
     return (
