@@ -46,7 +46,7 @@ export const GetAllProcessClassifications = getAllProcessClassifications( ({ pro
     return <p>Error!</p>
   }
 
-  console.log("Process Classifications (coming back from API)", processClassifications);
+  //console.log("Process Classifications (coming back from API)", processClassifications);
 
   return (
     <div>
@@ -64,6 +64,7 @@ export const GetAllProcessClassifications = getAllProcessClassifications( ({ pro
 
 export const GetSingleProcessClassification = getProcessClassificationById( ({ processClassification, loading, error }) => {
 
+  console.log("Loading ", loading, " | Error ", error);
   if (loading) {
     return <p>Loading...</p>
   } else if (error) {
@@ -78,12 +79,10 @@ export const GetSingleProcessClassification = getProcessClassificationById( ({ p
 });
 
 class App extends React.Component {
-
   state = {
     procId: undefined
   };
 
-  // Runs every time the input field changes
   getProcessClassificationById = (event) => {
     event.preventDefault();
     let procId = document.getElementById("idForm").value;
@@ -102,6 +101,7 @@ class App extends React.Component {
         <h2>ProcessClassification by ID: </h2>
         <br/>
         <ProcessClassificationField onSubmitAction={this.getProcessClassificationById}/>
+        <br/>
         {this.state.procId ? <GetSingleProcessClassification processClassificationId={this.state.procId} /> : <p>No matches</p>}
         <br/>
         <h2>All ProcessClassifications: </h2>
