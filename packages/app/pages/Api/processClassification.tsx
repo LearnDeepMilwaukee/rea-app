@@ -29,16 +29,16 @@ function formatArray(array: JSON[]) {
   let proClassList = "";
   console.log("Array: ", array);
   if (array[0] == null) {
-    proClassList = "None";
+    proClassList = <div>None</div>;
   } else {
     for (let i = 0; i < array.length; i++) {
       proClassList += (
-        "=======================================================" +
-        "\nd: " + array.id +
-        "\nname: " + array.name +
-        "\nnote: " + array.note +
-        "\nestimatedDuration: " + array.estimatedDuration +
-        "======================================================="
+        <p>=======================================================
+        id: " + array.id
+        name: " + array.name
+        note: " + array.note
+        estimatedDuration:  array.estimatedDuration
+        =======================================================</p>
       );
     }
   }
