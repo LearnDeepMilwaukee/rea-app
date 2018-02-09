@@ -25,18 +25,24 @@ export const ProcessClassification = (props) => {
   );
 };
 
-function concatArray(array: JSON[]) {
-  let retValue = "";
-  console.log("Array: ", array, "\nIndex 0: ", array[0]);
+function formatArray(array: JSON[]) {
+  let proClassList = "";
+  console.log("Array: ", array);
   if (array[0] == null) {
-    return "none"
+    proClassList = "None";
+  } else {
+    for (let i = 0; i < array.length; i++) {
+      proClassList += (
+        "=======================================================" +
+        "\nd: " + array.id +
+        "\nname: " + array.name +
+        "\nnote: " + array.note +
+        "\nestimatedDuration: " + array.estimatedDuration +
+        "======================================================="
+      );
+    }
   }
-  retValue = array[0].id;
-  for (let i = 1; i < array.length; i++) {
-    retValue += ", ";
-    retValue += array[i].id;
-  }
-  return retValue
+  return proClassList
 }
 
 const ProcessClassificationField = (props) => {
@@ -55,7 +61,7 @@ export const GetAllProcessClassifications = getAllProcessClassifications(({ proc
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          {concatArray(processClassification)}
+          {formatArray(processClassification)}
         </div>
       )
     )
