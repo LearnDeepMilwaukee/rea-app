@@ -95,12 +95,13 @@ class App extends React.Component {
    *  todo: invalid id should say "no matches"?
    */
   render() {
-    const {getOneProcessClassificationId} = this.state;
+    //const {getOneProcessClassificationId} = this.state;
     return (
       <div>
+        <br/>
         <h2>ProcessClassification by ID: </h2>
         <br/>
-        <ProcessClassificationField onSubmitAction={/*this.stopRefresh*/this.getProcessClassificationById}/>
+        <ProcessClassificationField onSubmitAction={this.getProcessClassificationById}/>
         {this.state.procId ? <GetSingleProcessClassification processClassificationId={this.state.procId} /> : <p>No matches</p>}
         <br/>
         <h2>All ProcessClassifications: </h2>
