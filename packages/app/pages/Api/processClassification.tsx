@@ -55,7 +55,6 @@ export const GetAllProcessClassifications = getAllProcessClassifications( ({ pro
           <div>
             =======================================================<br/>
             <ProcessClassification processClassification={processClassification}/>
-            =======================================================<br/>
           </div>
         ))
       }
@@ -99,15 +98,14 @@ class App extends React.Component {
     const {getOneProcessClassificationId} = this.state;
     return (
       <div>
-        <h2>All ProcessClassifications: </h2>
-        <br/>
-        <GetAllProcessClassifications/>
-        <br/>
         <h2>ProcessClassification by ID: </h2>
         <br/>
         <ProcessClassificationField onSubmitAction={/*this.stopRefresh*/this.getProcessClassificationById}/>
-        {/*{getOneProcessClassificationId ? <GetSingleProcessClassification processClassificationId={getOneProcessClassificationId}/> : <div>Enter a value</div>}*/}
         {this.state.procId ? <GetSingleProcessClassification processClassificationId={this.state.procId} /> : <p>No matches</p>}
+        <br/>
+        <h2>All ProcessClassifications: </h2>
+        <br/>
+        <GetAllProcessClassifications/>
       </div>
     );
   }
