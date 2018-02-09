@@ -1,7 +1,9 @@
 /**
  * The interface for a ProcessClassification
- * @author:
- * @since:
+ *
+ * @package: REA app
+ * @author: Nicholas Roth <Lou3797>
+ * @since: 2018-1-28
  */
 
 import { gql } from "react-apollo";
@@ -20,10 +22,13 @@ fragment processClassificationInterface on ProcessClassification {
   estimatedDuration
 }`;
 
+/**
+ * Object type specifications
+ */
 export interface ProcessClassification {
   id: number
   name: String
   note: String
-  scope: Object
+  scope: Object // To be replaced with Agent
   estimatedDuration: String
 }

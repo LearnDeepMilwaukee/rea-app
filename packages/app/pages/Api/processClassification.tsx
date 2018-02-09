@@ -1,9 +1,9 @@
 /**
- * A react element that fetches all ProcessClassifications
+ * The page to display all ProcessClassifications in the databse and to allow the user to query one by ID
  *
- * @package:
- * @author:
- * @since:
+ * @package: REA app
+ * @author: Nicholas Roth <Lou3797>
+ * @since: 2018-1-28
  */
 
 import * as React from "react";
@@ -11,6 +11,10 @@ import "./api.css"
 import getAllProcessClassifications from "../../../ui-bindings/ProcessClassification/getAllProcessClassifications";
 import getProcessClassificationById from "../../../ui-bindings/ProcessClassification/getProcessClassificationById";
 
+/**
+ * How to render a single ProcessClassification
+ * @param props Parameters of the ProcessClassification
+ */
 export const ProcessClassification = (props) => {
   let proClass = props.processClassification;
   return(
@@ -25,17 +29,23 @@ export const ProcessClassification = (props) => {
   );
 };
 
+/**
+ * The query field for fetching a ProcessClassification by ID
+ */
 const ProcessClassificationField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
         ID: <input type="text" name="value" id="idForm"/>
-        <input type="submit" value="query"/>
+        <input type="submit" value="Query"/>
       </form>
     </div>
   );
 };
 
+/**
+ * Maps the array of ProcessClassifications to their individual pieces
+ */
 export const GetAllProcessClassifications = getAllProcessClassifications( ({ processClassifications, loading, error}) => {
 
   if (loading) {
@@ -58,6 +68,9 @@ export const GetAllProcessClassifications = getAllProcessClassifications( ({ pro
   );
 });
 
+/**
+ * Takes the given ProcessClassification and returns its individual information
+ */
 export const GetSingleProcessClassification = getProcessClassificationById( ({ processClassification, loading, error }) => {
 
   if (loading) {
@@ -73,6 +86,9 @@ export const GetSingleProcessClassification = getProcessClassificationById( ({ p
   );
 });
 
+/**
+ * Main component of page.
+ */
 class App extends React.Component {
   state = {
     procId: undefined

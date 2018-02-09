@@ -1,8 +1,9 @@
 /**
+ * Used to call the "ProcessClassifications(id)" query from ViewerQuery
  *
- * @package:
- * @author:
- * @since:
+ * @package: REA app
+ * @author: Nicholas Roth <Lou3797>
+ * @since: 2018-1-28
  */
 
 import { connect } from "react-redux";
@@ -13,6 +14,9 @@ import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 
 import { processClassificationInterface } from "./processClassificationInterface";
 
+/**
+ * The query call
+ */
 const query = gql`
 query($token: String, $ProcessClassificationId: Int) {
   viewer(token: $token) {
@@ -25,7 +29,7 @@ ${processClassificationInterface}
 `;
 
 export default compose(
-  // bind input data from the store
+  // Bind input data from the store
   connect((state: AppState) => ({
     variables: {
       token: getActiveLoginToken(state),
@@ -33,7 +37,7 @@ export default compose(
   })),
 
   graphql(query, {
-    // read query vars into query from input data above
+    // Read query vars into query from input data above
     options: (props) => (
       {
         variables: {
@@ -42,7 +46,7 @@ export default compose(
         }
       }),
 
-    // transform output data
+    // Transform output data
     props: ({ ownProps, data: { viewer, loading, error } }) => (
       {
         loading,
