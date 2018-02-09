@@ -2,8 +2,8 @@ language: node_js
 node_js:
   - v7
 script:
-  - npm run lint && npm test -- --coverage
+  - npm test
 cache:
   - yarn
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+notifications:
+    slack: makerspacesdl:cWldupNutkajwtvaxoVvImbz
