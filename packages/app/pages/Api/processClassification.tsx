@@ -31,7 +31,7 @@ const ProcessClassificationField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
-        ID: <input type="text" name="value" id="idform"/>
+        ID: <input type="text" name="value" id="idForm"/>
         <input type="submit" value="query"/>
       </form>
     </div>
