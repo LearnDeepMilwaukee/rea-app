@@ -38,18 +38,19 @@ const ProcessClassificationField = (props) => {
 };
 
 export const GetAllProcessClassifications = getAllProcessClassifications(({ processClassification, loading, error}) => {
+
+  if (loading) {
+    return <p>Loading...</p>
+  } else if (error) {
+    return <p>Error!</p>
+  }
+
   return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        processClassification.map(processClassification => (
-          <div>
-            =======================================================<br/>
-            <ProcessClassification processClassification={processClassification}/>
-            =======================================================<br/>
-          </div>
-        ))
-      )
-    )
+    <div>
+      =======================================================<br/>
+      <ProcessClassification processClassification={processClassification}/>
+      =======================================================<br/>
+    </div>
   );
 });
 
