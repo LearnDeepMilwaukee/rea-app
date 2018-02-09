@@ -12,6 +12,7 @@ import getAllProcessClassifications from "../../../ui-bindings/ProcessClassifica
 import getProcessClassificationById from "../../../ui-bindings/ProcessClassification/getProcessClassificationById";
 
 export const ProcessClassification = (props) => {
+  console.log("PROPS: ", props);
   let proClass = props.processClassification;
   return(
     <div>
