@@ -15,20 +15,16 @@ export const ProcessClassification = (props) => {
   console.log("PROPS: ", props);
   let proClass = props.processClassification;
 
-  return (
-    <p>Test Data</p>
+  return(
+    <div>
+      <div>id: {proClass.id}</div>
+      <div>name: {proClass.name}</div>
+      <div>note: {proClass.note}</div>
+      <div>scope: {proClass.scope}</div>
+      <div>estimatedDuration: {proClass.estimatedDuration}</div>
+      <br/>
+    </div>
   );
-
-  // return(
-  //   <div>
-  //     <div>id: {proClass.id}</div>
-  //     <div>name: {proClass.name}</div>
-  //     <div>note: {proClass.note}</div>
-  //     <div>scope: {proClass.scope}</div>
-  //     <div>estimatedDuration: {proClass.estimatedDuration}</div>
-  //     <br/>
-  //   </div>
-  // );
 };
 
 const ProcessClassificationField = (props) => {
