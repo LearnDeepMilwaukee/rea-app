@@ -51,7 +51,7 @@ export const GetAllProcessClassifications = getAllProcessClassifications( ({ pro
   if (loading) {
     return <p>Loading...</p>
   } else if (error) {
-    return <p>Error!</p>
+    return (<p>Error!</p>)
   }
 
   return (
@@ -73,12 +73,17 @@ export const GetAllProcessClassifications = getAllProcessClassifications( ({ pro
  */
 export const GetSingleProcessClassification = getProcessClassificationById( ({ processClassification, loading, error }) => {
 
-  console.log("loading ", loading, " | error ", error);
+  console.log(error);
 
   if (loading) {
     return <p>Loading...</p>
   } else if (error) {
-    return <p>{error}</p>
+    return (
+      <div>
+      <p>Encountered Error</p>
+      <p>{error}</p>
+      </div>
+    )
   }
 
   return (
