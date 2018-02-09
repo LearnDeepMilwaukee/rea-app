@@ -14,16 +14,21 @@ import getProcessClassificationById from "../../../ui-bindings/ProcessClassifica
 export const ProcessClassification = (props) => {
   console.log("PROPS: ", props);
   let proClass = props.processClassification;
-  return(
-    <div>
-      <div>id: {proClass.id}</div>
-      <div>name: {proClass.name}</div>
-      <div>note: {proClass.note}</div>
-      <div>scope: {proClass.scope}</div>
-      <div>estimatedDuration: {proClass.estimatedDuration}</div>
-      <br/>
-    </div>
+
+  return (
+    <p>Test Data</p>
   );
+
+  // return(
+  //   <div>
+  //     <div>id: {proClass.id}</div>
+  //     <div>name: {proClass.name}</div>
+  //     <div>note: {proClass.note}</div>
+  //     <div>scope: {proClass.scope}</div>
+  //     <div>estimatedDuration: {proClass.estimatedDuration}</div>
+  //     <br/>
+  //   </div>
+  // );
 };
 
 const ProcessClassificationField = (props) => {
@@ -37,7 +42,7 @@ const ProcessClassificationField = (props) => {
   );
 };
 
-export const GetAllProcessClassifications = getAllProcessClassifications(({ processClassifications, loading, error}) => {
+export const GetAllProcessClassifications = getAllProcessClassifications( ({ processClassifications, loading, error}) => {
 
   if (loading) {
     return <p>Loading...</p>
@@ -49,20 +54,21 @@ export const GetAllProcessClassifications = getAllProcessClassifications(({ proc
 
   return (
     <div>
-    {
-      processClassifications.map(processClassification => (
-      <div>
-        =======================================================<br/>
-        <ProcessClassification processClassification={processClassification}/>
-        =======================================================<br/>
-      </div>
-      ))
-    }
+      {
+        processClassifications.map(processClassification => (
+          <div>
+            <p>{processClassification.id}</p>
+            =======================================================<br/>
+            <ProcessClassification processClassification={processClassification}/>
+            =======================================================<br/>
+          </div>
+        ))
+      }
     </div>
   );
 });
 
-export const GetSingleProcessClassification = getProcessClassificationById(({ processClassification, loading, error }) => {
+export const GetSingleProcessClassification = getProcessClassificationById( ({ processClassification, loading, error }) => {
 
   if (loading) {
     return <p>Loading...</p>
