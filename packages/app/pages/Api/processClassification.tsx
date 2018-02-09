@@ -119,7 +119,7 @@ class App extends React.Component {
         <br/>
         <ProcessClassificationField onSubmitAction={/*this.stopRefresh*/this.getProcessClassificationById}/>
         {/*{getOneProcessClassificationId ? <GetSingleProcessClassification processClassificationId={getOneProcessClassificationId}/> : <div>Enter a value</div>}*/}
-        <GetSingleProcessClassification processClassificationId={this.state.procId} />
+        {this.state.procId ? <GetSingleProcessClassification processClassificationId={this.state.procId} /> : <p>No matches</p>}
       </div>
     );
   }
