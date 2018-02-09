@@ -43,7 +43,7 @@ const ProcessClassificationField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
-        ID: <input type="text" name="value" onChange={props.setProcessClassification}/>
+        ID: <input type="text" name="value" /*onChange={props.setProcessClassification}*/ id="idform"/>
         <input type="submit" value="query"/>
       </form>
     </div>
@@ -63,35 +63,53 @@ export const GetAllProcessClassifications = getAllProcessClassifications(({ proc
 });
 
 export const GetSingleProcessClassification = getProcessClassificationById(({ processClassification, loading, error }) => {
+
+  if (loading) {
+    return <p>Loading...</p>
+  } else if (error) {
+    return <p>Error!</p>
+  }
+
   return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          <ProcessClassification processClassification={processClassification}/>
-        </div>
-      )
-    )
+    <div>
+      <ProcessClassification processClassification={processClassification}/>
+    </div>
   );
+
+  // return (
+  //   loading ? <strong>Loading...</strong> : (
+  //     error ? <p style={{color: "#F00"}}>API error</p> : (
+  //       <div>
+  //         <ProcessClassification processClassification={processClassification}/>
+  //       </div>
+  //     )
+  //   )
+  // );
 });
 
 class App extends React.Component {
 
   state = {
-    getOneProcessClassificationId: null,
-    setOneProcessClassificationId: null
+    procId: undefined
+    // getOneProcessClassificationId: null,
+    // setOneProcessClassificationId: null
   };
 
   // Runs every time the input field changes
   getProcessClassificationById = (event) => {
-    this.setState({setOneProcessClassificationId: parseInt(event.target.value, 10)});
+    event.preventDefault();
+    // this.setState({setOneProcessClassificationId: parseInt(event.target.value, 10)});
+
+    let procId = document.getElementById("idForm").value;
+    this.setState({procId: procId});
   };
 
   // Runs when "submit" is selected
-  stopRefresh = (event) => {
-    // Sets the value to query to the current value of the input field
-    this.setState({getOneProcessClassificationId: this.state.setOneProcessClassificationId});
-    event.preventDefault();
-  };
+  // stopRefresh = (event) => {
+  //   // Sets the value to query to the current value of the input field
+  //   this.setState({getOneProcessClassificationId: this.state.setOneProcessClassificationId});
+  //   event.preventDefault();
+  // };
 
   render() {
     const {getOneProcessClassificationId} = this.state;
@@ -103,8 +121,9 @@ class App extends React.Component {
         <br/>
         <h2>ProcessClassification by ID: </h2>
         <br/>
-        <ProcessClassificationField setProcessClassification={this.getProcessClassificationById} onSubmitAction={this.stopRefresh}/>
-        {getOneProcessClassificationId ? <GetSingleProcessClassification processClassificationId={getOneProcessClassificationId}/> : <div>Enter a value</div>}
+        <ProcessClassificationField /*setProcessClassification={this.getProcessClassificationById}*/ onSubmitAction={/*this.stopRefresh*/this.getProcessClassificationById}/>
+        {/*{getOneProcessClassificationId ? <GetSingleProcessClassification processClassificationId={getOneProcessClassificationId}/> : <div>Enter a value</div>}*/}
+        <GetSingleProcessClassification processClassificationId={this.state.procId} />
       </div>
     );
   }
