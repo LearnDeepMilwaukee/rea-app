@@ -37,7 +37,7 @@ const ProcessClassificationField = (props) => {
   );
 };
 
-export const GetAllProcessClassifications = getAllProcessClassifications(({ processClassification, loading, error}) => {
+export const GetAllProcessClassifications = getAllProcessClassifications(({ processClassifications, loading, error}) => {
 
   if (loading) {
     return <p>Loading...</p>
@@ -45,12 +45,16 @@ export const GetAllProcessClassifications = getAllProcessClassifications(({ proc
     return <p>Error!</p>
   }
 
+  console.log("Process Classifications (coming back from API)", processClassifications);
+
   return (
-    <div>
-      =======================================================<br/>
-      <ProcessClassification processClassification={processClassification}/>
-      =======================================================<br/>
-    </div>
+    processClassifications.map(processClassification => (
+      <div>
+        =======================================================<br/>
+        <ProcessClassification processClassification={processClassification}/>
+        =======================================================<br/>
+      </div>
+    ))
   );
 });
 
@@ -67,16 +71,6 @@ export const GetSingleProcessClassification = getProcessClassificationById(({ pr
       <ProcessClassification processClassification={processClassification}/>
     </div>
   );
-
-  // return (
-  //   loading ? <strong>Loading...</strong> : (
-  //     error ? <p style={{color: "#F00"}}>API error</p> : (
-  //       <div>
-  //         <ProcessClassification processClassification={processClassification}/>
-  //       </div>
-  //     )
-  //   )
-  // );
 });
 
 class App extends React.Component {
