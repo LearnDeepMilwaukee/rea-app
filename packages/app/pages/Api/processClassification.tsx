@@ -78,7 +78,7 @@ export const GetSingleProcessClassification = getProcessClassificationById( ({ p
   if (loading) {
     return <p>Loading...</p>
   } else if (error) {
-    return <p>Error!</p>
+    return <p>{error}</p>
   }
 
   return (
