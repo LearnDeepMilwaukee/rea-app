@@ -48,13 +48,17 @@ export const GetAllProcessClassifications = getAllProcessClassifications(({ proc
   console.log("Process Classifications (coming back from API)", processClassifications);
 
   return (
-    processClassifications.map(processClassification => (
+    <div>
+    {
+      processClassifications.map(processClassification => (
       <div>
         =======================================================<br/>
         <ProcessClassification processClassification={processClassification}/>
         =======================================================<br/>
       </div>
-    ))
+      ))
+    }
+    </div>
   );
 });
 
