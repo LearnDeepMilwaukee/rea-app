@@ -12,9 +12,7 @@ import getAllProcessClassifications from "../../../ui-bindings/ProcessClassifica
 import getProcessClassificationById from "../../../ui-bindings/ProcessClassification/getProcessClassificationById";
 
 export const ProcessClassification = (props) => {
-  //console.log("PROPS: ", props);
   let proClass = props.processClassification;
-  //console.log(proClass);
   return(
     <div>
       <div>id: {proClass.id}</div>
@@ -46,8 +44,6 @@ export const GetAllProcessClassifications = getAllProcessClassifications( ({ pro
     return <p>Error!</p>
   }
 
-  //console.log("Process Classifications (coming back from API)", processClassifications);
-
   return (
     <div>
       {
@@ -64,7 +60,6 @@ export const GetAllProcessClassifications = getAllProcessClassifications( ({ pro
 
 export const GetSingleProcessClassification = getProcessClassificationById( ({ processClassification, loading, error }) => {
 
-  console.log("Loading ", loading, " | Error ", error);
   if (loading) {
     return <p>Loading...</p>
   } else if (error) {
@@ -89,12 +84,7 @@ class App extends React.Component {
     this.setState({procId: procId});
   };
 
-  /*
-   *  todo: see if error has any attributes or if it's just a bool
-   *  todo: invalid id should say "no matches"?
-   */
   render() {
-    //const {getOneProcessClassificationId} = this.state;
     return (
       <div>
         <br/>
