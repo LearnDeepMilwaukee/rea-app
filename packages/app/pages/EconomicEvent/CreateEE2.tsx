@@ -10,7 +10,7 @@ import { graphql } from "graphql";
  */
 class CreateEconomicEvent extends React.Component {
 
-  handleClick(event) {
+  handleClick = (event) => {
     event.preventDefault();
     console.log("Button clicked");
 
@@ -41,8 +41,14 @@ class CreateEconomicEvent extends React.Component {
 
     console.log("The button was clicked");
 
+    // console.log("Props:", props);
+    console.log("This.Props:", this.props);
+
     this.props.mutate({
-      variables: data
+      variables: {
+        object1: "A",
+        objectB: "2"
+      }
     }).then( ({data}) => {
       console.log("Got Data", data);
     }).catch( (error) => {
@@ -58,12 +64,12 @@ class CreateEconomicEvent extends React.Component {
       <div>
         <h1>Create Economic Event</h1>
 
-        <button onClick={handleClick}>Click Me</button>
+        <button onClick={this.handleClick}>Click Me</button>
       </div>
     );
   }
 }
 
-const Test = graphql(mutation)(CreateEconomicEvent);
+const Test = createEconomicEvent(CreateEconomicEvent);
 
 export default Test;
