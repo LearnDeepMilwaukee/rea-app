@@ -16,6 +16,7 @@ import ProjectTemplate from "../ui-views/templates/ProjectTemplate"
 import AgentSandbox from "./pages/AgentSandbox/AgentSandbox";
 import EconomicEvent from "./pages/EconomicEvent/EconomicEvent";
 import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
+import CreateEE2 from "./pages/EconomicEvent/CreateEE2";
 
 const routes = (
   <Route path="/" component={App}>
@@ -55,8 +56,8 @@ const routes = (
       <IndexRoute component={EconomicEvent} />
     </Route>
 
-    <Route path="CreateEconomicEvent" component={CreateEconomicEvent}>
-      <IndexRoute component={CreateEconomicEvent} />
+    <Route path="CreateEconomicEvent" component={CreateEE2}>
+      <IndexRoute component={CreateEE2} />
     </Route>
 
   </Route>

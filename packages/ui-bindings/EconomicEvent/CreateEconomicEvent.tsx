@@ -3,7 +3,7 @@ import { gql, graphql, compose } from "react-apollo"
 import { AppState } from "@vflows/store/types"
 import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 
-const mutation = gql`
+export const mutation = gql`
   mutation(
     $receiverId: Int,
     $fulfillsCommitmentId: Int,
@@ -98,26 +98,36 @@ export default compose(
     }
   })),
 
-  graphql(mutation, {
-    options: (props) => (console.log("Received", props, "for the mutation"), {
-      variables: {
-        ...props.variables,
-        ...props.data
-      },
-    }),
-  // }), // TODO delete
-    props:
-      ({
-         data: {
-           createEconomicEvent,
-           loading,
-           error
-         }
-       }) =>
-        (console.log("Inside props", error), {
-          // economicEvent: createEconomicEvent ? createEconomicEvent.economicEvent : null,
-          // loading,
-          error
-        }),
-  })
+  graphql(mutation)
 );
+
+// export default compose(
+//   connect(state => ({
+//     variables: {
+//       token: getActiveLoginToken(state)
+//     }
+//   })),
+
+//   graphql(mutation, {
+//     options: (props) => (console.log("Received", props, "for the mutation"), {
+//       variables: {
+//         ...props.variables,
+//         ...props.data
+//       },
+//     }),
+//   // }), // TODO delete
+//     props:
+//       ({
+//          data: {
+//            createEconomicEvent,
+//            loading,
+//            error
+//          }
+//        }) =>
+//         (console.log("Inside props", error), {
+//           // economicEvent: createEconomicEvent ? createEconomicEvent.economicEvent : null,
+//           // loading,
+//           error
+//         }),
+//   })
+// );
