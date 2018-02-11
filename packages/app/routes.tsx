@@ -11,12 +11,16 @@ import ProcessesPage from "./pages/Processes"
 import InventoryPage from "./pages/Inventory"
 import AccountsPage from "./pages/Accounts"
 import SingleProjectTemplate from "../ui-views/templates/SingleProjectTemplate"
-import ProjectTemplate from "../ui-views/templates/ProjectTemplate"
 
-import AgentSandbox from "./pages/AgentSandbox/AgentSandbox";
-import EconomicEvent from "./pages/EconomicEvent/EconomicEvent";
 import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
 import CreateEE2 from "./pages/EconomicEvent/CreateEE2";
+import UnitPage from "./pages/Api/unit"
+import AgentPage from "./pages/Api/agent"
+
+import ProjectTemplate from "../ui-views/templates/ProjectTemplate"
+
+import EconomicEvent from "./pages/EconomicEvent/EconomicEvent";
+import AgentRelationshipRoles from "./pages/AgentRelationshipRole/AgentRelationshipRole";
 
 const routes = (
   <Route path="/" component={App}>
@@ -48,12 +52,11 @@ const routes = (
       <Route path="my-skills" component={Todo} />
     </Route>
 
-    <Route path="AgentSandbox" component={AgentSandbox}>
-      <IndexRoute component={AgentSandbox} />
-    </Route>
-
-    <Route path="EconomicEvent" component={EconomicEvent}>
-      <IndexRoute component={EconomicEvent} />
+    <Route path="api">
+      <Route path="unit" component={UnitPage} />
+      <Route path="agent" component={AgentPage} />
+      <Route path="economicevent" component={EconomicEvent} />
+      <Route path="agentrelationshiprole" component={AgentRelationshipRoles} />
     </Route>
 
     <Route path="CreateEconomicEvent" component={CreateEE2}>
