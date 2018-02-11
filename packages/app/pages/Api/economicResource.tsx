@@ -10,7 +10,7 @@
 import * as React from "react";
 import "./api.css";
 import getAllEconomicResources from "../../../ui-bindings/EconomicResource/getAllEconomicResources";
-import {concatArray} from "./agent";
+import { concatArray } from "./agent";
 import getEconomicResourceById from "../../../ui-bindings/EconomicResource/getEconomicResourceById";
 
 export const EconomicResource = (props) => {
