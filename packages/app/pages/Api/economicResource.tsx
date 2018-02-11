@@ -11,7 +11,7 @@ import * as React from "react";
 import "./api.css";
 import getAllEconomicResources from "../../../ui-bindings/EconomicResource/getAllEconomicResources";
 import {concatArray} from "./agent";
-
+import getEconomicResourceById from "../../../ui-bindings/EconomicResource/getEconomicResourceById";
 
 export const EconomicResource = (props) => {
   var economicResource = props.economicResource;
@@ -41,6 +41,18 @@ const EconomicResourceField = (props) => {
     </div>
   );
 };
+
+export const GetSingleEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
+  return (
+    loading ? <strong>Loading...</strong> : (
+      error ? <p style={{color: "#F00"}}>API error</p> : (
+        <div>
+          <EconomicResource economicResource={economicResource}/>
+        </div>
+      )
+    )
+  );
+});
 
 export const GetAllEconomicResources = getAllEconomicResources(({ economicResourceList, loading, error}) => {
   return (
@@ -79,6 +91,15 @@ class App extends React.Component {
     const {getOneEconomicResourceId} = this.state;
     return (
       <div>
+        <h2>Get an Economic Resource By Id: </h2>
+        <br/>
+        <EconomicResourceField setEconomicResource={this.getEconomicResourceById} onSubmitAction={this.stopRefresh}/>
+        {
+          getOneEconomicResourceId ?
+          <GetSingleEconomicResource economicResourceId={getOneEconomicResourceId}/> :
+          <div>Enter a value</div>
+        }
+        <br/>
         <h2>All Economic Resources: </h2>
         <br/>
         <GetAllEconomicResources/>

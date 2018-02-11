@@ -47,4 +47,4 @@ export default compose(
         economicResourceList: viewer ? viewer.allEconomicResources : null,
       }),
   })
-)
+);
