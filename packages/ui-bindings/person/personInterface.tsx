@@ -7,40 +7,30 @@
  */
 
 import { gql } from "react-apollo";
+import { agentInterface } from "../Agent/agentInterface";
 
 /**
  * GraphQL Query fragment for a Person
  */
-export const processClassificationInterface = gql`
-fragment processClassificationInterface on ProcessClassification {
-  id
-  name
-  type
-  image
-  note
-  ownedEconomicResources
-  agentProcesses
-  agentPlan
-  agentEconomicEvents
-  agentCommitments
-  agentRelationships
-  agentRoles
-  agentRecipes
-}`;
+export const personInterface = gql`
+fragment organizationInterface on Organization {
+  ...agentInterface
+}
+${agentInterface}
+`;
 
-/**
- * Object type specifications
- */
-export interface ProcessClassification {
-  id: number
-  name: String
-  note: String
-  ownedEconomicResources: String
-  agentProcesses: String
-  agentPlan: String
-  agentEconomicEvents: String
-  agentCommitments: String
-  agentRelationships: String
-  agentRoles: String
-  agentRecipes: String
+export interface Person {
+  id: number,
+  name: string,
+  type: string,
+  image: string,
+  note: string,
+  ownedEconomicResources: [number],
+  agentProcesses: [number],
+  agentPlans: [number],
+  agentEconomicEvents: [number],
+  agentCommitments: [number],
+  agentRelationships: [number],
+  agentRoles: [number],
+  agentRecipies: [number]
 }
