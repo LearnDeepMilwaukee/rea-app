@@ -7,6 +7,7 @@
  */
 
 import { gql } from "react-apollo";
+import {Agent} from "../Agent/agentInterface";
 
 /**
  * GraphQL Query fragment for a ProcessClassification
@@ -29,6 +30,6 @@ export interface ProcessClassification {
   id: number
   name: String
   note: String
-  scope: Object // To be replaced with Agent
+  scope: Agent
   estimatedDuration: String
 }
