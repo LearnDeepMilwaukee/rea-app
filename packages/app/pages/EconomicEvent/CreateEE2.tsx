@@ -3,6 +3,7 @@ import * as React from "react";
 import { mutation } from "../../../ui-bindings/EconomicEvent/CreateEconomicEvent";
 import createEconomicEvent from "../../../ui-bindings/EconomicEvent/CreateEconomicEvent";
 import { graphql } from "graphql";
+// import { AppState } from "@vflows/store/types"
 
 /**
  * Main component for the page. Contains a search box and a list of
@@ -34,7 +35,8 @@ class CreateEconomicEvent extends React.Component {
       action: "take",
       resourceTrackingIdentifier: "Nine",
       affectedResourceClassifiedAsId: 8,
-      resourceNote: "Five"
+      resourceNote: "Five",
+      token: "sampleToken"
     };
 
     // this.setState({variables: data});
@@ -46,13 +48,33 @@ class CreateEconomicEvent extends React.Component {
 
     this.props.mutate({
       variables: {
-        object1: "A",
-        objectB: "2"
+        affectedNumericValue: "4",
+        fulfillsCommitmentId: 1,
+        affectedUnitId: 4,
+        affectsId: 4,
+        outputOfId: 8,
+        resourceImage: "Three",
+        url: "Three",
+        inputOfId: 2,
+        receiverId: 8,
+        requestDistribution: false,
+        note: "CreateEE2",
+        start: "2017-1-1",
+        scopeId: 6,
+        providerId: 4,
+        createResource: true,
+        resourceCurrentLocationId: 1,
+        action: "take",
+        resourceTrackingIdentifier: "Nine",
+        affectedResourceClassifiedAsId: 8,
+        resourceNote: "Five",
+        token: "sampleToken"
       }
-    }).then( ({data}) => {
-      console.log("Got Data", data);
+    }).then( ({response}) => {
+      console.log("Got Data", response);
     }).catch( (error) => {
       console.log("There was an error sending the mutation");
+      console.log("Errored Props", this.props);
       console.log(error);
     });
   };
@@ -64,7 +86,7 @@ class CreateEconomicEvent extends React.Component {
       <div>
         <h1>Create Economic Event</h1>
 
-        <button onClick={this.handleClick}>Click Me</button>
+        <button onClick={this.handleClick.bind(this)}>Click Me</button>
       </div>
     );
   }

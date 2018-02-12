@@ -97,8 +97,7 @@ export default compose(
       token: getActiveLoginToken(state)
     }
   })),
-
-  graphql(mutation)
+  graphql(mutation),
 );
 
 // export default compose(
