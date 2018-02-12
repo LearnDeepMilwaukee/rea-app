@@ -1,5 +1,5 @@
 /**
- * A This file defines common interfaces for the Orginization object
+ * A This file defines common interfaces for the Orginazation object
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
@@ -9,14 +9,14 @@
 import { gql } from "react-apollo";
 import {agentInterface} from "../Agent/agentInterface";
 
-export const orginazationInterface = gql`
-fragment orginizationInterface on Orginization {
+export const organizationInterface = gql`
+fragment organizationInterface on Organization {
   ...agentInterface
 }
 ${agentInterface}
 `;
 
-export interface OrginizationInterface {
+export interface organizationInterface {
   id: number,
   name: string,
   type: string,

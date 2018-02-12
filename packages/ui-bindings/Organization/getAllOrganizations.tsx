@@ -1,5 +1,5 @@
 /**
- * A method to get a list of all Orginazations
+ * A method to get a list of all Organizations
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
@@ -12,17 +12,17 @@ import { gql, graphql, compose } from "react-apollo";
 import { AppState } from "@vflows/store/types.js";
 import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 
-import { orginazationInterface } from "./orginizationInterface";
+import { organizationInterface } from "./organizationInterface";
 
 const query = gql`
 query($token: String) {
   viewer(token: $token) {
-    allOrginizations{
-      ...orginizationInterface
+    allOrganizations{
+      ...organizationInterface
     }
   }
 }
-${orginazationInterface}
+${organizationInterface}
 `;
 
 export default compose(
@@ -44,7 +44,7 @@ export default compose(
         loading,
         error,
         refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-        orginazationList: viewer ? viewer.allOrginizations : null,
+        organizationList: viewer ? viewer.allOrganizations : null,
       }),
   })
 )
