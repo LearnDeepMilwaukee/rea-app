@@ -51,12 +51,12 @@ query($token: String, $agentId: Int) {
         unplannedEconomicEvents {
           action
         }
-        processEconomicEvents {
-          action
-        }
-        processCommitments {
-          action
-        }
+        #processEconomicEvents {
+        #  action
+        #}
+        #processCommitments {
+        #  action
+        #}
         inputs {
           action
         }
@@ -84,6 +84,10 @@ query($token: String, $agentId: Int) {
         image
         note
         category
+        currentLocation {
+          id
+          name
+        }
       }
     }
   }

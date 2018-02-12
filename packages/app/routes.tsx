@@ -12,10 +12,15 @@ import InventoryPage from "./pages/Inventory"
 import AccountsPage from "./pages/Accounts"
 import SingleProjectTemplate from "../ui-views/templates/SingleProjectTemplate"
 import UnitPage from "./pages/Api/unit"
+import OrgTypePage from "./pages/Api/orgType"
 import AgentPage from "./pages/Api/agent"
 import EconomicResourcePage from "./pages/Api/economicResource";
 
 import ProjectTemplate from "../ui-views/templates/ProjectTemplate"
+
+import EconomicEvent from "./pages/EconomicEvent/EconomicEvent";
+import AgentRelationshipRoles from "./pages/AgentRelationshipRole/AgentRelationshipRole";
+import AgentRelationship from "./pages/Api/agentRelationship";
 
 const routes = (
   <Route path="/" component={App}>
@@ -49,10 +54,14 @@ const routes = (
 
     <Route path="api">
       <Route path="unit" component={UnitPage} />
+      <Route path="orgType" component={OrgTypePage} />
       <Route path="agent" component={AgentPage} />
       <Route path="economicresource" component={EconomicResourcePage} />
+      <Route path="economicevent" component={EconomicEvent} />
+      <Route path="agentrelationshiprole" component={AgentRelationshipRoles} />
+      <Route path="agentrelationship" component={AgentRelationship}/>
     </Route>
   </Route>
-)
+);
 
 export default routes

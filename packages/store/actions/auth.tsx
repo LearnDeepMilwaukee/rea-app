@@ -10,9 +10,9 @@
  * @since:   2017-03-31
  */
 
-import { ActionPayload } from '../types'
+import { ActionPayload } from "../types"
 
-import { ACTION_SIGNIN, ACTION_SIGNIN_FAILED, ACTION_SIGNIN_SUCCEEDED } from '../constants'
+import { ACTION_SIGNIN, ACTION_SIGNIN_FAILED, ACTION_SIGNIN_SUCCEEDED } from "../constants"
 
 export interface LoginData {
   token: string,  // :TODO: other stuff needs to be in here, we're just not sure what yet.
