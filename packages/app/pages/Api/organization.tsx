@@ -11,24 +11,25 @@ import * as React from "react";
 import "./api.css";
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
 import { concatArray } from "./agent";
+import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
 
 export const Organization = (props) => {
-  var Organization = props.organization;
+  let organization = props.organization;
   return(
     <div>
-      <div>id: {Organization.id}</div>
-      <div>name: {Organization.name}</div>
-      <div>type: {Organization.type}</div>
-      <div>image: {Organization.image}</div>
-      <div>note: {Organization.note}</div>
-      <div>ownedEconomicResources: {concatArray(Organization.ownedEconomicResources)}</div>
-      <div>agentProcesses: {concatArray(Organization.agentProcesses)}</div>
-      <div>agentPlans: {concatArray(Organization.agentPlans)}</div>
-      <div>agentEconomicEvents: {concatArray(Organization.agentEconomicEvents)}</div>
-      <div>agentCommitments: {concatArray(Organization.agentCommitments)}</div>
-      <div>agentRelationships: {concatArray(Organization.agentRelationships)}</div>
-      <div>agentRoles: {concatArray(Organization.agentRoles)}</div>
-      <div>agentRecipess: {concatArray(Organization.agentRecipes)}</div>
+      <div>id: {organization.id}</div>
+      <div>name: {organization.name}</div>
+      <div>type: {organization.type}</div>
+      <div>image: {organization.image}</div>
+      <div>note: {organization.note}</div>
+      <div>ownedEconomicResources: {concatArray(organization.ownedEconomicResources)}</div>
+      <div>agentProcesses: {concatArray(organization.agentProcesses)}</div>
+      <div>agentPlans: {concatArray(organization.agentPlans)}</div>
+      <div>agentEconomicEvents: {concatArray(organization.agentEconomicEvents)}</div>
+      <div>agentCommitments: {concatArray(organization.agentCommitments)}</div>
+      <div>agentRelationships: {concatArray(organization.agentRelationships)}</div>
+      <div>agentRoles: {concatArray(organization.agentRoles)}</div>
+      <div>agentRecipess: {concatArray(organization.agentRecipes)}</div>
       <br/>
     </div>
   );
@@ -50,9 +51,19 @@ export const GetAllOrganizations = getAllOrganizations(({ organizationList, load
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          {organizationList.map( (organization) =>
-            (<Organization key={organization.id} organization={organization}/>)
-          )}
+          {concatArray(organizationList)}
+        </div>
+      )
+    )
+  );
+});
+
+export const GetSingleOrganization = getOrganizationById(({ organization, loading, error }) => {
+  return (
+    loading ? <strong>Loading...</strong> : (
+      error ? <p style={{color: "#F00"}}>API error</p> : (
+        <div>
+          <Organization organization={organization}/>
         </div>
       )
     )
@@ -82,18 +93,18 @@ class App extends React.Component {
     const {getOneOrganizationId} = this.state;
     return (
       <div>
-        {/*<h2>Get an Organization By Id: </h2>*/}
-        {/*<br/>*/}
-        {/*<OrganizationField setOrganization={this.getOrganizationById} onSubmitAction={this.stopRefresh}/>*/}
-        {/*{*/}
-          {/*getOneOrganizationId ?*/}
-            {/*<GetSingleOrganization OrganizationId={getOneOrganizationId}/> :*/}
-            {/*<div>Enter a value</div>*/}
-        {/*}*/}
-        {/*<br/>*/}
         <h2>All Organizations: </h2>
         <br/>
         <GetAllOrganizations/>
+        <br/>
+        <h2>Get an Organization By Id: </h2>
+        <br/>
+        <OrganizationField setOrganization={this.getOrganizationById} onSubmitAction={this.stopRefresh}/>
+        {
+          getOneOrganizationId ?
+            <GetSingleOrganization organizationId={getOneOrganizationId}/> :
+            <div>Enter a value</div>
+        }
       </div>
     );
   }

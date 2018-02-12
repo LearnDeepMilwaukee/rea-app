@@ -4,10 +4,10 @@
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
  * @since:   2018-02-11
- * */
+ */
 
 import { gql } from "react-apollo";
-import {agentInterface} from "../Agent/agentInterface";
+import { agentInterface } from "../Agent/agentInterface";
 
 export const organizationInterface = gql`
 fragment organizationInterface on Organization {
@@ -16,7 +16,7 @@ fragment organizationInterface on Organization {
 ${agentInterface}
 `;
 
-export interface organizationInterface {
+export interface OrganizationInterface {
   id: number,
   name: string,
   type: string,
