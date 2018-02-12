@@ -36,7 +36,7 @@ query($token: String) {
   }
 }
 ${coreAgentFields}
-`
+`;
 
 export default compose(
   // bind input data from the store
