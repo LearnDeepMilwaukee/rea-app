@@ -7,11 +7,11 @@
  * @since:   2017-03-19
  */
 
-import { ReactElement } from 'react'
+import { ReactElement } from "react"
 
-import * as React from 'react'
-import * as themeable from 'react-themeable'
-import { Link as BaseLink } from 'react-router'
+import * as React from "react"
+import * as themeable from "react-themeable"
+import { Link as BaseLink } from "react-router"
 
 interface Props {
   theme: Object,
@@ -20,9 +20,9 @@ interface Props {
 }
 
 const Link = ({ theme, children, href, ...props }: Props) => {
-  const th = themeable(theme)
-  const className = th(1, 'link').className // :SHONK: pass to themeable and back again since the react-router Link isn't themeable on its own
-  const activeClassName = th(2, 'linkActive').className
+  const th = themeable(theme);
+  const className = th(1, "link").className; // :SHONK: pass to themeable and back again since the react-router Link isn't themeable on its own
+  const activeClassName = th(2, "linkActive").className;
 
   return (
     <BaseLink
@@ -34,6 +34,6 @@ const Link = ({ theme, children, href, ...props }: Props) => {
       {children}
     </BaseLink>
   )
-}
+};
 
 export default Link

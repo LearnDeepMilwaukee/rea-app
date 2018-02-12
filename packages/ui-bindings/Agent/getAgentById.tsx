@@ -1,9 +1,9 @@
 /**
- * A method to get a single Unit
+ * A method to get a single Agent
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
- * @since:   2017-12-04
+ * @since:   2018-1-26
  */
 
 import { connect } from "react-redux";
@@ -12,17 +12,17 @@ import { gql, graphql, compose } from "react-apollo";
 import { AppState } from "@vflows/store/types.js";
 import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 
-import { unitInterface } from "./unitInterface";
+import { agentInterface } from "./agentInterface";
 
 const query = gql`
-query($token: String, $UnitId: Int) {
+query($token: String, $AgentId: Int) {
   viewer(token: $token) {
-    unit(id: $UnitId){
-      ...unitInterface
+    agent(id: $AgentId){
+      ...agentInterface
     }
   }
 }
-${unitInterface}
+${agentInterface}
 `;
 
 export default compose(
@@ -39,7 +39,7 @@ export default compose(
       {
         variables: {
           ...props.variables,
-          UnitId: props.unitId
+          AgentId: props.agentId
         }
       }),
 
@@ -48,7 +48,7 @@ export default compose(
       {
         loading,
         error,
-        unit: viewer ? viewer.unit : null,
+        agent: viewer ? viewer.agent : null,
       }),
   })
 )

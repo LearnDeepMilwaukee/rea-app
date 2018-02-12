@@ -1,9 +1,9 @@
 /**
- * A method to get a single Unit
+ * Used to call the "ProcessClassifications(id)" query from ViewerQuery
  *
  * @package: REA app
- * @author:  Steven Fontaine <fontainesw@msoe.edu>
- * @since:   2017-12-04
+ * @author: Nicholas Roth <Lou3797>
+ * @since: 2018-1-28
  */
 
 import { connect } from "react-redux";
@@ -12,21 +12,24 @@ import { gql, graphql, compose } from "react-apollo";
 import { AppState } from "@vflows/store/types.js";
 import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 
-import { unitInterface } from "./unitInterface";
+import { processClassificationInterface } from "./processClassificationInterface";
 
+/**
+ * The query call
+ */
 const query = gql`
-query($token: String, $UnitId: Int) {
+query($token: String, $ProcessClassificationId: Int) {
   viewer(token: $token) {
-    unit(id: $UnitId){
-      ...unitInterface
+    processClassification(id: $ProcessClassificationId){
+      ...processClassificationInterface
     }
   }
 }
-${unitInterface}
+${processClassificationInterface}
 `;
 
 export default compose(
-  // bind input data from the store
+  // Bind input data from the store
   connect((state: AppState) => ({
     variables: {
       token: getActiveLoginToken(state),
@@ -34,21 +37,21 @@ export default compose(
   })),
 
   graphql(query, {
-    // read query vars into query from input data above
+    // Read query vars into query from input data above
     options: (props) => (
       {
         variables: {
           ...props.variables,
-          UnitId: props.unitId
+          ProcessClassificationId: props.processClassificationId
         }
       }),
 
-    // transform output data
+    // Transform output data
     props: ({ ownProps, data: { viewer, loading, error } }) => (
       {
         loading,
         error,
-        unit: viewer ? viewer.unit : null,
+        processClassification: viewer ? viewer.processClassification : null,
       }),
   })
 )

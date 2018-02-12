@@ -6,11 +6,11 @@
  * @since:   2017-06-21
  */
 
-import { connect } from 'react-redux'
-import { gql, graphql, compose } from 'react-apollo'
+import { connect } from "react-redux"
+import { gql, graphql, compose } from "react-apollo"
 
-import { AppState } from '@vflows/store/types'
-import { getActiveLoginToken } from '@vflows/store/selectors/auth'
+import { AppState } from "@vflows/store/types"
+import { getActiveLoginToken } from "@vflows/store/selectors/auth"
 
 // import { coreAgentFields, coreOrganizationFields, coreEventsFields } from '../_fragments/Agent'
 
@@ -27,7 +27,7 @@ query($token: String) {
     }
   }
 }
-`
+`;
 
 // :TODO: see if there's a way to generate these from GraphQL schema
 // :TODO: we should separate Person / Organization to separate interfaces

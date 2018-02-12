@@ -6,7 +6,7 @@
  * @since:   2017-06-23
  */
 
-import { gql } from 'react-apollo'
+import { gql } from "react-apollo"
 
 export const coreAgentFields = gql`
 fragment coreAgentFields on Agent {
