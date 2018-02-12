@@ -7,13 +7,13 @@
  */
 
 import { gql } from "react-apollo";
-import { agentInterface } from "../Agent/agentInterface";
+import { agentInterface } from "../agent/agentInterface";
 
 /**
  * GraphQL Query fragment for a Person
  */
 export const personInterface = gql`
-fragment organizationInterface on Organization {
+fragment personInterface on Person {
   ...agentInterface
 }
 ${agentInterface}
