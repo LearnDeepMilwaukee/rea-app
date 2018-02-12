@@ -110,7 +110,7 @@ class App extends React.Component {
         <br/>
         <h2>Person by ID: </h2>
         <br/>
-        <PersonField onSubmitAction={this.getPersonById()}/>
+        <PersonField onSubmitAction={this.getPersonById}/>
         <br/>
         {this.state.personId ? <GetSinglePerson personId={this.state.personId} /> : <p>No matches</p>}
         <br/>
