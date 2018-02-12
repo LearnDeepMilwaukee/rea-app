@@ -1,16 +1,17 @@
 /**
  *
+ *
  * @package: REA app
- * @author:  Nicholas Roth <Lou3797>
- * @since:   2018-02-08
+ * @author: Nicholas Roth <Lou3797>
+ * @since: 2018-2-12
  */
 
 import * as React from "react";
-import "./api.css";
-import getAllOrganizations, {default as getAllPeople} from "../../../ui-bindings/Person/getAllPeople";
-import getOrganizationById, {default as getPersonById} from "../../../ui-bindings/Person/getPersonById";
+import "./api.css"
+import getAllPeople from "../../../ui-bindings/Person/getAllPeople";
+import getPersonById from "../../../ui-bindings/Person/getPersonById";
 
-export const Organization = (props) => {
+export const Person = (props) => {
   let person = props.person;
   return(
     <div>
@@ -32,76 +33,90 @@ export const Organization = (props) => {
   );
 };
 
+/**
+ * The query field for fetching a ProcessClassification by ID
+ */
 const PersonField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
-        Enter an Id: <input type="text" name="value" onChange={props.setOrganization}/>
-        <input type="submit" value="query"/>
+        ID: <input type="text" name="value" id="idForm"/>
+        <input type="submit" value="Query"/>
       </form>
     </div>
   );
 };
 
-export const GetAllPeople = getAllPeople(({ people, loading, error}) => {
+/**
+ * Maps the array of ProcessClassifications to their individual pieces
+ */
+export const GetAllPeople = getAllPeople( ({ people, loading, error}) => {
+
+  if (loading) {
+    return <p>Loading...</p>
+  } else if (error) {
+    return (<p>Error!</p>) // This can be made more specific
+  }
+
   return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          {concatArray(people)}
-        </div>
-      )
-    )
+    <div>
+      {
+        people.map(person => (
+          <div key={person.id}>
+            =======================================================<br/>
+            <Person person={person}/>
+          </div>
+        ))
+      }
+    </div>
   );
 });
 
-export const GetSinglePerson = getPersonById(({ person, loading, error }) => {
+/**
+ * Takes the given ProcessClassification and returns its individual information
+ */
+export const GetSinglePerson = getPersonById( ({ person, loading, error }) => {
+
+  if (loading) {
+    return <p>Loading...</p>
+  } else if (error) {
+    return (<p>Error!</p>) // This can be made more specific
+  }
+
   return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          <Person person={person}/>
-        </div>
-      )
-    )
+    <div>
+      <Person person={person}/>
+    </div>
   );
 });
 
+/**
+ * Main component of page.
+ */
 class App extends React.Component {
-
   state = {
-    getOneOrganizationId: null,
-    setOneOrganizationId: null
+    personId: undefined
   };
 
-  // Runs every time the input field changes
-  getOrganizationById = (event) => {
-    this.setState({setOneOrganizationId: parseInt(event.target.value, 10)});
-  };
-
-  // Runs when "submit" is selected
-  stopRefresh = (event) => {
-    // Sets the value to query to the current value of the input field
-    this.setState({getOneOrganizationId: this.state.setOneOrganizationId});
+  getPersonById = (event) => {
     event.preventDefault();
+    let procId = document.getElementById("idForm").value;
+    this.setState({personId: procId});
   };
 
   render() {
-    const {getOneOrganizationId} = this.state;
     return (
       <div>
-        <h2>All Organizations: </h2>
         <br/>
-        <GetAllOrganizations/>
+        <h2>Person by ID: </h2>
         <br/>
-        <h2>Get an Organization By Id: </h2>
+        <PersonField onSubmitAction={this.getPersonById()}/>
         <br/>
-        <OrganizationField setOrganization={this.getOrganizationById} onSubmitAction={this.stopRefresh}/>
-        {
-          getOneOrganizationId ?
-            <GetSingleOrganization organizationId={getOneOrganizationId}/> :
-            <div>Enter a value</div>
-        }
+        {this.state.personId ? <GetSinglePerson personId={this.state.personId} /> : <p>No matches</p>}
+        <br/>
+        <h2>All People: </h2>
+        <br/>
+        <GetAllPeople/>
       </div>
     );
   }
