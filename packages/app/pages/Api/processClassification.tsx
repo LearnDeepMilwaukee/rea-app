@@ -58,9 +58,9 @@ export const GetAllProcessClassifications = getAllProcessClassifications( ({ pro
     <div>
       {
         processClassifications.map(processClassification => (
-          <div>
+          <div key={processClassification.id}>
             =======================================================<br/>
-            <ProcessClassification key={processClassification.id} processClassification={processClassification}/>
+            <ProcessClassification processClassification={processClassification}/>
           </div>
         ))
       }
