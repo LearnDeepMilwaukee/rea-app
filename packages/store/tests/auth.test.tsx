@@ -1,7 +1,7 @@
-import test from "ava"
-import Reducer from "../reducers/auth"
-import { signIn, signInFailed, signInSucceeded } from "../actions/auth"
-import { initialState } from "../reducers/auth"
+import test from "ava";
+import Reducer from "../reducers/auth";
+import { signIn, signInFailed, signInSucceeded } from "../actions/auth";
+import { initialState } from "../reducers/auth";
 
 test("should handle ACTION_SIGNIN", async t => {
   t.deepEqual(Reducer(initialState, signIn("testuser", "testpass")), {
@@ -9,7 +9,7 @@ test("should handle ACTION_SIGNIN", async t => {
     isLoggingIn: "testuser",
     loginError: null,
     logins: [],
-  })
+  });
 });
 
 test("should handle ACTION_SIGNIN_FAILED", async t => {
@@ -18,7 +18,7 @@ test("should handle ACTION_SIGNIN_FAILED", async t => {
     isLoggingIn: false,
     loginError: new Error("you am teh lose"),
     logins: [],
-  })
+  });
 });
 
 test("should handle ACTION_SIGNIN_SUCCEEDED", async t => {
@@ -27,5 +27,5 @@ test("should handle ACTION_SIGNIN_SUCCEEDED", async t => {
     isLoggingIn: false,
     loginError: null,
     logins: [{ token: "hai" }],
-  })
+  });
 });

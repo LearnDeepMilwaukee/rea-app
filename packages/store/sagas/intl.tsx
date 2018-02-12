@@ -8,13 +8,13 @@
  * @since:   2017-03-31
  */
 
-import { call, put, takeLatest } from "redux-saga/effects"
+import { call, put, takeLatest } from "redux-saga/effects";
 
-// import Api from 'services/api'
+// import Api from "services/api";
 
-import { ACTION_SET_LANG, ACTION_SET_LANG_FAILED, ACTION_SET_LANG_SUCCEEDED } from "../constants"
+import { ACTION_SET_LANG, ACTION_SET_LANG_FAILED, ACTION_SET_LANG_SUCCEEDED } from "../constants";
 
-import { LangSetActionPayload } from "../actions/intl"
+import { LangSetActionPayload } from "../actions/intl";
 
 export interface LangSetActionFailedPayload {
   type: string,
@@ -32,15 +32,17 @@ export interface LangSetActionSucceededPayload {
   },
 }
 
-export function* watchForLangChange({ payload }: LangSetActionPayload) { //: Generator<LangSetActionPayload, *, LangSetActionSucceededPayload | LangSetActionFailedPayload> {
+export function* watchForLangChange({ payload }: LangSetActionPayload) { // : Generator<LangSetActionPayload, *,
+// LangSetActionSucceededPayload | LangSetActionFailedPayload> {
   try {
-    // const intl = yield call(Api.get, payload.lang) // :TODO: this doesn't work yet, needs to be hooked up to something real
-    yield put({ type: ACTION_SET_LANG_SUCCEEDED, lang: payload.lang, intlData: null })
+    // const intl = yield call(Api.get, payload.lang) // :TODO: this doesn't work yet,
+    // needs to be hooked up to something real
+    yield put({ type: ACTION_SET_LANG_SUCCEEDED, lang: payload.lang, intlData: null });
   } catch (e) {
-    yield put({ type: ACTION_SET_LANG_FAILED, lang: payload.lang, error: e })
+    yield put({ type: ACTION_SET_LANG_FAILED, lang: payload.lang, error: e });
   }
 }
 
 export default function* () {
-  yield takeLatest(ACTION_SET_LANG, watchForLangChange)
+  yield takeLatest(ACTION_SET_LANG, watchForLangChange);
 }

@@ -10,9 +10,9 @@
  * @since:   2017-03-31
  */
 
-import { ActionPayload } from '../types'
+import { ActionPayload } from "../types";
 
-import { ACTION_SIGNIN, ACTION_SIGNIN_FAILED, ACTION_SIGNIN_SUCCEEDED } from '../constants'
+import { ACTION_SIGNIN, ACTION_SIGNIN_FAILED, ACTION_SIGNIN_SUCCEEDED } from "../constants";
 
 export interface LoginData {
   token: string,  // :TODO: other stuff needs to be in here, we're just not sure what yet.
@@ -32,7 +32,7 @@ export interface SigninActionPayload extends ActionPayload {
 export const signIn = (username: string, password: string): SigninActionPayload => ({
   type: ACTION_SIGNIN,
   payload: { username, password },
-})
+});
 
 export interface SigninFailedPayload extends ActionPayload {
   payload: { error: Error },
@@ -41,7 +41,7 @@ export interface SigninFailedPayload extends ActionPayload {
 export const signInFailed = (e: Error): SigninFailedPayload => ({
   type: ACTION_SIGNIN_FAILED,
   payload: { error: e },
-})
+});
 
 export interface SigninSucceededPayload extends ActionPayload {
   payload: {
@@ -54,4 +54,4 @@ export const signInSucceeded = (response: LoginResponse): SigninSucceededPayload
   payload: {
     response,
   },
-})
+});

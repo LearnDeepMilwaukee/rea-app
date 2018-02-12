@@ -6,15 +6,15 @@
  * @since:   2017-04-05
  */
 
-import { AuthState } from "./reducers/auth"
+import { AuthState } from "./reducers/auth";
 
 // entire application state (combination of state from all reducers)
 export interface AppState {
   auth: AuthState,
-};
+}
 
 // base state for all action creator outputs
 export interface ActionPayload {
   type: string,
   payload?: Object,
-};
+}

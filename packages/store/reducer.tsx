@@ -8,11 +8,11 @@
  * @since:   2017-03-19
  */
 
-import { ApolloClient } from "react-apollo"
+import { ApolloClient } from "react-apollo";
 
-import { combineReducers } from "redux"
-import { routerReducer as routing } from "react-router-redux"
-import { reducer as form } from "redux-form"
+import { combineReducers } from "redux";
+import { routerReducer as routing } from "react-router-redux";
+import { reducer as form } from "redux-form";
 
 // third-party reducers
 const reducers = {
@@ -25,8 +25,8 @@ const req = require.context(".", true, /\.\/reducers\/.+\.js$/);
 
 req.keys().forEach((key) => {
   const storeName = key.replace(/\.\/reducers\/(.+)\.js$/, "$1");
-  reducers[storeName] = req(key).default
+  reducers[storeName] = req(key).default;
 });
 
 // generate & export
-export default (client: ApolloClient) => combineReducers({ ...reducers, apollo: client.reducer() })
+export default (client: ApolloClient) => combineReducers({ ...reducers, apollo: client.reducer() });

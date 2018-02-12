@@ -1,8 +1,8 @@
-import test from "ava"
-import Reducer from "../reducers/intl"
-import { setLang } from "../actions/intl"
-import { initialState } from "../reducers/intl"
-import { ACTION_SET_LANG_FAILED, ACTION_SET_LANG_SUCCEEDED } from "../constants"
+import test from "ava";
+import Reducer from "../reducers/intl";
+import { setLang } from "../actions/intl";
+import { initialState } from "../reducers/intl";
+import { ACTION_SET_LANG_FAILED, ACTION_SET_LANG_SUCCEEDED } from "../constants";
 
 const defaultIntl = require("../intl/en.yaml");
 
@@ -11,7 +11,7 @@ test("should handle ACTION_SET_LANG", async t => {
     lang: "pk",
     error: null,
     intl: null,
-  })
+  });
 });
 
 // :TODO: this needs fixing but it's not used yet so 'evs

@@ -6,9 +6,9 @@
  * @since:   2017-03-31
  */
 
-import { createSimpleAction } from "redux-action-helper"
+import { createSimpleAction } from "redux-action-helper";
 
-import { ACTION_SET_LANG } from "../constants"
+import { ACTION_SET_LANG } from "../constants";
 
 export interface LangSetActionInput {
   lang: string,
