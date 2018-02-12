@@ -28,8 +28,8 @@ fragment processClassificationInterface on ProcessClassification {
  */
 export interface ProcessClassification {
   id: number
-  name: String
-  note: String
+  name: string
+  note: string
   scope: Agent
-  estimatedDuration: String
+  estimatedDuration: string
 }
