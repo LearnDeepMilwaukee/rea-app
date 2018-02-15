@@ -21,8 +21,8 @@ export const EconomicResource = (props) => {
       <div>Resource Classification: {economicResource.resourceClassifiedAs.id}</div>
       <div>Tracking Id: {economicResource.trackingIdentifier}</div>
       <div>Image: {economicResource.image}</div>
-      <div>currentQuantity: {economicResource.currentQuantity.numericValue}
-        {" " + economicResource.currentQuantity.unit.name}</div>
+      <div>currentQuantity: {economicResource.currentQuantity ? economicResource.currentQuantity.numericValue : "null"}
+        {economicResource.currentQuantity ? " " +  economicResource.currentQuantity.unit.name : ""}</div>
       <div>Note: {economicResource.note}</div>
       <div>Category: {economicResource.category}</div>
       <div>Transfers: {concatArray(economicResource.transfers)}</div>
