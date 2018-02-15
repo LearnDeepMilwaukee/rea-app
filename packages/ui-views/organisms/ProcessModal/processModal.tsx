@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as themeable from 'react-themeable'
 import { SFC } from 'react'
-import BindProcess, { AgentType } from '@vflows/bindings/process/process'
+import BindProcess, { AgentType } from '@vflows/bindings/Process/process'
 import {Activity, Edit, Heart, Inbox, Users} from '../../icons'
 import TasksList from './tasksList'
 interface Props {

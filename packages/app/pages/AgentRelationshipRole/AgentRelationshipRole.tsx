@@ -22,14 +22,14 @@ const AgentRelationshipRole = (props) => {
       <p>category: {role.category}</p>
       <br/>
     </div>
-  )
+  );
 };
 
 const AgentRelationshipRolesList = allAgentRelationshipRoles( ({agentRelatonshipRoles, loading, error}) => {
   if (loading) {
-    return <h2>Loading...</h2>
+    return <h2>Loading...</h2>;
   } else if (error) {
-    return <h2>Error!</h2>
+    return <h2>Error!</h2>;
   }
 
   return (
@@ -49,12 +49,12 @@ const AgentRelationshipRolesList = allAgentRelationshipRoles( ({agentRelatonship
 
 const AgentRelationshipRoleById = agentRelationshipRoleById( ({agentRelationshipRole, loading, error}) => {
   if (loading) {
-    return <h3>Loading...</h3>
+    return <h3>Loading...</h3>;
   } else if (error) {
-    return <h3>Error!</h3>
+    return <h3>Error!</h3>;
   }
 
-  return <AgentRelationshipRole agentRelationshipRole={agentRelationshipRole} />
+  return <AgentRelationshipRole agentRelationshipRole={agentRelationshipRole} />;
 });
 
 class AgentRelationshipRoles extends React.Component {
