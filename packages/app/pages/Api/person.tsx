@@ -35,7 +35,7 @@ export const Person = (props) => {
 };
 
 /**
- * The query field for fetching a ProcessClassification by ID
+ * The query field for fetching a Person by ID
  */
 const PersonField = (props) => {
   return(
@@ -49,7 +49,7 @@ const PersonField = (props) => {
 };
 
 /**
- * Maps the array of ProcessClassifications to their individual pieces
+ * Maps the array of Person to their individual pieces
  */
 export const GetAllPeople = getAllPeople( ({ people, loading, error}) => {
 
@@ -74,7 +74,7 @@ export const GetAllPeople = getAllPeople( ({ people, loading, error}) => {
 });
 
 /**
- * Takes the given ProcessClassification and returns its individual information
+ * Takes the given Person and returns its individual information
  */
 export const GetSinglePerson = getPersonById( ({ person, loading, error }) => {
 
@@ -101,8 +101,8 @@ class App extends React.Component {
 
   getPersonById = (event) => {
     event.preventDefault();
-    let procId = document.getElementById("idForm").value;
-    this.setState({personId: procId});
+    let personId = document.getElementById("idForm").value;
+    this.setState({personId: personId});
   };
 
   render() {
