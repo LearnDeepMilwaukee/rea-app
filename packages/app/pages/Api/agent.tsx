@@ -12,6 +12,7 @@ import "./api.css";
 import getMyAgent from "../../../ui-bindings/Agent/getMyAgent.js";
 import getAllAgents from "../../../ui-bindings/Agent/getAllAgents.js";
 import getAgentById from "../../../ui-bindings/Agent/getAgentById";
+import { concatArray } from "./common"
 
 export const Agent = (props) => {
   var agent = props.agent;
@@ -35,19 +36,6 @@ export const Agent = (props) => {
   );
 };
 
-export function concatArray(array: JSON[]) {
-  var retValue = "";
-  if (array[0] == null) {
-    return "none";
-  }
-  retValue = array[0].id;
-  for (var i = 1; i < array.length; i++) {
-    retValue += ", ";
-    retValue += array[i].id;
-  }
-  return retValue;
-}
-
 const AgentField = (props) => {
   return(
     <div>
@@ -60,39 +48,66 @@ const AgentField = (props) => {
 };
 
 export const GetMyAgent = getMyAgent(({ agent, loading, error}) => {
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          {<Agent agent={agent}/>}
-        </div>
-      )
+
+  if(loading){
+    return(
+      <strong>Loading...</strong>
     )
-  );
+  }
+  else if(error){
+    return(
+      <p style={{color: "#F00"}}>API error</p>
+    )
+  }
+  else{
+    return(
+      <div>
+        {<Agent agent={agent}/>}
+      </div>
+    )
+  }
 });
 
 export const GetAllAgents = getAllAgents(({ agent, loading, error}) => {
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          {concatArray(agent)}
-        </div>
-      )
+
+  if(loading){
+    return(
+      <strong>Loading...</strong>
     )
-  );
+  }
+  else if(error){
+    return(
+      <p style={{color: "#F00"}}>API error</p>
+    )
+  }
+  else{
+    return(
+      <div>
+        {concatArray(agent)}
+      </div>
+    )
+  }
 });
 
 export const GetSingleAgent = getAgentById(({ agent, loading, error }) => {
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          <Agent agent={agent}/>
-        </div>
-      )
+
+  if(loading){
+    return(
+      <strong>Loading...</strong>
     )
-  );
+  }
+  else if(error){
+    return(
+      <p style={{color: "#F00"}}>API error</p>
+    )
+  }
+  else{
+    return(
+      <div>
+        <Agent agent={agent}/>
+      </div>
+    )
+  }
 });
 
 class App extends React.Component {

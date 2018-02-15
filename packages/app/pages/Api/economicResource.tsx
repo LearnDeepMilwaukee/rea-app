@@ -10,7 +10,7 @@
 import * as React from "react";
 import "./api.css";
 import getAllEconomicResources from "../../../ui-bindings/EconomicResource/getAllEconomicResources";
-import { concatArray } from "./agent";
+import { concatArray } from "./common";
 import getEconomicResourceById from "../../../ui-bindings/EconomicResource/getEconomicResourceById";
 
 export const EconomicResource = (props) => {
@@ -43,29 +43,47 @@ const EconomicResourceField = (props) => {
 };
 
 export const GetSingleEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          <EconomicResource economicResource={economicResource}/>
-        </div>
-      )
+
+  if(loading){
+    return(
+      <strong>Loading...</strong>
     )
-  );
+  }
+  else if(error){
+    return(
+      <p style={{color: "#F00"}}>API error</p>
+    )
+  }
+  else{
+    return(
+      <div>
+        <EconomicResource economicResource={economicResource}/>
+      </div>
+    )
+  }
 });
 
 export const GetAllEconomicResources = getAllEconomicResources(({ economicResourceList, loading, error}) => {
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          {economicResourceList.map( (economicResource) =>
-            (<EconomicResource key={economicResource.id} economicResource={economicResource}/>)
-          )}
-        </div>
-      )
+
+  if(loading){
+    return(
+      <strong>Loading...</strong>
     )
-  );
+  }
+  else if(error){
+    return(
+      <p style={{color: "#F00"}}>API error</p>
+    )
+  }
+  else{
+    return(
+      <div>
+        {economicResourceList.map( (economicResource) =>
+          (<EconomicResource key={economicResource.id} economicResource={economicResource}/>)
+        )}
+      </div>
+    )
+  }
 });
 
 class App extends React.Component {
