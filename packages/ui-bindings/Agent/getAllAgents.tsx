@@ -47,4 +47,4 @@ export default compose(
         agent: viewer ? viewer.allAgents : null,
       }),
   })
-)
+);

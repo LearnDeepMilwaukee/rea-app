@@ -47,4 +47,4 @@ export default compose(
         agentRelationshipList: viewer ? viewer.allAgentRelationships : null,
       }),
   })
-)
+);
