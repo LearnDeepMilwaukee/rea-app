@@ -12,7 +12,7 @@ import "./api.css";
 import getMyAgent from "../../../ui-bindings/Agent/getMyAgent.js";
 import getAllAgents from "../../../ui-bindings/Agent/getAllAgents.js";
 import getAgentById from "../../../ui-bindings/Agent/getAgentById";
-import { concatArray } from "./common"
+import { concatArray } from "./common";
 
 export const Agent = (props) => {
   var agent = props.agent;
@@ -49,64 +49,58 @@ const AgentField = (props) => {
 
 export const GetMyAgent = getMyAgent(({ agent, loading, error}) => {
 
-  if(loading){
+  if (loading) {
     return(
       <strong>Loading...</strong>
-    )
-  }
-  else if(error){
+    );
+  } else if (error) {
     return(
       <p style={{color: "#F00"}}>API error</p>
-    )
-  }
-  else{
+    );
+  } else {
     return(
       <div>
         {<Agent agent={agent}/>}
       </div>
-    )
+    );
   }
 });
 
 export const GetAllAgents = getAllAgents(({ agent, loading, error}) => {
 
-  if(loading){
+  if (loading) {
     return(
       <strong>Loading...</strong>
-    )
-  }
-  else if(error){
+    );
+  } else if (error) {
     return(
       <p style={{color: "#F00"}}>API error</p>
-    )
-  }
-  else{
+    );
+  } else {
     return(
       <div>
         {concatArray(agent)}
       </div>
-    )
+    );
   }
 });
 
 export const GetSingleAgent = getAgentById(({ agent, loading, error }) => {
 
-  if(loading){
+  if (loading) {
     return(
       <strong>Loading...</strong>
-    )
-  }
-  else if(error){
+    );
+  } else if (error) {
     return(
       <p style={{color: "#F00"}}>API error</p>
-    )
-  }
-  else{
+    );
+  } else {
     return(
       <div>
         <Agent agent={agent}/>
       </div>
-    )
+    );
   }
 });
 
