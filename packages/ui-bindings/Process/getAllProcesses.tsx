@@ -1,9 +1,9 @@
 /**
- * A method to get all Units
+ * A method to get all Processes
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
- * @since:   2017-12-04
+ * @since:   2018-02-15
  */
 
 import { connect } from "react-redux";
@@ -12,7 +12,7 @@ import { gql, graphql, compose } from "react-apollo";
 import { AppState } from "@vflows/store/types.js";
 import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 
-import { unitInterface } from "./unitInterface";
+import { processInterface } from "./processInterface";
 
 const query = gql`
 query($token: String) {
@@ -22,7 +22,7 @@ query($token: String) {
     }
   }
 }
-${unitInterface}
+${processInterface}
 `;
 
 export default compose(
@@ -44,7 +44,7 @@ export default compose(
         loading,
         error,
         refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-        unitList: viewer ? viewer.allUnits : null,
+        processList: viewer ? viewer.allProcesses : null,
       }),
   })
 )
