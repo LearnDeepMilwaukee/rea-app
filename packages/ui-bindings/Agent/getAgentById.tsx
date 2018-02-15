@@ -51,4 +51,4 @@ export default compose(
         agent: viewer ? viewer.agent : null,
       }),
   })
-)
+);

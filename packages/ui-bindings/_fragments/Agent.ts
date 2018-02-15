@@ -6,21 +6,21 @@
  * @since:   2017-06-23
  */
 
-import { gql } from "react-apollo"
+import { gql } from "react-apollo";
 
 export const coreAgentFields = gql`
 fragment coreAgentFields on Agent {
   id
   name
   image
-}`
+}`;
 
 export const coreOrganizationFields = gql`
 fragment coreOrganizationFields on Agent {
   ...coreAgentFields
   type
   note
-}`
+}`;
 
 export const coreCommitmentFields = gql`
 fragment coreCommitmentFields on Commitment {
@@ -46,7 +46,7 @@ fragment coreCommitmentFields on Commitment {
     id
     name
   }
-}`
+}`;
 
 export const coreEventFields = gql`
 fragment coreEventFields on EconomicEvent {
@@ -74,7 +74,7 @@ fragment coreEventFields on EconomicEvent {
     id
     name
   }
-}`
+}`;
 
 export const coreEventsFields = gql`
 fragment coreEventsFields on Agent {
@@ -111,7 +111,7 @@ fragment coreEventsFields on Agent {
     }
     note
   }
-}`
+}`;
 
 // export const coreResourcesFields = gql`
 // fragment coreResourcesFields on Agent {

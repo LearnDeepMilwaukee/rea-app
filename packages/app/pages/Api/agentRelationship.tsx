@@ -7,7 +7,7 @@
  */
 
 import * as React from "react";
-import "./api.css"
+import "./api.css";
 import getAllAgentRelationships from "../../../ui-bindings/AgentRelationship/getAllAgentRelationships";
 import getAgentRelationshipById from "../../../ui-bindings/AgentRelationship/getAgentRelationshipById";
 
@@ -40,7 +40,9 @@ export const GetAllAgentRelationships = getAllAgentRelationships(({ agentRelatio
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
-          {agentRelationshipList.map( (agentRelationship) => (<AgentRelationship key={agentRelationship.id} agentRelationship={agentRelationship}/>))}
+          {agentRelationshipList.map( (agentRelationship) => (
+            <AgentRelationship key={agentRelationship.id} agentRelationship={agentRelationship}/>
+          ))}
         </div>
       )
     )
@@ -86,8 +88,8 @@ class App extends React.Component {
         <h2>Get an Agent By Id: </h2>
         <br/>
         <AgentRelationshipField setAgentRelationship={this.getAgentRelationshipById} onSubmitAction={this.stopRefresh}/>
-        {getOneAgentRelationshipId ? <GetSingleAgentRelationship
-          agentRelationshipId={getOneAgentRelationshipId}/> : <div>Enter a value</div>}
+        {getOneAgentRelationshipId ? <GetSingleAgentRelationship agentRelationshipId={getOneAgentRelationshipId}/> :
+          <div>Enter a value</div>}
         <br/>
         <h2>All Agent Relationships: </h2>
         <br/>
