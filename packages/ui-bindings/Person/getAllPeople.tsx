@@ -1,4 +1,5 @@
 /**
+ * Method to call the allPeople query on Viewer
  *
  * @package: REA app
  * @author:  Nicholas Roth <Lou3797>
