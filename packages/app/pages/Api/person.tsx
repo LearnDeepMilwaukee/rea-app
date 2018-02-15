@@ -10,6 +10,7 @@ import * as React from "react";
 import "./api.css"
 import getAllPeople from "../../../ui-bindings/Person/getAllPeople";
 import getPersonById from "../../../ui-bindings/Person/getPersonById";
+import { concatArray } from "./common";
 
 export const Person = (props) => {
   let person = props.person;
@@ -32,10 +33,6 @@ export const Person = (props) => {
     </div>
   );
 };
-
-function concatArray(array: JSON[]) {
-
-}
 
 /**
  * The query field for fetching a ProcessClassification by ID
