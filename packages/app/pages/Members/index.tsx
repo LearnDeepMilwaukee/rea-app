@@ -8,7 +8,7 @@
 
 import * as React from 'react'
 import ProjectTemplate from '@vflows/views/templates/ProjectTemplate'
-import { AgentType } from '@vflows/bindings/agent/agent'
+import { AgentType } from '@vflows/bindings/Agent/agent'
 import Sidebar from '@vflows/views/organisms/Sidebar'
 import MembersBig from '@vflows/views/organisms/MembersBig'
 

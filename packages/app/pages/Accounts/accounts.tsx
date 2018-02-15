@@ -8,7 +8,7 @@
 
 import * as React from 'react'
 import { Component, ReactElement } from 'react'
-import { AgentType } from '@vflows/bindings/agent/agent'
+import { AgentType } from '@vflows/bindings/Agent/agent'
 import * as themeable from 'react-themeable'
 
 interface Props {

@@ -2,7 +2,7 @@ import * as React from 'react'
 import Sidebar from '../../organisms/Sidebar'
 import SecondaryMenu from '../../organisms/SecondaryMenu'
 import * as themeable from 'react-themeable'
-import BindAgent, { AgentType } from '@vflows/bindings/agent/agent'
+import BindAgent, { AgentType } from '@vflows/bindings/Agent/agent'
 
 
 interface Props {

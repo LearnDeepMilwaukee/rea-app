@@ -7,7 +7,7 @@
  */
 
 import * as React from 'react'
-import { AgentType } from '@vflows/bindings/agent/agent'
+import { AgentType } from '@vflows/bindings/Agent/agent'
 import * as themeable from 'react-themeable'
 import {Horizontal, Down} from '@vflows/views/icons'
 

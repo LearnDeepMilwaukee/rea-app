@@ -7,7 +7,7 @@
  */
 
 import { gql } from "react-apollo";
-import { agentInterface } from "../agent/agentInterface";
+import { agentInterface } from "../Agent/agentInterface";
 
 /**
  * GraphQL Query fragment for a Person

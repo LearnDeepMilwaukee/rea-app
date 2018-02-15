@@ -3,7 +3,7 @@ import * as themeable from 'react-themeable'
 import { withRouter } from 'react-router'
 
 import BindOrgs from '@vflows/bindings/user/CurrentOrganizations'
-import { AgentType } from '@vflows/bindings/agent/agent'
+import { AgentType } from '@vflows/bindings/Agent/agent'
 
 import Link from '../../atoms/Link'
 
