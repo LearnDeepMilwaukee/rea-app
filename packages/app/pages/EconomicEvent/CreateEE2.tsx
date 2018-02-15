@@ -68,9 +68,9 @@ class CreateEconomicEvent extends React.Component {
         resourceTrackingIdentifier: "Nine",
         affectedResourceClassifiedAsId: 8,
         resourceNote: "Five",
-        token: "sampleToken"
+        // token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5vciIsImlhdCI6MTUxODcwOTUwOCwicGFzc3dvcmQiOiI3YzA4ODliOWU5ZmNjYzAxZDIzMDcwNzljNDk5OTcyNDFlNTZlNzU0IiwiaWQiOjZ9.-FN3eux3ltj9twLkqPUkS6n1BL7htJlwBYXUz7O_B2c"
       }
-    }).then( ({response}) => {
+    }).then( (response) => {
       console.log("Got Data", response);
     }).catch( (error) => {
       console.log("There was an error sending the mutation");
