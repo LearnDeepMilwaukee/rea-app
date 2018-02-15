@@ -1,5 +1,5 @@
 /**
- *
+ * API page for displaying the Viewer queries on Person objects.
  *
  * @package: REA app
  * @author: Nicholas Roth <Lou3797>
@@ -20,18 +20,22 @@ export const Person = (props) => {
       <div>type: {person.type}</div>
       <div>image: {person.image}</div>
       <div>note: {person.note}</div>
-      {/*<div>ownedEconomicResources: {concatArray(person.ownedEconomicResources)}</div>
+      <div>ownedEconomicResources: {concatArray(person.ownedEconomicResources)}</div>
       <div>agentProcesses: {concatArray(person.agentProcesses)}</div>
       <div>agentPlans: {concatArray(person.agentPlans)}</div>
       <div>agentEconomicEvents: {concatArray(person.agentEconomicEvents)}</div>
       <div>agentCommitments: {concatArray(person.agentCommitments)}</div>
       <div>agentRelationships: {concatArray(person.agentRelationships)}</div>
       <div>agentRoles: {concatArray(person.agentRoles)}</div>
-      <div>agentRecipess: {concatArray(person.agentRecipes)}</div>*/}
+      <div>agentRecipess: {concatArray(person.agentRecipes)}</div>
       <br/>
     </div>
   );
 };
+
+function concatArray(array: JSON[]) {
+
+}
 
 /**
  * The query field for fetching a ProcessClassification by ID
