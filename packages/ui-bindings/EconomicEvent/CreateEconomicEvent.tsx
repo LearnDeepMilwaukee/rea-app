@@ -97,7 +97,16 @@ export default compose(
       token: getActiveLoginToken(state)
     }
   })),
-  graphql(mutation),
+  graphql(mutation, {
+    options: {
+      variables: (props) => (
+          {
+            token: getActiveLoginToken(state),
+            ...props.variables
+          }
+      )
+    }
+  }),
 );
 
 // export default compose(
