@@ -14,7 +14,7 @@ import { concatArray } from "./common";
 import getEconomicResourceById from "../../../ui-bindings/EconomicResource/getEconomicResourceById";
 
 export const EconomicResource = (props) => {
-  var economicResource = props.economicResource;
+  let economicResource = props.economicResource;
   return(
     <div>
       <div>Id: {economicResource.id}</div>
@@ -44,45 +44,41 @@ const EconomicResourceField = (props) => {
 
 export const GetSingleEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
 
-  if(loading){
+  if (loading) {
     return(
       <strong>Loading...</strong>
-    )
-  }
-  else if(error){
+    );
+  } else if (error) {
     return(
       <p style={{color: "#F00"}}>API error</p>
-    )
-  }
-  else{
+    );
+  } else {
     return(
       <div>
         <EconomicResource economicResource={economicResource}/>
       </div>
-    )
+    );
   }
 });
 
 export const GetAllEconomicResources = getAllEconomicResources(({ economicResourceList, loading, error}) => {
 
-  if(loading){
+  if (loading) {
     return(
       <strong>Loading...</strong>
-    )
-  }
-  else if(error){
+    );
+  } else if (error) {
     return(
       <p style={{color: "#F00"}}>API error</p>
-    )
-  }
-  else{
+    );
+  } else {
     return(
       <div>
         {economicResourceList.map( (economicResource) =>
           (<EconomicResource key={economicResource.id} economicResource={economicResource}/>)
         )}
       </div>
-    )
+    );
   }
 });
 

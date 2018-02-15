@@ -33,7 +33,7 @@ fragment economicResourceInterface on EconomicResource {
 export interface EconomicResource {
   id: number
   resourceClassifiedAs: number // TODO Replace with ResourceClassification
-  trackingIdentifier: String
+  trackingIdentifier: string
   image: string
   currentQuantity: QuantityValue
   note: string

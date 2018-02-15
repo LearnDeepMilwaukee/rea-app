@@ -48,4 +48,4 @@ export default compose(
           agentRelationship: viewer ? viewer.agentRelationship : null,
         }),
   })
-)
+);
