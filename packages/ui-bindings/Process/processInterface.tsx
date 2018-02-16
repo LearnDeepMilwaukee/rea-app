@@ -7,7 +7,7 @@
  */
 
 import { gql } from "react-apollo";
-import {Agent} from "../Agent/agentInterface";
+import { Agent } from "../Agent/agentInterface";
 import EconomicEvent from "../../app/pages/EconomicEvent/EconomicEvent";
 
 export const processInterface = gql`
