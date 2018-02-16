@@ -18,9 +18,9 @@ import { processClassificationInterface } from "./processClassificationInterface
  * The query call
  */
 const query = gql`
-query($token: String, $ProcessClassificationId: Int) {
+query($token: String, $processClassificationId: Int) {
   viewer(token: $token) {
-    processClassification(id: $ProcessClassificationId){
+    processClassification(id: $processClassificationId){
       ...processClassificationInterface
     }
   }
@@ -42,7 +42,7 @@ export default compose(
       {
         variables: {
           ...props.variables,
-          ProcessClassificationId: props.processClassificationId
+          processClassificationId: props.processClassificationId
         }
       }),
 
