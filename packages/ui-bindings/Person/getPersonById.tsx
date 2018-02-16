@@ -17,7 +17,7 @@ import { personInterface } from "./personInterface";
 const query = gql`
 query($token: String, $personId: Int) {
   viewer(token: $token) {
-    person(id: $PersonId){
+    person(id: $personId){
       ...personInterface
     }
   }
