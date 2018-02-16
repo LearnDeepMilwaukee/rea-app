@@ -51,4 +51,4 @@ export default compose(
         organization: viewer ? viewer.organization : null,
       }),
   })
-)
+);

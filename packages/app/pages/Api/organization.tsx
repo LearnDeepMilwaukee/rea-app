@@ -10,7 +10,7 @@
 import * as React from "react";
 import "./api.css";
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
-import { concatArray } from "./agent";
+import { concatArray } from "./common";
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
 
 export const Organization = (props) => {
@@ -47,27 +47,41 @@ const OrganizationField = (props) => {
 };
 
 export const GetAllOrganizations = getAllOrganizations(({ organizationList, loading, error}) => {
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          {concatArray(organizationList)}
-        </div>
-      )
-    )
-  );
+
+  if (loading) {
+    return(
+      <strong>Loading...</strong>
+    );
+  } else if (error) {
+    return(
+      <p style={{color: "#F00"}}>API error</p>
+    );
+  } else {
+    return(
+      <div>
+        {concatArray(organizationList)}
+      </div>
+    );
+  }
 });
 
 export const GetSingleOrganization = getOrganizationById(({ organization, loading, error }) => {
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          <Organization organization={organization}/>
-        </div>
-      )
-    )
-  );
+
+  if (loading) {
+    return(
+      <strong>Loading...</strong>
+    );
+  } else if (error) {
+    return(
+      <p style={{color: "#F00"}}>API error</p>
+    );
+  } else {
+    return(
+      <div>
+        <Organization organization={organization}/>
+      </div>
+    );
+  }
 });
 
 class App extends React.Component {

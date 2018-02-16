@@ -47,4 +47,4 @@ export default compose(
         organizationList: viewer ? viewer.allOrganizations : null,
       }),
   })
-)
+);

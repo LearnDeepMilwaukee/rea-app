@@ -47,4 +47,4 @@ export default compose(
         orgTypeList: viewer ? viewer.organizationTypes : null,
       }),
   })
-)
+);
