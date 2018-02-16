@@ -42,18 +42,18 @@ fragment agentInterface on Agent {
 }`;
 
 export interface Agent {
-  id: number,
-  name: string,
-  type: string,
-  image: string,
-  note: string,
-  ownedEconomicResources: [number],
-  agentProcesses: [number],
-  agentPlans: [number],
-  agentEconomicEvents: [number],
-  agentCommitments: [number],
-  agentRelationships: [number],
-  agentRoles: [number],
+  id: number
+  name: string
+  type: string
+  image: string
+  note: string
+  ownedEconomicResources: [number]
+  agentProcesses: [number]
+  agentPlans: [number]
+  agentEconomicEvents: [number]
+  agentCommitments: [number]
+  agentRelationships: [number]
+  agentRoles: [number]
   agentRecipies: [number]
 }
 

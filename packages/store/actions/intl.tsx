@@ -6,9 +6,9 @@
  * @since:   2017-03-31
  */
 
-import { createSimpleAction } from 'redux-action-helper'
+import { createSimpleAction } from "redux-action-helper";
 
-import { ACTION_SET_LANG } from '../constants'
+import { ACTION_SET_LANG } from "../constants";
 
 export interface LangSetActionInput {
   lang: string,
@@ -21,4 +21,4 @@ export interface LangSetActionPayload {
 
 export interface LangSetActionFn { (i: LangSetActionInput): LangSetActionPayload }
 
-export const setLang: LangSetActionFn = createSimpleAction(ACTION_SET_LANG)
+export const setLang: LangSetActionFn = createSimpleAction(ACTION_SET_LANG);
