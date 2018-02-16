@@ -12,10 +12,10 @@ import InventoryPage from "./pages/Inventory";
 import AccountsPage from "./pages/Accounts";
 import SingleProjectTemplate from "../ui-views/templates/SingleProjectTemplate";
 import ProcessClassificationPage from "./pages/Api/processClassification";
+import PersonPage from "./pages/Api/person";
 import UnitPage from "./pages/Api/unit";
 import OrgTypePage from "./pages/Api/orgType";
 import AgentPage from "./pages/Api/agent";
-
 import OrganizationPage from "./pages/Api/organization";
 import EconomicResourcePage from "./pages/Api/economicResource";
 import ProjectTemplate from "../ui-views/templates/ProjectTemplate";
@@ -63,6 +63,7 @@ const routes = (
       <Route path="economicevent" component={EconomicEvent} />
       <Route path="agentrelationshiprole" component={AgentRelationshipRoles} />
       <Route path="agentrelationship" component={AgentRelationship}/>
+      <Route path="person" component={PersonPage} />
     </Route>
   </Route>
 );
