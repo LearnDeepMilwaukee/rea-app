@@ -16,7 +16,7 @@ fragment organizationInterface on Organization {
 ${agentInterface}
 `;
 
-export interface OrganizationInterface {
+export interface Organization {
   id: number,
   name: string,
   type: string,
