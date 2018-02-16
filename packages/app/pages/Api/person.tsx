@@ -56,7 +56,7 @@ export const GetAllPeople = getAllPeople( ({ people, loading, error}) => {
   if (loading) {
     return <p>Loading...</p>
   } else if (error) {
-    return (<p>Error!</p>) // This can be made more specific
+    return <p>Error!</p> // This can be made more specific
   }
 
   return (
@@ -81,7 +81,7 @@ export const GetSinglePerson = getPersonById( ({ person, loading, error }) => {
   if (loading) {
     return <p>Loading...</p>
   } else if (error) {
-    return (<p>Error!</p>) // This can be made more specific
+    return <p>Error!</p> // This can be made more specific
   }
 
   return (
