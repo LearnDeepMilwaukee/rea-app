@@ -15,7 +15,7 @@ import getAgentById from "../../../ui-bindings/Agent/getAgentById";
 import { concatArray } from "./common";
 
 export const Agent = (props) => {
-  var agent = props.agent;
+  let agent = props.agent;
   return(
     <div>
       <div>id: {agent.id}</div>

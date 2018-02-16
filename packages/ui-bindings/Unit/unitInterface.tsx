@@ -17,6 +17,6 @@ fragment unitInterface on Unit {
 
 export interface Unit {
   id: number
-  name: String
-  symbol: String
+  name: string
+  symbol: string
 }
