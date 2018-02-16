@@ -15,7 +15,7 @@ import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 import { personInterface } from "./personInterface";
 
 const query = gql`
-query($token: String, $PersonId: Int) {
+query($token: String, $personId: Int) {
   viewer(token: $token) {
     person(id: $PersonId){
       ...personInterface
@@ -39,7 +39,7 @@ export default compose(
       {
         variables: {
           ...props.variables,
-          PersonId: props.personId
+          personId: props.personId
         }
       }),
 
