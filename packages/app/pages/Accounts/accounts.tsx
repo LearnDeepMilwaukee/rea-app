@@ -6,10 +6,10 @@
  * @since:   2017-04-06
  */
 
-import * as React from 'react'
-import { Component, ReactElement } from 'react'
-import { AgentType } from '@vflows/bindings/Agent/agent'
-import * as themeable from 'react-themeable'
+import * as React from "react";
+import { Component, ReactElement } from "react";
+import { AgentType } from "@vflows/bindings/Agent/agent";
+import * as themeable from "react-themeable";
 
 interface Props {
   agent?: AgentType,

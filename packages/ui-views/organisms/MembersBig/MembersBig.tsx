@@ -1,8 +1,8 @@
-import * as React from 'react'
-import * as themeable from 'react-themeable'
+import * as React from "react";
+import * as themeable from "react-themeable";
 
-import BindMembers from '@vflows/bindings/Agent/AgentMembers'
-import { AgentType } from '@vflows/bindings/Agent/agent'
+import BindMembers from "@vflows/bindings/Agent/AgentMembers";
+import { AgentType } from "@vflows/bindings/Agent/agent";
 
 interface MembersProps {
   members: Array<AgentType>, // :TODO: create custom HoC to help prehandle this output
