@@ -11,11 +11,12 @@ import ProcessesPage from "./pages/Processes";
 import InventoryPage from "./pages/Inventory";
 import AccountsPage from "./pages/Accounts";
 import SingleProjectTemplate from "../ui-views/templates/SingleProjectTemplate";
-import PersonPage from "./pages/Api/person";
 import ProcessClassificationPage from "./pages/Api/processClassification";
+import PersonPage from "./pages/Api/person";
 import UnitPage from "./pages/Api/unit";
 import OrgTypePage from "./pages/Api/orgType";
 import AgentPage from "./pages/Api/agent";
+import OrganizationPage from "./pages/Api/organization";
 import EconomicResourcePage from "./pages/Api/economicResource";
 import ProjectTemplate from "../ui-views/templates/ProjectTemplate";
 import EconomicEvent from "./pages/EconomicEvent/EconomicEvent";
@@ -57,6 +58,7 @@ const routes = (
       <Route path="unit" component={UnitPage} />
       <Route path="orgType" component={OrgTypePage} />
       <Route path="agent" component={AgentPage} />
+      <Route path="organization" component={OrganizationPage} />
       <Route path="economicresource" component={EconomicResourcePage} />
       <Route path="economicevent" component={EconomicEvent} />
       <Route path="agentrelationshiprole" component={AgentRelationshipRoles} />
