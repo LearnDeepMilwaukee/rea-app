@@ -1,5 +1,5 @@
-import * as React from "react"
-import { Route, IndexRoute, IndexRedirect } from "react-router"
+import * as React from "react";
+import { Route, IndexRoute, IndexRedirect } from "react-router";
 
 import App from "./main/App";
 import Todo from "./pages/Todo";
