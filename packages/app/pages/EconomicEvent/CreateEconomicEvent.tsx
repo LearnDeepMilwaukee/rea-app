@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import createEconomicEvent from "../../../ui-bindings/EconomicEvent/CreateEconomicEvent";
+import { SingleEconomicEvent } from "./EconomicEvent";
 
 /**
  * This is the primary component on the page. Its body contains a form that
@@ -160,20 +161,20 @@ class CreateEconomicEvent extends React.Component {
   }
 }
 
-/**
- * A single economic event being drawn on the screen
- */
-const SingleEconomicEvent = (props) => {
-  let economicEvent = props.economicEvent;
-  console.log("EconomicEvent:", economicEvent);
-
-  return (
-    <div>
-      ID: {economicEvent.id} <br />
-      Notes: {economicEvent.note} <br/>
-    </div>
-  );
-};
+// /**
+//  * A single economic event being drawn on the screen
+//  */
+// const SingleEconomicEvent = (props) => {
+//   let economicEvent = props.economicEvent;
+//   console.log("EconomicEvent:", economicEvent);
+//
+//   return (
+//     <div>
+//       ID: {economicEvent.id} <br />
+//       Notes: {economicEvent.note} <br/>
+//     </div>
+//   );
+// };
 
 // This step is different from queries. Queries are bound at runtime with the values needed,
 // but for mutation they must be bound at the beginning. The mutate() function is then returned

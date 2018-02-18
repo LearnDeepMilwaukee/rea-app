@@ -28,7 +28,7 @@ const EconomicEventById = economicEventById( ({economicEvent, loading, error}) =
 /**
  * A single economic event being drawn on the screen
  */
-const SingleEconomicEvent = (props) => {
+export const SingleEconomicEvent = (props) => {
   let economicEvent = props.economicEvent;
 
   let inputOfId = economicEvent.inputOf ? economicEvent.inputOf.id : "Missing";

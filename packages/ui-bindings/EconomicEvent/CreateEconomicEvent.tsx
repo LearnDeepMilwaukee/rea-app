@@ -1,7 +1,8 @@
-import { connect } from "react-redux"
-import { gql, graphql, compose } from "react-apollo"
-import { AppState } from "@vflows/store/types"
-import { getActiveLoginToken } from "@vflows/store/selectors/auth"
+import { connect } from "react-redux";
+import { gql, graphql, compose } from "react-apollo";
+import { AppState } from "@vflows/store/types";
+import { getActiveLoginToken } from "@vflows/store/selectors/auth";
+import EconomicEventFragment from "./EconomicEvent.tsx";
 
 export const mutation = gql`
   mutation(
@@ -51,11 +52,11 @@ export const mutation = gql`
       resourceCurrentLocationId: $resourceCurrentLocationId
     ) {
       economicEvent {
-        id
-        note
+        ...economicEventInterface
       }
     }
   }
+${EconomicEventFragment}
 `;
 
 export default compose(
