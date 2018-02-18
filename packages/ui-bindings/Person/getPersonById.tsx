@@ -1,9 +1,9 @@
 /**
- * Used to call the "ProcessClassifications(id)" query from ViewerQuery
+ * Method to call the person(id) query on Viewer
  *
  * @package: REA app
- * @author: Nicholas Roth <Lou3797>
- * @since: 2018-1-28
+ * @author:  Nicholas Roth <Lou3797>
+ * @since:   2018-02-08
  */
 
 import { connect } from "react-redux";
@@ -12,20 +12,17 @@ import { gql, graphql, compose } from "react-apollo";
 import { AppState } from "@vflows/store/types.js";
 import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 
-import { processClassificationInterface } from "./processClassificationInterface";
+import { personInterface } from "./personInterface";
 
-/**
- * The query call
- */
 const query = gql`
-query($token: String, $processClassificationId: Int) {
+query($token: String, $personId: Int) {
   viewer(token: $token) {
-    processClassification(id: $processClassificationId){
-      ...processClassificationInterface
+    person(id: $personId){
+      ...personInterface
     }
   }
 }
-${processClassificationInterface}
+${personInterface}
 `;
 
 export default compose(
@@ -42,7 +39,7 @@ export default compose(
       {
         variables: {
           ...props.variables,
-          processClassificationId: props.processClassificationId
+          personId: props.personId
         }
       }),
 
@@ -51,7 +48,7 @@ export default compose(
       {
         loading,
         error,
-        processClassification: viewer ? viewer.processClassification : null,
+        person: viewer ? viewer.person : null,
       }),
   })
 )
