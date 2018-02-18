@@ -53,12 +53,12 @@ export interface Agent {
   note: string
   ownedEconomicResources: [EconomicResource]
   agentProcesses: [Process]
-  agentPlans: [number] // TODO replace with [Plan]
-  agentEconomicEvents: [number] // TODO replace with [EconomicEvent]
-  agentCommitments: [number] // TODO replace with [Commitment]
+  agentPlans: [any] // TODO replace with [Plan]
+  agentEconomicEvents: [any] // TODO replace with [EconomicEvent]
+  agentCommitments: [any] // TODO replace with [Commitment]
   agentRelationships: [AgentRelationship]
   agentRoles: [AgentRelationshipRole]
-  agentRecipies: [number] // TODO replace with [ResourceClassification]
+  agentRecipies: [any] // TODO replace with [ResourceClassification]
 }
 
 export interface AgentType {
