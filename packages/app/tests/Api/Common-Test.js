@@ -37,7 +37,8 @@ test("emptyArrayDisplaysNone", (t) => {
 
 test("oneElementArrayDisplaysOneElement", (t) => {
 
-  let array = [1];
+  let one = {id: 1};
+  let array = [one];
 
   let result = concatArray(array);
 
@@ -47,7 +48,10 @@ test("oneElementArrayDisplaysOneElement", (t) => {
 
 test("ThreeElementArrayDisplaysThreeElements", (t) => {
 
-  let array = [1, 7, 20];
+  let one = {id: 1};
+  let seven = {id: 7};
+  let twenty = {id: 20};
+  let array = [one, seven, twenty];
 
   let result = concatArray(array);
 
