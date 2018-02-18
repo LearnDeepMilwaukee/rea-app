@@ -42,7 +42,7 @@ test("oneElementArrayDisplaysOneElement", (t) => {
 
   let result = concatArray(array);
 
-  t.equal(result, "1");
+  t.equal(result, 1);
   t.end();
 });
 
