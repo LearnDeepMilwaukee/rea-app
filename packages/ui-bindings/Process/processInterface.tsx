@@ -34,10 +34,10 @@ fragment processInterface on Process {
   unplannedEconomicEvents{
     id
   }
-  commitedInputs{
+  committedInputs{
     id
   }
-  commitedOutputs{
+  committedOutputs{
     id
   }
   nextProcesses{
@@ -67,8 +67,8 @@ export interface Process {
   inputs: any //TODO: replace with [EconomicEvent]
   outputs: any //TODO: replace with [EconomicEvent]
   unplannedEconomicEvents: any //TODO: replace with [EconomicEvent]
-  commitedInputs: any //TODO: replace with [Commitment]
-  commitedOutputs: any //TODO: replace with [Commitment]
+  committedInputs: any //TODO: replace with [Commitment]
+  committedOutputs: any //TODO: replace with [Commitment]
   nextProcesses: [Process]
   previousProcesses: [Process]
   workingAgents: [Agent]

@@ -10,6 +10,7 @@
 import * as React from "react";
 import "./api.css";
 import getAllprocesses from "../../../ui-bindings/Process/getAllProcesses";
+import getProcessById from "../../../ui-bindings/Process/getProcessById"
 import {concatArray} from "./common";
 
 export const Process = (props) => {
@@ -24,28 +25,33 @@ export const Process = (props) => {
       <div>is started : {process.isStarted}</div>
       <div>is finished : {process.isFinished}</div>
       <div>process classified as : {concatArray(process.processClassification)}</div>
-      <div>agentEconomicEvents: {concatArray(organization.agentEconomicEvents)}</div>
-      <div>agentCommitments: {concatArray(organization.agentCommitments)}</div>
-      <div>agentRelationships: {concatArray(organization.agentRelationships)}</div>
-      <div>agentRoles: {concatArray(organization.agentRoles)}</div>
-      <div>agentRecipess: {concatArray(organization.agentRecipes)}</div>
+      <div>note : {process.note}</div>
+      <div>inputs: {concatArray(process.inputs)}</div>
+      <div>outputs: {concatArray(process.outputs)}</div>
+      <div>unplanned Economic Events: {concatArray(process.unplannedEconomicEvents)}</div>
+      <div>committed Inputs: {concatArray(process.committedInputs)}</div>
+      <div>committed Outputs: {concatArray(process.committedOutputs)}</div>
+      <div>next Processes: {concatArray(process.nextProcesses)}</div>
+      <div>previous Processes: {concatArray(process.previousProcesses)}</div>
+      <div>working Agents: {concatArray(process.workingAgents)}</div>
+      <div>process Plan: {concatArray(process.processPlan)}</div>
       <br/>
     </div>
   );
 };
 
-const OrganizationField = (props) => {
+const ProcessField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
-        Enter an Id: <input type="text" name="value" onChange={props.setOrganization}/>
+        Enter an Id: <input type="text" name="value" onChange={props.setProcess}/>
         <input type="submit" value="query"/>
       </form>
     </div>
   );
 };
 
-export const GetAllOrganizations = getAllOrganizations(({ organizationList, loading, error}) => {
+export const GetAllProcesses = getAllprocesses(({ processList, loading, error}) => {
 
   if (loading) {
     return(
@@ -58,13 +64,13 @@ export const GetAllOrganizations = getAllOrganizations(({ organizationList, load
   } else {
     return(
       <div>
-        {concatArray(organizationList)}
+        {concatArray(processList)}
       </div>
     );
   }
 });
 
-export const GetSingleOrganization = getOrganizationById(({ organization, loading, error }) => {
+export const GetSingleProcess = getProcessById(({ process, loading, error }) => {
 
   if (loading) {
     return(
@@ -77,7 +83,7 @@ export const GetSingleOrganization = getOrganizationById(({ organization, loadin
   } else {
     return(
       <div>
-        <Organization organization={organization}/>
+        <Process process={process}/>
       </div>
     );
   }
@@ -86,36 +92,36 @@ export const GetSingleOrganization = getOrganizationById(({ organization, loadin
 class App extends React.Component {
 
   state = {
-    getOneOrganizationId: null,
-    setOneOrganizationId: null
+    getOneProcessId: null,
+    setOneProcessId: null
   };
 
   // Runs every time the input field changes
-  getOrganizationById = (event) => {
-    this.setState({setOneOrganizationId: parseInt(event.target.value, 10)});
+  getProcessById = (event) => {
+    this.setState({setOneProcessId: parseInt(event.target.value, 10)});
   };
 
   // Runs when "submit" is selected
   stopRefresh = (event) => {
     // Sets the value to query to the current value of the input field
-    this.setState({getOneOrganizationId: this.state.setOneOrganizationId});
+    this.setState({getOneProcessId: this.state.setOneProcessId});
     event.preventDefault();
   };
 
   render() {
-    const {getOneOrganizationId} = this.state;
+    const {getOneProcessId} = this.state;
     return (
       <div>
-        <h2>All Organizations: </h2>
+        <h2>All Process: </h2>
         <br/>
-        <GetAllOrganizations/>
+        <GetAllProcesses/>
         <br/>
-        <h2>Get an Organization By Id: </h2>
+        <h2>Get a Process By Id: </h2>
         <br/>
-        <OrganizationField setOrganization={this.getOrganizationById} onSubmitAction={this.stopRefresh}/>
+        <ProcessField setProcess={this.getProcessById} onSubmitAction={this.stopRefresh}/>
         {
-          getOneOrganizationId ?
-            <GetSingleOrganization organizationId={getOneOrganizationId}/> :
+          getOneProcessId ?
+            <GetSingleProcess processId={getOneProcessId}/> :
             <div>Enter a value</div>
         }
       </div>

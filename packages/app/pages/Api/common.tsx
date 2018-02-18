@@ -6,7 +6,7 @@
  */
 export function concatArray(array: JSON[]) {
   let retValue = "";
-  if (array[0] == null) {
+  if (array == null || array[0] == null) {
     return "none";
   }
   retValue = array[0].id;

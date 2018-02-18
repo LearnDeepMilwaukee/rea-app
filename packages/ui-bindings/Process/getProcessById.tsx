@@ -1,9 +1,9 @@
 /**
- * A method to get all Processes
+ * A method to get a single Process
  *
  * @package: REA app
  * @author:  Steven Fontaine <fontainesw@msoe.edu>
- * @since:   2018-02-15
+ * @since:   2018-1-26
  */
 
 import { connect } from "react-redux";
@@ -15,9 +15,9 @@ import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 import { processInterface } from "./processInterface";
 
 const query = gql`
-query($token: String) {
+query($token: String, $ProcessId: Int) {
   viewer(token: $token) {
-    allProcesses{
+    process(id: $ProcessId){
       ...processInterface
     }
   }
@@ -35,16 +35,20 @@ export default compose(
 
   graphql(query, {
     // read query vars into query from input data above
-    options: (props) => ({ variables: {
-        ...props.variables,
-      } }),
+    options: (props) => (
+      {
+        variables: {
+          ...props.variables,
+          ProcessId: props.processId
+        }
+      }),
+
     // transform output data
-    props: ({ ownProps, data: { viewer, loading, error, refetch } }) => (
+    props: ({ ownProps, data: { viewer, loading, error } }) => (
       {
         loading,
         error,
-        refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-        processList: viewer ? viewer.allProcesses : null,
+        process: viewer ? viewer.process : null,
       }),
   })
-)
+);
