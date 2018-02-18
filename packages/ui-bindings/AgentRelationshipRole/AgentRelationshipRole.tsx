@@ -15,3 +15,10 @@ fragment agentRelationshipRole on AgentRelationshipRole {
   inverseLabel
   category
 }`;
+
+export interface AgentRelationshipRole {
+  id: number
+  label: string
+  inverseLabel: string
+  category: string // AgentRelationshipCategory
+}

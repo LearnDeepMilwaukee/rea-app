@@ -1,11 +1,11 @@
-import * as React from 'react'
-import * as themeable from 'react-themeable'
-import { withRouter } from 'react-router'
+import * as React from "react";
+import * as themeable from "react-themeable";
+import { withRouter } from "react-router";
 
-import BindOrgs from '@vflows/bindings/user/CurrentOrganizations'
-import { AgentType } from '@vflows/bindings/agent/agent'
+import BindOrgs from "@vflows/bindings/user/CurrentOrganizations";
+import { AgentType } from "@vflows/bindings/Agent/agent";
 
-import Link from '../../atoms/Link'
+import Link from "../../atoms/Link";
 
 interface OrgsProps {
   organizations: Array<AgentType>,
