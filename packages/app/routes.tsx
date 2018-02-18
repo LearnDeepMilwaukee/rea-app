@@ -13,7 +13,6 @@ import AccountsPage from "./pages/Accounts"
 import SingleProjectTemplate from "../ui-views/templates/SingleProjectTemplate"
 
 import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
-import CreateEE2 from "./pages/EconomicEvent/CreateEE2";
 import UnitPage from "./pages/Api/unit"
 import AgentPage from "./pages/Api/agent"
 

@@ -3,86 +3,88 @@ import * as React from "react";
 import createEconomicEvent from "../../../ui-bindings/EconomicEvent/CreateEconomicEvent";
 
 /**
- * Main component for the page. Contains a search box and a list of
- * all available Economic Events
+ * This is the primary component on the page. Its body contains a form that
+ * has a field for all of the data that an EconomicEvent needs to be created.
+ *
+ * It also has some functions to turn that data into valid arguments to the mutation,
+ * and a function to execute the mutation.
+ *
+ * Upon return (asynchronously), the data is displayed under the form
  */
 class CreateEconomicEvent extends React.Component {
 
-  // declare the state and what variables are used
+  /**
+   * The economicEvent holds data returned from the mutation,
+   * and transformation from underined to a value triggers the page refresh
+   */
   state = {
     economicEvent: undefined
   };
 
+  /**
+   * This function responds to the submit button in the form. It uses the function
+   * "formToJSON" below to transform the form data into valid JSON to give to the mutation.
+   *
+   * The mutation is called, and a promise is registered for when the data comes back. Upon
+   * completion, the Component's state is set with the new data, which triggers a rerender
+   * of the page
+   *
+   * @param event The event that triggered this function (Submit being clicked)
+   */
   handleClick = (event) => {
     event.preventDefault();
     console.log("Button clicked");
 
-    let data = {
-      affectedNumericValue: "4",
-      fulfillsCommitmentId: 1,
-      affectedUnitId: 4,
-      affectsId: 4,
-      outputOfId: 8,
-      resourceImage: "Three",
-      url: "Three",
-      inputOfId: 2,
-      receiverId: 8,
-      requestDistribution: false,
-      note: "This is happening from the React App",
-      start: "2017-1-1",
-      scopeId: 6,
-      providerId: 4,
-      createResource: true,
-      resourceCurrentLocationId: 1,
-      action: "take",
-      resourceTrackingIdentifier: "Nine",
-      affectedResourceClassifiedAsId: 8,
-      resourceNote: "Five"
-    };
+    let variables = this.formToJSON(document.getElementById("form").elements);
+    variables.token = this.props.token; // add the token in afterwards
 
-    console.log("The button was clicked");
-
-    let data2 = this.formToJSON(document.getElementById("form").elements);
-
-    let variables = data;
-    variables.token = this.props.tokens.token;
-
-    console.log("Data 1:", data);
-    console.log("Data 2:", data2);
-
+    // perform the mutation
     this.props.mutate({ variables }).then( (response) => {
       console.log("Got Data", response);
+      let economicEvent = response.data.createEconomicEvent.economicEvent;
+      this.setState({economicEvent: economicEvent});
 
-      this.setState({economicEvent: response});
     }).catch( (error) => {
       console.log("There was an error sending the mutation");
       console.log("Errored Props", props);
       console.log(error);
     });
-
   };
 
+  /**
+   * This function uses the elements in the form to obtain the variables needed
+   * for the mutation. It iterates over all of the form elements and extracts the name
+   * and value properties.
+   *
+   * It validates the value properties and can transform them if they are of the
+   * wrong type, based off of characteristics of the value and the type attribute
+   * of the element.
+   *
+   * @param elements An array of the elements in the form
+   * @returns A properly formatted JSON object with all of the name, value pairs from the form
+   */
   formToJSON = elements => [].reduce.call(elements, (data, element) => {
-    console.log("Converting form to JSON");
     let value = element.value;
 
     if (value.toLowerCase() === "true") {
       value = true;
     } else if (value.toLowerCase() === "false") {
       value = false;
-    } else if (isNaN(value) === false) {
+    } else if (isNaN(value) === false && element.type === "number") {
       value = Number(value);
     }
 
     if (element.name && element.value) {
       data[element.name] = value;
     }
-    return data;
-  });
 
-  // Draw the component on the screen
+    return data;
+  }, {} /* <-- default value is an empty object */);
+
+  /**
+   * Draws the page
+   */
   render() {
-    console.log("Attempting to render the page");
     return (
       <div>
         <h1>Create Economic Event</h1>
@@ -92,13 +94,13 @@ class CreateEconomicEvent extends React.Component {
           <input name="receiverId" type="number" defaultValue="8"/>
           <br/><br/>
           fulfillsCommitmentId: Int,
-          <input name="fulfillsCommitmentId" type="number" defaultValue="0"/>
+          <input name="fulfillsCommitmentId" type="number" defaultValue="1"/>
           <br/><br/>
           createResource: Boolean,
           <input name="createResource" type="text" defaultValue="true"/>
           <br/><br/>
           inputOfId: Int,
-          <input name="inputOfId" type="number" />
+          <input name="inputOfId" type="number" defaultValue="2"/>
           <br/><br/>
           url: String,
           <input name="url" type="text" defaultValue="http://www.msoe.edu"/>
@@ -107,25 +109,25 @@ class CreateEconomicEvent extends React.Component {
           <input name="resourceImage" type="text" defaultValue="https://getuikit.com/v2/docs/images/placeholder_600x400.svg"/>
           <br/><br/>
           affectedUnitId: Int,
-          <input name="affectedUnitId" type="number" />
+          <input name="affectedUnitId" type="number" defaultValue="4"/>
           <br/><br/>
           affectsId: Int,
-          <input name="affectsId" type="number" />
+          <input name="affectsId" type="number" defaultValue="4"/>
           <br/><br/>
           providerId: Int,
-          <input name="providerId" type="number" defaultValue="8"/>
+          <input name="providerId" type="number" defaultValue="4"/>
           <br/><br/>
           resourceNote: String,
-          <input name="resourceNote" type="text" defaultValue="This is a test resource"/>
+          <input name="resourceNote" type="text" defaultValue="This is a test resource from the CreateEconomicEvent form"/>
           <br/><br/>
           note: String,
-          <input name="note" type="text" defaultValue="This is a test note"/>
+          <input name="note" type="text" defaultValue="This is a test note from the CreateEconomicEvent form"/>
           <br/><br/>
           start: String,
-          <input name="start" type="text" defaultValue="2017-12-20"/>
+          <input name="start" type="text" defaultValue="2017-1-1"/>
           <br/><br/>
           scopeId: Int,
-          <input name="scopeId" type="number" />
+          <input name="scopeId" type="number" defaultValue="6"/>
           <br/><br/>
           requestDistribution: Boolean,
           <input name="requestDistribution" type="text" defaultValue="true"/>
@@ -134,16 +136,16 @@ class CreateEconomicEvent extends React.Component {
           <input name="action" type="text" defaultValue="take"/>
           <br/><br/>
           affectedNumericValue: String!,
-          <input name="affectedNumericValue" type="text" defaultValue="5"/>
+          <input name="affectedNumericValue" type="text" defaultValue="4"/>
           <br/><br/>
           outputOfId: Int,
-          <input name="outputOfId" type="number" />
+          <input name="outputOfId" type="number" defaultValue="8"/>
           <br/><br/>
           affectedResourceClassifiedAsId: Int,
-          <input name="affectedResourceClassifiedAsId" type="number" />
+          <input name="affectedResourceClassifiedAsId" type="number" defaultValue="8"/>
           <br/><br/>
           resourceTrackingIdentifier: String
-          <input name="resourceTrackingIdentifier" type="text" />
+          <input name="resourceTrackingIdentifier" type="text" defaultValue="Lot Nine"/>
           <br/><br/>
           resourceCurrentLocationId: Int
           <input name="resourceCurrentLocationId" type="number" defaultValue="1"/>
@@ -152,41 +154,19 @@ class CreateEconomicEvent extends React.Component {
           <input type="submit" id="submit" value="Create Economic Event"/>
         </form>
 
-        {/*{this.state.variables ? <EconomicEventMutation data={this.state.variables} token={this.props.tokens.token}/> : <p>Created Event Goes Here</p>}*/}
         {this.state.economicEvent ? <SingleEconomicEvent economicEvent={this.state.economicEvent} /> : <p>Created Event Goes Here</p>}
       </div>
     );
   }
 }
 
-// const EconomicEventMutation = createEconomicEvent( (data) => {
-//
-//   console.log("Got back:", data);
-//   // return <SingleEconomicEvent economicEvent={economicEvent} />
-//   return <p>Connor</p>
-// });
-
-// const EconomicEventMutation = (props) => {
-//
-//   console.log("Props:", props);
-//
-//   let variables = props.data;
-//   variables.token = props.token;
-//
-//   this.props.mutate({ variables }).then( (response) => {
-//     console.log("Got Data", response);
-//   }).catch( (error) => {
-//     console.log("There was an error sending the mutation");
-//     console.log("Errored Props", props);
-//     console.log(error);
-//   });
-// };
-
 /**
  * A single economic event being drawn on the screen
  */
 const SingleEconomicEvent = (props) => {
   let economicEvent = props.economicEvent;
+  console.log("EconomicEvent:", economicEvent);
+
   return (
     <div>
       ID: {economicEvent.id} <br />
@@ -195,4 +175,7 @@ const SingleEconomicEvent = (props) => {
   );
 };
 
+// This step is different from queries. Queries are bound at runtime with the values needed,
+// but for mutation they must be bound at the beginning. The mutate() function is then returned
+// which can be used to call the mutation at any point.
 export default createEconomicEvent(CreateEconomicEvent);
