@@ -59,8 +59,8 @@ const routes = (
       <Route path="agentrelationshiprole" component={AgentRelationshipRoles} />
     </Route>
 
-    <Route path="CreateEconomicEvent" component={CreateEE2}>
-      <IndexRoute component={CreateEE2} />
+    <Route path="CreateEconomicEvent" component={CreateEconomicEvent}>
+      <IndexRoute component={CreateEconomicEvent} />
     </Route>
 
   </Route>

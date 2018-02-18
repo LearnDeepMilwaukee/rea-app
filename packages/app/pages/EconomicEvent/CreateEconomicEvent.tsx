@@ -10,8 +10,7 @@ class CreateEconomicEvent extends React.Component {
 
   // declare the state and what variables are used
   state = {
-    economicEvent: undefined,
-    variables: undefined
+    economicEvent: undefined
   };
 
   handleClick = (event) => {
@@ -41,9 +40,26 @@ class CreateEconomicEvent extends React.Component {
       resourceNote: "Five"
     };
 
-    this.setState({variables: data});
-
     console.log("The button was clicked");
+
+    let data2 = this.formToJSON(document.getElementById("form").elements);
+
+    let variables = data;
+    variables.token = this.props.tokens.token;
+
+    console.log("Data 1:", data);
+    console.log("Data 2:", data2);
+
+    this.props.mutate({ variables }).then( (response) => {
+      console.log("Got Data", response);
+
+      this.setState({economicEvent: response});
+    }).catch( (error) => {
+      console.log("There was an error sending the mutation");
+      console.log("Errored Props", props);
+      console.log(error);
+    });
+
   };
 
   formToJSON = elements => [].reduce.call(elements, (data, element) => {
@@ -73,16 +89,16 @@ class CreateEconomicEvent extends React.Component {
 
         <form id="form" onSubmit={this.handleClick}>
           receiverId: Int,
-          <input name="receiverId" type="text" defaultValue="8"/>
+          <input name="receiverId" type="number" defaultValue="8"/>
           <br/><br/>
           fulfillsCommitmentId: Int,
-          <input name="fulfillsCommitmentId" type="text" defaultValue="0"/>
+          <input name="fulfillsCommitmentId" type="number" defaultValue="0"/>
           <br/><br/>
           createResource: Boolean,
           <input name="createResource" type="text" defaultValue="true"/>
           <br/><br/>
           inputOfId: Int,
-          <input name="inputOfId" type="text" />
+          <input name="inputOfId" type="number" />
           <br/><br/>
           url: String,
           <input name="url" type="text" defaultValue="http://www.msoe.edu"/>
@@ -91,13 +107,13 @@ class CreateEconomicEvent extends React.Component {
           <input name="resourceImage" type="text" defaultValue="https://getuikit.com/v2/docs/images/placeholder_600x400.svg"/>
           <br/><br/>
           affectedUnitId: Int,
-          <input name="affectedUnitId" type="text" />
+          <input name="affectedUnitId" type="number" />
           <br/><br/>
           affectsId: Int,
-          <input name="affectsId" type="text" />
+          <input name="affectsId" type="number" />
           <br/><br/>
           providerId: Int,
-          <input name="providerId" type="text" defaultValue="8"/>
+          <input name="providerId" type="number" defaultValue="8"/>
           <br/><br/>
           resourceNote: String,
           <input name="resourceNote" type="text" defaultValue="This is a test resource"/>
@@ -109,7 +125,7 @@ class CreateEconomicEvent extends React.Component {
           <input name="start" type="text" defaultValue="2017-12-20"/>
           <br/><br/>
           scopeId: Int,
-          <input name="scopeId" type="text" />
+          <input name="scopeId" type="number" />
           <br/><br/>
           requestDistribution: Boolean,
           <input name="requestDistribution" type="text" defaultValue="true"/>
@@ -121,49 +137,50 @@ class CreateEconomicEvent extends React.Component {
           <input name="affectedNumericValue" type="text" defaultValue="5"/>
           <br/><br/>
           outputOfId: Int,
-          <input name="outputOfId" type="text" />
+          <input name="outputOfId" type="number" />
           <br/><br/>
           affectedResourceClassifiedAsId: Int,
-          <input name="affectedResourceClassifiedAsId" type="text" />
+          <input name="affectedResourceClassifiedAsId" type="number" />
           <br/><br/>
           resourceTrackingIdentifier: String
           <input name="resourceTrackingIdentifier" type="text" />
           <br/><br/>
           resourceCurrentLocationId: Int
-          <input name="resourceCurrentLocationId" type="text" defaultValue="1"/>
+          <input name="resourceCurrentLocationId" type="number" defaultValue="1"/>
           <br/><br/>
 
           <input type="submit" id="submit" value="Create Economic Event"/>
         </form>
 
-        {this.state.variables ? <EconomicEventMutation data={this.state.variables} /> : <p>Created Event Goes Here</p>}
+        {/*{this.state.variables ? <EconomicEventMutation data={this.state.variables} token={this.props.tokens.token}/> : <p>Created Event Goes Here</p>}*/}
+        {this.state.economicEvent ? <SingleEconomicEvent economicEvent={this.state.economicEvent} /> : <p>Created Event Goes Here</p>}
       </div>
     );
   }
 }
 
-/**
- * Binds to the database passing in any variables defined in props. Then maps
- * the response from the database to a component that can be rendered on the screen
- */
-// const EconomicEventMutation = createEconomicEvent( ({economicEvent, loading, error}) => {
-//   // if (loading) {
-//   //   return <h3>Loading...</h3>
-//   // } else if (error) {
-//   //   return <h3>Error!</h3>
-//   // }
+// const EconomicEventMutation = createEconomicEvent( (data) => {
 //
-//   console.log("Got back:", economicEvent, loading, error);
+//   console.log("Got back:", data);
 //   // return <SingleEconomicEvent economicEvent={economicEvent} />
 //   return <p>Connor</p>
 // });
 
-const EconomicEventMutation = createEconomicEvent( (data) => {
-
-  console.log("Got back:", data);
-  // return <SingleEconomicEvent economicEvent={economicEvent} />
-  return <p>Connor</p>
-});
+// const EconomicEventMutation = (props) => {
+//
+//   console.log("Props:", props);
+//
+//   let variables = props.data;
+//   variables.token = props.token;
+//
+//   this.props.mutate({ variables }).then( (response) => {
+//     console.log("Got Data", response);
+//   }).catch( (error) => {
+//     console.log("There was an error sending the mutation");
+//     console.log("Errored Props", props);
+//     console.log(error);
+//   });
+// };
 
 /**
  * A single economic event being drawn on the screen
@@ -178,4 +195,4 @@ const SingleEconomicEvent = (props) => {
   );
 };
 
-export default CreateEconomicEvent;
+export default createEconomicEvent(CreateEconomicEvent);
