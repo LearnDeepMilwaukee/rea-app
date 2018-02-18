@@ -17,7 +17,7 @@ import { concatArray }  from "../../pages/Api/common.js";
 
 test("nullArrayDisplaysNone", (t) => {
 
-  array = null;
+  let array = null;
 
   result = concatArray(array);
 
@@ -27,7 +27,7 @@ test("nullArrayDisplaysNone", (t) => {
 
 test("emptyArrayDisplaysNone", (t) => {
 
-  array = [];
+  let array = [];
 
   result = concatArray(array);
 
@@ -37,7 +37,7 @@ test("emptyArrayDisplaysNone", (t) => {
 
 test("oneElementArrayDisplaysOneElement", (t) => {
 
-  array = [1];
+  let array = [1];
 
   result = concatArray(array);
 
@@ -47,7 +47,7 @@ test("oneElementArrayDisplaysOneElement", (t) => {
 
 test("ThreeElementArrayDisplaysThreeElements", (t) => {
 
-  array = [1, 7, 20];
+  let array = [1, 7, 20];
 
   result = concatArray(array);
 
