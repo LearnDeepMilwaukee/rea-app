@@ -44,34 +44,33 @@ class CreateEconomicEvent extends React.Component {
     console.log("The button was clicked");
 
     // console.log("Props:", props);
-    console.log("This.Props:", this.props);
+    console.log("Front End Props:", this.props);
 
-    // this.props.mutate({
-    //   variables: {
-    //     affectedNumericValue: "4",
-    //     fulfillsCommitmentId: 1,
-    //     affectedUnitId: 4,
-    //     affectsId: 4,
-    //     outputOfId: 8,
-    //     resourceImage: "Three",
-    //     url: "Three",
-    //     inputOfId: 2,
-    //     receiverId: 8,
-    //     requestDistribution: false,
-    //     note: "CreateEE2",
-    //     start: "2017-1-1",
-    //     scopeId: 6,
-    //     providerId: 4,
-    //     createResource: true,
-    //     resourceCurrentLocationId: 1,
-    //     action: "take",
-    //     resourceTrackingIdentifier: "Nine",
-    //     affectedResourceClassifiedAsId: 8,
-    //     resourceNote: "Five",
-    //     // token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5vciIsImlhdCI6MTUxODcwOTUwOCwicGFzc3dvcmQiOiI3YzA4ODliOWU5ZmNjYzAxZDIzMDcwNzljNDk5OTcyNDFlNTZlNzU0IiwiaWQiOjZ9.-FN3eux3ltj9twLkqPUkS6n1BL7htJlwBYXUz7O_B2c"
-    //   }
-
-    this.props.mutate().then( (response) => {
+    this.props.mutate({
+      variables: {
+        affectedNumericValue: "4",
+        fulfillsCommitmentId: 1,
+        affectedUnitId: 4,
+        affectsId: 4,
+        outputOfId: 8,
+        resourceImage: "Three",
+        url: "Three",
+        inputOfId: 2,
+        receiverId: 8,
+        requestDistribution: false,
+        note: "CreateEE2",
+        start: "2017-1-1",
+        scopeId: 6,
+        providerId: 4,
+        createResource: true,
+        resourceCurrentLocationId: 1,
+        action: "take",
+        resourceTrackingIdentifier: "Nine",
+        affectedResourceClassifiedAsId: 8,
+        resourceNote: "Five",
+        token: this.props.tokens.token
+      }
+    }).then( (response) => {
       console.log("Got Data", response);
     }).catch( (error) => {
       console.log("There was an error sending the mutation");

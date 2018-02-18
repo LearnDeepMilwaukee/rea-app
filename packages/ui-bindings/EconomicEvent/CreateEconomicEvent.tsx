@@ -93,7 +93,7 @@ export const mutation = gql`
 
 export default compose(
   connect(state => ({
-    variables: {
+    tokens: {
       token: getActiveLoginToken(state)
     }
   })),
@@ -101,7 +101,7 @@ export default compose(
     options: {
       variables: (props) => (
           {
-            token: getActiveLoginToken(state),
+            ...tokens,
             ...props.variables
           }
       )
