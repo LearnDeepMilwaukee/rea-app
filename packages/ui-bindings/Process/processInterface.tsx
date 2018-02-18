@@ -62,15 +62,15 @@ export interface Process {
   plannedDuration: string
   isStarted: boolean
   isFinished: boolean
-  processClassifiedAs: any //TODO: change to process classification
+  processClassifiedAs: any // TODO: change to process classification
   note: string
-  inputs: any //TODO: replace with [EconomicEvent]
-  outputs: any //TODO: replace with [EconomicEvent]
-  unplannedEconomicEvents: any //TODO: replace with [EconomicEvent]
-  committedInputs: any //TODO: replace with [Commitment]
-  committedOutputs: any //TODO: replace with [Commitment]
+  inputs: any // TODO: replace with [EconomicEvent]
+  outputs: any // TODO: replace with [EconomicEvent]
+  unplannedEconomicEvents: any // TODO: replace with [EconomicEvent]
+  committedInputs: any // TODO: replace with [Commitment]
+  committedOutputs: any // TODO: replace with [Commitment]
   nextProcesses: [Process]
   previousProcesses: [Process]
   workingAgents: [Agent]
-  processPlan: any //TODO: replace with Plan
+  processPlan: any // TODO: replace with Plan
 }
