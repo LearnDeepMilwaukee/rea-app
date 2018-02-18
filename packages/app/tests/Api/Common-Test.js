@@ -19,7 +19,7 @@ test("nullArrayDisplaysNone", (t) => {
 
   let array = null;
 
-  result = concatArray(array);
+  let result = concatArray(array);
 
   t.equal(result, "none");
   t.end();
@@ -29,7 +29,7 @@ test("emptyArrayDisplaysNone", (t) => {
 
   let array = [];
 
-  result = concatArray(array);
+  let result = concatArray(array);
 
   t.equal(result, "none");
   t.end();
@@ -39,7 +39,7 @@ test("oneElementArrayDisplaysOneElement", (t) => {
 
   let array = [1];
 
-  result = concatArray(array);
+  let result = concatArray(array);
 
   t.equal(result, "1");
   t.end();
@@ -49,7 +49,7 @@ test("ThreeElementArrayDisplaysThreeElements", (t) => {
 
   let array = [1, 7, 20];
 
-  result = concatArray(array);
+  let result = concatArray(array);
 
   t.equal(result, "1, 7, 20");
   t.end();

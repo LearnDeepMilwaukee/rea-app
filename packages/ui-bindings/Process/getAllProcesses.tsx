@@ -47,4 +47,4 @@ export default compose(
         processList: viewer ? viewer.allProcesses : null,
       }),
   })
-)
+);
