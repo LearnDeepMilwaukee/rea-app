@@ -23,6 +23,7 @@ import EconomicEvent from "./pages/EconomicEvent/EconomicEvent";
 import AgentRelationshipRoles from "./pages/AgentRelationshipRole/AgentRelationshipRole";
 import AgentRelationship from "./pages/Api/agentRelationship";
 import Process from "./pages/Api/process";
+import Plan from "./pages/Api/plan";
 
 const routes = (
   <Route path="/" component={App}>
@@ -65,6 +66,7 @@ const routes = (
       <Route path="agentrelationshiprole" component={AgentRelationshipRoles} />
       <Route path="agentrelationship" component={AgentRelationship}/>
       <Route path="process" component={Process}/>
+      <Route path="plan" component={Plan}/>
       <Route path="person" component={PersonPage} />
     </Route>
   </Route>
