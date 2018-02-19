@@ -8,6 +8,7 @@
 
 import { gql } from "react-apollo";
 import { Agent } from "../Agent/agentInterface";
+import { Plan } from "../Plan/planInterface";
 import EconomicEvent from "../../app/pages/EconomicEvent/EconomicEvent";
 
 export const processInterface = gql`
@@ -72,5 +73,5 @@ export interface Process {
   nextProcesses: [Process]
   previousProcesses: [Process]
   workingAgents: [Agent]
-  processPlan: any // TODO: replace with Plan
+  processPlan: Plan
 }

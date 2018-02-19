@@ -1,6 +1,6 @@
 /**
- * This exports a React element which displays a list of all processes,
- * and provides a section to select a single process out of that list
+ * This exports a React element which displays a list of all plans,
+ * and provides a section to select a single plan out of that list
  *
  * @package: REA app
  * @author:  Ryan Guinn <guinnrd@msoe.edu>
@@ -9,8 +9,8 @@
 
 import * as React from "react";
 import "./api.css";
-import getAllplans from "../../../ui-bindings/Process/getAllPlans";
-import getPlanById from "../../../ui-bindings/Process/getPlanById";
+import getAllplans from "../../../ui-bindings/Plan/getAllPlans";
+import getPlanById from "../../../ui-bindings/Plan/getPlanById";
 import { concatArray } from "./common";
 
 export const Process = (props) => {

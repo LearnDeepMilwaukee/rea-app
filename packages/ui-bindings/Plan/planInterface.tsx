@@ -8,69 +8,50 @@
 
 import { gql } from "react-apollo";
 import { Agent } from "../Agent/agentInterface";
+import { Process } from "../Process/processInterface";
 import EconomicEvent from "../../app/pages/EconomicEvent/EconomicEvent";
 
-export const processInterface = gql`
-fragment processInterface on Process {
+export const planInterface = gql`
+fragment planInterface on Plan {
   id
   name
+  plannedOn
+  due
+  note
   scope{
     id
   }
-  plannedStart
-  plannedDuration
-  isStarted
-  isFinished
-  processClassifiedAs{
-    id
-  }
-  note
-  inputs{
-    id
-  }
-  outputs{
-    id
-  }
-  unplannedEconomicEvents{
-    id
-  }
-  committedInputs{
-    id
-  }
-  committedOutputs{
-    id
-  }
-  nextProcesses{
-    id
-  }
-  previousProcesses{
+  planProcesses{
     id
   }
   workingAgents{
     id
   }
-  processPlan{
+  plannedNonWorkInputs{
+    id
+  }
+  plannedOutputs{
+    id
+  }
+  nonWorkInputs{
+    id
+  }
+  outputs{
     id
   }
 }`;
 
-export interface Process {
+export interface Plan {
   id: number
   name: string
-  scope: Agent
-  plannedStart: string
-  plannedDuration: string
-  isStarted: boolean
-  isFinished: boolean
-  processClassifiedAs: any // TODO: change to process classification
+  plannedOn: string
+  due: string
   note: string
-  inputs: any // TODO: replace with [EconomicEvent]
-  outputs: any // TODO: replace with [EconomicEvent]
-  unplannedEconomicEvents: any // TODO: replace with [EconomicEvent]
-  committedInputs: any // TODO: replace with [Commitment]
-  committedOutputs: any // TODO: replace with [Commitment]
-  nextProcesses: [Process]
-  previousProcesses: [Process]
+  scope: [Agent]
+  planProcesses: [Process]
   workingAgents: [Agent]
-  processPlan: any // TODO: replace with Plan
+  plannedNonWorkInputs: any // TODO: replace with [Commitment]
+  plannedOutputs: any // TODO: replace with [Commitment]
+  nonWorkInputs: any // TODO: replace with [EconomicEvent]
+  outputs: any // TODO: replace with [EconomicEvent]
 }
