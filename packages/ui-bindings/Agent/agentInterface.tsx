@@ -7,6 +7,10 @@
  */
 
 import { gql } from "react-apollo";
+import { EconomicResource } from "../EconomicResource/economicResourceInterface";
+import { Process } from "../Process/processInterface";
+import { AgentRelationship } from "../AgentRelationship/agentRelationshipInterface";
+import { AgentRelationshipRole } from "../AgentRelationshipRole/AgentRelationshipRoleInterface";
 
 export const agentInterface = gql`
 fragment agentInterface on Agent {
@@ -42,19 +46,19 @@ fragment agentInterface on Agent {
 }`;
 
 export interface Agent {
-  id: number,
-  name: string,
-  type: string,
-  image: string,
-  note: string,
-  ownedEconomicResources: [number],
-  agentProcesses: [number],
-  agentPlans: [number],
-  agentEconomicEvents: [number],
-  agentCommitments: [number],
-  agentRelationships: [number],
-  agentRoles: [number],
-  agentRecipies: [number]
+  id: number
+  name: string
+  type: string
+  image: string
+  note: string
+  ownedEconomicResources: [EconomicResource]
+  agentProcesses: [Process]
+  agentPlans: [any] // TODO replace with [Plan]
+  agentEconomicEvents: [any] // TODO replace with [EconomicEvent]
+  agentCommitments: [any] // TODO replace with [Commitment]
+  agentRelationships: [AgentRelationship]
+  agentRoles: [AgentRelationshipRole]
+  agentRecipies: [any] // TODO replace with [ResourceClassification]
 }
 
 export interface AgentType {
