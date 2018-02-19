@@ -17,9 +17,9 @@ import economicEventById from "../../../ui-bindings/EconomicEvent/getEconomicEve
  */
 const EconomicEventById = economicEventById( ({economicEvent, loading, error}) => {
   if (loading) {
-    return <h3>Loading...</h3>
+    return <h3>Loading...</h3>;
   } else if (error) {
-    return <h3>Error!</h3>
+    return <h3>Error!</h3>;
   }
 
   return <SingleEconomicEvent economicEvent={economicEvent} />
@@ -28,7 +28,7 @@ const EconomicEventById = economicEventById( ({economicEvent, loading, error}) =
 /**
  * A single economic event being drawn on the screen
  */
-const SingleEconomicEvent = (props) => {
+export const SingleEconomicEvent = (props) => {
   let economicEvent = props.economicEvent;
 
   let inputOfId = economicEvent.inputOf ? economicEvent.inputOf.id : "Missing";

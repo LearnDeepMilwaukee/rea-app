@@ -22,6 +22,7 @@ import ProjectTemplate from "../ui-views/templates/ProjectTemplate";
 import EconomicEvent from "./pages/EconomicEvent/EconomicEvent";
 import AgentRelationshipRoles from "./pages/AgentRelationshipRole/AgentRelationshipRole";
 import AgentRelationship from "./pages/Api/agentRelationship";
+import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
 import Process from "./pages/Api/process";
 
 const routes = (
@@ -66,7 +67,12 @@ const routes = (
       <Route path="agentrelationship" component={AgentRelationship}/>
       <Route path="process" component={Process}/>
       <Route path="person" component={PersonPage} />
+
+      <Route path="mutations">
+        <Route path="createeconomicevent" component={CreateEconomicEvent} />
+      </Route>
     </Route>
+
   </Route>
 );
 
