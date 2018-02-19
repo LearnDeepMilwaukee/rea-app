@@ -17,9 +17,9 @@ import economicEventById from "../../../ui-bindings/EconomicEvent/getEconomicEve
  */
 const EconomicEventById = economicEventById( ({economicEvent, loading, error}) => {
   if (loading) {
-    return <h3>Loading...</h3>
+    return <h3>Loading...</h3>;
   } else if (error) {
-    return <h3>Error!</h3>
+    return <h3>Error!</h3>;
   }
 
   return <SingleEconomicEvent economicEvent={economicEvent} />

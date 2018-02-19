@@ -1,3 +1,10 @@
+/**
+ * Gets all of the Economic Events in the database
+ *
+ * @author Connor Hibbs <chibbs96@gmail.com>
+ * @date Feb 18, 2018
+ */
+
 import { connect } from "react-redux";
 import { gql, graphql, compose } from "react-apollo";
 import { AppState } from "@vflows/store/types";

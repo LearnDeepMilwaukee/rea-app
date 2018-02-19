@@ -1,3 +1,12 @@
+/**
+ * Contains a form to allow the user to enter the data needed for an
+ * Economic Event. The page then executes the mutation and creates the
+ * item in the database.
+ *
+ * @author Connor Hibbs <chibbs96@gmail.com>
+ * @date Feb 18, 2018
+ */
+
 import * as React from "react";
 
 import createEconomicEvent from "../../../ui-bindings/EconomicEvent/CreateEconomicEvent";
@@ -34,20 +43,16 @@ class CreateEconomicEvent extends React.Component {
    */
   handleClick = (event) => {
     event.preventDefault();
-    console.log("Button clicked");
 
     let variables = this.formToJSON(document.getElementById("form").elements);
     variables.token = this.props.token; // add the token in afterwards
 
     // perform the mutation
     this.props.mutate({ variables }).then( (response) => {
-      console.log("Got Data", response);
       let economicEvent = response.data.createEconomicEvent.economicEvent;
       this.setState({economicEvent: economicEvent});
 
     }).catch( (error) => {
-      console.log("There was an error sending the mutation");
-      console.log("Errored Props", props);
       console.log(error);
     });
   };
@@ -160,21 +165,6 @@ class CreateEconomicEvent extends React.Component {
     );
   }
 }
-
-// /**
-//  * A single economic event being drawn on the screen
-//  */
-// const SingleEconomicEvent = (props) => {
-//   let economicEvent = props.economicEvent;
-//   console.log("EconomicEvent:", economicEvent);
-//
-//   return (
-//     <div>
-//       ID: {economicEvent.id} <br />
-//       Notes: {economicEvent.note} <br/>
-//     </div>
-//   );
-// };
 
 // This step is different from queries. Queries are bound at runtime with the values needed,
 // but for mutation they must be bound at the beginning. The mutate() function is then returned
