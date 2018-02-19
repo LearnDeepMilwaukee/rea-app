@@ -13,45 +13,39 @@ import getAllplans from "../../../ui-bindings/Plan/getAllPlans";
 import getPlanById from "../../../ui-bindings/Plan/getPlanById";
 import { concatArray } from "./common";
 
-export const Process = (props) => {
-  let process = props.process;
+export const Plan = (props) => {
+  let plan = props.plan;
   return(
     <div>
-      <div>id: {process.id}</div>
-      <div>name: {process.name}</div>
-      <div>scope: {concatArray(process.scope)}</div>
-      <div>planned start: {process.plannedStart}</div>
-      <div>planned durration : {process.plannedDuration}</div>
-      <div>is started : {process.isStarted}</div>
-      <div>is finished : {process.isFinished}</div>
-      <div>process classified as : {concatArray(process.processClassification)}</div>
-      <div>note : {process.note}</div>
-      <div>inputs: {concatArray(process.inputs)}</div>
-      <div>outputs: {concatArray(process.outputs)}</div>
-      <div>unplanned Economic Events: {concatArray(process.unplannedEconomicEvents)}</div>
-      <div>committed Inputs: {concatArray(process.committedInputs)}</div>
-      <div>committed Outputs: {concatArray(process.committedOutputs)}</div>
-      <div>next Processes: {concatArray(process.nextProcesses)}</div>
-      <div>previous Processes: {concatArray(process.previousProcesses)}</div>
-      <div>working Agents: {concatArray(process.workingAgents)}</div>
-      <div>process Plan: {concatArray(process.processPlan)}</div>
+      <div>id: {plan.id}</div>
+      <div>name: {plan.name}</div>
+      <div>plannedOn: {plan.plannedOn}</div>
+      <div>due: {plan.due}</div>
+      <div>note: {plan.note}</div>
+      <div>scope: {concatArray(plan.scope)}</div>
+      <div>planProcesses: {concatArray(plan.planProcesses)}</div>
+      <div>workingAgents: {concatArray(plan.workingAgents)}</div>
+      <div>plannedNonWorkInputs: {concatArray(plan.plannedNonWorkInputs)}</div>
+      <div>plannedOutputs: {concatArray(plan.plannedOutputs)}</div>
+      <div>nonWorkInputs: {concatArray(plan.nonWorkInputs)}</div>
+      <div>outputs: {concatArray(plan.outputs)}</div>
       <br/>
     </div>
   );
 };
 
-const ProcessField = (props) => {
+const PlanField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
-        Enter an Id: <input type="text" name="value" onChange={props.setProcess}/>
+        Enter an Id: <input type="text" name="value" onChange={props.setPlan}/>
         <input type="submit" value="query"/>
       </form>
     </div>
   );
 };
 
-export const GetAllProcesses = getAllprocesses(({ processList, loading, error}) => {
+export const GetAllPlans = getAllplans(({ planList, loading, error}) => {
 
   if (loading) {
     return(
@@ -64,13 +58,13 @@ export const GetAllProcesses = getAllprocesses(({ processList, loading, error}) 
   } else {
     return(
       <div>
-        {concatArray(processList)}
+        {concatArray(planList)}
       </div>
     );
   }
 });
 
-export const GetSingleProcess = getProcessById(({ process, loading, error }) => {
+export const GetSinglePlan = getPlanById(({ plan, loading, error }) => {
 
   if (loading) {
     return(
@@ -83,7 +77,7 @@ export const GetSingleProcess = getProcessById(({ process, loading, error }) => 
   } else {
     return(
       <div>
-        <Process process={process}/>
+        <Plan plan={plan}/>
       </div>
     );
   }
@@ -92,36 +86,36 @@ export const GetSingleProcess = getProcessById(({ process, loading, error }) => 
 class App extends React.Component {
 
   state = {
-    getOneProcessId: null,
-    setOneProcessId: null
+    getOnePlanId: null,
+    setOnePlanId: null
   };
 
   // Runs every time the input field changes
-  getProcessById = (event) => {
-    this.setState({setOneProcessId: parseInt(event.target.value, 10)});
+  getPlanById = (event) => {
+    this.setState({setOnePlanId: parseInt(event.target.value, 10)});
   };
 
   // Runs when "submit" is selected
   stopRefresh = (event) => {
     // Sets the value to query to the current value of the input field
-    this.setState({getOneProcessId: this.state.setOneProcessId});
+    this.setState({getOnePlanId: this.state.setOnePlanId});
     event.preventDefault();
   };
 
   render() {
-    const {getOneProcessId} = this.state;
+    const {getOnePlanId} = this.state;
     return (
       <div>
-        <h2>All Process: </h2>
+        <h2>All Plans: </h2>
         <br/>
-        <GetAllProcesses/>
+        <GetAllPlans/>
         <br/>
-        <h2>Get a Process By Id: </h2>
+        <h2>Get a Plan By Id: </h2>
         <br/>
-        <ProcessField setProcess={this.getProcessById} onSubmitAction={this.stopRefresh}/>
+        <PlanField setPlan={this.getPlanById} onSubmitAction={this.stopRefresh}/>
         {
-          getOneProcessId ?
-            <GetSingleProcess processId={getOneProcessId}/> :
+          getOnePlanId ?
+            <GetSinglePlan planId={getOnePlanId}/> :
             <div>Enter a value</div>
         }
       </div>
