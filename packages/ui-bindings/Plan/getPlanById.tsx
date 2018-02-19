@@ -15,14 +15,14 @@ import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 import { planInterface } from "./planInterface";
 
 const query = gql`
-query($token: String, $ProcessId: Int) {
+query($token: String, $PlanId: Int) {
   viewer(token: $token) {
-    process(id: $ProcessId){
-      ...processInterface
+    plan(id: $PlanId){
+      ...planInterface
     }
   }
 }
-${processInterface}
+${planInterface}
 `;
 
 export default compose(
@@ -39,7 +39,7 @@ export default compose(
       {
         variables: {
           ...props.variables,
-          ProcessId: props.processId
+          PlanId: props.planId
         }
       }),
 
@@ -48,7 +48,7 @@ export default compose(
       {
         loading,
         error,
-        process: viewer ? viewer.process : null,
+        plan: viewer ? viewer.plan : null,
       }),
   })
 );
