@@ -2,8 +2,8 @@
  * Query fragments for Economic Agents
  *
  * @package: REA app
- * @author:  pospi <pospi@spadgos.com>
- * @since:   2017-06-23
+ * @author:  Ryan Guinn <guinnrd@msoe.edu>
+ * @since:   2019-02-19
  */
 
 import { gql } from "react-apollo"
