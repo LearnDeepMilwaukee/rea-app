@@ -17,12 +17,12 @@ import { planInterface } from "./planInterface";
 const query = gql`
 query($token: String) {
   viewer(token: $token) {
-    allProcesses{
-      ...processInterface
+    allPlans{
+      ...planInterface
     }
   }
 }
-${processInterface}
+${planInterface}
 `;
 
 export default compose(
@@ -44,7 +44,7 @@ export default compose(
         loading,
         error,
         refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-        processList: viewer ? viewer.allProcesses : null,
+        planList: viewer ? viewer.allPlans : null,
       }),
   })
 );
