@@ -7,7 +7,7 @@
  */
 
 import { gql } from "react-apollo";
-import { agentInterface } from "../Agent/agentInterface";
+import {Agent, agentInterface} from "../Agent/agentInterface";
 
 export const organizationInterface = gql`
 fragment organizationInterface on Organization {
@@ -16,18 +16,4 @@ fragment organizationInterface on Organization {
 ${agentInterface}
 `;
 
-export interface Organization {
-  id: number,
-  name: string,
-  type: string,
-  image: string,
-  note: string,
-  ownedEconomicResources: [number],
-  agentProcesses: [number],
-  agentPlans: [number],
-  agentEconomicEvents: [number],
-  agentCommitments: [number],
-  agentRelationships: [number],
-  agentRoles: [number],
-  agentRecipies: [number]
-}
+export interface Organization extends Agent{}

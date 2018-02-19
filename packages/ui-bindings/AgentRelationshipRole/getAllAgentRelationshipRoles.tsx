@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { gql, graphql, compose } from "react-apollo";
 import { AppState } from "@vflows/store/types";
 import { getActiveLoginToken } from "@vflows/store/selectors/auth";
-import agentRelationshipRole from "./AgentRelationshipRole";
+import agentRelationshipRole from "./AgentRelationshipRoleInterface";
 
 const query = gql`
 query($token: String){
