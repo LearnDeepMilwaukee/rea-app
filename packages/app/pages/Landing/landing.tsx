@@ -59,7 +59,6 @@ const YourProjects = CurrentUser(withRouter(({ user, loading, error, theme, rout
     )
   }
   else {
-
     return (
       <Theme theme={theme} child={<h1>Hello, {user.name} 👋</h1>
       <div {...currentTheme(4, 'project_list')}>
