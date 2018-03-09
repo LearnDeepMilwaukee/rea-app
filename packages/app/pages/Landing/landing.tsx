@@ -31,42 +31,46 @@ interface UserProps {
 }
 
 const YourProjects = CurrentUser(withRouter(({ user, loading, error, theme, router }: UserProps) => {
-  let currentTheme = themeable(theme);
+    let currentTheme = themeable(theme);
 
-  if(loading){
-    return(
-      <strong>Loading...</strong>
-    );
-  }
-  else if(error){
-    return(
-      <p style={{ color: '#F00' }}>API error</p>
-    );
-  }
-  else{
-    return(
-      <section {...currentTheme(1, 'landing')}>
-        <div {...currentTheme(2, 'row')}>
-          <div {...currentTheme(3, 'medium-5', 'medium-centered', 'columns')} >
-            <h1 {...currentTheme(1000, 'landingContent')}>Hello, {user.name} 👋</h1>
-            <h5 {...currentTheme(4, 'project_list')}>Choose one of the projects of your network</h5>
-            <ul {...currentTheme(30000, 'aside_list')} >
-              {user.agentRelationships.map((item, i) => (
-                <li {...currentTheme(i + i + i + 1, 'list_item', router.isActive('projects/' + item.object.id) && 'active')} >
-                  <Link href={'projects/' + item.object.id} {...currentTheme(i + i + i + 2, 'item_link')} >
-                    <span {...currentTheme( i + i + i + 3, 'link_image')}>
-                      <img src={item.object.image} />
-                    </span>
-                    <h4>{item.object.name}</h4>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+    if(loading){
+      return(
+        <strong>Loading...</strong>
+      );
+    }
+    else if(error){
+      return(
+        <p style={{ color: '#F00' }}>API error</p>
+      );
+    }
+    else{
+      return(
+        <section {...currentTheme(1, 'landing')}>
+          <div {...currentTheme(2, 'row')}>
+            <div {...currentTheme(3, 'medium-5', 'medium-centered', 'columns')} >
+              <div {...currentTheme(1000, 'landingContent')}>
+                <h1>Hello, {user.name} 👋</h1>
+                <div {...currentTheme(4, 'project_list')}>
+                  <h5>Choose one of the projects of your network</h5>
+                  <ul {...currentTheme(30000, 'aside_list')} >
+                    {user.agentRelationships.map((item, i) => (
+                      <li {...currentTheme(i + i + i + 1, 'list_item', router.isActive('projects/' + item.object.id) && 'active')} >
+                        <Link href={'projects/' + item.object.id} {...currentTheme(i + i + i + 2, 'item_link')} >
+                            <span {...currentTheme( i + i + i + 3, 'link_image')}>
+                                <img src={item.object.image} />
+                            </span>
+                          <h4>{item.object.name}</h4>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-    );
-  }
+        </section>
+      );
+    }
 }));
 
 export default YourProjects;
