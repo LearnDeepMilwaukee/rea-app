@@ -1,9 +1,9 @@
-import * as React from 'react'
-import * as themeable from 'react-themeable'
-import { SFC } from 'react'
-import CurrentUser from '@vflows/bindings/user/CurrentUser'
-import Link from '../../atoms/Link'
-import {Bell, Search, Horizontal} from '../../icons'
+import * as React from "react";
+import * as themeable from "react-themeable";
+import { SFC } from "react";
+import CurrentUser from "@vflows/bindings/user/CurrentUser";
+import Link from "../../atoms/Link";
+import {Bell, Search, Horizontal} from "../../icons";
 
 interface UserProps {
   user?: {
@@ -16,14 +16,14 @@ interface UserProps {
 }
 
 const Header = CurrentUser(({ user, loading, error, theme }: UserProps) => {
-    let currentTheme = themeable(theme)
+    let currentTheme = themeable(theme);
     return (
         loading ? <strong>Loading...</strong> : (error ? <p style={{ color: '#F00' }}>API error</p> : (
         <header {...currentTheme(0, 'main_header')} >
           <div {...currentTheme(1, 'row')}>
             <Link href='/'><span  {...currentTheme(2, 'header_logo')} /></Link>
             <div {...currentTheme(4, 'header_search')} >
-              <input {...currentTheme(5, 'search', 'input')} placeholder='Search on kamasi' />
+              <input {...currentTheme(5, 'search', 'input')} placeholder='Search' />
               <span {...currentTheme(6, 'search_icon')}><Search /></span>
             </div>
             <div {...currentTheme(3, 'header_menu')} >
@@ -35,7 +35,7 @@ const Header = CurrentUser(({ user, loading, error, theme }: UserProps) => {
                       <img src={user.image} />
                     </div>
                     <h4>{user.name || 'nobody'}</h4>
-                    <span {...currentTheme(16, 'profile_other')}><Horizontal /></span>
+                    <span {...currentTheme(16, 'profile_other')}><Horizontal/></span>
                 </div>
             </div>
             <div {...currentTheme(284484, 'header_mobile')}>
