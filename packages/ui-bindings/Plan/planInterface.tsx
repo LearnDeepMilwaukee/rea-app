@@ -9,7 +9,7 @@
 import { gql } from "react-apollo";
 import { Agent } from "../Agent/agentInterface";
 import { Process } from "../Process/processInterface";
-import EconomicEvent from "../../app/pages/EconomicEvent/EconomicEvent";
+import { EconomicEvent } from "../EconomicEvent/econmicEventInterface";
 
 export const planInterface = gql`
 fragment planInterface on Plan {
@@ -52,6 +52,6 @@ export interface Plan {
   workingAgents: [Agent]
   plannedNonWorkInputs: any // TODO: replace with [Commitment]
   plannedOutputs: any // TODO: replace with [Commitment]
-  nonWorkInputs: any // TODO: replace with [EconomicEvent]
-  outputs: any // TODO: replace with [EconomicEvent]
+  nonWorkInputs: [EconomicEvent]
+  outputs: [EconomicEvent]
 }
