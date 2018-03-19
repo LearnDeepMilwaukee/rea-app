@@ -4,6 +4,7 @@ import { SFC } from "react";
 import CurrentUser from "@vflows/bindings/user/CurrentUser";
 import Link from "../../atoms/Link";
 import {Bell, Search, Horizontal} from "../../icons";
+import Dropdown from "./dropdownMenu";
 
 interface UserProps {
   user?: {
@@ -35,7 +36,7 @@ const Header = CurrentUser(({ user, loading, error, theme }: UserProps) => {
                       <img src={user.image} />
                     </div>
                     <h4>{user.name || 'nobody'}</h4>
-                    <span {...currentTheme(16, 'profile_other')}><Horizontal/></span>
+                    <span {...currentTheme(16, 'profile_other')}><Dropdown/></span>
                 </div>
             </div>
             <div {...currentTheme(284484, 'header_mobile')}>
