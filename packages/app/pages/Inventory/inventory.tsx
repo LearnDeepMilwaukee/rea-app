@@ -1,7 +1,8 @@
-import * as React from "react"
-import * as themeable from "react-themeable"
-import { SFC } from "react"
+import * as React from "react";
+import * as themeable from "react-themeable";
+import { SFC } from "react";
 import InventoryModal from "../../../ui-views/organisms/InventoryModal";
+import * as _ from "underscore";
 
 interface Props {
   theme: Object
@@ -79,24 +80,17 @@ class InventoryCard extends React.Component {
   }
 }
 
-class App extends React.Component {
-
-  constructor(private props) {
-
-  }
-
-  render() {
-
-  }
-}
-
 const InventoryPage = ({resources, page, theme}) => {
   let currentTheme = themeable(theme);
+  let pageResources = resources.slice(page * 25, (page + 1) * 25);
+  console.log("Resources:", resources);
+  console.log("Page:", page);
+  console.log("Page Resources:", pageResources);
 
   return (
     <section {...currentTheme(5, "sidebar_inventory", "active")} >
       <ul {...currentTheme(8, "sidebar_list")} >
-        {resources.map((item, i) => (
+        {pageResources.map((item, i) => (
           <InventoryCard theme={theme} item={item} key={i}/>
         ))}
       </ul>
@@ -111,30 +105,65 @@ const InventoryPage = ({resources, page, theme}) => {
  * @param {any} agent The Agent who's inventory is displayed
  * @param {any} theme The page's theme that should be used to style
  */
-const Inventory: SFC<Props> = ({ agent, theme }) => {
-  let currentTheme = themeable(theme);
-  console.log(agent);
+// const Inventory: SFC<Props> = ({ agent, theme }) => {
 
-  let page = 1;
+class Inventory extends React.Component {
+
+  state = {
+    page: 0
+  };
+
+  private agent;
+  private theme;
+  // private state;
+
+  constructor(private props) {
+    this.agent = props.agent;
+    this.theme = props.theme;
+  }
+
+  updatePage = (page) => {
+    this.setState({page});
+  };
+
+  render() {
+    let currentTheme = themeable(this.theme);
+
+    let numPages = Math.ceil(this.agent.ownedEconomicResources.length / 25);
+
+    return (
+      <aside {...currentTheme(1, "sidebar")} >
+        <div {...currentTheme(2, "sidebar_menu")} >
+          <h4 {...currentTheme(4, "menu_title")} >
+            Inventory List <span>{this.agent.ownedEconomicResources.length}</span>
+          </h4>
+        </div>
+
+        <PageNumbers numPages={numPages} updatePage={this.updatePage} />
+        {<InventoryPage resources={this.agent.ownedEconomicResources} page={this.state.page} theme={this.theme}/>}
+        <PageNumbers numPages={numPages} updatePage={this.updatePage} />
+      </aside>
+    );
+  }
+}
+
+/**
+ * Lists page numbers with actions to change the current page
+ * @param numPages The number of pages to display
+ * @param updatePage The action to call when a page number is clicked
+ */
+const PageNumbers = ({numPages, updatePage}) => {
 
   return (
-    <aside {...currentTheme(1, "sidebar")} >
-      <div {...currentTheme(2, "sidebar_menu")} >
-        <h4 {...currentTheme(4, "menu_title")} >Inventory List <span>{agent.ownedEconomicResources.length}</span></h4>
-      </div>
-      {/*<section {...currentTheme(5, "sidebar_inventory", "active")} >*/}
-        {/*<ul {...currentTheme(8, "sidebar_list")} >*/}
-          {/*{agent.ownedEconomicResources.map((item, i) => (*/}
-            {/*<InventoryCard theme={theme} item={item} key={i}/>*/}
-          {/*))}*/}
-        {/*</ul>*/}
-        {/**/}
-      {/*</section>*/}
-
-      <InventoryPage resources={agent.ownedEconomicResources} page={page} theme={theme} />
-
-    </aside>
-  )
+    <span className="center">
+      Page:
+      {
+        _.times(numPages, (i) => (
+          <span key={i} onClick={() => updatePage(i)}>{i}, </span>
+        ))
+      }
+    </span>
+  );
 };
 
 export default Inventory;

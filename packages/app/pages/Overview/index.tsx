@@ -26,12 +26,12 @@ interface RouterProps {
 
 const OverviewPage = ({ agent }: Props) => {
   return (
-    <div>
-      <List events={agent.agentEconomicEvents}/>
-    </div>
-    )
-}
+      <div>
+        <List events={agent.agentEconomicEvents}/>
+      </div>
+    );
+};
 
 export default ({ router, agent }: RouterProps) => (
   <OverviewPage agent={agent} agentId={router.params.id} />
-)
+);
