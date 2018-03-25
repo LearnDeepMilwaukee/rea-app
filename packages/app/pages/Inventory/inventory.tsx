@@ -79,6 +79,32 @@ class InventoryCard extends React.Component {
   }
 }
 
+class App extends React.Component {
+
+  constructor(private props) {
+
+  }
+
+  render() {
+
+  }
+}
+
+const InventoryPage = ({resources, page, theme}) => {
+  let currentTheme = themeable(theme);
+
+  return (
+    <section {...currentTheme(5, "sidebar_inventory", "active")} >
+      <ul {...currentTheme(8, "sidebar_list")} >
+        {resources.map((item, i) => (
+          <InventoryCard theme={theme} item={item} key={i}/>
+        ))}
+      </ul>
+
+    </section>
+  );
+};
+
 /**
  * The inventory page, which contains the basic page structure
  * (menu, sidebar, sub-menus, and the entire inventory list)
@@ -89,20 +115,26 @@ const Inventory: SFC<Props> = ({ agent, theme }) => {
   let currentTheme = themeable(theme);
   console.log(agent);
 
+  let page = 1;
+
   return (
     <aside {...currentTheme(1, "sidebar")} >
       <div {...currentTheme(2, "sidebar_menu")} >
         <h4 {...currentTheme(4, "menu_title")} >Inventory List <span>{agent.ownedEconomicResources.length}</span></h4>
       </div>
-      <section {...currentTheme(5, "sidebar_inventory", "active")} >
-        <ul {...currentTheme(8, "sidebar_list")} >
-          {agent.ownedEconomicResources.map((item, i) => (
-            <InventoryCard theme={theme} item={item} key={i}/>
-          ))}
-        </ul>
-      </section>
+      {/*<section {...currentTheme(5, "sidebar_inventory", "active")} >*/}
+        {/*<ul {...currentTheme(8, "sidebar_list")} >*/}
+          {/*{agent.ownedEconomicResources.map((item, i) => (*/}
+            {/*<InventoryCard theme={theme} item={item} key={i}/>*/}
+          {/*))}*/}
+        {/*</ul>*/}
+        {/**/}
+      {/*</section>*/}
+
+      <InventoryPage resources={agent.ownedEconomicResources} page={page} theme={theme} />
+
     </aside>
   )
 };
 
-export default Inventory
+export default Inventory;
