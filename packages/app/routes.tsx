@@ -24,6 +24,7 @@ import AgentRelationshipRoles from "./pages/AgentRelationshipRole/AgentRelations
 import AgentRelationship from "./pages/Api/agentRelationship";
 import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
 import Process from "./pages/Api/process";
+import Plan from "./pages/Api/plan";
 
 const routes = (
   <Route path="/" component={App}>
@@ -66,6 +67,7 @@ const routes = (
       <Route path="agentrelationshiprole" component={AgentRelationshipRoles} />
       <Route path="agentrelationship" component={AgentRelationship}/>
       <Route path="process" component={Process}/>
+      <Route path="plan" component={Plan}/>
       <Route path="person" component={PersonPage} />
 
       <Route path="mutations">
@@ -76,4 +78,4 @@ const routes = (
   </Route>
 );
 
-export default routes
+export default routes;

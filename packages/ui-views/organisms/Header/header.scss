@@ -139,6 +139,26 @@
   }
 }
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+  color: #ffffff;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #26547c;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 10px 10px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 /* Portrait and Landscape */
 @media (max-width: 480px) {
     .main_header {

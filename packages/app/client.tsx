@@ -1,23 +1,23 @@
-import * as React from 'react'
-import { render } from 'react-dom'
-import { ApolloProvider } from 'react-apollo'
-import { AppContainer } from 'react-hot-loader'
-import { createHistory } from 'history'
-import { Router, useRouterHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
-import configureStore from '@vflows/store/configure'
+import * as React from "react";
+import { render } from "react-dom";
+import { ApolloProvider } from "react-apollo";
+import { AppContainer } from "react-hot-loader";
+import { createHistory } from "history";
+import { Router, useRouterHistory } from "react-router";
+import { syncHistoryWithStore } from "react-router-redux";
+import configureStore from "@vflows/store/configure";
 
-import routes from './routes'
-const { basename } = require('./config')
+import routes from "./routes";
+const { basename } = require("./config");
 
 // eslint-disable-next-line no-underscore-dangle
-const initialState = window.__INITIAL_STATE__
-const baseHistory = useRouterHistory(createHistory)({ basename })
-const root = document.getElementById('app')
+const initialState = window.__INITIAL_STATE__;
+const baseHistory = useRouterHistory(createHistory)({ basename });
+const root = document.getElementById('app');
 
 configureStore(initialState, baseHistory)
 .then(({ client, store }) => {
-  const history = syncHistoryWithStore(baseHistory, store)
+  const history = syncHistoryWithStore(baseHistory, store);
 
   const renderApp = () => (
     <AppContainer>

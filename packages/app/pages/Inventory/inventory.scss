@@ -1,6 +1,24 @@
 .sidebar {
     background: #fff;
     border-left: 1px solid #E9E9E9;
+    .page_list {
+      color: black;
+      text-align: center;
+      margin-right: auto;
+      margin-left: auto;
+      display: block;
+      font-size: larger;
+      .page_number {
+        cursor: pointer;
+        color: blue;
+        text-decoration: underline;
+      }
+      .current_page {
+        color: black;
+        font-weight: bold;
+        text-decoration: none;
+      }
+    }
     .sidebar_menu {
         height: 50px;
         border-bottom: 1px solid #E9E9E9;
