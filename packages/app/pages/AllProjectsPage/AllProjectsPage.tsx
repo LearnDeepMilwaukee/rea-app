@@ -6,12 +6,12 @@
  * @since:   2017-08-07
  */
 
-import * as React from "react"
-import * as themeable from "react-themeable"
-import BindAgent, { AllOrgsType } from "@vflows/bindings/Agent/allOrganizations"
-import Link from "@vflows/views/atoms/Link"
-import { createStore, applyMiddleware } from "redux"
-import { composeWithDevTools } from "redux-devtools-extension"
+import * as React from "react";
+import * as themeable from "react-themeable";
+import BindAgent, { AllOrgsType } from "@vflows/bindings/Agent/allOrganizations";
+import Link from "@vflows/views/atoms/Link";
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 interface Props {
   allOrgs?: AllOrgsType,
@@ -19,14 +19,14 @@ interface Props {
   error?: Error,
   theme: Object,
   children: Object
-}
+};
 
 /**
  * Row of buttons to filter which user Agent types should be displayed
  */
 class NavBar extends React.Component {
 
-  readonly navButtons = ["All"]
+  readonly navButtons = ["All"];
 
   private currentTheme;
 
@@ -36,18 +36,18 @@ class NavBar extends React.Component {
       activeButton: "All",
     };
 
-    this.currentTheme = themeable(this.props.theme)
-  }
+    this.currentTheme = themeable(this.props.theme);
+  };
 
   /**
    * Handler function for when buttons are pressed.
    * @param buttonName the text of the button that was clicked
    */
   handleClick = (buttonName) => {
-    this.setState({ activeButton: buttonName })
-    this.forceUpdate(() => console.log("Finished Updating"))
+    this.setState({ activeButton: buttonName });
+    this.forceUpdate(() => console.log("Finished Updating"));
     // this.state.activeButton  = buttonName
-    console.log("Clicked", buttonName)
+    console.log("Clicked", buttonName);
   };
 
   /**
@@ -72,9 +72,9 @@ class NavBar extends React.Component {
         </ul>
 
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 /**
  * A single filter button. Includes handler and metadata to determine
@@ -96,17 +96,17 @@ class NavButton extends React.Component {
       >
         {this.props.text}
       </li>
-    )
-  }
-}
+    );
+  };
+};
 
 /**
  * A 'card' to display the user Agent name, and picture
  */
 class ProjectCard extends React.Component {
 
-  currentTheme = themeable(this.props.theme)
-  i = this.props.i
+  currentTheme = themeable(this.props.theme);
+  i = this.props.i;
 
   render() {
     return (
@@ -114,14 +114,16 @@ class ProjectCard extends React.Component {
         <div {...this.currentTheme((this.i * 7) + 14, "projects_item")}>
           <div {...this.currentTheme((this.i * 7) + 15, "item_row")}>
             <span {...this.currentTheme((this.i * 7) + 16, "row_image")}><img src={this.props.org.image} /></span>
-            <Link href={`projects/${this.props.org.id}`} {...this.currentTheme((this.i * 7) + 17, "row_title")}>{this.props.org.name}</Link>
+            <Link href={`projects/${this.props.org.id}`} {...this.currentTheme((this.i * 7) + 17, "row_title")}>
+                {this.props.org.name}
+            </Link>
           </div>
           <div {...this.currentTheme((this.i * 7) + 19, "item_description")}>{this.props.org.note}</div>
         </div>
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 /**
  * The project page, which contains the filtering bar, and a grid of the project cards
