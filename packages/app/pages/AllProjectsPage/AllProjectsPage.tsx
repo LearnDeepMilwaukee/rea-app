@@ -26,14 +26,14 @@ interface Props {
  */
 class NavBar extends React.Component {
 
-  readonly navButtons = ["All"];
+  readonly navButtons = [];
 
   private currentTheme;
 
   constructor(private props) {
     super(props)
     this.state = {
-      activeButton: "All",
+      activeButton: ""
     };
 
     this.currentTheme = themeable(this.props.theme);
