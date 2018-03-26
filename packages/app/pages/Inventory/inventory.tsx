@@ -61,7 +61,7 @@ class InventoryCard extends React.Component {
           <h4 {...currentTheme(3, "item_qty")}>{quantity === -1 ? <span>🚀</span> : quantity}</h4>
         </li>
       </div>
-    )
+    );
   }
 
   /**
@@ -93,6 +93,30 @@ const InventoryPage = ({resources, page, theme}) => {
       </ul>
 
     </section>
+  );
+};
+
+/**
+ * Lists page numbers with actions to change the current page
+ * @param numPages The number of pages to display
+ * @param current The current page of inventory displayed
+ * @param updatePage The action to call when a page number is clicked
+ * @param theme The theming element
+ */
+const PageNumbers = ({numPages, current, updatePage, theme}) => {
+  let currentTheme = themeable(theme);
+
+  return (
+    <span {...currentTheme(1, "page_list")} >
+      Page:&nbsp;&nbsp;
+      {
+        _.times(numPages, (i) => (
+          <span  key={i} onClick={() => updatePage(i)} >
+            <span {...currentTheme(2, "page_number", (current === i ? "current_page" : ""))}>{i + 1}</span>,&nbsp;&nbsp;
+          </span>
+        ))
+      }
+    </span>
   );
 };
 
@@ -141,29 +165,5 @@ class Inventory extends React.Component {
     );
   }
 }
-
-/**
- * Lists page numbers with actions to change the current page
- * @param numPages The number of pages to display
- * @param current The current page of inventory displayed
- * @param updatePage The action to call when a page number is clicked
- * @param theme The theming element
- */
-const PageNumbers = ({numPages, current, updatePage, theme}) => {
-  let currentTheme = themeable(theme);
-
-  return (
-    <span {...currentTheme(1, "page_list")} >
-      Page:&nbsp;&nbsp;
-      {
-        _.times(numPages, (i) => (
-          <span  key={i} onClick={() => updatePage(i)} >
-            <span {...currentTheme(2, "page_number", (current === i ? "current_page" : ""))}>{i + 1}</span>,&nbsp;&nbsp;
-          </span>
-        ))
-      }
-    </span>
-  );
-};
 
 export default Inventory;
