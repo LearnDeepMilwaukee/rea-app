@@ -116,7 +116,6 @@ class ProjectCard extends React.Component {
           <div {...this.currentTheme((this.i * 7) + 15, "item_row")}>
             <span {...this.currentTheme((this.i * 7) + 16, "row_image")}><img src={this.props.org.image} /></span>
             <Link href={`projects/${this.props.org.id}`} {...this.currentTheme((this.i * 7) + 17, "row_title")}>{this.props.org.name}</Link>
-            <button onClick={() => alert("Cannot join this team")} {...this.currentTheme((this.i * 7) + 18, "row_button")}>+ join</button>
           </div>
           <div {...this.currentTheme((this.i * 7) + 19, "item_description")}>{this.props.org.note}</div>
         </div>
