@@ -1,12 +1,12 @@
-import * as React from "react"
-import * as themeable from "react-themeable"
-import { SFC } from "react"
-import { withRouter, Link } from "react-router"
+import * as React from "react";
+import * as themeable from "react-themeable";
+import { SFC } from "react";
+import { withRouter, Link } from "react-router";
 import Link from "../../atoms/Link/Link";
 
 interface Props {
   theme: Object
-}
+};
 
 const SecondaryMenu: SFC<Props> = ({ id, router, theme, totalProcesses, totalNetwork, totalInventory }) => {
   let currentTheme = themeable(theme);
