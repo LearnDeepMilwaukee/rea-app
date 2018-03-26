@@ -23,13 +23,10 @@ const Header = CurrentUser(({ user, loading, error, theme }: UserProps) => {
           <div {...currentTheme(1, 'row')}>
             <Link href='/'><span  {...currentTheme(2, 'header_logo')} /></Link>
             <div {...currentTheme(4, 'header_search')} >
-              <input {...currentTheme(5, 'search', 'input')} placeholder='Search on kamasi' />
+              <input {...currentTheme(5, 'search', 'input')} placeholder='Searching Disabled' />
               <span {...currentTheme(6, 'search_icon')}><Search /></span>
             </div>
             <div {...currentTheme(3, 'header_menu')} >
-                  <div {...currentTheme(17, 'menu_bell')}>
-                    <Bell />
-                  </div>
                   <div {...currentTheme(14, 'menu_profile')} >
                     <div {...currentTheme(15, 'profile_image')}>
                       <img src={user.image} />
