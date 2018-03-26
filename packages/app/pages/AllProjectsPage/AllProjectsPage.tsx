@@ -26,7 +26,7 @@ interface Props {
  */
 class NavBar extends React.Component {
 
-  readonly navButtons = ["All", "Cooperative", "Projects", "Organizations", "Groups"]
+  readonly navButtons = ["All"]
 
   private currentTheme;
 
@@ -55,7 +55,27 @@ class NavBar extends React.Component {
    * @returns {any}
    */
   render() {
-    return ()
+    return (
+      <div {...this.currentTheme(2, "list_menu")}>
+        <ul id="project_type" {...this.currentTheme(3, "menu_type")}>
+
+          {this.navButtons.map((text, index) => (
+            <NavButton
+              i={index + 4}
+              text={text}
+              theme={this.props.theme}
+              onclick={this.handleClick}
+              active={this.state.activeButton === text}
+            />
+          ))}
+
+        </ul>
+        <div {...this.currentTheme(9, "menu_actions")}>
+          <button {...this.currentTheme(10, "actions_join")}>Create a new Project</button>
+        </div>
+
+      </div>
+    )
   }
 }
 
