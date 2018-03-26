@@ -41,6 +41,7 @@ const Header = CurrentUser(({ user, loading, error, theme }: UserProps) => {
                       <div {...currentTheme(17, "dropdown")}>
                         <span>°°°</span>
                         <div {...currentTheme(18, "dropdown-content")}>
+                          {/*This is where you can add new menu items*/}
                           <Link to={"/"} {...currentTheme(19, "link")}>home</Link>
                         </div>
                       </div>
