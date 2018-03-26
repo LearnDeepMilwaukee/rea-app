@@ -7,11 +7,16 @@
       margin-right: auto;
       margin-left: auto;
       display: block;
+      font-size: larger;
       .page_number {
         cursor: pointer;
+        color: blue;
+        text-decoration: underline;
       }
       .current_page {
-        color: blue;
+        color: black;
+        font-weight: bold;
+        text-decoration: none;
       }
     }
     .sidebar_menu {

@@ -154,15 +154,11 @@ const PageNumbers = ({numPages, current, updatePage, theme}) => {
 
   return (
     <span {...currentTheme(1, "page_list")} >
-      Page:&nbsp;
+      Page:&nbsp;&nbsp;
       {
         _.times(numPages, (i) => (
-          <span
-            {...currentTheme(2, "page_number", (current === i ? "current_page" : ""))}
-            key={i}
-            onClick={() => updatePage(i)}
-          >
-            <u>{i}</u>,&nbsp;
+          <span  key={i} onClick={() => updatePage(i)} >
+            <span {...currentTheme(2, "page_number", (current === i ? "current_page" : ""))}>{i + 1}</span>,&nbsp;&nbsp;
           </span>
         ))
       }
