@@ -101,8 +101,7 @@ class NavButton extends React.Component {
 }
 
 /**
- * A 'card' to display the user Agent name, picture, and controls to
- * join with the user Agent.
+ * A 'card' to display the user Agent name, and picture
  */
 class ProjectCard extends React.Component {
 
