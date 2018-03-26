@@ -1,6 +1,19 @@
 .sidebar {
     background: #fff;
     border-left: 1px solid #E9E9E9;
+    .page_list {
+      color: black;
+      text-align: center;
+      margin-right: auto;
+      margin-left: auto;
+      display: block;
+      .page_number {
+        cursor: pointer;
+      }
+      .current_page {
+        color: blue;
+      }
+    }
     .sidebar_menu {
         height: 50px;
         border-bottom: 1px solid #E9E9E9;
@@ -111,13 +124,13 @@
          }
      }
 }
-
-.center {
-  margin: 0 auto;
-  text-align: center;
-}
-
-PageNumbers {
-  margin: 0 auto;
-  text-align: center;
-}
+//
+//.center {
+//  margin: 0 auto;
+//  text-align: center;
+//}
+//
+//PageNumbers {
+//  margin: 0 auto;
+//  text-align: center;
+//}

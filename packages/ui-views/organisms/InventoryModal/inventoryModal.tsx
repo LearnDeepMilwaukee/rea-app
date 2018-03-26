@@ -49,7 +49,6 @@ class InventoryModal extends React.Component {
 
   constructor(private props) {
     super(props);
-    console.log("Constructing the InventoryModal");
 
     this.state = {
       showModal: true
@@ -62,12 +61,10 @@ class InventoryModal extends React.Component {
    */
   defaultClose() {
     if (this.props.onClose !== undefined) {
-      console.log("The provided onClose method is valid");
       this.props.onClose();
       return;
     }
 
-    console.log("There is no onClose method for everyone");
     this.setState({showModal: false});
   }
 

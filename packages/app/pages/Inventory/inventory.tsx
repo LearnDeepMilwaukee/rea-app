@@ -33,11 +33,11 @@ class InventoryCard extends React.Component {
 
   private state;
 
-  public constructor(private props) {
+  public constructor(props) {
     super(props);
     this.state = {
       showModal: false
-    }
+    };
   }
 
   public render() {
@@ -76,16 +76,13 @@ class InventoryCard extends React.Component {
    * Handler to close the details modal
    */
   private closeDetails() {
-    this.setState({showModal: false})
+    this.setState({showModal: false});
   }
 }
 
 const InventoryPage = ({resources, page, theme}) => {
   let currentTheme = themeable(theme);
   let pageResources = resources.slice(page * 25, (page + 1) * 25);
-  console.log("Resources:", resources);
-  console.log("Page:", page);
-  console.log("Page Resources:", pageResources);
 
   return (
     <section {...currentTheme(5, "sidebar_inventory", "active")} >
@@ -105,8 +102,6 @@ const InventoryPage = ({resources, page, theme}) => {
  * @param {any} agent The Agent who's inventory is displayed
  * @param {any} theme The page's theme that should be used to style
  */
-// const Inventory: SFC<Props> = ({ agent, theme }) => {
-
 class Inventory extends React.Component {
 
   state = {
@@ -115,9 +110,9 @@ class Inventory extends React.Component {
 
   private agent;
   private theme;
-  // private state;
 
-  constructor(private props) {
+  constructor(props) {
+    super(props);
     this.agent = props.agent;
     this.theme = props.theme;
   }
@@ -128,8 +123,8 @@ class Inventory extends React.Component {
 
   render() {
     let currentTheme = themeable(this.theme);
-
     let numPages = Math.ceil(this.agent.ownedEconomicResources.length / 25);
+    let page = this.state.page;
 
     return (
       <aside {...currentTheme(1, "sidebar")} >
@@ -139,9 +134,9 @@ class Inventory extends React.Component {
           </h4>
         </div>
 
-        <PageNumbers numPages={numPages} updatePage={this.updatePage} />
-        {<InventoryPage resources={this.agent.ownedEconomicResources} page={this.state.page} theme={this.theme}/>}
-        <PageNumbers numPages={numPages} updatePage={this.updatePage} />
+        <PageNumbers numPages={numPages} current={page} updatePage={this.updatePage} theme={this.theme} />
+        <InventoryPage resources={this.agent.ownedEconomicResources} page={page} theme={this.theme}/>
+        <PageNumbers numPages={numPages} current={page} updatePage={this.updatePage} theme={this.theme} />
       </aside>
     );
   }
@@ -150,16 +145,25 @@ class Inventory extends React.Component {
 /**
  * Lists page numbers with actions to change the current page
  * @param numPages The number of pages to display
+ * @param current The current page of inventory displayed
  * @param updatePage The action to call when a page number is clicked
+ * @param theme The theming element
  */
-const PageNumbers = ({numPages, updatePage}) => {
+const PageNumbers = ({numPages, current, updatePage, theme}) => {
+  let currentTheme = themeable(theme);
 
   return (
-    <span className="center">
-      Page:
+    <span {...currentTheme(1, "page_list")} >
+      Page:&nbsp;
       {
         _.times(numPages, (i) => (
-          <span key={i} onClick={() => updatePage(i)}>{i}, </span>
+          <span
+            {...currentTheme(2, "page_number", (current === i ? "current_page" : ""))}
+            key={i}
+            onClick={() => updatePage(i)}
+          >
+            <u>{i}</u>,&nbsp;
+          </span>
         ))
       }
     </span>
