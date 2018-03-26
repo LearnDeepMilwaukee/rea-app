@@ -152,4 +152,4 @@ const AllProjectsPage = BindAgent(({ allOrgs, loading, error, theme, children }:
   );
 });
 
-export default AllProjectsPage
+export default AllProjectsPage;
