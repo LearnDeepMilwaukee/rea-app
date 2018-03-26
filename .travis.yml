@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - v7
 script:
-  - npm test
+  - nyc check-coverage --lines 75 npm test
 cache:
   - yarn
 notifications:
