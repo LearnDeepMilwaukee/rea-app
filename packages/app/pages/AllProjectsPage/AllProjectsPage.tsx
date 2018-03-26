@@ -70,9 +70,6 @@ class NavBar extends React.Component {
           ))}
 
         </ul>
-        <div {...this.currentTheme(9, "menu_actions")}>
-          <button {...this.currentTheme(10, "actions_join")}>Create a new Project</button>
-        </div>
 
       </div>
     )
