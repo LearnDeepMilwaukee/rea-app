@@ -7,7 +7,7 @@ node_modules
 /coverage
 /typings
 /packages/app/webpack/webpack-assets.json
-
+.nyc_output
 
 /packages/**/*.js
 /packages/**/*.js.map
