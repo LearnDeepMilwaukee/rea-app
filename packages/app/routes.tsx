@@ -25,13 +25,16 @@ import AgentRelationship from "./pages/Api/agentRelationship";
 import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
 import Process from "./pages/Api/process";
 import Plan from "./pages/Api/plan";
+import Registration from "./pages/Registration/registration";
 
 const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Landing} />
 
     <Route path="login" component={Todo} />
-    <Route path="register" component={Todo} />
+    <Route path="register" component={Registration}>
+      <IndexRoute component={Registration} />
+    </Route>
 
     <Route path="tasks" component={Todo}>
       <IndexRedirect to="my-tasks" />
