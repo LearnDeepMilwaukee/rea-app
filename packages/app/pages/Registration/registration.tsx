@@ -244,7 +244,6 @@ class Registration extends React.Component {
           <input id="organizationName" type="text"/>
           <br/><br/>
 
-
           <UsernameSection saveUsername={(username) => this.setState({username})}/>
           <EmailSection saveEmail={(email) => this.setState({email})}/>
           <PasswordSection savePassword={(password) => this.setState({password})}/>
