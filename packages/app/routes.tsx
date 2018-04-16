@@ -55,7 +55,7 @@ const routes = (
       <IndexRoute component={Todo} />
       <Route path="my-account" component={Todo} />
       <Route path="my-skills" component={Todo} />
-      <Route path="modifyorg" component={ModifyOrg} />
+
     </Route>
 
     <Route path="api">
@@ -74,6 +74,7 @@ const routes = (
 
       <Route path="mutations">
         <Route path="createeconomicevent" component={CreateEconomicEvent} />
+        <Route path="updateorg" component={ModifyOrg} />
       </Route>
     </Route>
 
