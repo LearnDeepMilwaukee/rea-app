@@ -37,10 +37,6 @@ class PasswordSection extends React.Component {
     }
   };
 
-  public getPassword = () => {
-    return "p@ssword";
-  };
-
   render() {
     return (
       <div>
@@ -58,35 +54,66 @@ class PasswordSection extends React.Component {
   }
 }
 
+class UsernameSection extends React.Component {
+
+  onUsernameUpdate = (username) => {
+    // TODO validate against the backend to check for existing user
+    this.props.saveUsername(username);
+  };
+
+  render() {
+    return(
+      <div>
+        Username:<br/>
+        <input type="text" onChange={(event) => this.onUsernameUpdate(event.target.value)}/>
+        <br/><br/>
+      </div>
+    );
+  }
+}
+
+class EmailSection extends React.Component {
+
+  onEmailUpdate = (email) => {
+    // TODO validate email against backend to check for existing email
+    this.props.saveEmail(email);
+  };
+
+  render() {
+    return (
+      <div>
+        Email:<br/>
+        <input type="text" onChange={(event) => this.onEmailUpdate(event.target.value)}/>
+        <br/><br/>
+      </div>
+    );
+  }
+}
+
 class Registration extends React.Component {
 
   private state = {
+    username,
+    email,
     password: undefined
   };
 
   getRegistrationJSON = (event) => {
     event.preventDefault();
 
-    // let allValid = this.state.passwordValid && this.state.passwordsMatch;
-    //
-    // if (!allValid) {
-    //   alert("Please correct information and try again");
-    //   return;
-    // }
+    let allValid = this.state.username && this.state.email && this.state.password;
+
+    if (!allValid) {
+      alert("Please correct information and try again");
+      return;
+    }
 
     let userType = document.getElementById("organizationButton").checked ? "organization" : "individual";
-    let username = document.getElementById("username").value;
-    // let password = document.getElementById("password").getPassword();
 
     console.log("User Type:", userType);
-    console.log("Username:", username);
+    console.log("Username:", this.state.username);
+    console.log("Email:", this.state.email);
     console.log("Password:", this.state.password);
-  };
-
-  // Called by the PasswordSection to save the password
-  savePassword = (password) => {
-    this.setState({password});
-    console.log("Saving Password:", password);
   };
 
   render() {
@@ -117,10 +144,9 @@ class Registration extends React.Component {
           <input id="organizationName" type="text"/>
           <br/><br/>
 
-          Username:<br/>
-          <input id="username" type="text"/>
-          <br/><br/>
 
+          <UsernameSection saveUsername={(username) => this.setState({username})}/>
+          <EmailSection saveEmail={(email) => this.setState({email})}/>
           <PasswordSection savePassword={(password) => this.setState({password})}/>
 
           <input type="submit" id="submit" value="Register"/>
