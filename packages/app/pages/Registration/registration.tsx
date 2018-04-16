@@ -28,12 +28,16 @@ class PasswordSection extends React.Component {
   };
 
   checkPasswordsMatch = () => {
+    let passwordsMatch = (this.password === this.confirmPassword);
+    this.props.savePassword(passwordsMatch ? this.password : undefined);
+
+    // only update the field if there is text (hides the message before needed)
     if (this.confirmPassword !== "") {
-      this.setState({passwordsMatch: (this.password === this.confirmPassword)});
+      this.setState({passwordsMatch});
     }
   };
 
-  getPassword = () => {
+  public getPassword = () => {
     return "p@ssword";
   };
 
@@ -56,6 +60,10 @@ class PasswordSection extends React.Component {
 
 class Registration extends React.Component {
 
+  private state = {
+    password: undefined
+  };
+
   getRegistrationJSON = (event) => {
     event.preventDefault();
 
@@ -68,11 +76,17 @@ class Registration extends React.Component {
 
     let userType = document.getElementById("organizationButton").checked ? "organization" : "individual";
     let username = document.getElementById("username").value;
-    let password = document.getElementById("password").getPassword();
+    // let password = document.getElementById("password").getPassword();
 
     console.log("User Type:", userType);
     console.log("Username:", username);
-    console.log("Password:", password);
+    console.log("Password:", this.state.password);
+  };
+
+  // Called by the PasswordSection to save the password
+  savePassword = (password) => {
+    this.setState({password});
+    console.log("Saving Password:", password);
   };
 
   render() {
@@ -107,7 +121,7 @@ class Registration extends React.Component {
           <input id="username" type="text"/>
           <br/><br/>
 
-          <PasswordSection id="password"/>
+          <PasswordSection savePassword={(password) => this.setState({password})}/>
 
           <input type="submit" id="submit" value="Register"/>
         </form>
