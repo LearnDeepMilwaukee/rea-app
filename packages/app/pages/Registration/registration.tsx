@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as EmailValidator from "email-validator";
 
 class PasswordSection extends React.Component {
 
@@ -56,9 +57,17 @@ class PasswordSection extends React.Component {
 
 class UsernameSection extends React.Component {
 
+  private username = "";
+
   onUsernameUpdate = (username) => {
+    this.username = username;
+    this.validateUsername();
+  };
+
+  validateUsername = () => {
     // TODO validate against the backend to check for existing user
-    this.props.saveUsername(username);
+    let usernameValid = this.username.length > 0;
+    this.props.saveUsername(usernameValid ? this.username : undefined);
   };
 
   render() {
@@ -74,9 +83,26 @@ class UsernameSection extends React.Component {
 
 class EmailSection extends React.Component {
 
+  private state = {
+    validEmail: true
+  };
+
+  private email: string = "";
+
   onEmailUpdate = (email) => {
+    this.email = email;
+    this.validateEmail();
+  };
+
+  validateEmail = () => {
     // TODO validate email against backend to check for existing email
-    this.props.saveEmail(email);
+    let validEmail = EmailValidator.validate(this.email);
+    console.log(this.email, "is", (validEmail ? "valid" : "invalid"));
+    this.props.saveEmail(validEmail ? this.email : undefined);
+
+    if (this.email !== "") {
+      this.setState({validEmail});
+    }
   };
 
   render() {
@@ -84,6 +110,7 @@ class EmailSection extends React.Component {
       <div>
         Email:<br/>
         <input type="text" onChange={(event) => this.onEmailUpdate(event.target.value)}/>
+        {!this.state.validEmail ? <p>Email is not in a valid form</p> : null}
         <br/><br/>
       </div>
     );
