@@ -10,6 +10,7 @@ import * as React from "react";
 import { Component, ReactElement } from "react";
 
 import AuthenticatedOnly from "@vflows/bindings/AuthenticatedOnly";
+import { withRouter } from "react-router-dom";
 
 // import { Layout, NavDrawer, Panel } from '@vflows/views/templates/Layout'
 
@@ -21,6 +22,9 @@ import SecondaryMenu from "@vflows/views/organisms/SecondaryMenu";
 import Overview from "@vflows/views/organisms/Overview";
 import Members from "@vflows/views/organisms/Members";
 import List from "@vflows/views/organisms/List";
+
+import * as _ from "underscore";
+import { matchPath } from "react-router";
 
 import LoginPage from "../../pages/Login";
 import Contributions from "../../pages/Contributions";
@@ -36,8 +40,21 @@ interface State {
 class SiteTemplate extends Component<Props, State> {
   state = {};
 
+  readonly authenticationExemptURLs = [
+    "register"
+  ];
+
   renderSite() {
     let classname = styles["medium-9"] + " " + styles.columns;
+
+    let pathExempt = false;
+    _.each(this.authenticationExemptURLs, (URL) => {
+      if (matchPath(URL, {isExact: true})) {
+        pathExempt = true;
+      }
+    });
+
+    console.log("This path is", (pathExempt ? "exempt" : "authenticated"));
     return (
       <div>
         <Header />
