@@ -2,45 +2,51 @@ import * as React from "react";
 
 class PasswordSection extends React.Component {
 
-  state = {
+  private password: string = "";
+  private confirmPassword: string = "";
+
+  private state = {
     passwordValid: true,
     passwordsMatch: true
   };
 
-  checkPasswordValid = () => {
-    let password = document.getElementById("password").value;
+  onPasswordUpdate = (password) => {
+    this.password = password;
+    this.checkPasswordValid();
+    this.checkPasswordsMatch();
+  };
 
-    if (password !== "") {
-      this.setState({passwordValid: password.length >= 8});
+  onConfirmPasswordUpdate = (confirmPassword) => {
+    this.confirmPassword = confirmPassword;
+    this.checkPasswordsMatch();
+  };
+
+  checkPasswordValid = () => {
+    if (this.password !== "") {
+      this.setState({passwordValid: this.password.length >= 8});
     }
   };
 
   checkPasswordsMatch = () => {
-    let password = document.getElementById("password").value;
-    let confirmPassword = document.getElementById("confirmPassword").value;
-
-    if (confirmPassword !== "") {
-      this.setState({passwordsMatch: (password === confirmPassword)});
+    if (this.confirmPassword !== "") {
+      this.setState({passwordsMatch: (this.password === this.confirmPassword)});
     }
+  };
+
+  getPassword = () => {
+    return "p@ssword";
   };
 
   render() {
     return (
       <div>
         Password:<br/>
-        <input
-          id="password"
-          type="password"
-          onChange={() => {
-            this.checkPasswordValid();
-            this.checkPasswordsMatch();
-          }}
-        />
+        <input type="password" onChange={(event) => this.onPasswordUpdate(event.target.value)} />
         {!this.state.passwordValid ? <p>Passwords Not Long Enough</p> : null}
         <br/><br/>
 
         Confirm Password:<br/>
-        <input id="confirmPassword" type="password" onChange={this.checkPasswordsMatch}/>
+        <input type="password" onChange={(event) => this.onConfirmPasswordUpdate(event.target.value)}/>
         {!this.state.passwordsMatch ? <p>Passwords Do Not Match</p> : null}
         <br/><br/>
       </div>
