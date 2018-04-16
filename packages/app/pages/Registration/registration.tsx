@@ -1,5 +1,89 @@
+/**
+ * @author Connor Hibbs <hibbscm@msoe.edu>
+ * @version 1.0.0
+ */
+
 import * as React from "react";
 import * as EmailValidator from "email-validator";
+
+/**
+ * This component is responsible for getting the type of organization
+ * that is registering from the user. It contains all of the different
+ * types of organizations, as well as the logic to determine which one
+ * is selected.
+ *
+ * It passes the updated organization to the parent as soon as it changes,
+ * so the parent is always up to date on the type of organization being
+ * registered.
+ */
+class OrganizationTypeSection extends React.Component {
+
+  private organizationType: string;
+
+  // A shorter version of the update function to fit on one line
+  radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
+
+  // Called every time the organization type changes
+  // Saves a local copy and sends it to the parent
+  onOrganizationTypeUpdate = (orgType) => {
+    this.organizationType = orgType;
+    this.props.saveOrgType(orgType);
+  };
+
+  // Draws all of the components on the screen
+  render() {
+    return (
+      <div>
+        OrganizationType:<br/>
+        <input type="radio" name="userType" value="Cooperative" onChange={this.radioFunction}/>Cooperative
+        <input type="radio" name="userType" value="Projects" onChange={this.radioFunction}/>Projects
+        <input type="radio" name="userType" value="Organizations" onChange={this.radioFunction}/>Organizations
+        <input type="radio" name="userType" value="Groups" onChange={this.radioFunction}/>Groups
+        <br/><br/>
+      </div>
+    );
+  }
+}
+
+/**
+ * This component has all of the components required to
+ * get the organization name from the user, and validate it.
+ *
+ * It passes the name back to the parent every time it is updated
+ * instead of waiting for the parent to ask for it, so the parent is
+ * always up to date. If the name is invalid, it passes back undefined
+ * so the parent knows to wait before continuing with registration.
+ */
+class OrganizationNameSection extends React.Component {
+
+  // Local copy of the text in the field
+  private organizationName: string = "";
+
+  // Called every time the name is updated
+  onNameUpdate = (name) => {
+    this.organizationName = name;
+    this.validateName();
+  };
+
+  // Validates the organiztion name.
+  // Currently just checks the length exists, but could easily
+  // be adapted to check for more conditions
+  validateName = () => {
+    let nameValid = this.organizationName.length > 0;
+    this.props.saveOrgName(nameValid ? this.organizationName : undefined);
+  };
+
+  // Draws the components on the screen
+  render() {
+    return (
+      <div>
+        Organization Name:<br/>
+        <input type="text" onChange={(event) => this.onNameUpdate(event.target.value)}/>
+        <br/><br/>
+      </div>
+    );
+  }
+}
 
 /**
  * The password component has all of the components required to get
@@ -157,7 +241,6 @@ class EmailSection extends React.Component {
   validateEmail = () => {
     // TODO validate email against backend to check for existing email
     let validEmail = EmailValidator.validate(this.email);
-    console.log(this.email, "is", (validEmail ? "valid" : "invalid"));
     this.props.saveEmail(validEmail ? this.email : undefined);
 
     if (this.email !== "") {
@@ -192,6 +275,8 @@ class EmailSection extends React.Component {
 class Registration extends React.Component {
 
   private state = {
+    orgType: undefined,
+    orgName: undefined,
     username: undefined,
     email: undefined,
     password: undefined
@@ -200,16 +285,19 @@ class Registration extends React.Component {
   getRegistrationJSON = (event) => {
     event.preventDefault();
 
-    let allValid = this.state.username && this.state.email && this.state.password;
+    let allValid = this.state.orgType
+                && this.state.orgName
+                && this.state.username
+                && this.state.email
+                && this.state.password;
 
     if (!allValid) {
       alert("Please correct information and try again");
       return;
     }
 
-    let userType = document.getElementById("organizationButton").checked ? "organization" : "individual";
-
-    console.log("User Type:", userType);
+    console.log("Organization Type:", this.state.orgType);
+    console.log("Organization Name:", this.state.orgName);
     console.log("Username:", this.state.username);
     console.log("Email:", this.state.email);
     console.log("Password:", this.state.password);
@@ -223,27 +311,8 @@ class Registration extends React.Component {
 
         <form id="form" onSubmit={this.getRegistrationJSON}>
 
-          User Type:<br/>
-          <input
-            id="organizationButton"
-            type="radio"
-            name="userType"
-            value="organization"
-            defaultChecked="true"
-          />Organization
-          <input
-            id="individualButton"
-            type="radio"
-            name="userType"
-            value="individual"
-            disabled="true"
-          />Individual
-          <br/><br/>
-
-          Organization Name:<br/>
-          <input id="organizationName" type="text"/>
-          <br/><br/>
-
+          <OrganizationTypeSection saveOrgType={(orgType) => this.setState({orgType})}/>
+          <OrganizationNameSection saveOrgName={(orgName) => this.setState({orgName})}/>
           <UsernameSection saveUsername={(username) => this.setState({username})}/>
           <EmailSection saveEmail={(email) => this.setState({email})}/>
           <PasswordSection savePassword={(password) => this.setState({password})}/>
