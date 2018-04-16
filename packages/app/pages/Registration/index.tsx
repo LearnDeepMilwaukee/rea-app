@@ -1,4 +1,4 @@
-import Component from "./registration";
+import Component from "./organizationRegistration";
 import themed from "@vflows/views/themed";
 const styles = require("./index.scss");
 
