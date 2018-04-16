@@ -40,21 +40,23 @@ interface State {
 class SiteTemplate extends Component<Props, State> {
   state = {};
 
-  readonly authenticationExemptURLs = [
-    "register"
-  ];
+  // readonly authenticationExemptURLs = [
+  //   "register"
+  // ];
 
   renderSite() {
     let classname = styles["medium-9"] + " " + styles.columns;
 
-    let pathExempt = false;
-    _.each(this.authenticationExemptURLs, (URL) => {
-      if (matchPath(URL, {isExact: true})) {
-        pathExempt = true;
-      }
-    });
+    console.log("Rendering a private page");
 
-    console.log("This path is", (pathExempt ? "exempt" : "authenticated"));
+    // let pathExempt = false;
+    // _.each(this.authenticationExemptURLs, (URL) => {
+    //   if (matchPath(URL, {isExact: true})) {
+    //     pathExempt = true;
+    //   }
+    // });
+    //
+    // console.log("This path is", (pathExempt ? "exempt" : "authenticated"));
     return (
       <div>
         <Header />
