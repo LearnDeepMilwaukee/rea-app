@@ -27,15 +27,11 @@ class Inventory extends React.Component {
     let currentTheme = themeable(this.theme);
 
     return (
-      <aside {...currentTheme(1, "sidebar")} >
-        <div {...currentTheme(2, "sidebar_menu")} >
-          <h4 {...currentTheme(4, "menu_title")} >
-            Test
-          </h4>
-        </div>
-
-
-      </aside>
+      <div>
+        <h4>
+          Test
+        </h4>
+      </div>
     );
   }
 }
