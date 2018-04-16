@@ -6,14 +6,15 @@
  * @since:   2017-03-31
  */
 
-import * as React from 'react'
-import { SFC } from 'react'
-import { Field } from 'redux-form'
-import T from 'i18n-react'
+import * as React from "react";
+import { Link } from "react-router";
+import { SFC } from "react";
+import { Field } from "redux-form";
+import T from "i18n-react";
 
-import Button from '../../atoms/Button'
-import Input from '../../molecules/FormInput'
-import FormError from '../../atoms/FormError'
+import Button from "../../atoms/Button";
+import Input from "../../molecules/FormInput";
+import FormError from "../../atoms/FormError";
 
 interface Props {
   handleSubmit?: () => void,
@@ -28,7 +29,9 @@ const LoginForm: SFC<Props> = ({ handleSubmit, hasLoginError, errorMessage, subm
     <Field name="pass" type="password" component={Input} placeholder="Password" />
     <Button type="submit" raised primary disabled={submitting}><T.text text="loginForm.loginButton" /></Button>
     {hasLoginError ? (<FormError>{errorMessage}</FormError>) : null}
-  </form>
-)
 
-export default LoginForm
+    <Button><Link to="/register/individual">Register</Link></Button>
+  </form>
+);
+
+export default LoginForm;
