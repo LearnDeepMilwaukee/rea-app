@@ -25,6 +25,7 @@ import AgentRelationship from "./pages/Api/agentRelationship";
 import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
 import Process from "./pages/Api/process";
 import Plan from "./pages/Api/plan";
+import ModifyOrg from "./pages/ModifyOrganization/modifyOrg"
 
 const routes = (
   <Route path="/" component={App}>
@@ -54,6 +55,7 @@ const routes = (
       <IndexRoute component={Todo} />
       <Route path="my-account" component={Todo} />
       <Route path="my-skills" component={Todo} />
+      <Route path="modifyorg" component={ModifyOrg} />
     </Route>
 
     <Route path="api">
