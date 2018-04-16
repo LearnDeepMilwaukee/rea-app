@@ -5,6 +5,7 @@
 
 import * as React from "react";
 import * as EmailValidator from "email-validator";
+import { Link } from "react-router";
 
 /**
  * This component is responsible for getting the type of organization
@@ -307,7 +308,8 @@ class Registration extends React.Component {
   render() {
     return (
       <div>
-        <h1>Register</h1>
+        <h1>Organization Registeration</h1>
+        <Link to="/register/individual">or <u>register an Individual instead</u></Link>
 
         <form id="form" onSubmit={this.getRegistrationJSON}>
 
