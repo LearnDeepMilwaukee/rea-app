@@ -93,8 +93,8 @@ class EmailSection extends React.Component {
 class Registration extends React.Component {
 
   private state = {
-    username,
-    email,
+    username: undefined,
+    email: undefined,
     password: undefined
   };
 
