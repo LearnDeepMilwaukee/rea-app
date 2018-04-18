@@ -172,7 +172,7 @@ In practise, you'll probably want to run the app via a process manager like [PM2
     {
       "apps" : [{
         "name": "kamasi",
-        "script": "private.js",
+        "script": "index.js",
         "cwd": "app/static/kamasi/packages/app/",
         "watch": true,
         "env": {
