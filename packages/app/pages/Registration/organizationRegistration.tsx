@@ -35,7 +35,7 @@ class OrganizationTypeSection extends React.Component {
   render() {
     return (
       <div>
-        OrganizationType:<br/>
+        OrganizationType*:<br/>
         <input type="radio" name="userType" value="Cooperative" onChange={this.radioFunction}/>Cooperative
         <input type="radio" name="userType" value="Projects" onChange={this.radioFunction}/>Projects
         <input type="radio" name="userType" value="Organizations" onChange={this.radioFunction}/>Organizations
@@ -78,7 +78,7 @@ class OrganizationNameSection extends React.Component {
   render() {
     return (
       <div>
-        Organization Name:<br/>
+        Organization Name*:<br/>
         <input type="text" onChange={(event) => this.onNameUpdate(event.target.value)}/>
         <br/><br/>
       </div>
@@ -297,6 +297,7 @@ class Registration extends React.Component {
       return;
     }
 
+    alert("Registration will be enabled soon");
     console.log("Organization Type:", this.state.orgType);
     console.log("Organization Name:", this.state.orgName);
     console.log("Username:", this.state.username);
@@ -319,6 +320,7 @@ class Registration extends React.Component {
           <EmailSection saveEmail={(email) => this.setState({email})}/>
           <PasswordSection savePassword={(password) => this.setState({password})}/>
 
+          *required <br/>
           <input type="submit" id="submit" value="Register"/>
         </form>
       </div>
