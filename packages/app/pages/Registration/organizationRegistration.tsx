@@ -466,21 +466,25 @@ class Registration extends React.Component {
         console.log("Organization Created Successfully");
 
         let orgId = newOrganization.id;
-        let transition =
 
-        Popups.confirm({
-          content: "Your Organization has been created successfully." +
+        let update = confirm("Your Organization has been created successfully.\n" +
           "Now you can add more details like giving your organization a picture, " +
-          "or adding some notes about what your organization does.",
-          labelOk: "Take Me There",
-          labelCancel: "No Thanks, Not Now",
-          onSubmit: () => {
-            Router.transitionTo(`/projects/${id}/update`);
-          },
-          onClose: () => {
-            Router.transitionTo(`/projects/${id}`);
-          }
-        });
+          "or adding some notes about what your organization does.");
+
+        if (update) {
+          Router.transitionTo(`/projects/${orgId}/update`);
+        } else {
+          Router.transitionTo(`/projects/${orgId}`);
+        }
+        //   labelOk: "Take Me There",
+        //   labelCancel: "No Thanks, Not Now",
+        //   onSubmit: () => {
+        //     Router.transitionTo(`/projects/${id}/update`);
+        //   },
+        //   onClose: () => {
+        //     Router.transitionTo(`/projects/${id}`);
+        //   }
+        // });
       }
     }).catch( (error) => {
       console.log(error);
@@ -504,6 +508,14 @@ class Registration extends React.Component {
         primary_location_id = args.get('primary_location_id')
              */
           }
+
+          <Modal
+            isShowing={true}
+          >
+            <div>
+              <p>This is the popup modal</p>
+            </div>
+          </Modal>
 
           <OrganizationTypeSection saveOrgType={(orgType) => this.setState({orgType})}/>
           <OrganizationNameSection saveOrgName={(orgName) => this.setState({orgName})}/>
