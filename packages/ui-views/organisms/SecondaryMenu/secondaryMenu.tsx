@@ -1,12 +1,12 @@
-import * as React from "react"
-import * as themeable from "react-themeable"
-import { SFC } from "react"
-import { withRouter, Link } from "react-router"
+import * as React from "react";
+import * as themeable from "react-themeable";
+import { SFC } from "react";
+import { withRouter, Link } from "react-router";
 import Link from "../../atoms/Link/Link";
 
 interface Props {
   theme: Object
-}
+};
 
 const SecondaryMenu: SFC<Props> = ({ id, router, theme, totalProcesses, totalNetwork, totalInventory }) => {
   let currentTheme = themeable(theme);
@@ -21,11 +21,6 @@ const SecondaryMenu: SFC<Props> = ({ id, router, theme, totalProcesses, totalNet
         <li {...currentTheme(4, "list_item" , router.isActive(`projects/${id}/processes`, true) && "active")} >
           <Link to={`projects/${id}/processes`} {...currentTheme(5, "item_link")} >
             <span>{totalProcesses}</span> Processes
-          </Link>
-        </li>
-        <li {...currentTheme(6, "list_item", router.isActive(`projects/${id}/accounts`, true) && "active")} >
-          <Link to={`projects/${id}/accounts`} {...currentTheme(7, "item_link")} >
-            Accounts
           </Link>
         </li>
         <li {...currentTheme(8, "list_item", router.isActive(`projects/${id}/members`, true) && "active")} >
