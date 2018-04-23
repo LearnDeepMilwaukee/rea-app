@@ -7,6 +7,7 @@ import * as React from "react";
 import * as EmailValidator from "email-validator";
 import { Link } from "react-router";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
+import * as Phone from "phone";
 // import allOrgsClass from "../../../ui-bindings/Organization/allOrgsClass.tsx";
 
 /**
@@ -311,6 +312,42 @@ class EmailSection extends React.Component {
   }
 }
 
+class PhoneSection extends React.Component {
+
+  // local copy of the value in the field
+  private phoneNumber = "";
+
+  // Called every time the field is updated
+  // Saves the value locally and then checks if it is valid
+  onPhoneUpdate = (phoneNumber) => {
+    this.phoneNumber = phoneNumber;
+    this.validatePhoneNumber();
+  };
+
+  // Validates the current phone number
+  // Uses the NPM Phone library to convert the number to
+  // a standard format for phone numbers as well as validate
+  validatePhoneNumber = () => {
+    let valid = Phone(this.phoneNumber, "USA");
+    console.log("Phone Number:", valid);
+    let phoneValid = valid !== [];
+    // send the 0th item in the array (standardized phone number) instead of value in field
+    this.props.savePhoneNumber(phoneValid ? valid[0] : undefined);
+  };
+
+  // Renders all of the components on the screen
+  render() {
+    return(
+      <div>
+        Phone Number:<br/>
+        <input type="text" onChange={(event) => this.onPhoneUpdate(event.target.value)}/>
+        <br/><br/>
+      </div>
+    );
+  }
+
+}
+
 /**
  * This is the main component for the page. It combines all of the
  * different registration elements together on the screen and maintains
@@ -330,6 +367,7 @@ class Registration extends React.Component {
     username: undefined,
     email: undefined,
     password: undefined,
+    phoneNumber: undefined,
     newOrganization: undefined
   };
 
@@ -339,6 +377,7 @@ class Registration extends React.Component {
     let allValid = this.state.orgType
       && this.state.orgName
       && this.state.username
+      && this.state.phoneNumber
       && this.state.email
       && this.state.password;
 
@@ -350,6 +389,7 @@ class Registration extends React.Component {
     // alert("Registration will be enabled soon");
     console.log("Organization Type:", this.state.orgType);
     console.log("Organization Name:", this.state.orgName);
+    console.log("Phone Number:", this.state.phoneNumber);
     console.log("Username:", this.state.username);
     console.log("Email:", this.state.email);
     console.log("Password:", this.state.password);
@@ -384,8 +424,22 @@ class Registration extends React.Component {
 
         <form id="form" onSubmit={this.getRegistrationJSON}>
 
+          {
+            /*
+            Need to offer support for:
+            name = args.get('name')
+        image = args.get('image')
+        note = args.get('note')
+        primary_location_id = args.get('primary_location_id')
+        primary_phone = args.get('primary_phone')
+        email = args.get('email')
+        type = args.get('type')
+             */
+          }
+
           <OrganizationTypeSection saveOrgType={(orgType) => this.setState({orgType})}/>
           <OrganizationNameSection saveOrgName={(orgName) => this.setState({orgName})}/>
+          <PhoneSection savePhoneNumber={(phoneNumber) => this.setState({phoneNumber})}/>
           <UsernameSection saveUsername={(username) => this.setState({username})}/>
           <EmailSection saveEmail={(email) => this.setState({email})}/>
           <PasswordSection savePassword={(password) => this.setState({password})}/>
