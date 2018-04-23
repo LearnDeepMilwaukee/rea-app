@@ -4,6 +4,7 @@
  */
 
 import * as React from "react";
+import * as Router from "react-router";
 import * as EmailValidator from "email-validator";
 import { Link } from "react-router";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
@@ -461,14 +462,29 @@ class Registration extends React.Component {
       let newOrganization = response.data.createOrganization.organization;
       this.setState({newOrganization: newOrganization});
 
-      if (response.data.createOrganization.organization) {
-        alert("Organization Created Successfully");
-      }
+      if (newOrganization) {
+        console.log("Organization Created Successfully");
 
+        let orgId = newOrganization.id;
+        let transition =
+
+        Popups.confirm({
+          content: "Your Organization has been created successfully." +
+          "Now you can add more details like giving your organization a picture, " +
+          "or adding some notes about what your organization does.",
+          labelOk: "Take Me There",
+          labelCancel: "No Thanks, Not Now",
+          onSubmit: () => {
+            Router.transitionTo(`/projects/${id}/update`);
+          },
+          onClose: () => {
+            Router.transitionTo(`/projects/${id}`);
+          }
+        });
+      }
     }).catch( (error) => {
       console.log(error);
     });
-
   };
 
   // Draws all of the components on the screen
