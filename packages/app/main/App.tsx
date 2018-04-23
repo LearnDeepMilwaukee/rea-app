@@ -6,17 +6,17 @@
  * @since:   2017-03-19
  */
 
-import { ReactElement } from 'react'
+import { ReactElement } from "react";
 
-import * as React from 'react'
-import {Component} from 'react'
-import * as Helmet from 'react-helmet'
+import * as React from "react";
+import { Component } from "react";
+import * as Helmet from "react-helmet";
 
-import SiteTemplate from '../views/SiteTemplate'
+import SiteTemplate from "../views/SiteTemplate";
 
-const { assetUrl } = require('../config')
+const { assetUrl } = require("../config");
 
-require('./AppGlobals.scss')
+require("./AppGlobals.scss");
 
 export interface Props {
   children: ReactElement<any>,
@@ -25,13 +25,13 @@ export interface Props {
 
 class App extends Component {
   constructor () {
-    super()
+    super();
     this.state = {
       showModal: false,
       modalId: null
-    }
-    this.handleCloseModal = this.handleCloseModal.bind(this)
-    this.handleOpenModal = this.handleOpenModal.bind(this)
+    };
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleOpenModal = this.handleOpenModal.bind(this);
   }
 
   handleOpenModal (id) {
@@ -55,16 +55,16 @@ class App extends Component {
         title="FreedomCoop OCP"
         titleTemplate="FreedomCoop OCP - %s"
         meta={[
-          { name: 'description', content: '' },
-          { property: 'og:site_name', content: 'FreedomCoop OCP' },
+          { name: "description", content: "" },
+          { property: "og:site_name", content: "FreedomCoop OCP" },
           // :TODO: finalise default share image
-          { property: 'og:image', content: `${assetUrl}/images/FreedomCoop_vertical_4c.png` },
-          { property: 'og:image:type', content: 'image/png' },
-          { property: 'og:image:width', content: '679' },
-          { property: 'og:image:height', content: '338' },
+          { property: "og:image", content: `${assetUrl}/images/FreedomCoop_vertical_4c.png` },
+          { property: "og:image:type", content: "image/png" },
+          { property: "og:image:width", content: "679" },
+          { property: "og:image:height", content: "338" },
         ]}
         link={[
-          { rel: 'icon', href: `${assetUrl}/favicon.png` },
+          { rel: "icon", href: `${assetUrl}/favicon.png` },
         ]}
       />
       <SiteTemplate>
@@ -77,7 +77,7 @@ class App extends Component {
           })}
       </SiteTemplate>
     </div>
-  )}
+  ); }
 }
 
-export default App
+export default App;
