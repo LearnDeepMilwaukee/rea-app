@@ -107,6 +107,10 @@ class OrganizationTypeSection extends React.Component {
  */
 class OrganizationNameSection extends React.Component {
 
+  private state = {
+    nameValid: true
+  };
+
   // Local copy of the text in the field
   private organizationName: string = "";
 
@@ -122,6 +126,7 @@ class OrganizationNameSection extends React.Component {
   validateName = () => {
     let nameValid = this.organizationName.length > 0;
     this.props.saveOrgName(nameValid ? this.organizationName : undefined);
+    this.setState({nameValid});
   };
 
   // Draws the components on the screen
@@ -130,6 +135,7 @@ class OrganizationNameSection extends React.Component {
       <div>
         Organization Name*:<br/>
         <input type="text" onChange={(event) => this.onNameUpdate(event.target.value)}/>
+        {!this.state.nameValid ? <p>Name is required</p> : null}
         <br/><br/>
       </div>
     );
@@ -349,6 +355,53 @@ class PhoneSection extends React.Component {
 }
 
 /**
+ * This component has all of the components required to
+ * get the organization location from the user, and validate it.
+ *
+ * It passes the location back to the parent every time it is updated
+ * instead of waiting for the parent to ask for it, so the parent is
+ * always up to date. If the location is invalid, it passes back undefined
+ * so the parent knows to wait before continuing with registration.
+ */
+class LocationSection extends React.Component {
+
+  private state = {
+    locationValid: true
+  };
+
+  // Local copy of the text in the field
+  private organizationLocation: string = "";
+
+  // Called every time the location is updated
+  onLocationUpdate = (location) => {
+    this.organizationLocation = location;
+    this.validateLocation();
+  };
+
+  // Validates the organization location.
+  // Currently just checks the length exists, but could easily
+  // be adapted to check for more conditions
+  validateLocation = () => {
+    let locationValid = this.organizationLocation.length > 0;
+    this.props.saveLocation(locationValid ? this.organizationLocation : undefined);
+    this.setState({locationValid});
+  };
+
+  // Draws the components on the screen
+  render() {
+    return (
+      <div>
+        Organization Location*:<br/>
+        <input type="text" onChange={(event) => this.onLocationUpdate(event.target.value)}/>
+        {!this.state.locationValid ? <p>Location is required</p> : null}
+        <br/><br/>
+      </div>
+    );
+  }
+}
+
+
+/**
  * This is the main component for the page. It combines all of the
  * different registration elements together on the screen and maintains
  * the current value of each sectino in the state (or undefined if they are not
@@ -368,6 +421,7 @@ class Registration extends React.Component {
     email: undefined,
     password: undefined,
     phoneNumber: undefined,
+    location: undefined,
     newOrganization: undefined
   };
 
@@ -378,6 +432,7 @@ class Registration extends React.Component {
       && this.state.orgName
       && this.state.username
       && this.state.phoneNumber
+      && this.state.location
       && this.state.email
       && this.state.password;
 
@@ -390,6 +445,7 @@ class Registration extends React.Component {
     console.log("Organization Type:", this.state.orgType);
     console.log("Organization Name:", this.state.orgName);
     console.log("Phone Number:", this.state.phoneNumber);
+    console.log("Location:", this.state.location);
     console.log("Username:", this.state.username);
     console.log("Email:", this.state.email);
     console.log("Password:", this.state.password);
@@ -427,19 +483,16 @@ class Registration extends React.Component {
           {
             /*
             Need to offer support for:
-            name = args.get('name')
         image = args.get('image')
         note = args.get('note')
         primary_location_id = args.get('primary_location_id')
-        primary_phone = args.get('primary_phone')
-        email = args.get('email')
-        type = args.get('type')
              */
           }
 
           <OrganizationTypeSection saveOrgType={(orgType) => this.setState({orgType})}/>
           <OrganizationNameSection saveOrgName={(orgName) => this.setState({orgName})}/>
           <PhoneSection savePhoneNumber={(phoneNumber) => this.setState({phoneNumber})}/>
+          <LocationSection saveLocation={(location) => this.setState({location})}/>
           <UsernameSection saveUsername={(username) => this.setState({username})}/>
           <EmailSection saveEmail={(email) => this.setState({email})}/>
           <PasswordSection savePassword={(password) => this.setState({password})}/>
