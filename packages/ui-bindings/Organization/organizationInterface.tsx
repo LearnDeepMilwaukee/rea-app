@@ -16,4 +16,6 @@ fragment organizationInterface on Organization {
 ${agentInterface}
 `;
 
-export interface Organization extends Agent{}
+export interface Organization extends Agent {
+
+}
