@@ -6,6 +6,7 @@
 import * as React from "react";
 import * as EmailValidator from "email-validator";
 import { Link } from "react-router";
+import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
 
 /**
  * This component is responsible for getting the type of organization
@@ -17,34 +18,66 @@ import { Link } from "react-router";
  * so the parent is always up to date on the type of organization being
  * registered.
  */
-class OrganizationTypeSection extends React.Component {
+// class OrganizationTypeSection extends React.Component {
+//
+//   private organizationType: string;
+//
+//   // A shorter version of the update function to fit on one line
+//   radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
+//
+//   // Called every time the organization type changes
+//   // Saves a local copy and sends it to the parent
+//   onOrganizationTypeUpdate = (orgType) => {
+//     this.organizationType = orgType;
+//     this.props.saveOrgType(orgType);
+//   };
+//
+//   // Draws all of the components on the screen
+//   render() {
+//     return (
+//       <div>
+//         OrganizationType*:<br/>
+//         <input type="radio" name="userType" value="Cooperative" onChange={this.radioFunction}/>Cooperative
+//         <input type="radio" name="userType" value="Projects" onChange={this.radioFunction}/>Projects
+//         <input type="radio" name="userType" value="Organizations" onChange={this.radioFunction}/>Organizations
+//         <input type="radio" name="userType" value="Groups" onChange={this.radioFunction}/>Groups
+//         <br/><br/>
+//       </div>
+//     );
+//   }
+// }
 
-  private organizationType: string;
+const OrganizationTypeSection = allOrganizationClassifications( ({organizationClassifications, loading, error}) => {
+  if (loading) {
+    return <h2>Loading...</h2>;
+  } else if (error) {
+    return <h2>Error!</h2>;
+  }
 
   // A shorter version of the update function to fit on one line
-  radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
+  let radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
 
-  // Called every time the organization type changes
-  // Saves a local copy and sends it to the parent
-  onOrganizationTypeUpdate = (orgType) => {
-    this.organizationType = orgType;
-    this.props.saveOrgType(orgType);
-  };
+  return (
+    <div>
+      OrganizationType*:<br/>
+      {
+        organizationClassifications.map((classification) => (
+          <div>
+            <input type="radio" name="userType" value={classification.name} onChange={radioFunction}/>Text
+            {classification.name}
+          </div>
+        ))
+      }
 
-  // Draws all of the components on the screen
-  render() {
-    return (
-      <div>
-        OrganizationType*:<br/>
-        <input type="radio" name="userType" value="Cooperative" onChange={this.radioFunction}/>Cooperative
-        <input type="radio" name="userType" value="Projects" onChange={this.radioFunction}/>Projects
-        <input type="radio" name="userType" value="Organizations" onChange={this.radioFunction}/>Organizations
-        <input type="radio" name="userType" value="Groups" onChange={this.radioFunction}/>Groups
-        <br/><br/>
-      </div>
-    );
-  }
-}
+      {/*<input type="radio" name="userType" value="Cooperative" onChange={radioFunction}/>Cooperative*/}
+      {/*<input type="radio" name="userType" value="Projects" onChange={radioFunction}/>Projects*/}
+      {/*<input type="radio" name="userType" value="Organizations" onChange={radioFunction}/>Organizations*/}
+      {/*<input type="radio" name="userType" value="Groups" onChange={radioFunction}/>Groups*/}
+      <br/><br/>
+    </div>
+  );
+
+});
 
 /**
  * This component has all of the components required to
@@ -280,29 +313,50 @@ class Registration extends React.Component {
     orgName: undefined,
     username: undefined,
     email: undefined,
-    password: undefined
+    password: undefined,
+    newOrganization: undefined
   };
 
   getRegistrationJSON = (event) => {
     event.preventDefault();
 
     let allValid = this.state.orgType
-                && this.state.orgName
-                && this.state.username
-                && this.state.email
-                && this.state.password;
+      && this.state.orgName
+      && this.state.username
+      && this.state.email
+      && this.state.password;
 
     if (!allValid) {
       alert("Please correct information and try again");
       return;
     }
 
-    alert("Registration will be enabled soon");
+    // alert("Registration will be enabled soon");
     console.log("Organization Type:", this.state.orgType);
     console.log("Organization Name:", this.state.orgName);
     console.log("Username:", this.state.username);
     console.log("Email:", this.state.email);
     console.log("Password:", this.state.password);
+
+    let variables = {
+      type: this.state.orgType,
+      name: this.state.orgName
+    };
+    variables.token = this.props.token; // add the token in afterwards
+
+    // perform the mutation
+    this.props.mutate({ variables }).then( (response) => {
+      let newOrganization = response.data.createOrganization.organization;
+      this.setState({newOrganization: newOrganization});
+
+      if (response.data.createOrganization.organization) {
+        alert("Organization Created Successfully");
+      }
+
+    }).catch( (error) => {
+      console.log(error);
+    });
+
   };
 
   // Draws all of the components on the screen
@@ -328,4 +382,4 @@ class Registration extends React.Component {
   }
 }
 
-export default Registration;
+export default createOrganization(Registration);

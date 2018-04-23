@@ -15,10 +15,10 @@ import { organizationInterface } from "./organizationInterface";
 export const mutation = gql`
   mutation(
     $token: String!,
-    $type: String,
-    $name: String
+    $type: String!,
+    $name: String!
   ) {
-    createEconomicEvent (
+    createOrganization (
       token: $token,
       type: $type,
       name: $name
