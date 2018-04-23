@@ -7,6 +7,7 @@ import * as React from "react";
 import * as EmailValidator from "email-validator";
 import { Link } from "react-router";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
+import allOrgsClass from "../../../ui-bindings/Organization/allOrgsClass.tsx";
 
 /**
  * This component is responsible for getting the type of organization
@@ -47,7 +48,7 @@ import createOrganization from "../../../ui-bindings/Organization/CreateOrganiza
 //   }
 // }
 
-const OrganizationTypeSection = allOrganizationClassifications( ({organizationClassifications, loading, error}) => {
+const OrganizationTypeSection = allOrgsClass( ({organizationClassifications, loading, error}) => {
   if (loading) {
     return <h2>Loading...</h2>;
   } else if (error) {
