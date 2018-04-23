@@ -7,7 +7,7 @@ import * as React from "react";
 import * as EmailValidator from "email-validator";
 import { Link } from "react-router";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
-import allOrgsClass from "../../../ui-bindings/Organization/allOrgsClass.tsx";
+// import allOrgsClass from "../../../ui-bindings/Organization/allOrgsClass.tsx";
 
 /**
  * This component is responsible for getting the type of organization
@@ -19,66 +19,81 @@ import allOrgsClass from "../../../ui-bindings/Organization/allOrgsClass.tsx";
  * so the parent is always up to date on the type of organization being
  * registered.
  */
-// class OrganizationTypeSection extends React.Component {
-//
-//   private organizationType: string;
-//
-//   // A shorter version of the update function to fit on one line
-//   radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
-//
-//   // Called every time the organization type changes
-//   // Saves a local copy and sends it to the parent
-//   onOrganizationTypeUpdate = (orgType) => {
-//     this.organizationType = orgType;
-//     this.props.saveOrgType(orgType);
-//   };
-//
-//   // Draws all of the components on the screen
-//   render() {
-//     return (
-//       <div>
-//         OrganizationType*:<br/>
-//         <input type="radio" name="userType" value="Cooperative" onChange={this.radioFunction}/>Cooperative
-//         <input type="radio" name="userType" value="Projects" onChange={this.radioFunction}/>Projects
-//         <input type="radio" name="userType" value="Organizations" onChange={this.radioFunction}/>Organizations
-//         <input type="radio" name="userType" value="Groups" onChange={this.radioFunction}/>Groups
-//         <br/><br/>
-//       </div>
-//     );
-//   }
-// }
+class OrganizationTypeSection extends React.Component {
 
-const OrganizationTypeSection = allOrgsClass( ({organizationClassifications, loading, error}) => {
-  if (loading) {
-    return <h2>Loading...</h2>;
-  } else if (error) {
-    return <h2>Error!</h2>;
-  }
+  private organizationType: string;
+
+  private organizationTypes = [
+    "For-profit Company",
+    "Library",
+    "Makerspace",
+    "Network",
+    "Non-profit Company",
+    "Organization",
+    "School",
+    "School District"
+  ];
 
   // A shorter version of the update function to fit on one line
-  let radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
+  radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
 
-  return (
-    <div>
-      OrganizationType*:<br/>
-      {
-        organizationClassifications.map((classification) => (
-          <div>
-            <input type="radio" name="userType" value={classification.name} onChange={radioFunction}/>Text
-            {classification.name}
-          </div>
-        ))
-      }
+  // Called every time the organization type changes
+  // Saves a local copy and sends it to the parent
+  onOrganizationTypeUpdate = (orgType) => {
+    this.organizationType = orgType;
+    this.props.saveOrgType(orgType);
+  };
 
-      {/*<input type="radio" name="userType" value="Cooperative" onChange={radioFunction}/>Cooperative*/}
-      {/*<input type="radio" name="userType" value="Projects" onChange={radioFunction}/>Projects*/}
-      {/*<input type="radio" name="userType" value="Organizations" onChange={radioFunction}/>Organizations*/}
-      {/*<input type="radio" name="userType" value="Groups" onChange={radioFunction}/>Groups*/}
-      <br/><br/>
-    </div>
-  );
+  // Draws all of the components on the screen
+  render() {
+    return (
+      <div>
+        OrganizationType*:<br/>
+        {
+          this.organizationTypes.map((classification) => (
+            <div>
+              <input type="radio" name="userType" value={classification} onChange={this.radioFunction}/>
+              {classification}
+            </div>
+          ))
+        }
+        <br/><br/>
+      </div>
+    );
+  }
+}
 
-});
+// const OrganizationTypeSection = allOrgsClass( ({organizationClassifications, loading, error}) => {
+//   if (loading) {
+//     return <h2>Loading...</h2>;
+//   } else if (error) {
+//     return <h2>Error!</h2>;
+//   }
+//
+//   // A shorter version of the update function to fit on one line
+//   let radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
+//
+//   return (
+//     <div>
+//       OrganizationType*:<br/>
+//       {
+//         organizationClassifications.map((classification) => (
+//           <div>
+//             <input type="radio" name="userType" value={classification.name} onChange={radioFunction}/>Text
+//             {classification.name}
+//           </div>
+//         ))
+//       }
+//
+//       {/*<input type="radio" name="userType" value="Cooperative" onChange={radioFunction}/>Cooperative*/}
+//       {/*<input type="radio" name="userType" value="Projects" onChange={radioFunction}/>Projects*/}
+//       {/*<input type="radio" name="userType" value="Organizations" onChange={radioFunction}/>Organizations*/}
+//       {/*<input type="radio" name="userType" value="Groups" onChange={radioFunction}/>Groups*/}
+//       <br/><br/>
+//     </div>
+//   );
+//
+// });
 
 /**
  * This component has all of the components required to
