@@ -42,13 +42,13 @@ const routes = (
 
     <Route path="projects">
         <IndexRoute component={AllProjectsPage} />
+        <Route path=":id/edit" component={ModifyOrg}/>
         <Route path=":id" component={SingleProjectTemplate}>
           <IndexRoute component={OverviewPage} />
           <Route path="processes" component={ProcessesPage} />
           <Route path="accounts" component={AccountsPage} />
           <Route path="members" component={MembersPage} />
           <Route path="inventory" component={InventoryPage} />
-          <Route path="edit" component={ModifyOrg} />
         </Route>
     </Route>
 
