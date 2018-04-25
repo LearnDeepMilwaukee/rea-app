@@ -9,10 +9,11 @@
 
 import * as React from "react";
 import "./modifyOrg.css";
-import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
+//import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
+//import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
+import { GetSingleOrganization } from "../Api/organization";
+import { GetAllOrganizations } from "../Api/organization";
 import { concatArray } from "../Api/common";
-import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
-import GetSingleOrganization from "../Api/organization";
 
 export const Organization = (props) => {
   let organization = props.organization;
@@ -46,25 +47,6 @@ const OrganizationField = (props) => {
     </div>
   );
 };
-
-export const GetAllOrganizations = getAllOrganizations(({ organizationList, loading, error}) => {
-
-  if (loading) {
-    return(
-      <strong>Loading...</strong>
-    );
-  } else if (error) {
-    return(
-      <p style={{color: "#F00"}}>API error</p>
-    );
-  } else {
-    return(
-      <div>
-        {concatArray(organizationList)}
-      </div>
-    );
-  }
-});
 
 class App extends React.Component {
 
