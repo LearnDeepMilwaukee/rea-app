@@ -53,7 +53,7 @@ class Popup extends React.Component {
     return (
       <div>
         <Modal
-          isOpen={this.state.showModal}
+          isOpen={this.props.orgId !== undefined}
           contentLabel="My Material Wizard Modal"
           style={wizardModalStyle}
           onRequestClose={() => this.setState({showModal: false})}
@@ -529,31 +529,11 @@ class Registration extends React.Component {
     // perform the mutation
     this.props.mutate({ variables }).then( (response) => {
       let newOrganization = response.data.createOrganization.organization;
-      this.setState({newOrganization: newOrganization});
 
       if (newOrganization) {
+        this.setState({newOrganization: newOrganization});
+        // this.setState({orgId: newOrganization.id});
         console.log("Organization Created Successfully");
-
-        this.setState({orgId: newOrganization.id});
-
-        let update = confirm("Your Organization has been created successfully.\n" +
-          "Now you can add more details like giving your organization a picture, " +
-          "or adding some notes about what your organization does.");
-
-        if (update) {
-          Router.transitionTo(`/projects/${orgId}/update`);
-        } else {
-          Router.transitionTo(`/projects/${orgId}`);
-        }
-        //   labelOk: "Take Me There",
-        //   labelCancel: "No Thanks, Not Now",
-        //   onSubmit: () => {
-        //     Router.transitionTo(`/projects/${id}/update`);
-        //   },
-        //   onClose: () => {
-        //     Router.transitionTo(`/projects/${id}`);
-        //   }
-        // });
       }
     }).catch( (error) => {
       console.log(error);
@@ -576,7 +556,7 @@ class Registration extends React.Component {
              */
           }
 
-          <Popup orgId={8} showPopup={this.state.orgId !== undefined}/>
+          <Popup orgId={this.state.newOrganization ? this.state.newOrganization.id : undefined}/>
 
           <OrganizationTypeSection saveOrgType={(orgType) => this.setState({orgType})}/>
           <OrganizationNameSection saveOrgName={(orgName) => this.setState({orgName})}/>
