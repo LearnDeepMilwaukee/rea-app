@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./api.css"
+import "./modifyOrg.css"
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
 
 export const Org = (props) => {
