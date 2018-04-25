@@ -25,6 +25,7 @@ const OrganizationField = (props) => {
 
 export const OrganizationForm = (props) => {
   let organization = props.organization;
+  console.log(organization);
   return(
     <div>
       <form>
