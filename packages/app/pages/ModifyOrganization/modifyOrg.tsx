@@ -28,11 +28,11 @@ export const OrganizationForm = (props) => {
   return(
     <div>
       <form>
-        <input type="text" name="orgName" value={organization.name}/>
-        <input type="text" name="orgType" value={organization.type}/>
-        <input type="text" name="orgImg" value={organization.image}/>
-        <input type="text" name="orgNote" value={organization.note}/>
-
+        <input type="text" name="orgName" value="pl"/> <br/>
+        <input type="text" name="orgType" value="ac"/> <br/>
+        <input type="text" name="orgImg" value="te"/> <br/>
+        <input type="text" name="orgNote" value="mp"/> <br/>
+        <br/>
         <input type="submit" value="Submit Changes"/>
       </form>
     </div>
