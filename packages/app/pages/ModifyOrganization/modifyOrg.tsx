@@ -22,13 +22,13 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
       <p style={{color: "#F00"}}>API error</p>
     );
   } else {
-    console.log(organization);
+    //console.log(organization);
     return (
       <div>
         <form>
           <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
           <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
-          <input type="text" name="orgImg" defaultValue={organization.image}/> <br/>
+          <input type="text" name="orgImage" defaultValue={organization.image}/> <br/>
           <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
           <br/>
           <input type="submit" value="Submit Changes"/>
