@@ -27,9 +27,9 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
       <div>
         <form>
           <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
-          <input type="text" name="orgType" value="ac"/> <br/>
-          <input type="text" name="orgImg" value="te"/> <br/>
-          <input type="text" name="orgNote" value="mp"/> <br/>
+          <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
+          <input type="text" name="orgImg" defaultValue={organization.image}/> <br/>
+          <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
           <br/>
           <input type="submit" value="Submit Changes"/>
         </form>
