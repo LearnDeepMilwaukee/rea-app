@@ -64,11 +64,7 @@ class App extends React.Component {
         <br/>
         <h2>Get an Organization By Id: </h2>
         <br/>
-        1: Current Org Id is: {this.props.routerprops.router.params.id}
-        <br/>
-        2: Current Org Id is: {this.props.routerprops.params.id}
-        <br/>
-        3: Current Org Id is: {routerprops.router.params.id}
+        Current Org Id is: {this.props.routerprops.router.params.id}
         <br/>
         <OrganizationField setOrganization={this.getOrganizationById} onSubmitAction={this.stopRefresh}/>
         {
