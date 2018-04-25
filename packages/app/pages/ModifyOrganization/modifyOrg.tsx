@@ -2,6 +2,83 @@ import * as React from "react";
 import "./modifyOrg.css"
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
 
+export const Organization = (props) => {
+  let organization = props.organization;
+  return(
+    <div>
+      <div>id: {organization.id}</div>
+      <div>name: {organization.name}</div>
+      <div>type: {organization.type}</div>
+      <div>image: {organization.image}</div>
+      <div>note: {organization.note}</div>
+      <br/>
+    </div>
+  );
+};
+
+const OrgField = (props) => {
+  return(
+    <div>
+      <form onSubmit={props.onSubmitAction}>
+        ID: <input type="text" name="value" id="idForm"/>
+        <input type="submit" value="Query"/>
+      </form>
+    </div>
+  );
+};
+
+
+export const GetSingleOrganization = getOrganizationById( ({ organization, loading, error }) => {
+
+  if (loading) {
+    return <p>Loading...</p>
+  } else if (error) {
+    return <p>Error!</p> // This can be made more specific
+  }
+
+  return (
+    <div>
+      <Organization organization={organization}/>
+    </div>
+  );
+});
+
+/**
+ * Main component of page.
+ */
+class App extends React.Component {
+  state = {
+    orgId: undefined
+  };
+
+  getOrgById = (event) => {
+    event.preventDefault();
+    let orgId = document.getElementById("idForm").value;
+    this.setState({orgId: orgId});
+  };
+
+  render() {
+    return (
+      <div>
+        <br/>
+        <h2>Org by ID: </h2>
+        <br/>
+        <OrgField onSubmitAction={this.getOrgById}/>
+        <br/>
+        {this.state.orgId ? <GetSingleOrganization orgId={this.state.orgId} /> : <p>No matches</p>}
+        <br/>
+      </div>
+    );
+  }
+}
+
+export default App;
+
+/*
+import * as React from "react";
+import "./modifyOrg.css"
+import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
+
 export const Org = (props) => {
   let organization = props.organization;
   return(
