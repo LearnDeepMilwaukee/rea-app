@@ -17,13 +17,13 @@ export const ValidatePageLoaded = ({page, loading, error}) => {
 };
 
 export function ValidateLoadedPage(page, loading, error) {
-  if (loading) {
-    return (
-      <strong>Loading...</strong>
-    );
-  } else if (error) {
+  if (error) {
     return (
       <p style={{color: "#F00"}}>API error</p>
+    );
+  } else if (loading) {
+    return (
+      <strong>Loading...</strong>
     );
   } else {
     return (
