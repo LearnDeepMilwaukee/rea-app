@@ -20,7 +20,7 @@ const OrgField = (props) => {
   return(
     <div>
       <form onSubmit={props.onSubmitAction}>
-        Pick the Organization to modify: <input type="text" name="value" onChange={props.setOrg}/>
+        Pick the Organization to modify: <input type="text" name="value" onChange={props.setOrganization}/>
         <input type="submit" value="query"/>
       </form>
     </div>
