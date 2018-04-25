@@ -9,12 +9,10 @@
 
 import * as React from "react";
 import "./modifyOrg.css";
-//import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
-//import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
-import { GetSingleOrganization } from "../Api/organization";
-import { GetAllOrganizations } from "../Api/organization";
-//import { Organization } from "../Api/organization"
-import { concatArray } from "../Api/common";
+import { GetSingleOrganization, GetAllOrganizations } from "../Api/organization";
+import { GetMyAgent, GetSingleAgent } from "../Api/agent";
+
+//<AccountsPage theme={theme} agent={agent} agentId={router.params.id} /> //This is how you fetch the router id
 
 const OrganizationField = (props) => {
   return(
