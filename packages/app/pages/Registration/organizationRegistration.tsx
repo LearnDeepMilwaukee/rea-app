@@ -12,6 +12,73 @@ import * as Phone from "phone";
 // import allOrgsClass from "../../../ui-bindings/Organization/allOrgsClass.tsx";
 
 /**
+ * This popup appears after a successful registration and offers to
+ * take the user to the edit page for more information, or
+ * to redirect them to their created organization to see the finished page
+ */
+class Popup extends React.Component {
+
+  /** Custom styles for the wizard modal (CSS equiv) */
+  private wizardModalStyle = {
+    overlay : {
+      position          : "fixed",
+      top               : 0,
+      left              : 0,
+      right             : 0,
+      bottom            : 0,
+      backgroundColor   : "rgba(255, 255, 255, 0.75)"
+    },
+    content : {
+      position                   : "absolute",
+      top                        : "50%",
+      left                       : "50%",
+      width                      : "50%",
+      leftMargin                 : "auto",
+      rightMargin                : "auto",
+      transform                  : "translate(-50%, -50%)",
+      border                     : "1px solid #ccc",
+      background                 : "#fff",
+      overflow                   : "auto",
+      WebkitOverflowScrolling    : "touch",
+      borderRadius               : "4px",
+      outline                    : "none",
+      padding                    : "20px"
+    }
+  };
+
+  render() {
+    let id = this.props.orgId;
+    let url = "/projects/" + id;
+
+    return (
+      <div>
+        <Modal
+          isOpen={this.state.showModal}
+          contentLabel="My Material Wizard Modal"
+          style={wizardModalStyle}
+          onRequestClose={() => this.setState({showModal: false})}
+          className={{base: this.theme.responsiveModal}}
+        >
+          <div style={{display: "block", textAlign: "right"}}>
+            <button style={{textAlign: "right"}}><Link to={url}>[ X ]</Link></button>
+          </div>
+
+          <h1>You're All Set!</h1>
+          <p>You have successfully registered your organization.
+            Now you can add more details like giving your organization a picture,
+            or adding some notes about what your organization does.</p>
+
+          <button><Link to={url}>No Thanks, Not Now</Link></button>
+          <button><Link to={url + "/edit"}>Take Me There!</Link></button>
+
+        </Modal>
+
+      </div>
+    );
+  }
+}
+
+/**
  * This component is responsible for getting the type of organization
  * that is registering from the user. It contains all of the different
  * types of organizations, as well as the logic to determine which one
@@ -416,6 +483,8 @@ class LocationSection extends React.Component {
 class Registration extends React.Component {
 
   private state = {
+    orgId: undefined,
+
     orgType: undefined,
     orgName: undefined,
     username: undefined,
@@ -465,7 +534,7 @@ class Registration extends React.Component {
       if (newOrganization) {
         console.log("Organization Created Successfully");
 
-        let orgId = newOrganization.id;
+        this.setState({orgId: newOrganization.id});
 
         let update = confirm("Your Organization has been created successfully.\n" +
           "Now you can add more details like giving your organization a picture, " +
@@ -503,19 +572,11 @@ class Registration extends React.Component {
           {
             /*
             Need to offer support for:
-        image = args.get('image')
-        note = args.get('note')
         primary_location_id = args.get('primary_location_id')
              */
           }
 
-          <Modal
-            isShowing={true}
-          >
-            <div>
-              <p>This is the popup modal</p>
-            </div>
-          </Modal>
+          <Popup orgId={8} showPopup={this.state.orgId !== undefined}/>
 
           <OrganizationTypeSection saveOrgType={(orgType) => this.setState({orgType})}/>
           <OrganizationNameSection saveOrgName={(orgName) => this.setState({orgName})}/>
