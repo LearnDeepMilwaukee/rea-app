@@ -15,7 +15,7 @@ import { ValidatePageLoaded, ValidateLoadedPage } from "../Common/common";
 
 export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
 
-
+  console.log(organization);
   return ValidateLoadedPage((
     <div>
       <form>
