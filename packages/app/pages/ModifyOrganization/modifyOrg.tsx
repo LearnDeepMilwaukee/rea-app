@@ -15,13 +15,14 @@ import { ValidatePageLoaded, ValidateLoadedPage } from "../Common/common";
 
 export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
 
+
   ValidateLoadedPage((
     <div>
       <form>
-        <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
-        <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
-        <input type="text" name="orgImage" defaultValue={organization.image}/> <br/>
-        <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
+        <input type="text" name="orgName" defaultValue="test"/> <br/>
+        <input type="text" name="orgType" defaultValue="test"/> <br/>
+        <input type="text" name="orgImage" defaultValue="test"/> <br/>
+        <input type="text" name="orgNote" defaultValue="test"/> <br/>
         <br/>
         <input type="submit" value="Submit Changes"/>
       </form>
