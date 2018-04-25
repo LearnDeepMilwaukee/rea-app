@@ -11,6 +11,8 @@ import * as React from "react";
 import "./modifyOrg.css";
 import { GetSingleOrganization, GetAllOrganizations } from "../Api/organization";
 import { GetMyAgent, GetSingleAgent } from "../Api/agent";
+//import routerProps from "../Accounts/accounts";
+import routes from "../../routes";
 
 //<AccountsPage theme={theme} agent={agent} agentId={router.params.id} /> //This is how you fetch the router id
 
@@ -54,7 +56,7 @@ class App extends React.Component {
         <br/>
         <h2>Get an Organization By Id: </h2>
         <br/>
-        Current Org Id is:
+        Current Org Id is: {routes.params.id}
         <br/>
         <OrganizationField setOrganization={this.getOrganizationById} onSubmitAction={this.stopRefresh}/>
         {
