@@ -8,9 +8,9 @@
  */
 
 import * as React from "react";
-import "./api.css";
+import "./modifyOrg.css";
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
-import { concatArray } from "./common";
+import { concatArray } from "../Api/common";
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
 
 export const Organization = (props) => {
