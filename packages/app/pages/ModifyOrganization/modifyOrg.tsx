@@ -23,6 +23,22 @@ const OrganizationField = (props) => {
   );
 };
 
+export const OrganizationForm = (props) => {
+  let organization = props.organization;
+  return(
+    <div>
+      <form>
+        <input type="text" name="orgName" value={organization.name}/>
+        <input type="text" name="orgType" value={organization.type}/>
+        <input type="text" name="orgImg" value={organization.image}/>
+        <input type="text" name="orgNote" value={organization.note}/>
+
+        <input type="submit" value="Submit Changes"/>
+      </form>
+    </div>
+  );
+};
+
 class App extends React.Component {
 
   state = {
@@ -44,15 +60,11 @@ class App extends React.Component {
 
   render() {
     const {getOneOrganizationId} = this.state;
+    let orgId = this.props.params.id;
     return (
       <div>
-        <h2>All Organizations: </h2>
-        <br/>
-        <GetAllOrganizations/>
-        <br/>
-        <h2>Get an Organization By Id: </h2>
-        <br/>
-        Current Org Id is: {this.props.params.id}
+        Current Org Id is: {orgId}
+        <OrganizationForm organizationId={orgId}/>
         <br/>
         <OrganizationField setOrganization={this.getOrganizationById} onSubmitAction={this.stopRefresh}/>
         {
