@@ -17,6 +17,8 @@ export const ValidatePageLoaded = ({page, loading, error}) => {
 };
 
 export function ValidateLoadedPage(page, loading, error) {
+  console.log("page" + page);
+  console.log(typeof page);
   if (error) {
     return (
       <p style={{color: "#F00"}}>API error</p>
