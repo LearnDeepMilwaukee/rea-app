@@ -64,7 +64,7 @@ class App extends React.Component {
     return (
       <div>
         Current Org Id is: {orgId}
-
+        <OrganizationForm organization={orgId}/>
         <br/>
         <OrganizationField setOrganization={this.getOrganizationById} onSubmitAction={this.stopRefresh}/>
         {
