@@ -48,6 +48,7 @@ const routes = (
           <Route path="accounts" component={AccountsPage} />
           <Route path="members" component={MembersPage} />
           <Route path="inventory" component={InventoryPage} />
+          <Route path="edit" component={ModifyOrg} />
         </Route>
     </Route>
 
@@ -74,7 +75,6 @@ const routes = (
 
       <Route path="mutations">
         <Route path="createeconomicevent" component={CreateEconomicEvent} />
-        <Route path="updateorg" component={ModifyOrg} />
       </Route>
     </Route>
 

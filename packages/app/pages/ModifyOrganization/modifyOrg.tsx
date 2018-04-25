@@ -12,7 +12,7 @@ import "./modifyOrg.css";
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
 import { concatArray } from "../Api/common";
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
-import Organization from "../Api/organization"
+import Organization from "../Api/organization";
 
 const OrganizationField = (props) => {
   return(
