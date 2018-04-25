@@ -3,13 +3,13 @@
  * and provides a section to select a single organization out of that list
  *
  * @package: REA app
- * @author:  Steven Fontaine <fontainesw@msoe.edu>
- * @since:   2018-02-08
+ * @author:  Nicholas Roth <Lou3797>
+ * @version: 2018.4.25
+ * @since:   4/25/2018
  */
 
 import * as React from "react";
 import "./modifyOrg.css";
-import { GetMyAgent, GetSingleAgent } from "../Api/agent";
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
 
 export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
@@ -44,7 +44,7 @@ class App extends React.Component {
     return (
       <div>
         Current Org Id is: {orgId}
-        <OrganizationForm organization={orgId}/>
+        <OrganizationForm organizationId={orgId}/>
         <br/>
       </div>
     );
