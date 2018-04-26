@@ -29,7 +29,7 @@ export function ValidateLoadedPage(page, loading, error) {
   console.log(typeof page);
   if (error) {
     return (
-      <p style={{color: "#F00"}}>API error</p>
+      _error
     );
   } else if (loading) {
     return (
@@ -37,7 +37,7 @@ export function ValidateLoadedPage(page, loading, error) {
     );
   } else {
     return (
-      {page}
+      page
     );
   }
 }
