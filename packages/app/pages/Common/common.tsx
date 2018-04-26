@@ -4,9 +4,9 @@ const _loading = (
   <strong>Loading...</strong>
 );
 
-const _error = {
-
-}
+const _error = (
+  <p style={{color: "#F00"}}>API error</p>
+);
 
 export const ValidatePageLoaded = ({page, loading, error}) => {
   if (loading) {
