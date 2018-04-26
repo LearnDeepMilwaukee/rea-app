@@ -17,6 +17,7 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
   console.log(organization);
   let temp = test(loading, error);
 
+  /*
   if (temp[0]) {
     return (
       <div>
@@ -35,9 +36,9 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
       temp[1]
     );
   }
+  */
 
-  /*
-  let page = (
+  return validatePageLoaded((
     <div>
       <form>
         <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
@@ -48,9 +49,8 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
         <input type="submit" value="Submit Changes"/>
       </form>
     </div>
-  );
-  return validatePageLoaded(page, loading, error);
-  */
+  ), loading, error);
+
 });
 
 class App extends React.Component {
