@@ -11,11 +11,32 @@
 import * as React from "react";
 import "./modifyOrg.css";
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
-import { ValidatePageLoaded } from "../Common/common";
+import { validatePageLoaded, test } from "../Common/common";
 
 export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
-
   console.log(organization);
+  let temp = test(loading, error);
+
+  if (temp[0]) {
+    return (
+      <div>
+        <form>
+          <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
+          <input type="text" name="orgType" defaultValue="test"/> <br/>
+          <input type="text" name="orgImage" defaultValue="test"/> <br/>
+          <input type="text" name="orgNote" defaultValue="test"/> <br/>
+          <br/>
+          <input type="submit" value="Submit Changes"/>
+        </form>
+      </div>
+    );
+  } else {
+    return (
+      temp[1]
+    );
+  }
+
+  /*
   let page = (
     <div>
       <form>
@@ -28,7 +49,8 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
       </form>
     </div>
   );
-  return ValidatePageLoaded(page, loading, error);
+  return validatePageLoaded(page, loading, error);
+  */
 });
 
 class App extends React.Component {

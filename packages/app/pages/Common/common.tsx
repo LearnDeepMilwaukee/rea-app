@@ -8,7 +8,7 @@ const _error = (
   <p style={{color: "#F00"}}>API error</p>
 );
 
-export function ValidatePageLoaded(page, loading, error) {
+export function validatePageLoaded(page, loading, error) {
   if (error) {
     return (
       _error
@@ -21,6 +21,16 @@ export function ValidatePageLoaded(page, loading, error) {
     return (
       page
     );
+  }
+}
+
+export function test(loading, error) {
+  if (error) {
+    return [false, _error];
+  } else if (loading) {
+    return [false, _loading];
+  } else {
+    return [true];
   }
 }
 
