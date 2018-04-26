@@ -1,7 +1,7 @@
 import * as React from "react";
 
 const _loading = (
-  <strong>Loading...</strong>
+  <strong>Loading from common.tsx</strong>
 );
 
 const _error = (
