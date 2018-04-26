@@ -16,8 +16,8 @@ import { validatePageLoaded, test } from "../Common/common";
 export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
   console.log(organization);
   let temp = test(loading, error);
+  console.log(this.props);
 
-  /*
   if (temp[0]) {
     return (
       <div>
@@ -36,9 +36,9 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
       temp[1]
     );
   }
-  */
 
-  return validatePageLoaded((
+  /*
+  let page = (
     <div>
       <form>
         <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
@@ -49,8 +49,9 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
         <input type="submit" value="Submit Changes"/>
       </form>
     </div>
-  ), loading, error);
-
+  );
+  return validatePageLoaded(page, loading, error);
+  */
 });
 
 class App extends React.Component {
