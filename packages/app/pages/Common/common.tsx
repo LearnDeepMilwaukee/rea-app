@@ -1,5 +1,13 @@
 import * as React from "react";
 
+const _loading = (
+  <strong>Loading...</strong>
+);
+
+const _error = {
+
+}
+
 export const ValidatePageLoaded = ({page, loading, error}) => {
   if (loading) {
     return (
@@ -25,7 +33,7 @@ export function ValidateLoadedPage(page, loading, error) {
     );
   } else if (loading) {
     return (
-      <strong>Loading...</strong>
+      _loading
     );
   } else {
     return (
@@ -33,3 +41,5 @@ export function ValidateLoadedPage(page, loading, error) {
     );
   }
 }
+
+
