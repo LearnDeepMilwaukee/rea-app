@@ -56,11 +56,6 @@ class Popup extends React.Component {
     let id = this.props.orgId;
     let url = "/projects/" + id;
 
-    console.log("id:", id);
-    console.log("url:", url);
-    console.log("Rendering modal");
-    console.log("Show?", this.state.showModal);
-
     return (
       <div>
         <Modal
@@ -381,7 +376,6 @@ class PhoneSection extends React.Component {
   // a standard format for phone numbers as well as validate
   validatePhoneNumber = () => {
     let valid = Phone(this.phoneNumber, "USA");
-    console.log("Phone Number:", valid);
     let phoneValid = valid !== [];
     // send the 0th item in the array (standardized phone number) instead of value in field
     this.props.savePhoneNumber(phoneValid ? valid[0] : undefined);
@@ -489,15 +483,6 @@ class Registration extends React.Component {
       return;
     }
 
-    // alert("Registration will be enabled soon");
-    console.log("Organization Type:", this.state.orgType);
-    console.log("Organization Name:", this.state.orgName);
-    console.log("Phone Number:", this.state.phoneNumber);
-    console.log("Location:", this.state.location);
-    console.log("Username:", this.state.username);
-    console.log("Email:", this.state.email);
-    console.log("Password:", this.state.password);
-
     let variables = {
       type: this.state.orgType,
       name: this.state.orgName
@@ -510,8 +495,6 @@ class Registration extends React.Component {
 
       if (newOrganization) {
         this.setState({newOrganization: newOrganization});
-        // this.setState({orgId: newOrganization.id});
-        console.log("Organization Created Successfully");
       }
     }).catch( (error) => {
       console.log(error);
