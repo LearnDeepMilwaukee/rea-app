@@ -5,6 +5,7 @@
 
 import * as React from "react";
 import * as Router from "react-router";
+import * as Modal from "react-modal";
 import * as EmailValidator from "email-validator";
 import { Link } from "react-router";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
@@ -19,8 +20,12 @@ import * as Phone from "phone";
 class Popup extends React.Component {
 
   private state = {
-    showModal: false
+    showModal: true
   };
+
+  // constructor(private props) {
+  //   this.setState({showModal: this.props.orgId !== undefined});
+  // }
 
   /** Custom styles for the wizard modal (CSS equiv) */
   private wizardModalStyle = {
@@ -51,30 +56,32 @@ class Popup extends React.Component {
   };
 
   render() {
-    // let id = this.props.orgId;
-    // let url = "/projects/" + id;
+    let id = this.props.orgId;
+    let url = "/projects/" + id;
+
+    console.log("id:", id);
+    console.log("url:", url);
+    console.log("Rendering modal");
 
     return (
       <div>
         <Modal
-          isOpen={true}
-          contentLabel="My Material Wizard Modal"
-          style={wizardModalStyle}
+          isOpen={this.state.showModal}
+          style={this.wizardModalStyle}
           onRequestClose={() => this.setState({showModal: false})}
-          className={{base: this.theme.responsiveModal}}
         >
           <div>
-            {/*<div style={{display: "block", textAlign: "right"}}>*/}
-            {/*<button style={{textAlign: "right"}}><Link to={url}>[ X ]</Link></button>*/}
-            {/*</div>*/}
+            <div style={{display: "block", textAlign: "right"}}>
+              <button style={{textAlign: "right"}}><Link to={url}>[ X ]</Link></button>
+            </div>
 
             <h1>You're All Set!</h1>
             <p>You have successfully registered your organization.
               Now you can add more details like giving your organization a picture,
               or adding some notes about what your organization does.</p>
 
-            {/*<button><Link to={url}>No Thanks, Not Now</Link></button>*/}
-            {/*<button><Link to={url + "/edit"}>Take Me There!</Link></button>*/}
+            <button><Link to={url}>No Thanks, Not Now</Link></button>
+            <button><Link to={url + "/edit"}>Take Me There!</Link></button>
           </div>
         </Modal>
 
@@ -552,6 +559,8 @@ class Registration extends React.Component {
         <h1>Organization Registeration</h1>
         <Link to="/register/individual">or <u>register an Individual instead</u></Link>
 
+        <Popup orgId={this.state.newOrganization ? this.state.newOrganization.id : undefined}/>
+
         <form id="form" onSubmit={this.getRegistrationJSON}>
 
           {
@@ -560,8 +569,6 @@ class Registration extends React.Component {
         primary_location_id = args.get('primary_location_id')
              */
           }
-
-          <Popup orgId={this.state.newOrganization ? this.state.newOrganization.id : undefined}/>
 
           <OrganizationTypeSection saveOrgType={(orgType) => this.setState({orgType})}/>
           <OrganizationNameSection saveOrgName={(orgName) => this.setState({orgName})}/>
