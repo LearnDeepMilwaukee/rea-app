@@ -1,6 +1,7 @@
 /**
  * @author Connor Hibbs <hibbscm@msoe.edu>
  * @version 1.0.0
+ * @since 29 April 2018
  */
 
 import * as React from "react";
@@ -20,12 +21,8 @@ import * as Phone from "phone";
 class Popup extends React.Component {
 
   private state = {
-    showModal: true
+    showModal: (this.props.orgId !== undefined)
   };
-
-  // constructor(private props) {
-  //   this.setState({showModal: this.props.orgId !== undefined});
-  // }
 
   /** Custom styles for the wizard modal (CSS equiv) */
   private wizardModalStyle = {
@@ -62,11 +59,12 @@ class Popup extends React.Component {
     console.log("id:", id);
     console.log("url:", url);
     console.log("Rendering modal");
+    console.log("Show?", this.state.showModal);
 
     return (
       <div>
         <Modal
-          isOpen={this.state.showModal}
+          isOpen={id}
           style={this.wizardModalStyle}
           onRequestClose={() => this.setState({showModal: false})}
         >
@@ -143,38 +141,6 @@ class OrganizationTypeSection extends React.Component {
     );
   }
 }
-
-// const OrganizationTypeSection = allOrgsClass( ({organizationClassifications, loading, error}) => {
-//   if (loading) {
-//     return <h2>Loading...</h2>;
-//   } else if (error) {
-//     return <h2>Error!</h2>;
-//   }
-//
-//   // A shorter version of the update function to fit on one line
-//   let radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
-//
-//   return (
-//     <div>
-//       OrganizationType*:<br/>
-//       {
-//         organizationClassifications.map((classification) => (
-//           <div>
-//             <input type="radio" name="userType" value={classification.name} onChange={radioFunction}/>Text
-//             {classification.name}
-//           </div>
-//         ))
-//       }
-//
-//       {/*<input type="radio" name="userType" value="Cooperative" onChange={radioFunction}/>Cooperative*/}
-//       {/*<input type="radio" name="userType" value="Projects" onChange={radioFunction}/>Projects*/}
-//       {/*<input type="radio" name="userType" value="Organizations" onChange={radioFunction}/>Organizations*/}
-//       {/*<input type="radio" name="userType" value="Groups" onChange={radioFunction}/>Groups*/}
-//       <br/><br/>
-//     </div>
-//   );
-//
-// });
 
 /**
  * This component has all of the components required to
@@ -485,7 +451,7 @@ class LocationSection extends React.Component {
  * This is the main component for the page. It combines all of the
  * different registration elements together on the screen and maintains
  * the current value of each sectino in the state (or undefined if they are not
- * ready). \
+ * ready).
  *
  * This component is responsible for checking that all components are ready
  * and sending the request to the backend API. It does not display any error messages
@@ -562,13 +528,6 @@ class Registration extends React.Component {
         <Popup orgId={this.state.newOrganization ? this.state.newOrganization.id : undefined}/>
 
         <form id="form" onSubmit={this.getRegistrationJSON}>
-
-          {
-            /*
-            Need to offer support for:
-        primary_location_id = args.get('primary_location_id')
-             */
-          }
 
           <OrganizationTypeSection saveOrgType={(orgType) => this.setState({orgType})}/>
           <OrganizationNameSection saveOrgName={(orgName) => this.setState({orgName})}/>
