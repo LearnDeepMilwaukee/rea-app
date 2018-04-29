@@ -18,6 +18,10 @@ import * as Phone from "phone";
  */
 class Popup extends React.Component {
 
+  private state = {
+    showModal: false
+  };
+
   /** Custom styles for the wizard modal (CSS equiv) */
   private wizardModalStyle = {
     overlay : {
@@ -47,30 +51,31 @@ class Popup extends React.Component {
   };
 
   render() {
-    let id = this.props.orgId;
-    let url = "/projects/" + id;
+    // let id = this.props.orgId;
+    // let url = "/projects/" + id;
 
     return (
       <div>
         <Modal
-          isOpen={this.props.orgId !== undefined}
+          isOpen={true}
           contentLabel="My Material Wizard Modal"
           style={wizardModalStyle}
           onRequestClose={() => this.setState({showModal: false})}
           className={{base: this.theme.responsiveModal}}
         >
-          <div style={{display: "block", textAlign: "right"}}>
-            <button style={{textAlign: "right"}}><Link to={url}>[ X ]</Link></button>
+          <div>
+            {/*<div style={{display: "block", textAlign: "right"}}>*/}
+            {/*<button style={{textAlign: "right"}}><Link to={url}>[ X ]</Link></button>*/}
+            {/*</div>*/}
+
+            <h1>You're All Set!</h1>
+            <p>You have successfully registered your organization.
+              Now you can add more details like giving your organization a picture,
+              or adding some notes about what your organization does.</p>
+
+            {/*<button><Link to={url}>No Thanks, Not Now</Link></button>*/}
+            {/*<button><Link to={url + "/edit"}>Take Me There!</Link></button>*/}
           </div>
-
-          <h1>You're All Set!</h1>
-          <p>You have successfully registered your organization.
-            Now you can add more details like giving your organization a picture,
-            or adding some notes about what your organization does.</p>
-
-          <button><Link to={url}>No Thanks, Not Now</Link></button>
-          <button><Link to={url + "/edit"}>Take Me There!</Link></button>
-
         </Modal>
 
       </div>
