@@ -14,8 +14,8 @@ import getOrganizationById from "../../../ui-bindings/Organization/getOrganizati
 import { validatePageLoaded, test } from "../Common/common";
 
 export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
+  console.log("Logging ORG");
   console.log(organization);
-  let temp = test(loading, error);
 
   return(
     <div>
