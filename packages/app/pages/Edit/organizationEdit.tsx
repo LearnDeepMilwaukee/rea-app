@@ -13,23 +13,12 @@ import "./organizationEdit.css";
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
 import { validatePageLoaded, getValidation } from "../Common/common";
 
-export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
+const GetOrganization = getOrganizationById(({ organization, loading, error }) => {
   console.log(organization);
   let temp = getValidation(loading, error);
   if(temp[0]) {
     return (
-      <div>
-        <strong>Organization Name:</strong> <br/>
-        <EditTextField text={organization.name}/> <br/>
-        <strong>Organization Type:</strong> <br/>
-        <EditTextField text={organization.type}/> <br/>
-        <strong>Organization Image:</strong> <br/>
-        <EditTextField text={organization.image}/> <br/>
-        <strong>Notes:</strong> <br/>
-        <EditTextField text={organization.note}/> <br/>
-        <br/>
-        <SubmitInput/>
-      </div>
+      <EditForm organization={organization}/>
     );
     /*
     <form>
@@ -45,6 +34,35 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
     return temp[1];
   }
 });
+
+class EditForm extends React.Component {
+  private state;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      organization: this.props.organization
+    };
+  }
+
+  render() {
+    let organization = this.state.organization;
+    return(
+      <div>
+        <strong>Organization Name:</strong> <br/>
+        <EditTextField text={organization.name}/> <br/>
+        <strong>Organization Type:</strong> <br/>
+        <EditTextField text={organization.type}/> <br/>
+        <strong>Organization Image:</strong> <br/>
+        <EditTextField text={organization.image}/> <br/>
+        <strong>Notes:</strong> <br/>
+        <EditTextField text={organization.note}/> <br/>
+        <br/>
+        <SubmitInput/>
+      </div>
+    );
+  }
+}
 
 class EditTextField extends React.Component {
   private state;
@@ -128,7 +146,7 @@ class App extends React.Component {
     return (
       <div>
         Current Org Id is: {orgId} <br/>
-        <OrganizationForm organizationId={orgId}/>
+        <GetOrganization organizationId={orgId}/>
         <br/>
       </div>
     );
