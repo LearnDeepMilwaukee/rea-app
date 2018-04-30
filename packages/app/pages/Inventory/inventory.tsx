@@ -56,7 +56,7 @@ class InventoryCard extends React.Component {
           onClose={() => this.closeDetails()}
         />
         <li {...currentTheme(0, "list_item")} >
-          <span {...currentTheme(1, "item_type")} onClick={() => this.openDetails(item)}>{type}</span>
+          <button {...currentTheme(1, "item_type")} onClick={() => this.openDetails(item)}>{type}</button>
           <h3 {...currentTheme(2, "item_title")}>{title}</h3>
           <h4 {...currentTheme(3, "item_qty")}>{quantity === -1 ? <span>🚀</span> : quantity}</h4>
         </li>

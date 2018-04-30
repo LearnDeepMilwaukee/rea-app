@@ -47,7 +47,9 @@ const YourProjects = CurrentUser(withRouter(({ user, loading, error, theme, rout
           <div {...currentTheme(2, "row")}>
             <div {...currentTheme(3, "medium-5", "medium-centered", "columns")} >
               <div {...currentTheme(1000, "landingContent")}>
-                <h1>Hello, {user.name} 👋</h1>
+                <div id="ttHomeScreen" >
+                  <h1>Hello, {user.name} 👋</h1>
+                </div>
                 <div {...currentTheme(4, "project_list")}>
                   <h5>Choose one of the projects of your network</h5>
                   <ul {...currentTheme(30000, "aside_list")} >
