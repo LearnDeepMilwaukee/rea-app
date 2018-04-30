@@ -5,7 +5,7 @@
  * @package: REA app
  * @author:  Nicholas Roth <Lou3797>
  * @version: 2018.4.30
- * @since:   4/25/2018
+ * @since:   4/30/2018
  */
 
 import * as React from "react";
@@ -205,6 +205,8 @@ class SubmitInput extends React.Component {
  * It passes the updated organization to the parent as soon as it changes,
  * so the parent is always up to date on the type of organization being
  * registered.
+ *
+ * @author Connor Hibbs
  */
 class OrganizationTypeSection extends React.Component {
   private state;
