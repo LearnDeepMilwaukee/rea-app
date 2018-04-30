@@ -78,7 +78,7 @@ class EditForm extends React.Component {
         <EditTextField text={this.state.name} val={"name"} callback={this.updateStateField} setEditMode={this.setEditMode}/> <br/>
         <br/>
         <strong>Organization Type:</strong> <br/>
-        <EditTextField text={this.state.type} val={"type"} callback={this.updateStateField} setEditMode={this.setEditMode}/> <br/>
+        <OrganizationTypeSection saveOrgType={(type) => this.setState({type})}/> <br/>
         <br/>
         <strong>Organization Image:</strong> <br/>
         <EditTextField text={this.state.image} val={"image"} callback={this.updateStateField} setEditMode={this.setEditMode}/> <br/>
@@ -193,6 +193,60 @@ class SubmitInput extends React.Component {
     return (
       <input type="submit" name="doMutation" value="Submit Changes" onClick={() => this.submit()}/>
     )
+  }
+}
+
+/**
+ * This component is responsible for getting the type of organization
+ * that is registering from the user. It contains all of the different
+ * types of organizations, as well as the logic to determine which one
+ * is selected.
+ *
+ * It passes the updated organization to the parent as soon as it changes,
+ * so the parent is always up to date on the type of organization being
+ * registered.
+ */
+class OrganizationTypeSection extends React.Component {
+
+  private organizationType: string;
+
+  private organizationTypes = [
+    "For-profit Company",
+    "Library",
+    "Makerspace",
+    "Network",
+    "Non-profit Company",
+    "Organization",
+    "School",
+    "School District"
+  ];
+
+  // A shorter version of the update function to fit on one line
+  radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
+
+  // Called every time the organization type changes
+  // Saves a local copy and sends it to the parent
+  onOrganizationTypeUpdate = (orgType) => {
+    this.organizationType = orgType;
+    this.props.saveOrgType(orgType);
+  };
+
+  // Draws all of the components on the screen
+  render() {
+    return (
+      <div>
+        OrganizationType*:<br/>
+        {
+          this.organizationTypes.map((classification) => (
+            <div>
+              <input type="radio" name="userType" value={classification} onChange={this.radioFunction}/>
+              {classification}
+            </div>
+          ))
+        }
+        <br/><br/>
+      </div>
+    );
   }
 }
 
