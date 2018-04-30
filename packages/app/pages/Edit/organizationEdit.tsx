@@ -19,7 +19,8 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
   if(temp[0]) {
     return (
       <div>
-        <EditTextField text={"Test arg"}/>
+        <strong>Organization Name:</strong> <br/>
+        <EditTextField text={organization.name}/>
       </div>
     );
     /*
@@ -36,41 +37,6 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
     return temp[1];
   }
 });
-
-class EditField extends React.Component {
-  private state;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      editMode: false
-    }
-  }
-
-  render() {
-    if(this.state.editMode) {
-      return(
-        <input type="text" defaultValue="Clicked on"/>
-      );
-    } else {
-      return(
-        <span onClick={() => this.openEdit()}>Test Text</span>
-      );
-    }
-
-  }
-
-  private openEdit() {
-    console.log("Clicked");
-    this.setState({editMode: true});
-  }
-
-  private closeEdit() {
-    this.setState({editMode: false});
-  }
-
-}
-
 
 class EditTextField extends React.Component {
   private state;
