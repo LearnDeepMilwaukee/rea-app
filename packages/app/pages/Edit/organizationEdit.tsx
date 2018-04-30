@@ -48,13 +48,13 @@ class EditForm extends React.Component {
     return(
       <div>
         <strong>Organization Name:</strong> <br/>
-        <EditTextField text={this.state.name} key={"name"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.name} val={"name"} callback={this.updateField}/> <br/>
         <strong>Organization Type:</strong> <br/>
-        <EditTextField text={this.state.type} key={"type"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.type} val={"type"} callback={this.updateField}/> <br/>
         <strong>Organization Image:</strong> <br/>
-        <EditTextField text={this.state.image} key={"image"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.image} val={"image"} callback={this.updateField}/> <br/>
         <strong>Notes:</strong> <br/>
-        <EditTextField text={this.state.note} key={"note"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.note} val={"note"} callback={this.updateField}/> <br/>
         <br/>
         <SubmitInput/>
       </div>
@@ -71,7 +71,6 @@ class EditTextField extends React.Component {
       editMode: false,
       text: this.props.text,
     };
-    this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
     document.addEventListener('click', this.handleClick);
@@ -79,7 +78,7 @@ class EditTextField extends React.Component {
   componentWillUnmount() {
     document.removeEventListener('click', this.handleClick);
   }
-  handleClick(e) {
+  handleClick = (e) => {
     if (this.node.contains(e.target)) {
       console.log('Clicked in component');
       this.setEditMode(true);
@@ -87,7 +86,7 @@ class EditTextField extends React.Component {
       console.log('Clicked out of component');
       this.setEditMode(false);
     }
-  }
+  };
   setEditMode(bool) {
     this.setState({editMode: bool});
   }
@@ -100,7 +99,7 @@ class EditTextField extends React.Component {
     this.setState({text: e.target.value});
     console.log("props");
     console.log(this.props);
-    this.props.callback(this.props.key, e.target.value);
+    this.props.callback(this.props.val, e.target.value);
   };
   render() {
     let tempText = (this.state.text == "") ? "<empty>" : this.state.text;
