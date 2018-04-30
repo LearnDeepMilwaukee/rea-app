@@ -96,10 +96,10 @@ class EditTextField extends React.Component {
   }
   handleClick = (e) => {
     if (this.node.contains(e.target)) {
-      console.log('Clicked in component');
+      //console.log('Clicked in component');
       this.setEditMode(true);
     } else {
-      console.log('Clicked out of component');
+      //console.log('Clicked out of component');
       this.setEditMode(false);
     }
   };
