@@ -27,6 +27,7 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
         <EditTextField text={organization.image}/> <br/>
         <strong>Notes:</strong> <br/>
         <EditTextField text={organization.note}/> <br/>
+        <br/>
       </div>
     );
     /*
@@ -78,6 +79,7 @@ class EditTextField extends React.Component {
       return(
         <span ref={node => this.node = node}>
         <input type="text" defaultValue={this.state.text} onChange={this.updateText}/>
+         <button onClick={() => this.revertChanges()}>[x]</button>
         </span>
       );
     } else {
@@ -86,6 +88,11 @@ class EditTextField extends React.Component {
       );
     }
 
+  }
+
+  revertChanges() {
+    console.log("Changes reverted");
+    this.setState({editMode: false});
   }
 
   updateText(e) {
