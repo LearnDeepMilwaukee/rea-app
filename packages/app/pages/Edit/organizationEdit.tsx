@@ -20,7 +20,13 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
     return (
       <div>
         <strong>Organization Name:</strong> <br/>
-        <EditTextField text={organization.name}/>
+        <EditTextField text={organization.name}/> <br/>
+        <strong>Organization Type:</strong> <br/>
+        <EditTextField text={organization.type}/> <br/>
+        <strong>Organization Image:</strong> <br/>
+        <EditTextField text={organization.image}/> <br/>
+        <strong>Notes:</strong> <br/>
+        <EditTextField text={organization.note}/> <br/>
       </div>
     );
     /*
@@ -67,6 +73,7 @@ class EditTextField extends React.Component {
   }
 
   render() {
+    let tempText = (this.state.text == "") ? "<empty>" : this.state.text;
     if(this.state.editMode) {
       return(
         <span ref={node => this.node = node}>
@@ -75,7 +82,7 @@ class EditTextField extends React.Component {
       );
     } else {
       return(
-        <span ref={node => this.node = node}>{this.state.text}</span>
+        <span ref={node => this.node = node}>{tempText}</span>
       );
     }
 
@@ -94,7 +101,7 @@ class App extends React.Component {
     let orgId = this.props.params.id;
     return (
       <div>
-        Current Org Id is: {orgId}
+        Current Org Id is: {orgId} <br/>
         <OrganizationForm organizationId={orgId}/>
         <br/>
       </div>
