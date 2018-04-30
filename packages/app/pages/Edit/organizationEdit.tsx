@@ -38,9 +38,16 @@ class EditField extends React.Component {
   private editMode = false;
 
   render() {
-    return(
-      <span onClick={() => this.doThing()}>Test Text</span>
-    )
+    if(this.editMode) {
+      return(
+        <input type="text" defaultValue="Clicked on"/>
+      );
+    } else {
+      return(
+        <span onClick={() => this.doThing()}>Test Text</span>
+      );
+    }
+
   }
 
   private doThing() {
