@@ -188,7 +188,7 @@ class SubmitInput extends React.Component {
 
   render() {
     return (
-      <input type="submit" name="doMutation" value="Submit Changes" onClick={() => this.submit}/>
+      <input type="submit" name="doMutation" value="Submit Changes" onClick={() => this.submit()}/>
     )
   }
 }
