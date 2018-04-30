@@ -53,7 +53,7 @@ class EditForm extends React.Component {
    */
   updateStateField = (i, v) => {
     this.setState({[i]: v});
-    //console.log("this.props." + i + " is now " + this.state[i]);
+    // console.log("this.props." + i + " is now " + this.state[i]);
   };
 
   /**
@@ -118,10 +118,10 @@ class EditTextField extends React.Component {
 
   handleClick = (e) => {
     if (this.node.contains(e.target)) {
-      //Component was clicked
+      // Component was clicked
       this.setEditMode(true);
     } else {
-      //Component was not clicked
+      // Component was not clicked
       this.setEditMode(false);
     }
   };
