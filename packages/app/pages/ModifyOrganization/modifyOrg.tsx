@@ -15,17 +15,9 @@ import { validatePageLoaded, test } from "../Common/common";
 
 export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
   console.log(organization);
-  if (error) {
+  let temp = test(loading, error);
+  if(temp[0]) {
     return (
-      <p style={{color: "#F00"}}>API error</p>
-    );
-  } else if (loading) {
-    return (
-      <strong>Loading from common.tsx</strong>
-    );
-  } else {
-    return(
-      //Loaded page
       <div>
         <form>
           <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
@@ -37,8 +29,27 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
         </form>
       </div>
     );
+  } else {
+    return temp[1];
+  }
+
+  /*
+  if (error) {
+    return (
+      <p style={{color: "#F00"}}>API error</p>
+    );
+  } else if (loading) {
+    return (
+      <strong>Loading from common.tsx</strong>
+    );
+  } else {
+    return(
+      //Loaded page
+
+    );
   }
 });
+*/
 
 class App extends React.Component {
   render() {
