@@ -37,15 +37,15 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
 class EditField extends React.Component {
   private editMode = false;
 
-  onClick() {
-    console.log("Clicked");
-    this.editMode = true;
-  }
-
   render() {
     return(
-      <span onclick={this.onClick()}>Test Text</span>
+      <span onclick={this.doThing()}>Test Text</span>
     )
+  }
+
+  doThing() {
+    console.log("Clicked");
+    this.editMode = true;
   }
 
 
