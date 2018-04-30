@@ -11,7 +11,7 @@
 import * as React from "react";
 import "./organizationEdit.css";
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
-import { validatePageLoaded, getValidation } from "../Common/common";
+import { getValidation } from "../Common/common";
 
 /**
  * Creates the EditForm for a given Organization.
