@@ -82,6 +82,7 @@ class EditTextField extends React.Component {
       text: this.props.text
     };
     this.handleClick = this.handleClick.bind(this);
+    this.updateText = this.handleClick.bind(this);
   }
   componentDidMount() {
     document.addEventListener('click', this.handleClick);
