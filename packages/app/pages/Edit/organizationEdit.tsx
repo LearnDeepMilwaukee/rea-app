@@ -98,8 +98,10 @@ class EditTextField extends React.Component {
   updateText = (e) => {
     console.log("Updated text: " + e.target.value);
     this.setState({text: e.target.value});
+    console.log("props");
+    console.log(this.props);
     this.props.callback(this.props.key, e.target.value);
-  }
+  };
   render() {
     let tempText = (this.state.text == "") ? "<empty>" : this.state.text;
     if(this.state.editMode) {
