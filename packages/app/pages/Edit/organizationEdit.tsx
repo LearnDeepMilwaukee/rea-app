@@ -94,6 +94,8 @@ class EditTextField extends React.Component {
       this.setState({editMode: true});
     } else {
       console.log('You clicked OUTSIDE the component.');
+      console.log('Text content is: ' + e.currentTarget.textContent);
+      this.props.text = "edited";
       this.setState({editMode: false});
     }
   }
