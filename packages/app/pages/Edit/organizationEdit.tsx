@@ -271,8 +271,8 @@ class App extends React.Component {
     let orgId = this.props.params.id;
     return (
       <div>
-        Current Org Id is: {orgId} <br/>
-        <OrganizationForm organizationId={orgId}/>
+        Click on a field to begin editing it. <br/>
+        <br/> <OrganizationForm organizationId={orgId}/>
         <br/>
       </div>
     );
