@@ -1,6 +1,6 @@
 /**
- * This exports a React element which displays a list of all organizations,
- * and provides a section to select a single organization out of that list
+ * This page displays the current information for an Organization in editable text fields. They can edit the
+ * information to their satisfaction and then submit their changes to update the Organization.
  *
  * @package: REA app
  * @author:  Nicholas Roth <Lou3797>
@@ -16,26 +16,27 @@ import { validatePageLoaded, test } from "../Common/common";
 export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
   console.log(organization);
   let temp = test(loading, error);
-  console.log(this.props);
+
 
   if (temp[0]) {
+    return (
+      temp[1]
+    );
+  } else {
     return (
       <div>
         <form>
           <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
-          <input type="text" name="orgType" defaultValue="test"/> <br/>
-          <input type="text" name="orgImage" defaultValue="test"/> <br/>
-          <input type="text" name="orgNote" defaultValue="test"/> <br/>
+          <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
+          <input type="text" name="orgImage" defaultValue={organization.image}/> <br/>
+          <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
           <br/>
           <input type="submit" value="Submit Changes"/>
         </form>
       </div>
     );
-  } else {
-    return (
-      temp[1]
-    );
   }
+
 
   /*
   let page = (
