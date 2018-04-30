@@ -76,10 +76,13 @@ class EditForm extends React.Component {
       <div>
         <strong>Organization Name:</strong> <br/>
         <EditTextField text={this.state.name} val={"name"} callback={this.updateStateField} setEditMode={this.setEditMode}/> <br/>
+        <br/>
         <strong>Organization Type:</strong> <br/>
         <EditTextField text={this.state.type} val={"type"} callback={this.updateStateField} setEditMode={this.setEditMode}/> <br/>
+        <br/>
         <strong>Organization Image:</strong> <br/>
         <EditTextField text={this.state.image} val={"image"} callback={this.updateStateField} setEditMode={this.setEditMode}/> <br/>
+        <br/>
         <strong>Notes:</strong> <br/>
         <EditTextField text={this.state.note} val={"note"} callback={this.updateStateField} setEditMode={this.setEditMode}/> <br/>
         <br/>
@@ -126,8 +129,8 @@ class EditTextField extends React.Component {
   setEditMode(bool) {
     if(!bool) {
       if(this.state.text != this.state.safeText) {
-        this.setState({safeText: this.state.text});
-        this.props.callback(this.props.val, this.state.text);
+        //this.setState({safeText: this.state.text});
+        //this.props.callback(this.props.val, this.state.text);
       }
     }
     this.setState({editMode: bool});
@@ -139,7 +142,9 @@ class EditTextField extends React.Component {
   revertChanges() {
     //console.log("Changes reverted");
     this.setState({text: this.state.safeText});
+    this.setState({safeText: this.state.text});
     this.props.callback(this.props.val, this.state.text);
+    //this.props.callback(this.props.val, this.state.text);
     this.setEditMode(false);
   }
 
