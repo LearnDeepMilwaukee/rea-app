@@ -39,11 +39,11 @@ class EditForm extends React.Component {
     };
   }
 
-  updateField(key, val) {
+  updateField = (key, val) => {
     console.log("State field " + key + " is now " + val);
     this.setState({name: val});
     console.log(this.state.name);
-  }
+  };
 
   render() {
     let organization = this.state.organization;
