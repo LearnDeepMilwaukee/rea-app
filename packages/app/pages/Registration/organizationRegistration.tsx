@@ -361,6 +361,10 @@ class EmailSection extends React.Component {
 
 class PhoneSection extends React.Component {
 
+  private state = {
+    validPhoneNumber: true
+  };
+
   // local copy of the value in the field
   private phoneNumber = "";
 
@@ -376,7 +380,8 @@ class PhoneSection extends React.Component {
   // a standard format for phone numbers as well as validate
   validatePhoneNumber = () => {
     let valid = Phone(this.phoneNumber, "USA");
-    let phoneValid = valid !== [];
+    let phoneValid = valid[0] !== undefined;
+    this.setState({validPhoneNumber: phoneValid});
     // send the 0th item in the array (standardized phone number) instead of value in field
     this.props.savePhoneNumber(phoneValid ? valid[0] : undefined);
   };
@@ -387,6 +392,7 @@ class PhoneSection extends React.Component {
       <div>
         Phone Number:<br/>
         <input type="text" onChange={(event) => this.onPhoneUpdate(event.target.value)}/>
+        {!this.state.validPhoneNumber ? <p>Phone number is not valid for the US</p> : null}
         <br/><br/>
       </div>
     );
@@ -470,13 +476,13 @@ class Registration extends React.Component {
   getRegistrationJSON = (event) => {
     event.preventDefault();
 
-    let allValid = this.state.orgType
-      && this.state.orgName
-      && this.state.username
-      && this.state.phoneNumber
-      && this.state.location
-      && this.state.email
-      && this.state.password;
+    let allValid = this.state.orgType !== undefined
+      && this.state.orgName !== undefined
+      && this.state.username !== undefined
+      && this.state.phoneNumber !== undefined
+      && this.state.location !== undefined
+      && this.state.email !== undefined
+      && this.state.password !== undefined;
 
     if (!allValid) {
       alert("Please correct information and try again");
