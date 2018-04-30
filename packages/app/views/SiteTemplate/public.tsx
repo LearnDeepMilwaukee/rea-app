@@ -1,9 +1,7 @@
 /**
- * Main site template- toplevel container for app area, side panels, header / footer etc
+ * Public version of the site template, for pages that do not require being logged in
  *
- * @package: OCP app
- * @author:  pospi <pospi@spadgos.com>
- * @since:   2017-03-19
+ * @author:  Connor <hibbscm@msoe.edu>
  */
 
 import * as React from "react";
@@ -40,23 +38,11 @@ interface State {
 class SiteTemplate extends Component<Props, State> {
   state = {};
 
-  // readonly authenticationExemptURLs = [
-  //   "register"
-  // ];
-
   renderSite() {
     let classname = styles["medium-9"] + " " + styles.columns;
 
-    console.log("Rendering a private page");
+    console.log("Rendering a public page");
 
-    // let pathExempt = false;
-    // _.each(this.authenticationExemptURLs, (URL) => {
-    //   if (matchPath(URL, {isExact: true})) {
-    //     pathExempt = true;
-    //   }
-    // });
-    //
-    // console.log("This path is", (pathExempt ? "exempt" : "authenticated"));
     return (
       <div>
         <Header />
@@ -67,9 +53,9 @@ class SiteTemplate extends Component<Props, State> {
 
   render() {
     return (
-      <AuthenticatedOnly unauthenticatedComponent={<LoginPage />}>
+      <div>
         {this.renderSite()}
-      </AuthenticatedOnly>
+      </div>
     );
   }
 }

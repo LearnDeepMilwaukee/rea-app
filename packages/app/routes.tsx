@@ -26,13 +26,18 @@ import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
 import Process from "./pages/Api/process";
 import Plan from "./pages/Api/plan";
 import orgEdit from "./pages/Edit/organizationEdit"
+import OrganizationRegistration from "./pages/Registration/organizationRegistration";
+import IndividualRegistration from "./pages/Registration/individualRegistration";
 
 const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Landing} />
 
     <Route path="login" component={Todo} />
-    <Route path="register" component={Todo} />
+    <Route path="register">
+      <Route path="organization" component={OrganizationRegistration} />
+      <Route path="individual" component={IndividualRegistration} />
+    </Route>
 
     <Route path="tasks" component={Todo}>
       <IndexRedirect to="my-tasks" />
@@ -56,7 +61,6 @@ const routes = (
       <IndexRoute component={Todo} />
       <Route path="my-account" component={Todo} />
       <Route path="my-skills" component={Todo} />
-
     </Route>
 
     <Route path="api">
