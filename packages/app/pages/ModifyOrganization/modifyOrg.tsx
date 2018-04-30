@@ -20,10 +20,7 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
   return(
     <div>
       <form>
-        <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
-        <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
-        <input type="text" name="orgImage" defaultValue={organization.image}/> <br/>
-        <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
+        <input type="text" name="orgName" defaultValue="Test"/> <br/>
         <br/>
         <input type="submit" value="Submit Changes"/>
       </form>
@@ -41,7 +38,10 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
 
     );
   }
-
+        <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
+        <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
+        <input type="text" name="orgImage" defaultValue={organization.image}/> <br/>
+        <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
 
   /*
   let page = (
