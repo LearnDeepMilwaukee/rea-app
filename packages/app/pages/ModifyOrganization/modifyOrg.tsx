@@ -25,6 +25,7 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
     );
   } else {
     return(
+      //Loaded page
       <div>
         <form>
           <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
@@ -37,7 +38,6 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
       </div>
     );
   }
-
 });
 
 class App extends React.Component {
