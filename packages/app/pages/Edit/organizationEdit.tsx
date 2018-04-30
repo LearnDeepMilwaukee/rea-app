@@ -100,11 +100,13 @@ class EditTextField extends React.Component {
   render() {
     if(this.state.editMode) {
       return(
+        <span ref={node => this.node = node}>
         <input type="text" defaultValue={this.props.text}/>
+        </span>
       );
     } else {
       return(
-        <span>{this.props.text}</span>
+        <span ref={node => this.node = node}>{this.props.text}</span>
       );
     }
 
