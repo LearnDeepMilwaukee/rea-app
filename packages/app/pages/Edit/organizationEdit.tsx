@@ -32,12 +32,17 @@ class EditForm extends React.Component {
     super(props);
     this.state = {
       organization: this.props.organization,
-      name: null
+      name: null,
+      type: null,
+      image: null,
+      note: null
     };
   }
 
   updateField(key, val) {
+    console.log("Set state field " + key + " to " + val);
     this.state[key] = val;
+    console.log(this.state.name);
   }
 
   render() {
@@ -45,7 +50,7 @@ class EditForm extends React.Component {
     return(
       <div>
         <strong>Organization Name:</strong> <br/>
-        <EditTextField text={organization.name}/> <br/>
+        <EditTextField text={organization.name} callback={this.updateField}/> <br/>
         <strong>Organization Type:</strong> <br/>
         <EditTextField text={organization.type}/> <br/>
         <strong>Organization Image:</strong> <br/>
@@ -96,6 +101,7 @@ class EditTextField extends React.Component {
   updateText(e) {
     console.log("Updated text: " + e.target.value);
     this.setState({text: e.target.value});
+    this.props.callback("name", e.target.value);
   }
   render() {
     let tempText = (this.state.text == "") ? "<empty>" : this.state.text;
@@ -136,7 +142,7 @@ class SubmitInput extends React.Component {
 
 class App extends React.Component {
   render() {
-    let orgId = this.props.params["id"];
+    let orgId = this.props.params.id;
     return (
       <div>
         Current Org Id is: {orgId} <br/>
