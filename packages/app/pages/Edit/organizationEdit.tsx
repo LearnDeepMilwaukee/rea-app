@@ -78,7 +78,7 @@ class EditForm extends React.Component {
         <EditTextField text={this.state.name} val={"name"} callback={this.updateStateField} setEditMode={this.setEditMode}/> <br/>
         <br/>
         <strong>Organization Type:</strong> <br/>
-        <OrganizationTypeSection saveOrgType={(type) => this.setState({type})}/> <br/>
+        <OrganizationTypeSection saveOrgType={(type) => this.setState({type})} val={this.state.type}/>
         <br/>
         <strong>Organization Image:</strong> <br/>
         <EditTextField text={this.state.image} val={"image"} callback={this.updateStateField} setEditMode={this.setEditMode}/> <br/>
@@ -207,6 +207,12 @@ class SubmitInput extends React.Component {
  * registered.
  */
 class OrganizationTypeSection extends React.Component {
+  private state;
+
+  constructor(props) {
+    super(props);
+    this.state = {type: this.props.val};
+  }
 
   private organizationType: string;
 
@@ -235,16 +241,15 @@ class OrganizationTypeSection extends React.Component {
   render() {
     return (
       <div>
-        OrganizationType*:<br/>
         {
           this.organizationTypes.map((classification) => (
-            <div>
-              <input type="radio" name="userType" value={classification} onChange={this.radioFunction}/>
+            <div key={classification}>
+              <input type="radio" name="userType" value={classification} checked={(classification==this.state.type)} onChange={this.radioFunction}/>
               {classification}
             </div>
           ))
         }
-        <br/><br/>
+        <br/>
       </div>
     );
   }
