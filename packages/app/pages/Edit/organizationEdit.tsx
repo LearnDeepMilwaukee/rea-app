@@ -59,7 +59,7 @@ class EditField extends React.Component {
 
   private doThing() {
     console.log("Clicked");
-    this.state.editMode = true;
+    this.setState({editMode: true});
   }
 
 }
