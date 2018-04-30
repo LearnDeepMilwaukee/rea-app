@@ -116,7 +116,7 @@ class EditTextField extends React.Component {
   }
 
   updateText(e) {
-    console.log("event: " + e);
+    console.log("event: " + e.target.value);
     this.setState({text: e.target.value});
   }
 
