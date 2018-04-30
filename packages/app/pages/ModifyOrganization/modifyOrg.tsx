@@ -11,11 +11,11 @@
 import * as React from "react";
 import "./modifyOrg.css";
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
-import { validatePageLoaded, test } from "../Common/common";
+import { validatePageLoaded, getValidation } from "../Common/common";
 
 export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
   console.log(organization);
-  let temp = test(loading, error);
+  let temp = getValidation(loading, error);
   if(temp[0]) {
     return (
       <div>

@@ -24,7 +24,7 @@ export function validatePageLoaded(page, loading, error) {
   }
 }
 
-export function test(loading, error) {
+export function getValidation(loading, error) {
   if (error) {
     return [false, _error];
   } else if (loading) {
