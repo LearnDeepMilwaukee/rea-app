@@ -43,6 +43,14 @@ class EditForm extends React.Component {
     console.log("this.props." + key + " is now " + this.state[key]);
   };
 
+  executeMutation = () => {
+    console.log("Performing mutation");
+    console.log(this.state.name);
+    console.log(this.state.type);
+    console.log(this.state.image);
+    console.log(this.state.note);
+  };
+
   render() {
     //let organization = this.props.organization;
     return(
@@ -56,7 +64,7 @@ class EditForm extends React.Component {
         <strong>Notes:</strong> <br/>
         <EditTextField text={this.state.note} val={"note"} callback={this.updateField}/> <br/>
         <br/>
-        <SubmitInput/>
+        <SubmitInput callback={this.executeMutation}/>
       </div>
     );
   }
@@ -128,7 +136,7 @@ class SubmitInput extends React.Component {
   }
 
   createMutation() {
-    console.log("Sending mutation")
+    this.props.callback();
   }
 
   render() {
