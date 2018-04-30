@@ -31,7 +31,6 @@ class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      organization: this.props.organization,
       name: this.props.organization.name,
       type: this.props.organization.type,
       image: this.props.organization.image,
@@ -40,22 +39,22 @@ class EditForm extends React.Component {
   }
 
   updateField = (key, val) => {
-    this.setState({[key]: val});
+    this.setState({name: val});
     console.log("this.props." + key + " is now " + this.state[key]);
   };
 
   render() {
-    let organization = this.state.organization;
+    //let organization = this.props.organization;
     return(
       <div>
         <strong>Organization Name:</strong> <br/>
-        <EditTextField text={organization.name} key={"name"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.name} key={"name"} callback={this.updateField}/> <br/>
         <strong>Organization Type:</strong> <br/>
-        <EditTextField text={organization.type} key={"type"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.type} key={"type"} callback={this.updateField}/> <br/>
         <strong>Organization Image:</strong> <br/>
-        <EditTextField text={organization.image} key={"image"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.image} key={"image"} callback={this.updateField}/> <br/>
         <strong>Notes:</strong> <br/>
-        <EditTextField text={organization.note} key={"note"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.note} key={"note"} callback={this.updateField}/> <br/>
         <br/>
         <SubmitInput/>
       </div>
