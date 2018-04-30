@@ -19,16 +19,19 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
   if(temp[0]) {
     return (
       <div>
-        <form>
+        <EditTextField text={"Test arg"}/>
+      </div>
+    );
+    /*
+    <form>
           <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
           <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
           <input type="text" name="orgImage" defaultValue={organization.image}/> <br/>
           <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
           <br/>
           <input type="submit" value="Submit Changes"/>
-        </form>
-      </div>
-    );
+    </form>
+     */
   } else {
     return temp[1];
   }
@@ -63,15 +66,20 @@ class EditField extends React.Component {
   }
 
   private closeEdit() {
-    this.setState({editMode: false})
+    this.setState({editMode: false});
   }
 
 }
 
 
-class TestClick extends React.Component {
-  constructor() {
-    super();
+class EditTextField extends React.Component {
+  private state;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      editMode: false
+    };
     this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
@@ -82,20 +90,26 @@ class TestClick extends React.Component {
   }
   handleClick(e) {
     if (this.node.contains(e.target)) {
-      console.log('You clicked INSIDE the component.')
+      console.log('You clicked INSIDE the component.');
+      this.setState({editMode: true});
     } else {
-      console.log('You clicked OUTSIDE the component.')
+      console.log('You clicked OUTSIDE the component.');
+      this.setState({editMode: false});
     }
   }
   render() {
-    let text = this.props.text;
-    return(
-      <span ref={node => this.node = node}>
-        {text}
-        <br/>
-      </span>
-    );
+    if(this.state.editMode) {
+      return(
+        <input type="text" defaultValue={this.props.text}/>
+      );
+    } else {
+      return(
+        <span>{this.props.text}</span>
+      );
+    }
+
   }
+
 }
 
 
@@ -107,9 +121,6 @@ class App extends React.Component {
         Current Org Id is: {orgId}
         <OrganizationForm organizationId={orgId}/>
         <br/>
-        <EditField/>
-        <br/>
-        <TestClick text={"Test arg"}/>
       </div>
     );
   }
