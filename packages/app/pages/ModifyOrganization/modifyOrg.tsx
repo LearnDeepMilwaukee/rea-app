@@ -14,50 +14,30 @@ import getOrganizationById from "../../../ui-bindings/Organization/getOrganizati
 import { validatePageLoaded, test } from "../Common/common";
 
 export const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
-  console.log("Logging ORG");
   console.log(organization);
-
-  return(
-    <div>
-      <form>
-        <input type="text" name="orgName" defaultValue="Test"/> <br/>
-        <br/>
-        <input type="submit" value="Submit Changes"/>
-      </form>
-    </div>
-  )
-
-  /*
-  if (temp[0]) {
+  if (error) {
     return (
-      temp[1]
+      <p style={{color: "#F00"}}>API error</p>
+    );
+  } else if (loading) {
+    return (
+      <strong>Loading from common.tsx</strong>
     );
   } else {
-    return (
-      {}
-
+    return(
+      <div>
+        <form>
+          <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
+          <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
+          <input type="text" name="orgImage" defaultValue={organization.image}/> <br/>
+          <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
+          <br/>
+          <input type="submit" value="Submit Changes"/>
+        </form>
+      </div>
     );
   }
-        <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
-        <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
-        <input type="text" name="orgImage" defaultValue={organization.image}/> <br/>
-        <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
 
-  /*
-  let page = (
-    <div>
-      <form>
-        <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
-        <input type="text" name="orgType" defaultValue="test"/> <br/>
-        <input type="text" name="orgImage" defaultValue="test"/> <br/>
-        <input type="text" name="orgNote" defaultValue="test"/> <br/>
-        <br/>
-        <input type="submit" value="Submit Changes"/>
-      </form>
-    </div>
-  );
-  return validatePageLoaded(page, loading, error);
-  */
 });
 
 class App extends React.Component {
