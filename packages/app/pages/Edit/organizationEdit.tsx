@@ -28,6 +28,7 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
         <strong>Notes:</strong> <br/>
         <EditTextField text={organization.note}/> <br/>
         <br/>
+        <SubmitInput/>
       </div>
     );
     /*
@@ -100,6 +101,24 @@ class EditTextField extends React.Component {
 
   }
 
+}
+
+class SubmitInput extends React.Component {
+  private state;
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  createMutation() {
+    console.log("Sending mutation")
+  }
+
+  render() {
+    return (
+      <input type="submit" name="doMutation" value="Submit Changes" onClick={() => this.createMutation()}/>
+    )
+  }
 }
 
 
