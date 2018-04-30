@@ -39,7 +39,7 @@ class EditField extends React.Component {
 
   render() {
     return(
-      <span onClick={this.doThing()}>Test Text</span>
+      <span onClick={() => this.doThing()}>Test Text</span>
     )
   }
 
