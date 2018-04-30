@@ -1,5 +1,6 @@
 /**
  * Processes page
+ * This is the sub page in the organizations' space.
  *
  * @package: REA app
  * @author:  ivan <bernini@inventati.org>
