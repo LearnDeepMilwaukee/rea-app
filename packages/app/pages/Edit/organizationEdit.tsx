@@ -9,7 +9,7 @@
  */
 
 import * as React from "react";
-import "./modifyOrg.css";
+import "./organizationEdit.css";
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
 import { validatePageLoaded, getValidation } from "../Common/common";
 
@@ -32,23 +32,6 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
   } else {
     return temp[1];
   }
-
-  /*
-  if (error) {
-    return (
-      <p style={{color: "#F00"}}>API error</p>
-    );
-  } else if (loading) {
-    return (
-      <strong>Loading from common.tsx</strong>
-    );
-  } else {
-    return(
-      //Loaded page
-
-    );
-  }
-  */
 });
 
 
