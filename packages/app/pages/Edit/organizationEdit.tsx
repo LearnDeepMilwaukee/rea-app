@@ -39,11 +39,11 @@ class EditField extends React.Component {
 
   render() {
     return(
-      <span onclick={this.doThing()}>Test Text</span>
+      <span onClick={this.doThing()}>Test Text</span>
     )
   }
 
-  doThing() {
+  private doThing() {
     console.log("Clicked");
     this.editMode = true;
   }
