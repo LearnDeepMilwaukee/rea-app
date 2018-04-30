@@ -13,23 +13,13 @@ import "./organizationEdit.css";
 import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
 import { validatePageLoaded, getValidation } from "../Common/common";
 
-const GetOrganization = getOrganizationById(({ organization, loading, error }) => {
-  console.log(organization);
+const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
+  //console.log(organization);
   let temp = getValidation(loading, error);
   if(temp[0]) {
     return (
       <EditForm organization={organization}/>
     );
-    /*
-    <form>
-          <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
-          <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
-          <input type="text" name="orgImage" defaultValue={organization.image}/> <br/>
-          <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
-          <br/>
-          <input type="submit" value="Submit Changes"/>
-    </form>
-     */
   } else {
     return temp[1];
   }
@@ -41,8 +31,13 @@ class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      organization: this.props.organization
+      organization: this.props.organization,
+      name: null
     };
+  }
+
+  updateField(key, val) {
+    this.state[key] = val;
   }
 
   render() {
@@ -139,14 +134,13 @@ class SubmitInput extends React.Component {
   }
 }
 
-
 class App extends React.Component {
   render() {
-    let orgId = this.props.params.id;
+    let orgId = this.props.params["id"];
     return (
       <div>
         Current Org Id is: {orgId} <br/>
-        <GetOrganization organizationId={orgId}/>
+        <OrganizationForm organizationId={orgId}/>
         <br/>
       </div>
     );
@@ -154,3 +148,14 @@ class App extends React.Component {
 }
 
 export default App;
+
+/*
+<form>
+  <input type="text" name="orgName" defaultValue={organization.name}/> <br/>
+  <input type="text" name="orgType" defaultValue={organization.type}/> <br/>
+  <input type="text" name="orgImage" defaultValue={organization.image}/> <br/>
+  <input type="text" name="orgNote" defaultValue={organization.note}/> <br/>
+  <br/>
+  <input type="submit" value="Submit Changes"/>
+</form>
+*/
