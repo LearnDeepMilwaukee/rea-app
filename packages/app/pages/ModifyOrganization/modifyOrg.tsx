@@ -48,8 +48,9 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
 
     );
   }
+  */
 });
-*/
+
 
 class App extends React.Component {
   render() {
