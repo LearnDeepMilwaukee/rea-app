@@ -30,6 +30,7 @@ class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      editMode: false,
       name: this.props.organization.name,
       type: this.props.organization.type,
       image: this.props.organization.image,
@@ -50,20 +51,27 @@ class EditForm extends React.Component {
     console.log(this.state.note);
   };
 
+  setEditMode = (bool) => {
+    this.setState({editMode: bool});
+  };
+
+  getEditMode = () => {
+    return this.state.editMode;
+  };
+
   render() {
-    //let organization = this.props.organization;
     return(
       <div>
         <strong>Organization Name:</strong> <br/>
-        <EditTextField text={this.state.name} val={"name"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.name} val={"name"} callback={this.updateField} setEditMode={this.setEditMode}/> <br/>
         <strong>Organization Type:</strong> <br/>
-        <EditTextField text={this.state.type} val={"type"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.type} val={"type"} callback={this.updateField} setEditMode={this.setEditMode}/> <br/>
         <strong>Organization Image:</strong> <br/>
-        <EditTextField text={this.state.image} val={"image"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.image} val={"image"} callback={this.updateField} setEditMode={this.setEditMode}/> <br/>
         <strong>Notes:</strong> <br/>
-        <EditTextField text={this.state.note} val={"note"} callback={this.updateField}/> <br/>
+        <EditTextField text={this.state.note} val={"note"} callback={this.updateField} setEditMode={this.setEditMode}/> <br/>
         <br/>
-        <SubmitInput callback={this.executeMutation}/>
+        <SubmitInput callback={this.executeMutation} checkMode={this.getEditMode}/>
       </div>
     );
   }
@@ -77,6 +85,7 @@ class EditTextField extends React.Component {
     this.state = {
       editMode: false,
       text: this.props.text,
+      tempText: this.props.text
     };
   }
   componentDidMount() {
@@ -102,10 +111,7 @@ class EditTextField extends React.Component {
     this.setEditMode(false);
   }
   updateText = (e) => {
-    //console.log("Updated text: " + e.target.value);
-    //this.setState({text: e.target.value});
-    //console.log("props");
-    //console.log(this.props);
+    this.setState({text: e.target.value});
     this.props.callback(this.props.val, e.target.value);
   };
   render() {
