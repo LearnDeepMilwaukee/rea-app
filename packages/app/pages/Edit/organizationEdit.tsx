@@ -65,14 +65,24 @@ class EditTextField extends React.Component {
   }
   handleClick(e) {
     if (this.node.contains(e.target)) {
-      console.log('You clicked INSIDE the component.');
-      this.setState({editMode: true});
+      console.log('Clicked in component');
+      this.setEditMode(true);
     } else {
-      console.log('You clicked OUTSIDE the component.');
-      this.setState({editMode: false});
+      console.log('Clicked out of component');
+      this.setEditMode(false);
     }
   }
-
+  setEditMode(bool) {
+    this.setState({editMode: bool});
+  }
+  revertChanges() {
+    console.log("Changes reverted");
+    this.setEditMode(false);
+  }
+  updateText(e) {
+    console.log("Updated text: " + e.target.value);
+    this.setState({text: e.target.value});
+  }
   render() {
     let tempText = (this.state.text == "") ? "<empty>" : this.state.text;
     if(this.state.editMode) {
@@ -88,16 +98,6 @@ class EditTextField extends React.Component {
       );
     }
 
-  }
-
-  revertChanges() {
-    console.log("Changes reverted");
-    this.setState({editMode: false});
-  }
-
-  updateText(e) {
-    console.log("event: " + e.target.value);
-    this.setState({text: e.target.value});
   }
 
 }
