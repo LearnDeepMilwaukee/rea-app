@@ -32,7 +32,7 @@ class EditForm extends React.Component {
     super(props);
     this.state = {
       organization: this.props.organization,
-      name: null,
+      name: "",
       type: null,
       image: null,
       note: null
@@ -40,7 +40,7 @@ class EditForm extends React.Component {
   }
 
   updateField(key, val) {
-    console.log("Set state field " + key + " to " + val);
+    console.log("State field " + key + " is now " + val);
     this.setState({name: val});
     console.log(this.state.name);
   }
