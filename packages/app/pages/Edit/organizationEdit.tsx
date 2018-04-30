@@ -32,17 +32,16 @@ class EditForm extends React.Component {
     super(props);
     this.state = {
       organization: this.props.organization,
-      name: "",
-      type: null,
-      image: null,
-      note: null
+      name: this.props.organization.name,
+      type: this.props.organization.type,
+      image: this.props.organization.image,
+      note: this.props.organization.note
     };
   }
 
   updateField = (key, val) => {
-    console.log("State field " + key + " is now " + val);
-    this.setState({name: val});
-    console.log(this.state.name);
+    this.setState({[key]: val});
+    console.log("this.props." + key + " is now " + this.state[key]);
   };
 
   render() {
@@ -50,13 +49,13 @@ class EditForm extends React.Component {
     return(
       <div>
         <strong>Organization Name:</strong> <br/>
-        <EditTextField text={organization.name} callback={this.updateField}/> <br/>
+        <EditTextField text={organization.name} key={"name"} callback={this.updateField}/> <br/>
         <strong>Organization Type:</strong> <br/>
-        <EditTextField text={organization.type}/> <br/>
+        <EditTextField text={organization.type} key={"type"} callback={this.updateField}/> <br/>
         <strong>Organization Image:</strong> <br/>
-        <EditTextField text={organization.image}/> <br/>
+        <EditTextField text={organization.image} key={"image"} callback={this.updateField}/> <br/>
         <strong>Notes:</strong> <br/>
-        <EditTextField text={organization.note}/> <br/>
+        <EditTextField text={organization.note} key={"note"} callback={this.updateField}/> <br/>
         <br/>
         <SubmitInput/>
       </div>
@@ -71,10 +70,9 @@ class EditTextField extends React.Component {
     super(props);
     this.state = {
       editMode: false,
-      text: this.props.text
+      text: this.props.text,
     };
     this.handleClick = this.handleClick.bind(this);
-    this.updateText = this.updateText.bind(this);
   }
   componentDidMount() {
     document.addEventListener('click', this.handleClick);
@@ -98,10 +96,10 @@ class EditTextField extends React.Component {
     console.log("Changes reverted");
     this.setEditMode(false);
   }
-  updateText(e) {
+  updateText = (e) => {
     console.log("Updated text: " + e.target.value);
     this.setState({text: e.target.value});
-    this.props.callback("name", e.target.value);
+    this.props.callback(this.props.key, e.target.value);
   }
   render() {
     let tempText = (this.state.text == "") ? "<empty>" : this.state.text;
