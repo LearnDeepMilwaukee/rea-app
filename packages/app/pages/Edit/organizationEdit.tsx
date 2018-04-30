@@ -82,7 +82,7 @@ class EditTextField extends React.Component {
       text: this.props.text
     };
     this.handleClick = this.handleClick.bind(this);
-    this.updateText = this.handleClick.bind(this);
+    this.updateText = this.updateText.bind(this);
   }
   componentDidMount() {
     document.addEventListener('click', this.handleClick);
@@ -96,7 +96,6 @@ class EditTextField extends React.Component {
       this.setState({editMode: true});
     } else {
       console.log('You clicked OUTSIDE the component.');
-      //console.log('Text content is: ' + e.currentTarget.textContent);
       this.setState({editMode: false});
     }
   }
