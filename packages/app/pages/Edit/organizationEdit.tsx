@@ -51,18 +51,55 @@ class EditField extends React.Component {
       );
     } else {
       return(
-        <span onClick={() => this.doThing()}>Test Text</span>
+        <span onClick={() => this.openEdit()}>Test Text</span>
       );
     }
 
   }
 
-  private doThing() {
+  private openEdit() {
     console.log("Clicked");
     this.setState({editMode: true});
   }
 
+  private closeEdit() {
+    this.setState({editMode: false})
+  }
+
 }
+
+
+class TestClick extends React.Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+  }
+  componentDidMount() {
+    document.addEventListener('click', this.handleClick);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClick);
+  }
+  handleClick(e) {
+    if (this.node.contains(e.target)) {
+      console.log('You clicked INSIDE the component.')
+    } else {
+      console.log('You clicked OUTSIDE the component.')
+    }
+  }
+  render() {
+    return(
+      <span ref={node => this.node = node}>
+        Level 0<br/>
+        <span>
+          Level 1.<br/>
+          <span>Level 2.</span>
+        </span>
+      </span>
+    );
+  }
+}
+
 
 class App extends React.Component {
   render() {
@@ -73,6 +110,8 @@ class App extends React.Component {
         <OrganizationForm organizationId={orgId}/>
         <br/>
         <EditField/>
+        <br/>
+        <TestClick/> &lt;-- Test click
       </div>
     );
   }
