@@ -35,10 +35,17 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
 });
 
 class EditField extends React.Component {
-  private editMode = false;
+  private state;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      editMode: false
+    }
+  }
 
   render() {
-    if(this.editMode) {
+    if(this.state.editMode) {
       return(
         <input type="text" defaultValue="Clicked on"/>
       );
@@ -52,9 +59,8 @@ class EditField extends React.Component {
 
   private doThing() {
     console.log("Clicked");
-    this.editMode = true;
+    this.state.editMode = true;
   }
-
 
 }
 
