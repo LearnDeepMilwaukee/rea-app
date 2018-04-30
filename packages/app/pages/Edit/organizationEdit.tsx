@@ -88,13 +88,11 @@ class TestClick extends React.Component {
     }
   }
   render() {
+    let text = this.props.text;
     return(
       <span ref={node => this.node = node}>
-        Level 0<br/>
-        <span>
-          Level 1.<br/>
-          <span>Level 2.</span>
-        </span>
+        {text}
+        <br/>
       </span>
     );
   }
@@ -111,7 +109,7 @@ class App extends React.Component {
         <br/>
         <EditField/>
         <br/>
-        <TestClick/> &lt;-- Test click
+        <TestClick text={"Test arg"}/> &lt;-- Test click
       </div>
     );
   }
