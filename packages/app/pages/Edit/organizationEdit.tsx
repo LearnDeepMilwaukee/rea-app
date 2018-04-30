@@ -34,6 +34,22 @@ export const OrganizationForm = getOrganizationById(({ organization, loading, er
   }
 });
 
+class EditField extends React.Component {
+  private editMode = false;
+
+  onClick() {
+    console.log("Clicked");
+    this.editMode = true;
+  }
+
+  render() {
+    return(
+      <span onclick={this.onClick()}>Test Text</span>
+    )
+  }
+
+
+}
 
 class App extends React.Component {
   render() {
@@ -43,6 +59,7 @@ class App extends React.Component {
         Current Org Id is: {orgId}
         <OrganizationForm organizationId={orgId}/>
         <br/>
+        <EditField/>
       </div>
     );
   }
