@@ -85,7 +85,7 @@ class EditTextField extends React.Component {
     this.state = {
       editMode: false,
       text: this.props.text,
-      tempText: this.props.text
+      safeText: this.props.text
     };
   }
   componentDidMount() {
@@ -104,10 +104,17 @@ class EditTextField extends React.Component {
     }
   };
   setEditMode(bool) {
+    if(!bool) {
+      if(this.state.text != this.state.safeText) {
+        this.setState({safeText: this.state.text});
+      }
+    }
     this.setState({editMode: bool});
   }
   revertChanges() {
     console.log("Changes reverted");
+    this.setState({text: this.state.safeText});
+    this.props.callback(this.props.val, this.state.text);
     this.setEditMode(false);
   }
   updateText = (e) => {
