@@ -14,7 +14,6 @@ import getOrganizationById from "../../../ui-bindings/Organization/getOrganizati
 import { validatePageLoaded, getValidation } from "../Common/common";
 
 const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
-  //console.log(organization);
   let temp = getValidation(loading, error);
   if(temp[0]) {
     return (
@@ -103,10 +102,10 @@ class EditTextField extends React.Component {
     this.setEditMode(false);
   }
   updateText = (e) => {
-    console.log("Updated text: " + e.target.value);
-    this.setState({text: e.target.value});
-    console.log("props");
-    console.log(this.props);
+    //console.log("Updated text: " + e.target.value);
+    //this.setState({text: e.target.value});
+    //console.log("props");
+    //console.log(this.props);
     this.props.callback(this.props.val, e.target.value);
   };
   render() {
