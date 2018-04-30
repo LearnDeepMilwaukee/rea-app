@@ -107,6 +107,7 @@ class EditTextField extends React.Component {
     if(!bool) {
       if(this.state.text != this.state.safeText) {
         this.setState({safeText: this.state.text});
+        this.props.callback(this.props.val, this.state.text);
       }
     }
     this.setState({editMode: bool});
