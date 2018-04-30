@@ -182,9 +182,13 @@ class SubmitInput extends React.Component {
     this.state = {};
   }
 
+  submit() {
+    this.props.callback();
+  }
+
   render() {
     return (
-      <input type="submit" name="doMutation" value="Submit Changes" onClick={() => this.props.callback}/>
+      <input type="submit" name="doMutation" value="Submit Changes" onClick={() => this.submit}/>
     )
   }
 }
