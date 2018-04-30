@@ -109,7 +109,7 @@ class App extends React.Component {
         <br/>
         <EditField/>
         <br/>
-        <TestClick text={"Test arg"}/> &lt;-- Test click
+        <TestClick text={"Test arg"}/>
       </div>
     );
   }
