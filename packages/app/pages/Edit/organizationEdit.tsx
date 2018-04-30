@@ -211,7 +211,10 @@ class OrganizationTypeSection extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {type: this.props.val};
+    this.state = {
+      type: this.props.val,
+      first: true
+    };
   }
 
   private organizationType: string;
@@ -230,6 +233,13 @@ class OrganizationTypeSection extends React.Component {
   // A shorter version of the update function to fit on one line
   radioFunction = (event) => this.onOrganizationTypeUpdate(event.target.value);
 
+  init = (classification) => {
+    if(this.state.first && classification==this.state.type) {
+      this.setState({first: false});
+      return true;
+    }
+  };
+
   // Called every time the organization type changes
   // Saves a local copy and sends it to the parent
   onOrganizationTypeUpdate = (orgType) => {
@@ -244,12 +254,11 @@ class OrganizationTypeSection extends React.Component {
         {
           this.organizationTypes.map((classification) => (
             <div key={classification}>
-              <input type="radio" name="userType" value={classification} checked={(classification==this.state.type)} onChange={this.radioFunction}/>
+              <input type="radio" name="userType" value={classification} checked={this.init(classification)} onChange={this.radioFunction}/>
               {classification}
             </div>
           ))
         }
-        <br/>
       </div>
     );
   }
