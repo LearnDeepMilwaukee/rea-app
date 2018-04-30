@@ -41,7 +41,7 @@ class EditForm extends React.Component {
 
   updateField(key, val) {
     console.log("Set state field " + key + " to " + val);
-    this.setState({[key]: val});
+    this.setState({name: val});
     console.log(this.state.name);
   }
 
