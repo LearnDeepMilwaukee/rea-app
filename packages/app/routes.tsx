@@ -25,7 +25,7 @@ import AgentRelationship from "./pages/Api/agentRelationship";
 import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
 import Process from "./pages/Api/process";
 import Plan from "./pages/Api/plan";
-import orgEdit from "./pages/Edit/organizationEdit"
+import orgEdit from "./pages/Edit/organizationEdit";
 import OrganizationRegistration from "./pages/Registration/organizationRegistration";
 import IndividualRegistration from "./pages/Registration/individualRegistration";
 

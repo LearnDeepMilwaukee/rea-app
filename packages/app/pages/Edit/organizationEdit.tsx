@@ -30,7 +30,7 @@ const OrganizationForm = getOrganizationById(({ organization, loading, error }) 
 /**
  * A component that encapsulates the entire edit form for an organization. Creates the individual
  * text fields and submit button. Has local copies of the organization fields that get changed by the
- * fields via callbacks and then sent to the mutation.
+ * fields via callbacks and these are then sent to the mutation upon clicking submit.
  */
 class EditForm extends React.Component {
   private state;
@@ -53,14 +53,13 @@ class EditForm extends React.Component {
    */
   updateStateField = (i, v) => {
     this.setState({[i]: v});
-    // console.log("this.props." + i + " is now " + this.state[i]);
   };
 
   /**
    * Performs the mutation
    */
   executeMutation = () => {
-    console.log("Performing mutation\n"+this.state.name+"\n"+this.state.type+"\n"+this.state.image+"\n"+this.state.note);
+    console.log("Todo: implement mutation\n"+this.state.name+"\n"+this.state.type+"\n"+this.state.image+"\n"+this.state.note);
   };
 
   setEditMode = (bool) => {
@@ -140,7 +139,6 @@ class EditTextField extends React.Component {
    * Reverts changes done by resetting the current text to the saved text in the state.
    */
   revertChanges() {
-    //console.log("Changes reverted");
     this.setState({text: this.state.safeText});
     this.props.callback(this.props.val, this.state.text);
     this.setEditMode(false);
