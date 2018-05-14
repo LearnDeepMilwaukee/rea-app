@@ -18,7 +18,7 @@ import { getValidation } from "../Common/common";
  */
 const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
   let validationInfo = getValidation(loading, error);
-  if(validationInfo.readyToRender) {
+  if(!validationInfo.readyToRender) {
     return validationInfo.component;
   } else {
     return (
