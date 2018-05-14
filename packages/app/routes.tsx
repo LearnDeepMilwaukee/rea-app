@@ -25,6 +25,7 @@ import AgentRelationship from "./pages/Api/agentRelationship";
 import CreateEconomicEvent from "./pages/EconomicEvent/CreateEconomicEvent";
 import Process from "./pages/Api/process";
 import Plan from "./pages/Api/plan";
+import orgEdit from "./pages/Edit/organizationEdit";
 import OrganizationRegistration from "./pages/Registration/organizationRegistration";
 import IndividualRegistration from "./pages/Registration/individualRegistration";
 
@@ -46,6 +47,7 @@ const routes = (
 
     <Route path="projects">
         <IndexRoute component={AllProjectsPage} />
+        <Route path=":id/edit" component={orgEdit}/>
         <Route path=":id" component={SingleProjectTemplate}>
           <IndexRoute component={OverviewPage} />
           <Route path="processes" component={ProcessesPage} />
