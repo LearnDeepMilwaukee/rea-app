@@ -17,13 +17,13 @@ import { getValidation } from "../Common/common";
  * Creates the EditForm for a given Organization.
  */
 const OrganizationForm = getOrganizationById(({ organization, loading, error }) => {
-  let temp = getValidation(loading, error);
-  if(temp[0]) {
+  let validationInfo = getValidation(loading, error);
+  if(validationInfo.readyToRender) {
+    return validationInfo.component;
+  } else {
     return (
       <EditForm organization={organization}/>
     );
-  } else {
-    return temp[1];
   }
 });
 

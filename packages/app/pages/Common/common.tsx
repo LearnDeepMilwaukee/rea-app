@@ -37,24 +37,23 @@ export function validatePageLoaded(page, loading, error) {
 }
 
 /**
- * Given loading and error, returns an array of minimum length 1 containing whether to load the final page and
- * the page to load instead if not.
+ * Given loading and error, creates attributes describing the render state of the component.
  *
  * Recommended implementation:
  *
- * let temp = getValidation(loading, error);
- * if ( temp[0] ) { return ( <HTML Page> ); }
- * else { return temp[1]; }
+ * let validationInfo = getValidation(loading, error);
+ * if ( !validationInfo.readyToRender ) { return validationInfo.component; }
+ * else { return <Component> }
  *
  * @returns [ whether the final page should be loaded,
  * (if the final page is not loaded) the page to render instead ]
  */
 export function getValidation(loading, error) {
   if (error) {
-    return [false, _error];
+    return {readyToRender: false, component: _error};
   } else if (loading) {
-    return [false, _loading];
+    return {readyToRender: false, component: _loading};
   } else {
-    return [true];
+    return {readyToRender: true};
   }
 }
