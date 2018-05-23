@@ -12,6 +12,21 @@ import { AppState } from "@vflows/store/types";
 import { getActiveLoginToken } from "@vflows/store/selectors/auth";
 import EconomicEventFragment from "./EconomicEvent.tsx";
 
+/**
+ * This is the graphQL mutation that will create the Economic Event.
+ * Notice that this can be entered into the query window gor GraphiQL
+ * and it will execute. The query is defined as a Javascript template
+ * using the back ticks `` instead of quotes. It brings in all variables
+ * by defining them with the $ in the header, and then references them
+ * in the query. The variables are injected using Apollo before it is
+ * sent. Notice at the end the ${EconomicEventFragment}. This is bringing
+ * in the fragment defined at ./EconomicEvent.tsx. By using the fragment,
+ * we don't need to redefine what we want back from an EconomicEvent. The
+ * syntax for inserting the fragment, ${}, is part of the Javascript
+ * template and is not unique to Apollo. To use the fragment, notice
+ * that you just reference the name of the fragment, as it was defined in
+ * EconomicEvent, preceded by ...
+ */
 export const mutation = gql`
   mutation(
     $receiverId: Int,
@@ -67,9 +82,27 @@ export const mutation = gql`
 ${EconomicEventFragment}
 `;
 
+/**
+ * Compose returns a function that allows a React component to be
+ * "decorated" by this mutation. It puts the mutation form into the
+ * props of that component, and then it can be executed with the
+ * correct variables once they are known.
+ *
+ * The compose function can accept any number of sub functions, and
+ * executes them in reverse order. So graphql is executed before connect.
+ */
 export default compose(
+  /**
+   * Connect reaches out to the app data store and fetches
+   * the active login token (using the current app state) and
+   * injects that as the token variable in the mutation.
+   */
   connect(state => ({
     token: getActiveLoginToken(state)
   })),
+  /**
+   * The graphql function wraps the GraphQL mutation defined above
+   * as an Apollo recognized mutation.
+   */
   graphql(mutation)
 );
