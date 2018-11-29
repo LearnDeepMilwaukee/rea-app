@@ -25,9 +25,9 @@ interface Props {
 
 const LoginForm: SFC<Props> = ({ handleSubmit, hasLoginError, errorMessage, submitting }) => (
   <form onSubmit={handleSubmit}>
-    <Field name="user" type="text" component={Input} placeholder="Username" />
-    <Field name="pass" type="password" component={Input} placeholder="Password" />
-    <Button type="submit" raised primary disabled={submitting}><T.text text="loginForm.loginButton" /></Button>
+    <Field id="usernameField" name="user" type="text" component={Input} placeholder="Username" />
+    <Field id="passwordField" name="pass" type="password" component={Input} placeholder="Password" />
+    <Button id="loginButton" type="submit" raised primary disabled={submitting}><T.text text="loginForm.loginButton" /></Button>
     {hasLoginError ? (<FormError>{errorMessage}</FormError>) : null}
 
     <Button><Link to="/register/individual">Register</Link></Button>
