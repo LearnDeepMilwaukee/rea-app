@@ -1,82 +1,11 @@
 /**
- * @author Connor Hibbs <hibbscm@msoe.edu>
- * @version 1.0.0
- * @since 29 April 2018
+ * @author Aaron Murphy <murphyad@msoe.edu>
+ *
  */
 
 import * as React from "react";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
 import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOrganizationTypes.js";
-
-/**
- * This popup appears after a successful registration and offers to
- * take the user to the edit page for more information, or
- * to redirect them to their created organization to see the finished page
- */
-// class Popup extends React.Component {
-//
-//   private state = {
-//     showModal: (this.props.orgId !== undefined)
-//   };
-//
-//   /** Custom styles for the wizard modal (CSS equiv) */
-//   private wizardModalStyle = {
-//     overlay : {
-//       position          : "fixed",
-//       top               : 0,
-//       left              : 0,
-//       right             : 0,
-//       bottom            : 0,
-//       backgroundColor   : "rgba(255, 255, 255, 0.75)"
-//     },
-//     content : {
-//       position                   : "absolute",
-//       top                        : "50%",
-//       left                       : "50%",
-//       width                      : "50%",
-//       leftMargin                 : "auto",
-//       rightMargin                : "auto",
-//       transform                  : "translate(-50%, -50%)",
-//       border                     : "1px solid #ccc",
-//       background                 : "#fff",
-//       overflow                   : "auto",
-//       WebkitOverflowScrolling    : "touch",
-//       borderRadius               : "4px",
-//       outline                    : "none",
-//       padding                    : "20px"
-//     }
-//   };
-//
-//   render() {
-//     let id = this.props.orgId;
-//     let url = "/projects/" + id;
-//
-//     return (
-//       <div>
-//         <Modal
-//           isOpen={id}
-//           style={this.wizardModalStyle}
-//           onRequestClose={() => this.setState({showModal: false})}
-//         >
-//           <div>
-//             <div style={{display: "block", textAlign: "right"}}>
-//               <button style={{textAlign: "right"}}><Link to={url}>[ X ]</Link></button>
-//             </div>
-//
-//             <h1>You're All Set!</h1>
-//             <p>You have successfully registered your organization.
-//               Now you can add more details like giving your organization a picture,
-//               or adding some notes about what your organization does.</p>
-//
-//             <button><Link to={url}>No Thanks, Not Now</Link></button>
-//             <button><Link to={url + "/edit"}>Take Me There!</Link></button>
-//           </div>
-//         </Modal>
-//
-//       </div>
-//     );
-//   }
-// }
 
 class Registration extends React.Component {
 
@@ -89,25 +18,55 @@ class Registration extends React.Component {
   };
 
   getRegistrationJSON = (event) => {
+    event.preventDefault();
 
     let requiredFieldsValid =
       this.state.name !== undefined
       && this.state.type !== undefined;
 
+    console.log("name: " + this.state.name + "\n" +
+      "type: " + this.state.type + "\n" +
+      "logo: " + this.state.logo + "\n" +
+      "banner: " + this.state.banner + "\n" +
+      "description: " + this.state.description + "\n\n" +
+      "valid?  " + requiredFieldsValid);
+
     if (!requiredFieldsValid) {
-      // Notify user to enter in required data
       alert("Please enter valid data into all required fields!");
     }else {
-      // Register organization
+      let variables = {
+        name: this.state.name,
+        type: this.state.type,
+        image: this.state.logo,
+        note: this.state.desc
+        // primaryLocationId: TODO
+      };
+
+      variables.token = this.props.token; // add the token in afterwards
+
+      // perform the mutation
+      this.props.mutate({variables}).then((response) => {
+        let newOrganization = response.data.createOrganization.organization.id;
+
+        if (newOrganization) {
+          console.log(newOrganization);
+          // TODO popup to redirect to new org page
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
     }
+    
   };
 
+  // Draws all of the components on the screen
   render() {
     return (
       <div>
-        <h1>Register a New Organization</h1>
+        <h1>Organization Registration</h1>
 
-        <form onSubmit={this.getRegistrationJSON}>
+        <form id="form" onSubmit={this.getRegistrationJSON}>
+
           <OrganizationNameField saveOrgName={(name) => this.setState({name})}/>
           <br/>
           <OrganizationTypeField saveOrgType={(type) => this.setState({type})}/>
@@ -115,17 +74,16 @@ class Registration extends React.Component {
           <OrganizationLogoField saveOrgLogo={(logo) => this.setState({logo})}/>
           <br/>
           <OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>
-          <br/>
-          <OrganizationDescriptionField saveOrgDescription={(description) => this.setState({description})}/>
+
+          <OrganizationDescriptionField saveOrgDescription={(description) => this.setState({descripiton})}/>
           <br/>
           *required
           <br/>
-          <input type="submit" id="register" value="Register"/>
+          <input type="submit" id="submit" value="Register"/>
         </form>
       </div>
     );
   }
-
 }
 
 class OrganizationNameField extends React.Component {
@@ -138,7 +96,7 @@ class OrganizationNameField extends React.Component {
   validate = (name) => {
     let valid = name.length > 0;
     this.setState({valid: valid});
-    this.props.saveOrgName(valid ? value : undefined);
+    return valid;
   };
 
   onChange = (value) => {
@@ -147,13 +105,14 @@ class OrganizationNameField extends React.Component {
     this.props.saveOrgName(valid ? value : undefined);
   };
 
+  // Draws the components on the screen
   render() {
-    return(
+    return (
       <div>
         Organization Name:
         <input type="text" onChange={(event) => this.onChange(event.target.value)}/>
         *
-        {this.state.valid ? " Name is required" : null}
+        {!this.state.valid ? " Name is required" : null}
         <br/>
       </div>
     );
@@ -162,20 +121,20 @@ class OrganizationNameField extends React.Component {
 
 export const OrganizationTypeList = GetOrganizationTypes(({ orgTypeList, loading, error, onChange, checked}) => {
   return (
-    loading ? <p>Loading...</p> : (
-      error ? <p>API error</p> : (
+    loading ? <strong>Loading...</strong> : (
+      error ? <p style={{color: "#F00"}}>API error</p> : (
         <div>
           {orgTypeList.map( (orgType) => (
             <div>
               <input type="radio" name="userType" value={orgType.name} onChange={onChange} checked={checked === orgType.name}/>
               {orgType.name}
-            </div>
-          ))}
+            </div>))}
         </div>
       )
     )
   );
 });
+
 class OrganizationTypeField extends React.Component {
 
   private state = {
@@ -188,14 +147,15 @@ class OrganizationTypeField extends React.Component {
     this.props.saveOrgType(this.state.valid ? value : undefined);
   };
 
+  // Draws all of the components on the screen
   render() {
     return (
       <div>
-        Organization Type:
+        OrganizationType: *<br/>
         <div>
           <OrganizationTypeList onChange={(event) => this.onChange(event.target.value)} checked={this.state.value}/>
         </div>
-        *
+
       </div>
     );
   }
@@ -205,27 +165,29 @@ class OrganizationLogoField extends React.Component {
 
   private state = {
     valid: true,
-    path: ""
+    path: "",
   };
 
   onImageSelected = (event) => {
     var file = event.target.files[0];
-    let reader = newFileReader();
+    let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       this.setState({path: reader.result});
       this.props.saveOrgLogo(this.state.valid ? reader.result : undefined);
+      console.log(this.state.value);
     };
     reader.onerror = (error) => {
-      console.log("Error reading logo: ", error);
+      console.log("Error", error);
     };
   };
 
+  // Draws the components on the screen
   render() {
     return (
       <div>
         Organization Logo:
-        <input type="file" accept="image/*" onChange={(event) => thos.onImageSelected(event)}/>
+        <input type="file" accept="image/*" onChange={(event) => this.onImageSelected(event)}/>
         (200x200)
         <br/>
         Preview:
@@ -240,27 +202,29 @@ class OrganizationBannerField extends React.Component {
 
   private state = {
     valid: true,
-    path: ""
+    path: "",
   };
 
   onImageSelected = (event) => {
     var file = event.target.files[0];
-    let reader = newFileReader();
+    let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       this.setState({path: reader.result});
       this.props.saveOrgBanner(this.state.valid ? reader.result : undefined);
+      console.log(this.state.value);
     };
     reader.onerror = (error) => {
-      console.log("Error reading banner: ", error);
+      console.log("Error", error);
     };
   };
 
+  // Draws the components on the screen
   render() {
     return (
       <div>
         Organization Banner:
-        <input type="file" accept="image/*" onChange={(event) => thos.onImageSelected(event)}/>
+        <input type="file" accept="image/*" onChange={(event) => this.onImageSelected(event)}/>
         (800x200)
         <br/>
         Preview:
@@ -271,7 +235,7 @@ class OrganizationBannerField extends React.Component {
   }
 }
 
-class OrganizationDescriptionField extends React.Component {
+class OrganizationDescriptionField extends React.Component { // TODO make multiline input
 
   private state = {
     valid: true,
@@ -280,14 +244,18 @@ class OrganizationDescriptionField extends React.Component {
 
   onChange = (event) => {
     this.setState({value: event.target.value});
-    this.props.saveOrgDescription(this.state.valid ? value : undefined);
+    this.props.saveOrgDesc(this.state.valid ? value : undefined);
   };
 
+  // Draws the components on the screen
   render() {
     return (
       <div>
         Description:
-        <input type="text" onChange={(event) => this.onStateUpdate(event.target.value)}/>
+        <input
+          type="text"
+          onChange={(event) => this.onStateUpdate(event.target.value)}
+        />
         <br/>
       </div>
     );
