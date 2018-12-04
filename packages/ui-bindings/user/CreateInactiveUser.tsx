@@ -7,37 +7,36 @@
  */
 
 
-import { connect } from "react-redux";
-import { gql, graphql, compose } from "react-apollo";
-import { getActiveLoginToken } from "@vflows/store/selectors/auth";
-import { coreAgentFields } from '../_fragments/Agent'
+import {connect} from "react-redux";
+import {gql, graphql, compose} from "react-apollo";
+import {getActiveLoginToken} from "@vflows/store/selectors/auth";
 
-export const mutation = gql`
-  mutation(
+export const query = gql`
+  query(
     $token: String!,
     $username: String!,
-    $email: String!
+    $email: String!,
     $pswd: String!
   ) {
-    $token: String!,
-    $username: String!,
-    $email: String!
-    $pswd: String!
+  viewer(token: $token){
+    createInactiveUser (
+      username: $username,
+      email: $email,
+      pswd: $pswd
     ) {
       inactiveUser {
-        ...coreAgentFields
         email
         username
         pswd
       }
     }
   }
-${coreAgentFields}
+ }
 `;
 
 export default compose(
   connect(state => ({
     token: getActiveLoginToken(state)
   })),
-  graphql(mutation)
+  graphql(query)
 );

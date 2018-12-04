@@ -4,7 +4,7 @@
  */
 
 import * as React from "react";
-import * as createInactiveUser from "../../../ui-bindings/user/CreateInactiveUser";
+import * as createInactiveUser from "../../../ui-bindings/user/CreateInactiveUser.tsx";
 
 class EmailField extends React.Component {
   private state = {
@@ -99,7 +99,7 @@ class PasswordField extends React.Component {
 }
 
 class IndividualRegistration extends React.Component {
-  public state = {
+  private state = {
     email: undefined,
     password: undefined,
     username: undefined
@@ -119,15 +119,16 @@ class IndividualRegistration extends React.Component {
     let variables = {
       email: this.state.email,
       pswd: this.state.password,
-      username: this.state.username;
-  }
+      username: this.state.username
+  };
     variables.token = this.props.token;
-    console.log(variables.toString());
-
-    createInactiveUser({variables}).then((response) => {
+    console.log("Starting");
+    createInactiveUser.query(variables).then((response) => {
       console.log("After mutation");
       let newUser = response.data.createInactiveUser.inactiveUser;
       console.log(newUser);
+    }).catch((error) => {
+      console.log(error);
     })
   };
 
@@ -140,6 +141,7 @@ class IndividualRegistration extends React.Component {
       <div>
         <h1>Individual Registration</h1>
         <form id="form" onSubmit={this.handleClick}>
+
           <UsernameField saveUsername={(usernameParam) => this.setState({username: usernameParam})}/>
           <EmailField saveEmail={(emailParam) => this.setState({email: emailParam})}/>
           <br/>
@@ -151,4 +153,5 @@ class IndividualRegistration extends React.Component {
   }
 }
 
+// export default createInactiveUser(IndividualRegistration);
 export default IndividualRegistration;

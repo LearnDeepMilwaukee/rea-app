@@ -8,7 +8,8 @@ node_modules
 /typings
 /packages/app/webpack/webpack-assets.json
 .nyc_output
-/packages/app/tests/output
+rea-app/packages/app/tests/output/*
+rea-app/packages/app/tests/screenshots/*
 
 /packages/**/*.js
 /packages/**/*.js.map
