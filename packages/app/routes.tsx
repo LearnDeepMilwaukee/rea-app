@@ -28,7 +28,8 @@ import Plan from "./pages/Api/plan";
 import orgEdit from "./pages/Edit/organizationEdit";
 import OrganizationRegistration from "./pages/Registration/organizationRegistration";
 import IndividualRegistration from "./pages/Registration/individualRegistration";
-import Card from "./pages/Organization/orgCard";
+import CardFront from "./pages/Organization/orgCardFront";
+import Card from "./pages/Organization/orgCard"
 
 const routes = (
   <Route path="/" component={App}>
@@ -40,7 +41,7 @@ const routes = (
       <Route path="individual" component={IndividualRegistration} />
     </Route>
 
-    <Route path="search" component={Card}>
+    <Route path="search" component={CardFront}/>
 
     <Route path="tasks" component={Todo}>
       <IndexRedirect to="my-tasks" />
@@ -52,7 +53,7 @@ const routes = (
         <IndexRoute component={AllProjectsPage} />
         <Route path=":id/edit" component={orgEdit}/>
         <Route path=":id" component={SingleProjectTemplate}>
-          <IndexRoute component={OverviewPage} />3
+          <IndexRoute component={OverviewPage} />
           <Route path="processes" component={ProcessesPage} />
           <Route path="accounts" component={AccountsPage} />
           <Route path="members" component={MembersPage} />

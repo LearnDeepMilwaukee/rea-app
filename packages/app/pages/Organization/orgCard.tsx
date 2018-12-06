@@ -1,4 +1,3 @@
-import {ReactDOM} from "react";
 import * as React from "react";
 import ReactDOM from "react-dom";
 // const cardContainer = document.querySelector('.react-card');
@@ -141,4 +140,5 @@ class Card extends React.Component {
 }
 
 // Render Card component
-ReactDOM.render(<Card />);
+// ReactDOM.render(<Card />);
+export default Card();

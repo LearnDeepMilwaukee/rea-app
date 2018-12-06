@@ -1,9 +1,17 @@
 // React component for the frontside of the card
 import has = Reflect.has;
+import * as React from "react";
+import * as themable from "react-themeable";
+import theme from "./cardStyle.scss";
+
+
+var curr_theme = themable(theme);
 
 class CardFront extends React.Component {
   render() {
     return(
+      <div className='card-container'>
+      <div className='card-body'>
       <div className='card-side side-front'>
       <div className='container-fluid'>
       <div className='row'>
@@ -12,7 +20,7 @@ class CardFront extends React.Component {
         </div>
 
         <div className='col-xs-6 side-front-content'>
-      <h2>Czech based</h2>
+      <h2 {...curr_theme(0,"h2")}>Czech based</h2>
 
     <h1>UI/UX Designer</h1>
 
@@ -25,6 +33,10 @@ class CardFront extends React.Component {
     </div>
     </div>
     </div>
+    </div>
+    </div>
   )
   }
 }
+
+export default CardFront;
