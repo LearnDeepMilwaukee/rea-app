@@ -1,43 +1,12 @@
 /**
  * @author Aaron Murphy <murphyad@msoe.edu>
- *
  */
 
 import * as React from "react";
+import { Redirect } from "react-router-dom";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
 import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOrganizationTypes.js";
-
-class ConfirmationPopup extends React.Component {
-  state = {
-    showPopup: false,
-    url: "0.0.0.0:3000/projects/"
-  };
-
-  render() {
-    let url = this.state.url + this.props.orgID;
-    this.setState({showPopup: this.props.showPopup});
-
-    return (
-      <div>
-        {/*<Modal*/}
-          {/*isOpen={this.state.showPopup}*/}
-          {/*onRequestClose={() => this.setState({showPopup: false})}*/}
-        {/*>*/}
-          <h1>
-          You're Organization is Ready!
-          </h1>
-          <p>
-            You have successfully regisered your organization.
-            If you haven't done so already, you can add extra information, like a description,
-            logo, and banner to your organization's page.  Click the button below to visit
-            your new organization's homepage!
-          </p>
-          <button><link to={url}>Your New Organization</link></button>
-        </Modal>
-      </div>
-    );
-  }
-}
+import Link from "../../../ui-views/atoms/Link/Link";
 
 class Registration extends React.Component {
 
@@ -47,8 +16,8 @@ class Registration extends React.Component {
     logo: undefined,
     banner: undefined,
     description: undefined,
-    showPopup: false,
-    orgID: undefined
+    newOrganizationID: undefined,
+    redirect: false
   };
 
   getRegistrationJSON = (event) => {
@@ -75,7 +44,6 @@ class Registration extends React.Component {
         note: this.state.description
         // primaryLocationId: TODO
       };
-
       variables.token = this.props.token; // add the token in afterwards
 
       // perform the mutation
@@ -84,7 +52,7 @@ class Registration extends React.Component {
 
         if (newOrganization) {
           console.log(newOrganization);
-          this.setState({showPopup: true, orgId: newOrganization});
+          this.setState({newOrganizationID: newOrganization, redirect: true});
         }
       }).catch((error) => {
         console.log(error);
@@ -94,12 +62,21 @@ class Registration extends React.Component {
 
   // Draws all of the components on the screen
   render() {
+    if (this.state.redirect === true) {
+      console.log("/projects/" + this.state.newOrganizationID);
+      return (
+        <Redirect
+          to={{
+          pathname: "/projects/" + this.state.newOrganizationID,
+          state: { from: this.props.location}
+          }}
+        />
+      );
+    }
+
     return (
       <div>
-
         <h1>Organization Registration</h1>
-
-        <ConfirmationPopup showPopup={this.state.showPopup} orgID={this.state.orgID}/>
 
         <form id="form" onSubmit={this.getRegistrationJSON}>
 
@@ -110,13 +87,14 @@ class Registration extends React.Component {
           <OrganizationLogoField saveOrgLogo={(logo) => this.setState({logo})}/>
           <br/>
           <OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>
-
+          <br/>
           <OrganizationDescriptionField saveOrgDescription={(description) => this.setState({descripiton})}/>
           <br/>
           *required
           <br/>
           <input type="submit" id="submit" value="Register"/>
         </form>
+
       </div>
     );
   }
