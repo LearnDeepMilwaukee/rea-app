@@ -7,6 +7,38 @@ import * as React from "react";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
 import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOrganizationTypes.js";
 
+class ConfirmationPopup extends React.Component {
+  state = {
+    showPopup: false,
+    url: "0.0.0.0:3000/projects/"
+  };
+
+  render() {
+    let url = this.state.url + this.props.orgID;
+    this.setState({showPopup: this.props.showPopup});
+
+    return (
+      <div>
+        {/*<Modal*/}
+          {/*isOpen={this.state.showPopup}*/}
+          {/*onRequestClose={() => this.setState({showPopup: false})}*/}
+        {/*>*/}
+          <h1>
+          You're Organization is Ready!
+          </h1>
+          <p>
+            You have successfully regisered your organization.
+            If you haven't done so already, you can add extra information, like a description,
+            logo, and banner to your organization's page.  Click the button below to visit
+            your new organization's homepage!
+          </p>
+          <button><link to={url}>Your New Organization</link></button>
+        </Modal>
+      </div>
+    );
+  }
+}
+
 class Registration extends React.Component {
 
   public state = {
@@ -14,7 +46,9 @@ class Registration extends React.Component {
     type: undefined, // Required
     logo: undefined,
     banner: undefined,
-    description: undefined
+    description: undefined,
+    showPopup: false,
+    orgID: undefined
   };
 
   getRegistrationJSON = (event) => {
@@ -38,7 +72,7 @@ class Registration extends React.Component {
         name: this.state.name,
         type: this.state.type,
         image: this.state.logo,
-        note: this.state.desc
+        note: this.state.description
         // primaryLocationId: TODO
       };
 
@@ -50,20 +84,22 @@ class Registration extends React.Component {
 
         if (newOrganization) {
           console.log(newOrganization);
-          // TODO popup to redirect to new org page
+          this.setState({showPopup: true, orgId: newOrganization});
         }
       }).catch((error) => {
         console.log(error);
       });
     }
-    
   };
 
   // Draws all of the components on the screen
   render() {
     return (
       <div>
+
         <h1>Organization Registration</h1>
+
+        <ConfirmationPopup showPopup={this.state.showPopup} orgID={this.state.orgID}/>
 
         <form id="form" onSubmit={this.getRegistrationJSON}>
 
@@ -85,10 +121,9 @@ class Registration extends React.Component {
     );
   }
 }
-
 class OrganizationNameField extends React.Component {
 
-  private state = {
+  state = {
     valid: true,
     value: ""
   };
@@ -137,7 +172,7 @@ export const OrganizationTypeList = GetOrganizationTypes(({ orgTypeList, loading
 
 class OrganizationTypeField extends React.Component {
 
-  private state = {
+  state = {
     valid: true,
     value: ""
   };
@@ -163,9 +198,9 @@ class OrganizationTypeField extends React.Component {
 
 class OrganizationLogoField extends React.Component {
 
-  private state = {
+  state = {
     valid: true,
-    path: "",
+    path: ""
   };
 
   onImageSelected = (event) => {
@@ -200,9 +235,9 @@ class OrganizationLogoField extends React.Component {
 
 class OrganizationBannerField extends React.Component {
 
-  private state = {
+  state = {
     valid: true,
-    path: "",
+    path: ""
   };
 
   onImageSelected = (event) => {
@@ -237,7 +272,7 @@ class OrganizationBannerField extends React.Component {
 
 class OrganizationDescriptionField extends React.Component { // TODO make multiline input
 
-  private state = {
+  state = {
     valid: true,
     value: ""
   };
