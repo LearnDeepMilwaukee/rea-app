@@ -4,7 +4,8 @@
  */
 
 import * as React from "react";
-import * as createInactiveUser from "../../../ui-bindings/user/CreateInactiveUser.tsx";
+import createInactiveUser from "../../../ui-bindings/user/CreateInactiveUser.tsx";
+
 
 class EmailField extends React.Component {
   private state = {
@@ -19,8 +20,8 @@ class EmailField extends React.Component {
   };
 
   onChange = (value) => {
-    let valid = this.validate(value);
-    if (valid) {
+    // let valid = EmailValidator.validate(value);
+    if (true) {
       this.setState({value: value});
       this.props.saveEmail(value);
     }
@@ -30,9 +31,9 @@ class EmailField extends React.Component {
   render() {
     return (
       <div>
-        Email:<br/>
+        Email*:<br/>
         <input type="text" name="email" onChange={(event) => this.onChange(event.target.value)}/>
-        {/*<p> *</p><p class="invalidValue">{this.state.valid ? "" : "This email is invalid"} </p>*/}
+        {/*{!this.state.valid ? <p>Email is not valid</p> : null}*/}
       </div>
     );
   }
@@ -54,9 +55,9 @@ class UsernameField extends React.Component {
   render() {
     return (
       <div>
-        Username:<br/>
+        Username*:<br/>
         <input type="text" name="username" onChange={(event) => this.onChange(event.target.value)}/>
-        {/*<p> *</p><p class="invalidValue">{this.state.valid ? "" : "This username is invalid"} </p>*/}
+        {/*{!this.state.valid ? <p>Username isn't valid</p> : null}*/}
       </div>
     );
   }
@@ -98,11 +99,12 @@ class PasswordField extends React.Component {
   }
 }
 
+
 class IndividualRegistration extends React.Component {
   private state = {
     email: undefined,
     password: undefined,
-    username: undefined
+    username: undefined,
   };
 
   handleClick = (event) => {
@@ -122,11 +124,14 @@ class IndividualRegistration extends React.Component {
       username: this.state.username
   };
     variables.token = this.props.token;
+    console.log(this.props);
     console.log("Starting");
-    createInactiveUser.query(variables).then((response) => {
+    console.log(this.props.mutate);
+    console.log(variables);
+    this.props.mutate({ variables }).then((response) => {
       console.log("After mutation");
-      let newUser = response.data.createInactiveUser.inactiveUser;
-      console.log(newUser);
+      // let newUser = response.data.createInactiveUser.token;
+      // console.log(newUser);
     }).catch((error) => {
       console.log(error);
     })
@@ -154,4 +159,4 @@ class IndividualRegistration extends React.Component {
 }
 
 // export default createInactiveUser(IndividualRegistration);
-export default IndividualRegistration;
+export default createInactiveUser(IndividualRegistration);
