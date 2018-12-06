@@ -1,12 +1,13 @@
 /**
  * @author Aaron Murphy <murphyad@msoe.edu>
  */
-
 import * as React from "react";
-import { Redirect } from "react-router-dom";
+import * as themeable from "react-themeable";
+import * as theme from "./organizationRegistration.scss";
+import { Redirect, Router } from "react-router-dom";
+import createBrowserHistory from "history/createBrowserHistory";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
 import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOrganizationTypes.js";
-import Link from "../../../ui-views/atoms/Link/Link";
 
 class Registration extends React.Component {
 
@@ -22,7 +23,6 @@ class Registration extends React.Component {
 
   getRegistrationJSON = (event) => {
     event.preventDefault();
-
     let requiredFieldsValid =
       this.state.name !== undefined
       && this.state.type !== undefined;
@@ -62,15 +62,22 @@ class Registration extends React.Component {
 
   // Draws all of the components on the screen
   render() {
+    const newHistory = createBrowserHistory();
     if (this.state.redirect === true) {
       console.log("/projects/" + this.state.newOrganizationID);
       return (
-        <Redirect
-          to={{
-          pathname: "/projects/" + this.state.newOrganizationID,
-          state: { from: this.props.location}
-          }}
-        />
+        <div>
+          <Router history={newHistory}>
+
+          <Redirect
+            to={{
+            pathname: "/projects/" + this.state.newOrganizationID,
+            state: { from: this.props.location}
+            }}
+            push={true}
+          />
+          </Router>
+        </div>
       );
     }
 
