@@ -9,35 +9,31 @@
 
 import {connect} from "react-redux";
 import {gql, graphql, compose} from "react-apollo";
-import {getActiveLoginToken} from "@vflows/store/selectors/auth";
 import {AppState} from "@vflows/store/types.js";
-import { inactiveUserInterface } from "./inactiveUserInterface";
 
 
 export const query = gql`
-  query($token: String, $username: String, $email: String, $pswd: String) {
+  query($token: String!, $username: String!, $email: String!, $pswd: String!, $phone: String, $name: String!, $image: String) {
     viewer(token: $token) {
-      createInactiveUser(username: $username, email: $email, pswd: $pswd){
-         token
-      }
+      createUserPerson(username: $username, email: $email, pswd: $pswd, phone: $phone, name: $name, image: $image)
     }
   }
-  ${inactiveUserInterface}
 `;
 
 export default compose(
-  connect(state => ({
-    token: getActiveLoginToken(state)
-  })),
   graphql(query, {
     // read query vars into query from input data above
 
     options: (props) => (
       {
         variables: {
+          token: props.token,
           username: props.username,
           email: props.email,
-          pswd: props.pswd
+          pswd: props.pswd,
+          phone: props.phone,
+          name: props.name,
+          image: props.image
         }
       }),
 

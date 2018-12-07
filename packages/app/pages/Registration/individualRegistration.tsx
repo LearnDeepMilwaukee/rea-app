@@ -4,8 +4,7 @@
  */
 
 import * as React from "react";
-import createInactiveUser from "../../../ui-bindings/user/CreateInactiveUser.tsx";
-import economicEventById from "../../../ui-bindings/EconomicEvent/getEconomicEventById";
+import createUserPerson from "../../../ui-bindings/user/CreateUserPerson.tsx";
 
 import * as EmailValidator from "email-validator";
 
@@ -100,10 +99,7 @@ class PasswordField extends React.Component {
     );
   }
 }
-
-
-// Switch this to economicEventById while testing since the createInactiveUser query isn't working'
-const CreateUser = createInactiveUser(({token,loading,error}) => {
+const CreateUserQuery = createUserPerson(({token,loading,error}) => {
 
   if(loading){
     console.log(loading);
@@ -115,6 +111,22 @@ const CreateUser = createInactiveUser(({token,loading,error}) => {
   console.log(token);
 });
 
+// Switch this to economicEventById while testing since the createInactiveUser query isn't working'
+class CreateUser extends React.Component {
+  render() {
+    var element;
+    if (this.props.userEntered) {
+      console.log("running");
+      element = <CreateUserQuery username={this.props.username} email={this.props.email} password={this.props.password}
+                                 name={this.props.name}/>
+    }
+      return (
+        <div>{element}</div>
+      );
+    }
+  }
+}
+
 
 
 
@@ -124,14 +136,18 @@ class IndividualRegistration extends React.Component {
     variables: {
       email: "",
       pswd: "",
-      username: ""
+      username: "",
+      name: "",
+      userRan: false
     },
   };
 
   private vars = {
     email: undefined,
     pswd: undefined,
-    username: undefined
+    username: undefined,
+    name: "",
+    userRan: false
   };
 
   handleClick = (event) => {
@@ -140,6 +156,7 @@ class IndividualRegistration extends React.Component {
       && this.vars.pswd !== undefined
       && this.vars.username !== undefined;
 
+    this.vars.userRan = true;
 
 
     if (!allValid) {
@@ -163,8 +180,7 @@ class IndividualRegistration extends React.Component {
           <EmailField saveEmail={(emailParam) => this.vars.email=emailParam}/>
           <br/>
           <PasswordField savePassword={(passwordParam) => this.vars.pswd=passwordParam}/>
-          {/*This is called everytime the state is updated, including the beginning*/}
-          <CreateUser username={this.state.variables.username} email={this.state.variables.email} password={this.state.variables.password} />
+          <CreateUser userEntered = {this.state.variables.userRan} username={this.state.variables.username} email={this.state.variables.email} password={this.state.variables.password} name={this.state.variables.name} />
           <input type="submit" id="register" value="Create Account"/>
         </form>
       </div>

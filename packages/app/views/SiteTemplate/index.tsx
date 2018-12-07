@@ -12,16 +12,10 @@ import { Component, ReactElement } from "react";
 import AuthenticatedOnly from "@vflows/bindings/AuthenticatedOnly";
 import { withRouter } from "react-router-dom";
 
-// import { Layout, NavDrawer, Panel } from '@vflows/views/templates/Layout'
+import { Layout, NavDrawer, Panel } from '@vflows/views/templates/Layout'
 
 import Header from "@vflows/views/organisms/Header";
-import Aside from "@vflows/views/organisms/Aside";
-import Sidebar from "@vflows/views/organisms/Sidebar";
-import SecondaryMenu from "@vflows/views/organisms/SecondaryMenu";
 
-import Overview from "@vflows/views/organisms/Overview";
-import Members from "@vflows/views/organisms/Members";
-import List from "@vflows/views/organisms/List";
 
 import * as _ from "underscore";
 import { matchPath } from "react-router";
@@ -40,38 +34,51 @@ interface State {
 class SiteTemplate extends Component<Props, State> {
   state = {};
 
-  // readonly authenticationExemptURLs = [
-  //   "register"
-  // ];
+  readonly authenticationExemptURLs = [
+    "register/individual"
+  ];
 
-  renderSite() {
-    let classname = styles["medium-9"] + " " + styles.columns;
-
+  publicSite() {
     console.log("Rendering a private page");
 
-    // let pathExempt = false;
-    // _.each(this.authenticationExemptURLs, (URL) => {
-    //   if (matchPath(URL, {isExact: true})) {
-    //     pathExempt = true;
-    //   }
-    // });
-    //
-    // console.log("This path is", (pathExempt ? "exempt" : "authenticated"));
-    return (
-      <div>
-        <Header />
-        {this.props.children}
-      </div>
-    );
+    let pathExempt = false;
+    let targetURL = this.props.children.props.location.pathname;
+    _.each(this.authenticationExemptURLs, (URL) => {
+      if (URL === targetURL) {
+        pathExempt = true;
+      }
+    });
+
+    console.log("This path is", (pathExempt ? "exempt" : "authenticated"))
+    return pathExempt;
   }
 
-  render() {
+  renderSite() {
     return (
-      <AuthenticatedOnly unauthenticatedComponent={<LoginPage />}>
-        {this.renderSite()}
-      </AuthenticatedOnly>
-    );
-  }
+        <div>
+          <Header/>
+          {this.props.children}
+        </div>
+      );
+    }
+
+
+  render() {
+    // if(this.publicSite()){
+    //   return(
+    //     <div>
+    //       {this.renderSite()}
+    //     </div>
+    //   )
+    // }
+    // else {
+      return (
+        <AuthenticatedOnly unauthenticatedComponent={<LoginPage/>}>
+          {this.renderSite()}
+        </AuthenticatedOnly>
+      );
+    }
+  // }
 }
 
 export default SiteTemplate;
