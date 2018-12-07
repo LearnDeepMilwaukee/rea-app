@@ -11,17 +11,18 @@ import {connect} from "react-redux";
 import {gql, graphql, compose} from "react-apollo";
 import {getActiveLoginToken} from "@vflows/store/selectors/auth";
 import {AppState} from "@vflows/store/types.js";
+import { inactiveUserInterface } from "./inactiveUserInterface";
 
 
 export const query = gql`
   query($token: String, $username: String, $email: String, $pswd: String) {
     viewer(token: $token) {
-      createInactiveUser (username: $username, email: $email, pswd: $pswd){
-      //TODO Add this interface
-         // ..inactiveUserInterface
+      createInactiveUser(username: $username, email: $email, pswd: $pswd){
+         token
       }
     }
   }
+  ${inactiveUserInterface}
 `;
 
 export default compose(
@@ -40,13 +41,18 @@ export default compose(
         }
       }),
 
-    // transform output data
-    props: ({ownProps, data: {viewer, loading, error}}) => (
+    props: (
       {
+        data: {
+          viewer,
+          loading,
+          error
+        }
+      }) => ({
+        token: viewer ? viewer.token : null,
         loading,
-        error,
-        // createInactiveUser: viewer ? viewer.createInactiveUser : null,
-        createInactiveUser: null,
-      }),
+        error
+      }
+    ),
   })
 );

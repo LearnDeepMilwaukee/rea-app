@@ -5,6 +5,9 @@
 
 import * as React from "react";
 import createInactiveUser from "../../../ui-bindings/user/CreateInactiveUser.tsx";
+import economicEventById from "../../../ui-bindings/EconomicEvent/getEconomicEventById";
+
+import * as EmailValidator from "email-validator";
 
 
 class EmailField extends React.Component {
@@ -13,27 +16,27 @@ class EmailField extends React.Component {
     value: ""
   };
 
-  validate = (email) => {
-    let valid = (email.indexOf("@") !== -1);
+  validEmail = (email) => {
+    let valid = EmailValidator.validate(email);
     this.setState({valid: valid});
     return valid;
   };
 
   onChange = (value) => {
-    // let valid = EmailValidator.validate(value);
-    if (true) {
+    //TODO Check if email is already in backend
+    if (this.validEmail(value)) {
       this.setState({value: value});
       this.props.saveEmail(value);
     }
   };
 
-// Check if email already exists in backend?
   render() {
     return (
       <div>
-        Email*:<br/>
+        Email:*<br/>
+        <span>
         <input type="text" name="email" onChange={(event) => this.onChange(event.target.value)}/>
-        {/*{!this.state.valid ? <p>Email is not valid</p> : null}*/}
+          {!this.state.valid ? "Email is not valid" : ""}</span>
       </div>
     );
   }
@@ -57,7 +60,6 @@ class UsernameField extends React.Component {
       <div>
         Username*:<br/>
         <input type="text" name="username" onChange={(event) => this.onChange(event.target.value)}/>
-        {/*{!this.state.valid ? <p>Username isn't valid</p> : null}*/}
       </div>
     );
   }
@@ -89,9 +91,9 @@ class PasswordField extends React.Component {
   render() {
     return (
       <div>
-        Password:<br/>
+        Password:*<br/>
         <input type="password" name="password" onChange={(event) => this.updateFirstPassword(event.target.value)}/><br/>
-        Confirm Password:<br/>
+        Confirm Password:*<br/>
         <input type="password" name="password"
                onChange={(event) => this.updateSecondPassword(event.target.value)}/><br/>
       </div>
@@ -100,41 +102,51 @@ class PasswordField extends React.Component {
 }
 
 
+// Switch this to economicEventById while testing since the createInactiveUser query isn't working'
+const CreateUser = createInactiveUser(({token,loading,error}) => {
+
+  if(loading){
+    console.log(loading);
+    return <h3>Loading...</h3>;
+  }else if (error){
+    console.log(error);
+    return <h3>ERROR!</h3>;
+  }
+  console.log(token);
+});
+
+
+
+
+
 class IndividualRegistration extends React.Component {
   private state = {
+    variables: {
+      email: "",
+      pswd: "",
+      username: ""
+    },
+  };
+
+  private vars = {
     email: undefined,
-    password: undefined,
-    username: undefined,
+    pswd: undefined,
+    username: undefined
   };
 
   handleClick = (event) => {
     event.preventDefault();
-    let allValid = this.state.email !== undefined
-      && this.state.password !== undefined
-      && this.state.username !== undefined;
+    let allValid = this.vars.email !== undefined
+      && this.vars.pswd !== undefined
+      && this.vars.username !== undefined;
+
 
 
     if (!allValid) {
       alert("Please enter correct information");
       return;
     }
-    let variables = {
-      email: this.state.email,
-      pswd: this.state.password,
-      username: this.state.username
-  };
-    variables.token = this.props.token;
-    console.log(this.props);
-    console.log("Starting");
-    console.log(this.props.mutate);
-    console.log(variables);
-    this.props.mutate({ variables }).then((response) => {
-      console.log("After mutation");
-      // let newUser = response.data.createInactiveUser.token;
-      // console.log(newUser);
-    }).catch((error) => {
-      console.log(error);
-    })
+    this.setState({variables: this.vars});
   };
 
 
@@ -147,10 +159,12 @@ class IndividualRegistration extends React.Component {
         <h1>Individual Registration</h1>
         <form id="form" onSubmit={this.handleClick}>
 
-          <UsernameField saveUsername={(usernameParam) => this.setState({username: usernameParam})}/>
-          <EmailField saveEmail={(emailParam) => this.setState({email: emailParam})}/>
+          <UsernameField saveUsername={(usernameParam) => this.vars.username=usernameParam}/>
+          <EmailField saveEmail={(emailParam) => this.vars.email=emailParam}/>
           <br/>
-          <PasswordField savePassword={(passwordParam) => this.setState({password: passwordParam})}/>
+          <PasswordField savePassword={(passwordParam) => this.vars.pswd=passwordParam}/>
+          {/*This is called everytime the state is updated, including the beginning*/}
+          <CreateUser username={this.state.variables.username} email={this.state.variables.email} password={this.state.variables.password} />
           <input type="submit" id="register" value="Create Account"/>
         </form>
       </div>
@@ -158,5 +172,4 @@ class IndividualRegistration extends React.Component {
   }
 }
 
-// export default createInactiveUser(IndividualRegistration);
-export default createInactiveUser(IndividualRegistration);
+export default IndividualRegistration;

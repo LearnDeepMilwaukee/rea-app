@@ -167,6 +167,6 @@ class CreateEconomicEvent extends React.Component {
 }
 
 // This step is different from queries. Queries are bound at runtime with the values needed,
-// but for mutation they must be bound at the beginning. The mutate() function is then returned
+// but for mutation they must be bound at the gbeginning. The mutate() function is then returned
 // which can be used to call the mutation at any point.
 export default createEconomicEvent(CreateEconomicEvent);
