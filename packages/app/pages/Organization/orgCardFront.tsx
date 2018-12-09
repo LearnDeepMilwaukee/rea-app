@@ -2,25 +2,29 @@
 import has = Reflect.has;
 import * as React from "react";
 import * as themable from "react-themeable";
-import theme from "./cardStyle.scss";
+import * as theme from "./cardStyle.scss";
+// import '';
 
 
-var curr_theme = themable(theme);
 
 class CardFront extends React.Component {
+
+
   render() {
+    let curr_theme = themable(theme);
+
     return(
-      <div className='card-container'>
+      <div {...curr_theme(0,".card")} className='card-container'>
       <div className='card-body'>
       <div className='card-side side-front'>
       <div className='container-fluid'>
       <div className='row'>
       <div className='col-xs-6'>
-      <img src='https://source.unsplash.com/w8YICpz1I10/358x458' />
+      {/*<img src='https://source.unsplash.com/w8YICpz1I10/358x458' />*/}
         </div>
 
         <div className='col-xs-6 side-front-content'>
-      <h2 {...curr_theme(0,"h2")}>Czech based</h2>
+      <h2 >Czech based</h2>
 
     <h1>UI/UX Designer</h1>
 
