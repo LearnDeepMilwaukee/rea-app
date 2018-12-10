@@ -29,6 +29,7 @@ import orgEdit from "./pages/Edit/organizationEdit";
 import OrganizationRegistration from "./pages/Registration/organizationRegistration";
 import IndividualRegistration from "./pages/Registration/individualRegistration";
 import CardFront from "./pages/Organization/orgCardFront";
+import SearchResults from "./pages/Organization/searchResults";
 import Card from "./pages/Organization/orgCard"
 
 const routes = (
@@ -41,7 +42,7 @@ const routes = (
       <Route path="individual" component={IndividualRegistration} />
     </Route>
 
-    <Route path="search" component={CardFront}/>
+    <Route path="search" component={SearchResults}/>
 
     <Route path="tasks" component={Todo}>
       <IndexRedirect to="my-tasks" />
