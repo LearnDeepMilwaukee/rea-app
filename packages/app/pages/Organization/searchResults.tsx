@@ -27,9 +27,13 @@ class SearchResults extends React.Component {
         username: "JBees",
         email: "BeckettJ@yourarea.com"
       }]
-    const CardList = ({ cards }) => {
-      const cardsArray = cards.map(card => (
-        <CardFront/>
+    const CardList = ({ cardData }) => {
+      const cardsArray = cardData.map(card => (
+        <CardFront
+        h1={card.name}
+        p1={card.username}
+        p2={card.email}
+        />
       ));
 
       return (
@@ -42,7 +46,7 @@ class SearchResults extends React.Component {
     return(
       <div {...curr_theme(0,".card")} className='card-container'>
         <div>
-          <CardList cards={cards} />
+          <CardList cardData={cards} />
         </div>
       </div>
     )

@@ -20,15 +20,14 @@ class CardFront extends React.Component {
       <div className='container-fluid'>
       <div className='row'>
       <div className='col-xs-6'>
-      <img src='https://source.unsplash.com/w8YICpz1I10/358x458' />
         </div>
 
         <div className='col-xs-6 side-front-content'>
-      <h2 >Czech based</h2>
-    <h1>UI/UX Designer</h1>
-    <p>Andrey is driven by turning ideas into scalable and and empowering experiences that solve real life problems.</p>
-    <p>He is currently the founder of Dvorak Media. Previously, Andrey was a product designer at Dropbox.</p>
-    <p>Over the years, Michael has been priviledged to have worked with Adobe, Evernote, Square and more.</p>
+      <h2 id="h2">Czech based</h2>
+    <h1 id="h1">UI/UX Designer</h1>
+    <p id="p1">Andrey is driven by turning ideas into scalable and and empowering experiences that solve real life problems.</p>
+    <p id="p2">He is currently the founder of Dvorak Media. Previously, Andrey was a product designer at Dropbox.</p>
+    <p id="p3">Over the years, Michael has been priviledged to have worked with Adobe, Evernote, Square and more.</p>
     </div>
     </div>
     </div>
