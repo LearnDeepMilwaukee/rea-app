@@ -5,9 +5,8 @@
 
 import * as React from "react";
 import createUserPerson from "../../../ui-bindings/user/CreateUserPerson.tsx";
-
 import * as EmailValidator from "email-validator";
-
+//TODO This is causing a API error somewhere
 
 class EmailField extends React.Component {
   private state = {
@@ -22,7 +21,6 @@ class EmailField extends React.Component {
   };
 
   onChange = (value) => {
-    //TODO Check if email is already in backend
     if (this.validEmail(value)) {
       this.setState({value: value});
       this.props.saveEmail(value);
@@ -53,7 +51,6 @@ class UsernameField extends React.Component {
 
   };
 
-// Have to check to see if this username already exists?
   render() {
     return (
       <div>
@@ -99,7 +96,7 @@ class PasswordField extends React.Component {
     );
   }
 }
-const CreateUserQuery = createUserPerson(({token,loading,error}) => {
+const CreateUserQuery = createUserPerson(({createUserPerson,loading,error}) => {
 
   if(loading){
     console.log(loading);
@@ -108,24 +105,27 @@ const CreateUserQuery = createUserPerson(({token,loading,error}) => {
     console.log(error);
     return <h3>ERROR!</h3>;
   }
-  console.log(token);
+  console.log("Create User Person query resposne");
+  console.log(createUserPerson);
+  console.log("End response");
 });
 
-// Switch this to economicEventById while testing since the createInactiveUser query isn't working'
 class CreateUser extends React.Component {
   render() {
     var element;
     if (this.props.userEntered) {
-      console.log("running");
-      element = <CreateUserQuery username={this.props.username} email={this.props.email} password={this.props.password}
-                                 name={this.props.name}/>
+      console.log(this.props);
+      element = <CreateUserQuery username={this.props.username} email={this.props.email} pswd={this.props.pswd}
+                                 name={this.props.name} token = {ENTER_TOKEN_HERE} image={this.props.image}/>
     }
-      return (
-        <div>{element}</div>
-      );
+    console.log(element);
+//This is giving a warning, but the query isn't fully executed otherwise.
+    return (
+      {element}
+    );
     }
   }
-}
+
 
 
 
@@ -133,37 +133,27 @@ class CreateUser extends React.Component {
 
 class IndividualRegistration extends React.Component {
   private state = {
-    variables: {
       email: "",
       pswd: "",
       username: "",
       name: "",
+      image: "",
       userRan: false
-    },
   };
 
-  private vars = {
-    email: undefined,
-    pswd: undefined,
-    username: undefined,
-    name: "",
-    userRan: false
-  };
 
   handleClick = (event) => {
     event.preventDefault();
-    let allValid = this.vars.email !== undefined
-      && this.vars.pswd !== undefined
-      && this.vars.username !== undefined;
-
-    this.vars.userRan = true;
+    let allValid = this.state.email !== undefined
+      && this.state.pswd !== undefined
+      && this.state.username !== undefined;
+    this.setState({userRan: true});
 
 
     if (!allValid) {
       alert("Please enter correct information");
       return;
     }
-    this.setState({variables: this.vars});
   };
 
 
@@ -176,11 +166,11 @@ class IndividualRegistration extends React.Component {
         <h1>Individual Registration</h1>
         <form id="form" onSubmit={this.handleClick}>
 
-          <UsernameField saveUsername={(usernameParam) => this.vars.username=usernameParam}/>
-          <EmailField saveEmail={(emailParam) => this.vars.email=emailParam}/>
+          <UsernameField saveUsername={(usernameParam) => this.state.username=usernameParam}/>
+          <EmailField saveEmail={(emailParam) => this.state.email=emailParam}/>
           <br/>
-          <PasswordField savePassword={(passwordParam) => this.vars.pswd=passwordParam}/>
-          <CreateUser userEntered = {this.state.variables.userRan} username={this.state.variables.username} email={this.state.variables.email} password={this.state.variables.password} name={this.state.variables.name} />
+          <PasswordField savePassword={(passwordParam) => this.state.pswd=passwordParam}/>
+          <CreateUser userEntered = {this.state.userRan} username={this.state.username} email={this.state.email} pswd={this.state.pswd} name={this.state.name} image={this.state.image}/>
           <input type="submit" id="register" value="Create Account"/>
         </form>
       </div>

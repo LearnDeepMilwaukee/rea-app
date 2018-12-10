@@ -21,11 +21,12 @@ export const query = gql`
 `;
 
 export default compose(
-  graphql(query, {
+    graphql(query, {
     // read query vars into query from input data above
 
     options: (props) => (
       {
+
         variables: {
           token: props.token,
           username: props.username,
@@ -45,7 +46,7 @@ export default compose(
           error
         }
       }) => ({
-        token: viewer ? viewer.token : null,
+        createUserPerson: viewer ? viewer.createUserPerson : null,
         loading,
         error
       }
