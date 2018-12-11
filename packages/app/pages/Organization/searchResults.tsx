@@ -17,23 +17,19 @@ class SearchResults extends React.Component {
     const cards = [
       {
         id: 1,
-        name: "Leanne Graham",
+        h1: "Leanne Graham",
         username: "Bret",
         email: "Sincere@april.biz"
       },
       {
         id: 2,
-        name: "Joe Beckett",
+        h1: "Joe Beckett",
         username: "JBees",
         email: "BeckettJ@yourarea.com"
       }]
     const CardList = ({ cardData }) => {
       const cardsArray = cardData.map(card => (
-        <CardFront
-        h1={card.name}
-        p1={card.username}
-        p2={card.email}
-        />
+        <CardFront card={card}/>
       ));
 
       return (
