@@ -10,49 +10,30 @@ import { Link } from "react-router";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
 import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOrganizationTypes.js";
 
-// class Popup extends React.Component {
-//
-//   state = {
-//     showModal: (this.props.orgId !== undefined)
-//   };
-//
-//   render() {
-//     let id = this.props.orgId;
-//     let url = "/projects/" + id;
-//
-//     return (
-//       <div>
-//         <Modal
-//           isOpen={id}
-//           style={this.wizardModalStyle}
-//           onRequestClose={() => this.setState({showModal: false})}
-//         >
-//           <div>
-//             <div>
-//               <button><Link to={url}>[ X ]</Link></button>
-//             </div>
-//
-//             <h1>You're All Set!</h1>
-//             <p>You have successfully registered your organization.</p>
-//             <button><Link to={url}>Organization Homepage</Link></button>
-//           </div>
-//         </Modal>
-//
-//       </div>
-//     );
-//   }
-// }
-
 class Registration extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      name: undefined, // Required
+      type: undefined, // Required
+      logo: undefined,
+      banner: undefined, // TODO:  Not yet used because of missing backend implementation
+      description: undefined,
+      newOrganizationID: undefined,
+      modalIsOpen: false
+    };
 
-  public state = {
-    name: undefined, // Required
-    type: undefined, // Required
-    logo: undefined,
-    banner: undefined, // TODO:  Not yet used because of missing backend implementation
-    description: undefined,
-    newOrganizationID: undefined
-  };
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+  }
+
+  openModal() {
+    this.setState({modalIsOpen: true});
+  }
+
+  closeModal() {
+    this.setState({modalIsOpen: false});
+  }
 
   getRegistrationJSON = (event) => {
     event.preventDefault();
@@ -86,6 +67,7 @@ class Registration extends React.Component {
         if (newOrganization) {
           console.log(newOrganization);
           this.setState({newOrganizationID: newOrganization,});
+          this.openModal();
         }
       }).catch((error) => {
         console.log(error);
@@ -97,9 +79,15 @@ class Registration extends React.Component {
   render() {
     return (
       <div>
-
-        {/*<Popup orgId={this.state.newOrganizationID ? this.state.newOrganizationID : undefined}/>*/}
-
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onRequestClose={this.closeModal}
+        >
+          <Link
+            to={"/projects/" + this.state.newOrganizationID}
+          >Take me there!
+          </Link>
+        </Modal>
         <h1>Organization Registration</h1>
 
         <form id="form" onSubmit={this.getRegistrationJSON}>
