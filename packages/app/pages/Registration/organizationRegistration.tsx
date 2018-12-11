@@ -1,13 +1,47 @@
 /**
  * @author Aaron Murphy <murphyad@msoe.edu>
  */
+
 import * as React from "react";
 import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration.scss";
-import { Redirect, Router } from "react-router-dom";
-import createBrowserHistory from "history/createBrowserHistory";
+import * as Modal from "react-modal";
+import { Link } from "react-router";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
 import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOrganizationTypes.js";
+
+// class Popup extends React.Component {
+//
+//   state = {
+//     showModal: (this.props.orgId !== undefined)
+//   };
+//
+//   render() {
+//     let id = this.props.orgId;
+//     let url = "/projects/" + id;
+//
+//     return (
+//       <div>
+//         <Modal
+//           isOpen={id}
+//           style={this.wizardModalStyle}
+//           onRequestClose={() => this.setState({showModal: false})}
+//         >
+//           <div>
+//             <div>
+//               <button><Link to={url}>[ X ]</Link></button>
+//             </div>
+//
+//             <h1>You're All Set!</h1>
+//             <p>You have successfully registered your organization.</p>
+//             <button><Link to={url}>Organization Homepage</Link></button>
+//           </div>
+//         </Modal>
+//
+//       </div>
+//     );
+//   }
+// }
 
 class Registration extends React.Component {
 
@@ -15,10 +49,9 @@ class Registration extends React.Component {
     name: undefined, // Required
     type: undefined, // Required
     logo: undefined,
-    banner: undefined,
+    banner: undefined, // TODO:  Not yet used because of missing backend implementation
     description: undefined,
-    newOrganizationID: undefined,
-    redirect: false
+    newOrganizationID: undefined
   };
 
   getRegistrationJSON = (event) => {
@@ -43,16 +76,16 @@ class Registration extends React.Component {
         image: this.state.logo,
         note: this.state.description
         // primaryLocationId: TODO
+        // TODO add banner field
       };
       variables.token = this.props.token; // add the token in afterwards
 
       // perform the mutation
       this.props.mutate({variables}).then((response) => {
         let newOrganization = response.data.createOrganization.organization.id;
-
         if (newOrganization) {
           console.log(newOrganization);
-          this.setState({newOrganizationID: newOrganization, redirect: true});
+          this.setState({newOrganizationID: newOrganization,});
         }
       }).catch((error) => {
         console.log(error);
@@ -62,27 +95,11 @@ class Registration extends React.Component {
 
   // Draws all of the components on the screen
   render() {
-    const newHistory = createBrowserHistory();
-    if (this.state.redirect === true) {
-      console.log("/projects/" + this.state.newOrganizationID);
-      return (
-        <div>
-          <Router history={newHistory}>
-
-          <Redirect
-            to={{
-            pathname: "/projects/" + this.state.newOrganizationID,
-            state: { from: this.props.location}
-            }}
-            push={true}
-          />
-          </Router>
-        </div>
-      );
-    }
-
     return (
       <div>
+
+        {/*<Popup orgId={this.state.newOrganizationID ? this.state.newOrganizationID : undefined}/>*/}
+
         <h1>Organization Registration</h1>
 
         <form id="form" onSubmit={this.getRegistrationJSON}>
@@ -93,9 +110,9 @@ class Registration extends React.Component {
           <br/>
           <OrganizationLogoField saveOrgLogo={(logo) => this.setState({logo})}/>
           <br/>
-          <OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>
-          <br/>
-          <OrganizationDescriptionField saveOrgDescription={(description) => this.setState({descripiton})}/>
+          {/*<OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>*/}
+          {/*<br/>*/}
+          <OrganizationDescriptionField saveOrgDescription={(description) => this.setState({description})}/>
           <br/>
           *required
           <br/>
@@ -106,6 +123,7 @@ class Registration extends React.Component {
     );
   }
 }
+
 class OrganizationNameField extends React.Component {
 
   state = {
