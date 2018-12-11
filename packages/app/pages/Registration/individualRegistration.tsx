@@ -5,8 +5,8 @@
 
 import * as React from "react";
 import createUserPerson from "../../../ui-bindings/user/CreateUserPerson.tsx";
+import userEmailExist from "../../../ui-bindings/user/UserEmailExists.tsx";
 import * as EmailValidator from "email-validator";
-//TODO This is causing a API error somewhere
 
 class EmailField extends React.Component {
   private state = {
@@ -70,7 +70,6 @@ class PasswordField extends React.Component {
     this.setState({passwordOne: value}, () => {
       if (this.state.passwordOne === this.state.passwordTwo) {
         this.props.savePassword(value);
-
       }
     });
 
@@ -96,49 +95,58 @@ class PasswordField extends React.Component {
     );
   }
 }
-const CreateUserQuery = createUserPerson(({createUserPerson,loading,error}) => {
+const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
 
-  if(loading){
-    console.log(loading);
-    return <h3>Loading...</h3>;
-  }else if (error){
-    console.log(error);
+  if (loading) {
+    console.log("Loading " + loading);
+    // return <h3>Loading...</h3>;
+  } else if (error) {
+    console.log("Error: " + error);
     return <h3>ERROR!</h3>;
   }
-  console.log("Create User Person query resposne");
-  console.log(createUserPerson);
+  console.log("Email Exists query resposne");
+  console.log(emailExists);
   console.log("End response");
+  return emailExists;
+
 });
 
+const CreateUserQuery = createUserPerson(({createUserPerson, error}) => {
+  if (error) {
+    console.log(error.options);
+    return error;
+  }
+  return createUserPerson;
+});
+
+
+
 class CreateUser extends React.Component {
+
   render() {
-    var element;
+    let element;
+    //TODO Check here if email exists
+    //TODO Figure out how we will get the token
     if (this.props.userEntered) {
-      console.log(this.props);
       element = <CreateUserQuery username={this.props.username} email={this.props.email} pswd={this.props.pswd}
-                                 name={this.props.name} token = {ENTER_TOKEN_HERE} image={this.props.image}/>
+                                 name={this.props.name} token={ENTER_TOKEN_HERE} image={this.props.image}/>
     }
-    console.log(element);
 //This is giving a warning, but the query isn't fully executed otherwise.
     return (
-      {element}
+      <div>{element}</div>
     );
-    }
   }
-
-
-
-
+}
 
 
 class IndividualRegistration extends React.Component {
   private state = {
-      email: "",
-      pswd: "",
-      username: "",
-      name: "",
-      image: "",
-      userRan: false
+    email: "",
+    pswd: "",
+    username: "",
+    name: "",
+    image: "",
+    userRan: false
   };
 
 
@@ -156,9 +164,10 @@ class IndividualRegistration extends React.Component {
     }
   };
 
-
-  // TODO Add verification that no account with this email exists
-  // TODO If an account with this email doesn't exist, create a new one
+  setNames = (nameParam) => {
+    this.state.username = nameParam;
+    this.state.name = nameParam;
+  };
 
   render() {
     return (
@@ -166,11 +175,12 @@ class IndividualRegistration extends React.Component {
         <h1>Individual Registration</h1>
         <form id="form" onSubmit={this.handleClick}>
 
-          <UsernameField saveUsername={(usernameParam) => this.state.username=usernameParam}/>
-          <EmailField saveEmail={(emailParam) => this.state.email=emailParam}/>
+          <UsernameField saveUsername={(nameParam) => this.setNames(nameParam)}/>
+          <EmailField saveEmail={(emailParam) => this.state.email = emailParam}/>
           <br/>
-          <PasswordField savePassword={(passwordParam) => this.state.pswd=passwordParam}/>
-          <CreateUser userEntered = {this.state.userRan} username={this.state.username} email={this.state.email} pswd={this.state.pswd} name={this.state.name} image={this.state.image}/>
+          <PasswordField savePassword={(passwordParam) => this.state.pswd = passwordParam}/>
+          <CreateUser userEntered={this.state.userRan} username={this.state.username} email={this.state.email}
+                      pswd={this.state.pswd} name={this.state.name} image={this.state.image}/>
           <input type="submit" id="register" value="Create Account"/>
         </form>
       </div>

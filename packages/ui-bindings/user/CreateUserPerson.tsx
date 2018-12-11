@@ -42,13 +42,11 @@ export default compose(
       {
         data: {
           viewer,
-          loading,
-          error
+          error,
         }
       }) => ({
         createUserPerson: viewer ? viewer.createUserPerson : null,
-        loading,
-        error
+        error,
       }
     ),
   })
