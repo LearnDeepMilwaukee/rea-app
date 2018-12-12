@@ -14,7 +14,7 @@ import {AppState} from "@vflows/store/types.js";
 export const query = gql`
   query($token: String!, $email: String!) {
     viewer(token: $token) {
-      emailExist(email: $email)
+      emailExists(email: $email)
     }
   }
 `;

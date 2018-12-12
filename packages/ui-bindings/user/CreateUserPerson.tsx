@@ -45,7 +45,7 @@ export default compose(
           error,
         }
       }) => ({
-        createUserPerson: viewer ? viewer.createUserPerson : null,
+        createUserPersonVar: viewer ? viewer.createUserPerson : null,
         error,
       }
     ),

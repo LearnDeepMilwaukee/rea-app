@@ -8,6 +8,7 @@ import createUserPerson from "../../../ui-bindings/user/CreateUserPerson.tsx";
 import userEmailExist from "../../../ui-bindings/user/UserEmailExists.tsx";
 import * as EmailValidator from "email-validator";
 
+
 class EmailField extends React.Component {
   private state = {
     valid: true,
@@ -40,7 +41,7 @@ class EmailField extends React.Component {
 }
 
 class UsernameField extends React.Component {
-  private state = {
+  public state = {
     value: ""
   };
 
@@ -95,47 +96,63 @@ class PasswordField extends React.Component {
     );
   }
 }
+
 const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
 
   if (loading) {
     console.log("Loading " + loading);
-    // return <h3>Loading...</h3>;
   } else if (error) {
     console.log("Error: " + error);
     return <h3>ERROR!</h3>;
   }
-  console.log("Email Exists query resposne");
-  console.log(emailExists);
-  console.log("End response");
   return emailExists;
 
 });
 
-const CreateUserQuery = createUserPerson(({createUserPerson, error}) => {
-  if (error) {
-    console.log(error.options);
-    return error;
+
+function CheckEmail(props) {
+  let element;
+  if (props.email) {
+    element = <EmailExistsQuery email={props.email}
+                                token={"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJSZWdpc3RyYXRpb24iLCJpYXQiOjE1NDQ1ODcwNzEsInBhc3N3b3JkIjoiOTg0OGMxOTM0NzkxZTMzZDAzYmFkNzdhYzUxOTMxM2NlYTQzMWQ1ZCIsImlkIjo3fQ.HAaJruKV-9u7gvmDNM46HKKsm7lzbmIZyFss7f-Q6uY"}/>;
+    console.log("Email exists is: " + element.toString());
   }
-  return createUserPerson;
+  return (
+    <div>{element}</div>
+  );
+}
+
+const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
+
+  if (error) {
+    console.log({error});
+    //TODO Add better error handling here
+    return <p>error</p>;
+  }
+  else if (createUserPersonVar != null) {
+    return <p>{createUserPersonVar.split(',')[0]}</p>
+  } else {
+    return <p>{createUserPersonVar}</p>;
+  }
 });
 
 
+function CreateUser(props) {
 
-class CreateUser extends React.Component {
+  let element;
+  //TODO Check here if email exists
+  //TODO Figure out how we will get the token
 
-  render() {
-    let element;
-    //TODO Check here if email exists
-    //TODO Figure out how we will get the token
-    if (this.props.userEntered) {
-      element = <CreateUserQuery username={this.props.username} email={this.props.email} pswd={this.props.pswd}
-                                 name={this.props.name} token={ENTER_TOKEN_HERE} image={this.props.image}/>
-    }
-//This is giving a warning, but the query isn't fully executed otherwise.
-    return (
-      <div>{element}</div>
-    );
+  if (props.userEntered && !props.emailExists) {
+    element = <CreateUserQuery username={props.username} email={props.email} pswd={props.pswd}
+                               name={props.name}
+                               token={"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJSZWdpc3RyYXRpb24iLCJpYXQiOjE1NDQ1ODcwNzEsInBhc3N3b3JkIjoiOTg0OGMxOTM0NzkxZTMzZDAzYmFkNzdhYzUxOTMxM2NlYTQzMWQ1ZCIsImlkIjo3fQ.HAaJruKV-9u7gvmDNM46HKKsm7lzbmIZyFss7f-Q6uY"}
+                               image={props.image}/>
+
   }
+  return (
+    <div>{element}</div>
+  );
 }
 
 
@@ -177,9 +194,11 @@ class IndividualRegistration extends React.Component {
 
           <UsernameField saveUsername={(nameParam) => this.setNames(nameParam)}/>
           <EmailField saveEmail={(emailParam) => this.state.email = emailParam}/>
+          <CheckEmail email={this.state.email}/>
           <br/>
           <PasswordField savePassword={(passwordParam) => this.state.pswd = passwordParam}/>
-          <CreateUser userEntered={this.state.userRan} username={this.state.username} email={this.state.email}
+          <CreateUser userEntered={this.state.userRan}
+                      username={this.state.username} email={this.state.email}
                       pswd={this.state.pswd} name={this.state.name} image={this.state.image}/>
           <input type="submit" id="register" value="Create Account"/>
         </form>
