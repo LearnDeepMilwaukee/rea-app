@@ -14,9 +14,19 @@ class SearchResults extends React.Component {
 
 
   render() {
+    // const CardList = ({ cardData }) => {
+    //   const cardsArray = cardData.map(card => (
+    //     <CardFront card={card}/>
+    //   ));
+    //
+    //   return (
+    //     <div>
+    //       {cardsArray}
+    //     </div>
+    //   );
+    // };
 
-
-    orgs = getAllOrganizations(({ organizationList, loading, error}) => {
+    const OrgList = getAllOrganizations(({ organizationList, loading, error}) => {
 
       if (loading) {
         return(
@@ -27,9 +37,12 @@ class SearchResults extends React.Component {
           <p style={{color: "#F00"}}>API error</p>
         );
       } else {
+        const cardsArray = organizationList.map(card => (
+          <CardFront card={card}/>
+        ));
         return(
           <div>
-            {concatArray(organizationList)}
+            {cardsArray}
           </div>
         );
       }
@@ -49,22 +62,12 @@ class SearchResults extends React.Component {
         username: "JBees",
         email: "BeckettJ@yourarea.com"
       }]
-    const CardList = ({ cardData }) => {
-      const cardsArray = cardData.map(card => (
-        <CardFront card={card}/>
-      ));
 
-      return (
-        <div>
-          {cardsArray}
-        </div>
-      );
-    };
 
     return(
       <div {...curr_theme(0,".card")} className='card-container'>
         <div>
-          <CardList cardData={cards} />
+          <OrgList cardData={cards} />
         </div>
       </div>
     )

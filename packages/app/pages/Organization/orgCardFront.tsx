@@ -12,8 +12,10 @@ class CardFront extends React.Component {
 
   render() {
     let curr_theme = themable(theme);
-    let card = this.props.card;
-    let h1 = card.h1;
+    let org = this.props.card;
+    let name = org.name;
+    let type = org.type;
+    let note = org.note;
 
     return(
       <div {...curr_theme(0,".card")} className='card-container'>
@@ -25,9 +27,9 @@ class CardFront extends React.Component {
         </div>
 
         <div className='col-xs-6 side-front-content'>
-      <h2 id="h2">Czech based</h2>
-    <h1 id="h1">{h1}</h1>
-    <p id="p1">Andrey is driven by turning ideas into scalable and and empowering experiences that solve real life problems.</p>
+    <h1 id="name">{name}</h1>
+    <h2 id="type">{type}</h2>
+    <p id="note">{note}</p>
     <p id="p2">He is currently the founder of Dvorak Media. Previously, Andrey was a product designer at Dropbox.</p>
     <p id="p3">Over the years, Michael has been priviledged to have worked with Adobe, Evernote, Square and more.</p>
     </div>
