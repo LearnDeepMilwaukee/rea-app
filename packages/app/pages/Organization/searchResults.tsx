@@ -3,7 +3,9 @@ import has = Reflect.has;
 import * as React from "react";
 import * as themable from "react-themeable";
 import CardFront from  "./orgCardFront";
-import * as theme from "./cardStyle.scss";
+import * as cardTheme from "./cardStyle.scss";
+import * as pageTheme from "./searchStyle.scss";
+
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
 
 
@@ -14,61 +16,38 @@ class SearchResults extends React.Component {
 
 
   render() {
-    // const CardList = ({ cardData }) => {
-    //   const cardsArray = cardData.map(card => (
-    //     <CardFront card={card}/>
-    //   ));
-    //
-    //   return (
-    //     <div>
-    //       {cardsArray}
-    //     </div>
-    //   );
-    // };
+
+    let card_theme = themable(cardTheme);
+    let page_theme = themable(pageTheme);
 
     const OrgList = getAllOrganizations(({ organizationList, loading, error}) => {
 
       if (loading) {
         return(
-          <strong>Loading...</strong>
-        );
-      } else if (error) {
+              <strong>Loading...</strong>
+            );
+    } else if (error) {
         return(
           <p style={{color: "#F00"}}>API error</p>
         );
-      } else {
+    } else {
         const cardsArray = organizationList.map(card => (
           <CardFront card={card}/>
         ));
         return(
           <div>
-            {cardsArray}
+            <div>{cardsArray}</div>
           </div>
         );
-      }
+    }
     });
 
-    let curr_theme = themable(theme);
-    const cards = [
-      {
-        id: 1,
-        h1: "Leanne Graham",
-        username: "Bret",
-        email: "Sincere@april.biz"
-      },
-      {
-        id: 2,
-        h1: "Joe Beckett",
-        username: "JBees",
-        email: "BeckettJ@yourarea.com"
-      }]
-
-
     return(
-      <div {...curr_theme(0,".card")} className='card-container'>
-        <div>
-          <OrgList cardData={cards} />
-        </div>
+      <div {...page_theme(0,".page")} className='hcontainer'>
+        <span><div>Am I a sidebar?</div>
+        <div {...card_theme(1,".card")} className='card-container'>
+          <OrgList cardData={} />
+        </div></span>
       </div>
     )
   }
