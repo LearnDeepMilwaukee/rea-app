@@ -12,7 +12,6 @@ import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOr
 
 class Registration extends React.Component {
   constructor() {
-    super();
     this.state = {
       name: undefined, // Required
       type: undefined, // Required
@@ -77,11 +76,13 @@ class Registration extends React.Component {
 
   // Draws all of the components on the screen
   render() {
+    let currentTheme = themeable(theme);
     return (
       <div>
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
+          {...currentTheme(0, "popup")}
         >
           <Link
             to={"/projects/" + this.state.newOrganizationID}
