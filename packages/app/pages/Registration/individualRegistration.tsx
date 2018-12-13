@@ -124,7 +124,7 @@ function CheckEmail(props) {
   let element;
   if (props.email) {
     element = <EmailExistsQuery email={props.email}
-                                token={"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJSZWdpc3RyYXRpb24iLCJpYXQiOjE1NDQ1ODcwNzEsInBhc3N3b3JkIjoiOTg0OGMxOTM0NzkxZTMzZDAzYmFkNzdhYzUxOTMxM2NlYTQzMWQ1ZCIsImlkIjo3fQ.HAaJruKV-9u7gvmDNM46HKKsm7lzbmIZyFss7f-Q6uY"}/>;
+                                token={ENTER TOKEN HERE}/>;
     console.log("Email exists is: " + element.toString());
   }
   return (
@@ -156,7 +156,7 @@ function CreateUser(props) {
   if (props.userEntered && !props.emailExists && props.allValid) {
     element = <CreateUserQuery username={props.username} email={props.email} pswd={props.pswd}
                                name={props.name}
-                               token={"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJSZWdpc3RyYXRpb24iLCJpYXQiOjE1NDQ1ODcwNzEsInBhc3N3b3JkIjoiOTg0OGMxOTM0NzkxZTMzZDAzYmFkNzdhYzUxOTMxM2NlYTQzMWQ1ZCIsImlkIjo3fQ.HAaJruKV-9u7gvmDNM46HKKsm7lzbmIZyFss7f-Q6uY"}
+                               token={ENTER TOKEN HERE}
                                image={props.image}/>
 
   }
