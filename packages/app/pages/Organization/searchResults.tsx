@@ -19,6 +19,9 @@ class SearchResults extends React.Component {
 
     let card_theme = themable(cardTheme);
     let page_theme = themable(pageTheme);
+    let search = new URLSearchParams(this.props.location.search);
+    let orgname = search.get("searchParams");
+    console.log("Params:"+orgname);
 
     const OrgList = getAllOrganizations(({ organizationList, loading, error}) => {
 
@@ -31,7 +34,14 @@ class SearchResults extends React.Component {
           <p style={{color: "#F00"}}>API error</p>
         );
     } else {
-        const cardsArray = organizationList.map(card => (
+        let filteredOrgs = [];
+        for(let org of organizationList){
+            if (org.name.includes(orgname)){
+              filteredOrgs.push(org);
+              console.log("Matching Org: " + org.name);
+            }
+        }
+        const cardsArray = filteredOrgs.map(card => (
           <CardFront card={card}/>
         ));
         return(
@@ -44,7 +54,7 @@ class SearchResults extends React.Component {
 
     return(
       <div {...page_theme(0,".page")} className='hcontainer'>
-        <span><div>Am I a sidebar?</div>
+        <span><div> </div>
         <div {...card_theme(1,".card")} className='card-container'  display="inline-block">
           <OrgList cardData={} />
         </div></span>
