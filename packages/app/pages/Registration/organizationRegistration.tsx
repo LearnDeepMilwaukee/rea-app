@@ -12,6 +12,9 @@ import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOr
 
 class Registration extends React.Component {
   constructor() {
+
+    super();
+
     this.state = {
       name: undefined, // Required
       type: undefined, // Required
@@ -78,34 +81,52 @@ class Registration extends React.Component {
   render() {
     let currentTheme = themeable(theme);
     return (
-      <div>
+      <div
+        {...currentTheme(0, "registrationPage")}
+      >
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
-          {...currentTheme(0, "popup")}
+          {...currentTheme(1, "popup")}
         >
           <Link
             to={"/projects/" + this.state.newOrganizationID}
           >Take me there!
           </Link>
         </Modal>
-        <h1>Organization Registration</h1>
+        <h1>Register a new organization</h1>
 
-        <form id="form" onSubmit={this.getRegistrationJSON}>
+        <form
+          id="form"
+          onSubmit={this.getRegistrationJSON}
+          {...currentTheme(2, "registrationForm")}
+        >
 
-          <OrganizationNameField saveOrgName={(name) => this.setState({name})}/>
+          <OrganizationNameField
+            saveOrgName={(name) => this.setState({name})}
+          />
           <br/>
-          <OrganizationTypeField saveOrgType={(type) => this.setState({type})}/>
+          <OrganizationTypeField
+            saveOrgType={(type) => this.setState({type})}
+          />
           <br/>
-          <OrganizationLogoField saveOrgLogo={(logo) => this.setState({logo})}/>
+          <OrganizationLogoField
+            saveOrgLogo={(logo) => this.setState({logo})}
+          />
           <br/>
           {/*<OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>*/}
           {/*<br/>*/}
-          <OrganizationDescriptionField saveOrgDescription={(description) => this.setState({description})}/>
+          <OrganizationDescriptionField
+            saveOrgDescription={(description) => this.setState({description})}
+          />
           <br/>
           *required
           <br/>
-          <input type="submit" id="submit" value="Register"/>
+          <input
+            type="submit"
+            id="submit"
+            value="Register"
+          />
         </form>
 
       </div>
