@@ -45,7 +45,7 @@ class SearchResults extends React.Component {
     return(
       <div {...page_theme(0,".page")} className='hcontainer'>
         <span><div>Am I a sidebar?</div>
-        <div {...card_theme(1,".card")} className='card-container'>
+        <div {...card_theme(1,".card")} className='card-container'  display="inline-block">
           <OrgList cardData={} />
         </div></span>
       </div>
