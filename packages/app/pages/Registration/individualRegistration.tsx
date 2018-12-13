@@ -15,17 +15,22 @@ class EmailField extends React.Component {
     value: ""
   };
 
-  validEmail = (email) => {
-    let valid = EmailValidator.validate(email);
-    this.setState({valid: valid});
-    return valid;
-  };
+
 
   onChange = (value) => {
-    if (this.validEmail(value)) {
-      this.setState({value: value});
-      this.props.saveEmail(value);
+    let valid = EmailValidator.validate(value);
+    this.setState({valid: valid});
+    if(!valid){
+      this.setState({value: ""});
+
+      this.props.saveEmail("");
     }
+    else{
+      this.props.saveEmail(value);
+
+    }
+
+
   };
 
   render() {
@@ -72,6 +77,9 @@ class PasswordField extends React.Component {
       if (this.state.passwordOne === this.state.passwordTwo) {
         this.props.savePassword(value);
       }
+      else{
+        this.props.savePassword("");
+      }
     });
 
   };
@@ -79,7 +87,9 @@ class PasswordField extends React.Component {
     this.setState({passwordTwo: value}, () => {
       if (this.state.passwordOne === this.state.passwordTwo) {
         this.props.savePassword(value);
-
+      }
+      else{
+        this.props.savePassword("");
       }
     });
   };
@@ -114,7 +124,7 @@ function CheckEmail(props) {
   let element;
   if (props.email) {
     element = <EmailExistsQuery email={props.email}
-                                token={""}/>;
+                                token={"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJSZWdpc3RyYXRpb24iLCJpYXQiOjE1NDQ1ODcwNzEsInBhc3N3b3JkIjoiOTg0OGMxOTM0NzkxZTMzZDAzYmFkNzdhYzUxOTMxM2NlYTQzMWQ1ZCIsImlkIjo3fQ.HAaJruKV-9u7gvmDNM46HKKsm7lzbmIZyFss7f-Q6uY"}/>;
     console.log("Email exists is: " + element.toString());
   }
   return (
@@ -143,10 +153,10 @@ function CreateUser(props) {
   //TODO Check here if email exists
   //TODO Figure out how we will get the token
 
-  if (props.userEntered && !props.emailExists) {
+  if (props.userEntered && !props.emailExists && props.allValid) {
     element = <CreateUserQuery username={props.username} email={props.email} pswd={props.pswd}
                                name={props.name}
-                               token={""}
+                               token={"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJSZWdpc3RyYXRpb24iLCJpYXQiOjE1NDQ1ODcwNzEsInBhc3N3b3JkIjoiOTg0OGMxOTM0NzkxZTMzZDAzYmFkNzdhYzUxOTMxM2NlYTQzMWQ1ZCIsImlkIjo3fQ.HAaJruKV-9u7gvmDNM46HKKsm7lzbmIZyFss7f-Q6uY"}
                                image={props.image}/>
 
   }
@@ -163,23 +173,25 @@ class IndividualRegistration extends React.Component {
     username: "",
     name: "",
     image: "",
-    userRan: false
+    userRan: false,
+    allValid: false
   };
 
 
   handleClick = (event) => {
     event.preventDefault();
-    let allValid = this.state.email !== undefined
-      && this.state.pswd !== undefined
-      && this.state.username !== undefined;
+    let allValid = this.state.email !== ""
+      && this.state.pswd !== ""
+      && this.state.username !== "";
     this.setState({userRan: true});
-
+    this.setState({allValid: allValid});
 
     if (!allValid) {
       alert("Please enter correct information");
       return;
     }
   };
+
 
   setNames = (nameParam) => {
     this.state.username = nameParam;
@@ -197,7 +209,7 @@ class IndividualRegistration extends React.Component {
           <CheckEmail email={this.state.email}/>
           <br/>
           <PasswordField savePassword={(passwordParam) => this.state.pswd = passwordParam}/>
-          <CreateUser userEntered={this.state.userRan}
+          <CreateUser userEntered={this.state.userRan} allValid={this.state.allValid}
                       username={this.state.username} email={this.state.email}
                       pswd={this.state.pswd} name={this.state.name} image={this.state.image}/>
           <input type="submit" id="register" value="Create Account"/>
