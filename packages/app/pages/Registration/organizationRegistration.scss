@@ -1,6 +1,44 @@
-.popup {
-  background: #fff;
-  width: 30%;
-  height: 30%;
+.registrationPage {
+  background-color: #e7eff6;
 }
 
+.popup {
+  background-color: #ffffff;
+  width: 30%;
+  height: 30%;
+  position: fixed;
+  margin: 20%;
+  border: solid 2px;
+}
+
+.registrationForm {
+  background: #e7eff6;
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+.orgNameSection {
+  .orgNameInputField {
+
+    background: #ffffff;
+    width: 300px;
+    height: 30px;
+  }
+}
+
+.orgTypeSection {
+  .orgTypeInputField {
+    width: 300px;
+    height: 30px;
+    .orgTypeDropdown {
+      background: white;
+    }
+  }
+}
+
+.orgLogoSection {
+  vertical-align: bottom;
+  .orgLogoInputField {
+    background: transparent;
+  }
+}

@@ -1,7 +1,6 @@
 /**
  * @author Aaron Murphy <murphyad@msoe.edu>
  */
-
 import * as React from "react";
 import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration.scss";
@@ -17,7 +16,7 @@ class Registration extends React.Component {
 
     this.state = {
       name: undefined, // Required
-      type: undefined, // Required
+      type: "For-profit Company", // Required
       logo: undefined,
       banner: undefined, // TODO:  Not yet used because of missing backend implementation
       description: undefined,
@@ -95,7 +94,6 @@ class Registration extends React.Component {
           </Link>
         </Modal>
         <h1>Register a new organization</h1>
-
         <form
           id="form"
           onSubmit={this.getRegistrationJSON}
@@ -153,14 +151,19 @@ class OrganizationNameField extends React.Component {
     this.props.saveOrgName(valid ? value : undefined);
   };
 
-  // Draws the components on the screen
   render() {
+    let currentTheme = themeable(theme);
     return (
-      <div>
-        Organization Name:
-        <input type="text" onChange={(event) => this.onChange(event.target.value)}/>
-        *
-        {!this.state.valid ? " Name is required" : null}
+      <div
+        {...currentTheme(3, "orgNameSection")}
+      >
+        Organization Name*
+        <br/>
+        <input
+          type="text"
+          onChange={(event) => this.onChange(event.target.value)}
+          {...currentTheme(4, "orgNameInputField")}
+        />
         <br/>
       </div>
     );
@@ -168,16 +171,32 @@ class OrganizationNameField extends React.Component {
 }
 
 export const OrganizationTypeList = GetOrganizationTypes(({ orgTypeList, loading, error, onChange, checked}) => {
+  let currentTheme = themeable(theme);
   return (
     loading ? <strong>Loading...</strong> : (
       error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div>
-          {orgTypeList.map( (orgType) => (
-            <div>
-              <input type="radio" name="userType" value={orgType.name} onChange={onChange} checked={checked === orgType.name}/>
-              {orgType.name}
-            </div>))}
+        <div
+          {...currentTheme(6, "orgTypeInputField")}
+        >
+          <select
+            onChange={onChange}
+            {...currentTheme(7, "orgTypeDropdown")}
+          >
+            {orgTypeList.map( (orgType) => (
+              <option
+                value={orgType.name}
+              >
+                {orgType.name}
+              </option>))}
+          </select>
         </div>
+        // <div>
+        //   {orgTypeList.map( (orgType) => (
+        //     <div>
+        //       <input type="radio" name="userType" value={orgType.name} onChange={onChange} checked={checked === orgType.name}/>
+        //       {orgType.name}
+        //     </div>))}
+        // </div>
       )
     )
   );
@@ -195,15 +214,15 @@ class OrganizationTypeField extends React.Component {
     this.props.saveOrgType(this.state.valid ? value : undefined);
   };
 
-  // Draws all of the components on the screen
   render() {
+    let currentTheme = themeable(theme);
     return (
-      <div>
-        OrganizationType: *<br/>
-        <div>
-          <OrganizationTypeList onChange={(event) => this.onChange(event.target.value)} checked={this.state.value}/>
-        </div>
-
+      <div
+        {...currentTheme(5, "orgTypeSection")}
+      >
+        OrganizationType*
+        <br/>
+        <OrganizationTypeList onChange={(event) => this.onChange(event.target.value)} checked={this.state.value}/>
       </div>
     );
   }
@@ -213,7 +232,7 @@ class OrganizationLogoField extends React.Component {
 
   state = {
     valid: true,
-    path: ""
+    path: "https://via.placeholder.com/200.png?text=Logo%20Preview"
   };
 
   onImageSelected = (event) => {
@@ -232,15 +251,24 @@ class OrganizationLogoField extends React.Component {
 
   // Draws the components on the screen
   render() {
+    let currentTheme = themeable(theme);
     return (
-      <div>
+      <div
+        {...currentTheme(8, "orgLogoSection")}
+      >
         Organization Logo:
-        <input type="file" accept="image/*" onChange={(event) => this.onImageSelected(event)}/>
-        (200x200)
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(event) => this.onImageSelected(event)}
+          size={5120}
+          {...currentTheme(9, "orgLogoInputField")}
+        />
         <br/>
-        Preview:
-        <br/>
+        <span>
         <img src={this.state.path} height={200} width={200} />
+        <img src={this.state.path} height={50} width={50} />
+        </span>
       </div>
     );
   }
