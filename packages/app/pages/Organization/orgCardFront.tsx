@@ -12,7 +12,7 @@ class CardFront extends React.Component {
     let note = org.note;
 
     return(
-      <div className='card-container'>
+      <div className='card-container' class="org-card card-container">
         <div className='card-body'>
           <div className='card-side side-front'>
             <div className='container-fluid'>

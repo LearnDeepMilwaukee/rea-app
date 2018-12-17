@@ -53,7 +53,7 @@ class SearchResults extends React.Component {
     });
 
     return(
-      <div {...page_theme(0,".page")} className='hcontainer'>
+      <div {...page_theme(0,".page")} className='hcontainer'  class="hcontainer">
         <span><div> </div>
         <div {...card_theme(1,".card")} className='card-container'  display="inline-block">
           <OrgList cardData={} />
