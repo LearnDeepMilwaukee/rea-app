@@ -5,7 +5,7 @@ import * as React from "react";
 import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration.scss";
 import * as Modal from "react-modal";
-import { Link } from "react-router";
+import {Link} from "react-router";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
 import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOrganizationTypes.js";
 
@@ -51,7 +51,7 @@ class Registration extends React.Component {
 
     if (!requiredFieldsValid) {
       alert("Please enter valid data into all required fields!");
-    }else {
+    } else {
       let variables = {
         name: this.state.name,
         type: this.state.type,
@@ -80,8 +80,8 @@ class Registration extends React.Component {
   render() {
     let currentTheme = themeable(theme);
     return (
-      <div
-        {...currentTheme(0, "registrationPage")}
+      <div id="baseElement"
+           {...currentTheme(0, "registrationPage")}
       >
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -160,6 +160,7 @@ class OrganizationNameField extends React.Component {
         Organization Name*
         <br/>
         <input
+          id="nameBox"
           type="text"
           onChange={(event) => this.onChange(event.target.value)}
           {...currentTheme(4, "orgNameInputField")}
@@ -170,7 +171,7 @@ class OrganizationNameField extends React.Component {
   }
 }
 
-export const OrganizationTypeList = GetOrganizationTypes(({ orgTypeList, loading, error, onChange, checked}) => {
+export const OrganizationTypeList = GetOrganizationTypes(({orgTypeList, loading, error, onChange, checked}) => {
   let currentTheme = themeable(theme);
   return (
     loading ? <strong>Loading...</strong> : (
@@ -178,12 +179,13 @@ export const OrganizationTypeList = GetOrganizationTypes(({ orgTypeList, loading
         <div
           {...currentTheme(6, "orgTypeInputField")}
         >
-          <select
-            onChange={onChange}
-            {...currentTheme(7, "orgTypeDropdown")}
+          <select id="orgTypeDropdown"
+                  onChange={onChange}
+                  {...currentTheme(7, "orgTypeDropdown")}
           >
-            {orgTypeList.map( (orgType) => (
+            {orgTypeList.map((orgType) => (
               <option
+                id={orgType.name}
                 value={orgType.name}
               >
                 {orgType.name}
@@ -232,6 +234,7 @@ class OrganizationLogoField extends React.Component {
 
   state = {
     valid: true,
+    fileName: "https://via.placeholder.com/200.png?text=Logo%20Preview",
     path: "https://via.placeholder.com/200.png?text=Logo%20Preview"
   };
 
@@ -240,6 +243,7 @@ class OrganizationLogoField extends React.Component {
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
+      this.setState({fileName: file.name});
       this.setState({path: reader.result});
       this.props.saveOrgLogo(this.state.valid ? reader.result : undefined);
       console.log(this.state.value);
@@ -258,6 +262,7 @@ class OrganizationLogoField extends React.Component {
       >
         Organization Logo:
         <input
+          id="logoButton"
           type="file"
           accept="image/*"
           onChange={(event) => this.onImageSelected(event)}
@@ -266,8 +271,8 @@ class OrganizationLogoField extends React.Component {
         />
         <br/>
         <span>
-        <img src={this.state.path} height={200} width={200} />
-        <img src={this.state.path} height={50} width={50} />
+        <img id="largeImage" name={this.state.fileName} src={this.state.path} height={200} width={200}/>
+        <img id="smallImage" name={this.state.fileName} src={this.state.path} height={50} width={50}/>
         </span>
       </div>
     );
@@ -305,7 +310,7 @@ class OrganizationBannerField extends React.Component {
         <br/>
         Preview:
         <br/>
-        <img src={this.state.path} height={200} width={800} />
+        <img src={this.state.path} height={200} width={800}/>
       </div>
     );
   }
