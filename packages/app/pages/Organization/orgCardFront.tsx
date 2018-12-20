@@ -1,6 +1,10 @@
 // React component for the frontside of the card
 import has = Reflect.has;
 import * as React from "react";
+import * as themable from "react-themeable";
+import * as cardTheme from "./cardStyle.scss";
+
+
 
 class CardFront extends React.Component {
 
@@ -10,25 +14,15 @@ class CardFront extends React.Component {
     let name = org.name;
     let type = org.type;
     let note = org.note;
+    let card_theme = themable(cardTheme);
+
 
     return(
-      <div className='card-container' class="org-card card-container">
-        <div className='card-body'>
-          <div className='card-side side-front'>
-            <div className='container-fluid'>
-              <div className='row'>
-                <div className='col-xs-6'>
-                </div>
-                <div className='col-xs-6 side-front-content'>
-                  <h1 id="name">{name}</h1>
-                  <h2 id="type">{type}</h2>
-                  <p id="note">{note}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <span {...card_theme(0,".card")}>
+        <span><card-container id="name">{name}</card-container></span>
+        <span><card-container id="type">{type}</card-container></span>
+        <span><card-container id="note">{note}</card-container></span>
+      </span>
   )
   }
 }
