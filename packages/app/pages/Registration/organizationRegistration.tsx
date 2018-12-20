@@ -1,6 +1,7 @@
 /**
  * @author Aaron Murphy <murphyad@msoe.edu>
  */
+
 import * as React from "react";
 import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration.scss";
@@ -11,7 +12,6 @@ import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOr
 
 class Registration extends React.Component {
   constructor() {
-
     super();
 
     this.state = {
@@ -118,7 +118,8 @@ class Registration extends React.Component {
             saveOrgDescription={(description) => this.setState({description})}
           />
           <br/>
-          *required
+          <p {...currentTheme(3, "required")}>*required</p>
+
           <br/>
           <input
             type="submit"
@@ -154,20 +155,20 @@ class OrganizationNameField extends React.Component {
   render() {
     let currentTheme = themeable(theme);
     return (
-      <div
-        {...currentTheme(3, "orgNameSection")}
+      <span
+        {...currentTheme(4, "orgNameSection")}
       >
-        Organization Name*
-        <br/>
+        <span>Organization Name<p {...currentTheme(3, "required")}>*</p></span>
         <input
           id="nameBox"
           type="text"
           onChange={(event) => this.onChange(event.target.value)}
-          {...currentTheme(4, "orgNameInputField")}
+          {...currentTheme(5, "orgNameInputField")}
         />
         <br/>
-      </div>
+      </span>
     );
+
   }
 }
 
@@ -219,13 +220,15 @@ class OrganizationTypeField extends React.Component {
   render() {
     let currentTheme = themeable(theme);
     return (
-      <div
-        {...currentTheme(5, "orgTypeSection")}
+      <span
+        {...currentTheme(8, "orgTypeSection")}
       >
-        OrganizationType*
-        <br/>
+        <span
+          {...currentTheme(9, "orgTypeLabel")}
+        >
+          Organization Type<p {...currentTheme(10, "required")}>*</p></span>
         <OrganizationTypeList onChange={(event) => this.onChange(event.target.value)} checked={this.state.value}/>
-      </div>
+      </span>
     );
   }
 }
@@ -258,22 +261,30 @@ class OrganizationLogoField extends React.Component {
     let currentTheme = themeable(theme);
     return (
       <div
-        {...currentTheme(8, "orgLogoSection")}
+        {...currentTheme(11, "orgLogoSection")}
       >
+        <br/>
         Organization Logo:
+        <br/>
+        <span
+          {...currentTheme(12, "orgLogoPreview")}
+        >
+        <img id="largeImage" name={this.state.fileName} src={this.state.path} height={200} width={200}/>
+        <img id="smallImage" name={this.state.fileName} src={this.state.path} height={50} width={50}/>
+        </span>
+        <br/>
+        <br/>
+        <div>
         <input
           id="logoButton"
           type="file"
           accept="image/*"
           onChange={(event) => this.onImageSelected(event)}
           size={5120}
-          {...currentTheme(9, "orgLogoInputField")}
+          {...currentTheme(13, "orgLogoInputField")}
         />
-        <br/>
-        <span>
-        <img id="largeImage" name={this.state.fileName} src={this.state.path} height={200} width={200}/>
-        <img id="smallImage" name={this.state.fileName} src={this.state.path} height={50} width={50}/>
-        </span>
+          <label htmlFor="logoButton" {...currentTheme(14,"orgLogoInputLabel")}>Upload New Photo</label>
+        </div>
       </div>
     );
   }
@@ -332,7 +343,8 @@ class OrganizationDescriptionField extends React.Component { // TODO make multil
   render() {
     return (
       <div>
-        Description:
+        Organization Description:
+        <br/>
         <input
           type="text"
           onChange={(event) => this.onStateUpdate(event.target.value)}
