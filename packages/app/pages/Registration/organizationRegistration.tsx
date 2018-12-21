@@ -326,16 +326,16 @@ class OrganizationBannerField extends React.Component {
   }
 }
 
-class OrganizationDescriptionField extends React.Component { // TODO make multiline input
-
+class OrganizationDescriptionField extends React.Component {
   state = {
-    valid: true,
+
     value: ""
   };
 
-  onChange = (event) => {
-    this.setState({value: event.target.value});
-    this.props.saveOrgDesc(this.state.valid ? value : undefined);
+  onChange = () => {
+    console.log("Description: " + document.getElementById("descriptionArea").innerText)
+    // this.setState({value: value});
+    // this.props.saveOrgDescription(value);
   };
 
   // Draws the components on the screen
@@ -346,10 +346,12 @@ class OrganizationDescriptionField extends React.Component { // TODO make multil
       <div>
         Organization Description:
         <br/>
-        <input
-          type="text"
-          onChange={(event) => this.onStateUpdate(event.target.value)}
-        />
+
+        <textarea
+          id="descriptionArea"
+          columns="40"
+          rows="5"
+          change={(event) => this.onChange()}/>
         <br/>
       </div>
     );

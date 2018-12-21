@@ -44,7 +44,12 @@
 }
 
 .orgLogoSection {
-  vertical-align: bottom;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 270px;
+  height: 280px;
+  margin: 20px;
 
   .orgLogoInputField {
     display: none;
@@ -62,7 +67,10 @@
     color: white;
   }
   .orgLogoPreview {
-
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 270px;
   }
 }
 
