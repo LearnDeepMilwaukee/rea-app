@@ -18,9 +18,8 @@
 }
 
 .orgNameSection {
-  padding-right: 15px;
   .orgNameInputField {
-    display: inline;
+    display: inline-flex;
     background: #ffffff;
     width: 300px;
     height: 30px;
@@ -29,15 +28,15 @@
 }
 
 .orgTypeSection {
-  padding-right: 15px;
+  display: inline-flex;
   .orgTypeLabel {
     float: left;
   }
   .orgTypeInputField {
+    padding-left:13px;
     float: left;
-    display: inline;
-    width: 300px;
-    height: 30px;
+    width: 312px;
+    height: 40px !important;
     .orgTypeDropdown {
       background: white;
     }
@@ -67,8 +66,22 @@
   }
 }
 
+.orgDescriptionTextBox {
+  height: 100px;
+  width: 350px;
+}
+
 
 .required {
   display: inline;
   color: red;
 }
+
+
+  .submit {
+    background-color: #169BD5;
+    border-radius: 5px;
+    border: 1px solid black;
+    color: white;
+  }
+

@@ -121,9 +121,8 @@ class Registration extends React.Component {
           <p {...currentTheme(3, "required")}>*required</p>
 
           <br/>
-          <input
+          <input {...currentTheme(17,"submit")}
             type="submit"
-            id="submit"
             value="Register"
           />
         </form>
@@ -158,7 +157,7 @@ class OrganizationNameField extends React.Component {
       <span
         {...currentTheme(4, "orgNameSection")}
       >
-        <span>Organization Name<p {...currentTheme(3, "required")}>*</p></span>
+        <span>Organization Name<p {...currentTheme(3, "required")}>*</p>&nbsp;</span>
         <input
           id="nameBox"
           type="text"
@@ -341,6 +340,8 @@ class OrganizationDescriptionField extends React.Component { // TODO make multil
 
   // Draws the components on the screen
   render() {
+    let currentTheme = themeable(theme);
+
     return (
       <div>
         Organization Description:
