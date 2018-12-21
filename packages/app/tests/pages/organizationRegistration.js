@@ -31,13 +31,11 @@ describe('organizationRegistration', function () {
     var dropdownHTML = browser.getValue("#orgTypeDropdown");
     dropdownHTML.should.equal("School");
   });
-  it('Verifying that selecting the Upload File button brings a popup for an image', function () {
-    var imageName = "organizationTestImage.png";
-    var imagePath = "packages/app/tests/resources/";
-    browser.chooseFile("#logoButton", imagePath + imageName);
-    browser.getAttribute('#largeImage', 'name').should.equal(imageName);
-    browser.getAttribute('#smallImage', 'name').should.equal(imageName);
-  });
+
+  it('Verifying cancel button brings us to the base page', function () {
+    browser.click("#cancelButton");
+    browser.getUrl().should.equal("http://0.0.0.0:3000/")
+  })
 });
 
 

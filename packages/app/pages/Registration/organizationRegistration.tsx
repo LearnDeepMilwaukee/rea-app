@@ -121,9 +121,11 @@ class Registration extends React.Component {
           <p {...currentTheme(3, "required")}>*required</p>
 
           <br/>
-          <input {...currentTheme(17,"submit")}
-            type="submit"
-            value="Register"
+            <a href="/" {...currentTheme(18, "cancel")} id="cancelButton"> Cancel </a>
+          <input {...currentTheme(17, "submit")}
+                 type="submit"
+                 id="submit"
+                 value="Register"
           />
         </form>
 
@@ -236,7 +238,6 @@ class OrganizationLogoField extends React.Component {
 
   state = {
     valid: true,
-    fileName: "https://via.placeholder.com/200.png?text=Logo%20Preview",
     path: "https://via.placeholder.com/200.png?text=Logo%20Preview"
   };
 
@@ -245,7 +246,6 @@ class OrganizationLogoField extends React.Component {
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      this.setState({fileName: file.name});
       this.setState({path: reader.result});
       this.props.saveOrgLogo(this.state.valid ? reader.result : undefined);
       console.log(this.state.value);
@@ -268,21 +268,21 @@ class OrganizationLogoField extends React.Component {
         <span
           {...currentTheme(12, "orgLogoPreview")}
         >
-        <img id="largeImage" name={this.state.fileName} src={this.state.path} height={200} width={200}/>
-        <img id="smallImage" name={this.state.fileName} src={this.state.path} height={50} width={50}/>
+        <img id="largeImage" src={this.state.path} height={200} width={200}/>
+        <img id="smallImage" src={this.state.path} height={50} width={50}/>
         </span>
         <br/>
         <br/>
         <div>
-        <input
-          id="logoButton"
-          type="file"
-          accept="image/*"
-          onChange={(event) => this.onImageSelected(event)}
-          size={5120}
-          {...currentTheme(13, "orgLogoInputField")}
-        />
-          <label htmlFor="logoButton" {...currentTheme(14,"orgLogoInputLabel")}>Upload New Photo</label>
+          <input
+            id="logoButton"
+            type="file"
+            accept="image/*"
+            onChange={(event) => this.onImageSelected(event)}
+            size={5120}
+            {...currentTheme(13, "orgLogoInputField")}
+          />
+          <label htmlFor="logoButton" id="logoLabel" {...currentTheme(14, "orgLogoInputLabel")}>Upload New Photo</label>
         </div>
       </div>
     );
