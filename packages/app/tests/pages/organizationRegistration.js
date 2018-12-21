@@ -18,6 +18,7 @@ describe('organizationRegistration', function () {
     alertText.should.equal("Please enter valid data into all required fields!");
   });
 
+
   it('Verifying the OrgType dropdown is correctly rendered', function () {
     var NUMBER_OF_ORG_TYPES = 8;
     var dropdownHTML = browser.getHTML("#orgTypeDropdown");
