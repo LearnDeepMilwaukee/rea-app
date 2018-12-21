@@ -4,8 +4,6 @@ import * as React from "react";
 import * as themable from "react-themeable";
 import * as cardTheme from "./cardStyle.scss";
 
-
-
 class CardFront extends React.Component {
 
 
@@ -16,13 +14,14 @@ class CardFront extends React.Component {
     let note = org.note;
     let card_theme = themable(cardTheme);
 
-
     return(
-      <span {...card_theme(0,".card")}>
-        <span><card-container id="name">{name}</card-container></span>
-        <span><card-container id="type">{type}</card-container></span>
-        <span><card-container id="note">{note}</card-container></span>
-      </span>
+      <div {...card_theme(0,"card")}>
+        <h2 id="name" {...card_theme(1,"name")}>{name}</h2>
+        <div {...card_theme(2,"details")}>
+          <h3 id="type">{type}</h3>
+          <p id="note">{note}</p>
+        </div>
+      </div>
   )
   }
 }

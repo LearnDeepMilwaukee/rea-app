@@ -42,7 +42,9 @@ class SearchResults extends React.Component {
             }
         }
         const cardsArray = filteredOrgs.map(card => (
-          <CardFront card={card}/>
+          <div>
+            <CardFront card={card}/>
+          </div>
         ));
         return(
           <div>
