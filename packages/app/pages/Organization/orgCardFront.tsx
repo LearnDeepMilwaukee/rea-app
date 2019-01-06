@@ -10,18 +10,22 @@ class CardFront extends React.Component {
   render() {
     let org = this.props.card;
     let name = org.name;
+    let tester = org.distance;
     let type = org.type;
     let note = org.note;
+    let org_image = org.image;
     let card_theme = themable(cardTheme);
-
+    let alt_desc = name + " logo";
     return(
-      <div {...card_theme(0,"card")}>
+      <span {...card_theme(0,"card")}>
+        <img src={org_image} alt={alt_desc} {...card_theme(4,"img")}/>
         <h2 id="name" {...card_theme(1,"name")}>{name}</h2>
         <div {...card_theme(2,"details")}>
-          <h3 id="type">{type}</h3>
-          <p id="note">{note}</p>
-        </div>
-      </div>
+          <h3 id="type">{"Type: " + type}</h3>
+          <h3 id="note">{"Distance: " }</h3>
+          {/*<p id="note">{note}</p>*/} {/*Todo think this should be distance and not note*/}
+          </div>
+      </span>
   )
   }
 }
