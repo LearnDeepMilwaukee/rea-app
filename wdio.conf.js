@@ -118,7 +118,7 @@ exports.config = {
   // see also: http://webdriver.io/guide/reporters/dot.html
   reporters: ['json'],
   reporterOptions: {
-    outputDir: './rea-app/packages/app/tests/output'
+    outputDir: './packages/app/tests/output'
   },
   //
   // Options to be passed to Mocha.

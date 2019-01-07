@@ -16,12 +16,16 @@ export const mutation = gql`
   mutation(
     $token: String!,
     $type: String!,
-    $name: String!
+    $name: String!,
+    $image: String,
+    $note: String
   ) {
     createOrganization (
       token: $token,
       type: $type,
       name: $name
+      image: $image,
+      note: $note
     ) {
       organization {
         ...organizationInterface
