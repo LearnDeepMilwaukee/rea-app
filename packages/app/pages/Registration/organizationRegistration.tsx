@@ -194,13 +194,6 @@ export const OrganizationTypeList = GetOrganizationTypes(({orgTypeList, loading,
               </option>))}
           </select>
         </div>
-        // <div>
-        //   {orgTypeList.map( (orgType) => (
-        //     <div>
-        //       <input type="radio" name="userType" value={orgType.name} onChange={onChange} checked={checked === orgType.name}/>
-        //       {orgType.name}
-        //     </div>))}
-        // </div>
       )
     )
   );
@@ -268,8 +261,8 @@ class OrganizationLogoField extends React.Component {
         <span
           {...currentTheme(12, "orgLogoPreview")}
         >
-        <img id="largeImage" src={this.state.path} height={200} width={200}/>
-        <img id="smallImage" src={this.state.path} height={50} width={50}/>
+        <img id="largeImage" src={this.state.path} {...currentTheme(19, "largeImage")}/>
+        <img id="smallImage" src={this.state.path} {...currentTheme(20, "smallImage")}/>
         </span>
         <br/>
         <br/>
@@ -284,6 +277,8 @@ class OrganizationLogoField extends React.Component {
           />
           <label htmlFor="logoButton" id="logoLabel" {...currentTheme(14, "orgLogoInputLabel")}>Upload New Photo</label>
         </div>
+        <br/>
+        <i>Images must be no bigger than 5MB</i>
       </div>
     );
   }
@@ -328,20 +323,18 @@ class OrganizationBannerField extends React.Component {
 
 class OrganizationDescriptionField extends React.Component {
   state = {
-
     value: ""
   };
 
-  onChange = () => {
-    console.log("Description: " + document.getElementById("descriptionArea").innerText)
-    // this.setState({value: value});
-    // this.props.saveOrgDescription(value);
+  onChange = (value) => {
+    console.log("Description: " + value);
+    this.setState({value: value});
+    this.props.saveOrgDescription(value);
   };
 
   // Draws the components on the screen
   render() {
     let currentTheme = themeable(theme);
-
     return (
       <div>
         Organization Description:
@@ -349,9 +342,11 @@ class OrganizationDescriptionField extends React.Component {
 
         <textarea
           id="descriptionArea"
-          columns="40"
+          columns="80"
           rows="5"
-          change={(event) => this.onChange()}/>
+          onChange={(event) => this.onChange(event.target.value)}
+          {...currentTheme(16, "orgDescriptionTextBox")}
+        />
         <br/>
       </div>
     );
@@ -359,3 +354,4 @@ class OrganizationDescriptionField extends React.Component {
 }
 
 export default createOrganization(Registration);
+

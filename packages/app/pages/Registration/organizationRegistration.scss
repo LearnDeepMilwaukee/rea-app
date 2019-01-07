@@ -48,7 +48,6 @@
   flex-direction: column;
   justify-content: space-between;
   width: 270px;
-  height: 280px;
   margin: 20px;
 
   .orgLogoInputField {
@@ -71,6 +70,14 @@
     align-items: flex-end;
     justify-content: space-between;
     width: 270px;
+    .largeImage{
+      height: 200px;
+      width: auto;
+    }
+    .smallImage{
+      height: 50px;
+      width: auto;
+    }
   }
 }
 
