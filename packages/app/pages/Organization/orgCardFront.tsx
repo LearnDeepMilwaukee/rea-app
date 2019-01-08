@@ -16,6 +16,7 @@ class CardFront extends React.Component {
     let org_image = org.image;
     let card_theme = themable(cardTheme);
     let alt_desc = name + " logo";
+    console.log(org);
     return(
       <span {...card_theme(0,"card")}>
         <img src={org_image} alt={alt_desc} {...card_theme(4,"img")}/>
