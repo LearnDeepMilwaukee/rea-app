@@ -5,7 +5,8 @@ import * as themable from "react-themeable";
 import CardFront from  "./orgCardFront";
 import * as cardTheme from "./cardStyle.scss";
 import * as pageTheme from "./searchStyle.scss";
-
+import {sortByName} from "./sorting.tsx"
+import {sortByDistance} from "./sorting.tsx"
 
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
 
@@ -14,6 +15,13 @@ import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganiz
 
 class SearchResults extends React.Component {
 
+  constructor() {
+    super();
+    this.state = {
+      sorting: "",
+      load: true
+    };
+  }
 
 
   render() {
@@ -40,6 +48,18 @@ class SearchResults extends React.Component {
               console.log("Matching Org: " + org.name);
             }
         }
+        if(this.state.sorting != ""){
+          if(this.state.sorting === "alphabetical"){
+            filteredOrgs = sortByName(filteredOrgs);
+            console.log("alphabetical");
+          }
+          else if(this.state.sorting === "distance"){
+            filteredOrgs = sortByDistance(filteredOrgs);
+            console.log("distance");
+          }
+        }
+        let baseLocation = [-87.909020,43.044004];
+        filteredOrgs = sortByDistance(filteredOrgs,baseLocation);
         const cardsArray = filteredOrgs.map(card => (
           <div>
             <CardFront card={card}/>
