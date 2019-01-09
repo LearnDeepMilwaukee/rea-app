@@ -9,7 +9,7 @@ exports.config = {
   // directory is where your package.json resides, so `wdio` will be called from there.
   //
   specs: [
-    '../rea-app/packages/app/tests/pages/*.js'
+    './packages/app/tests/pages/*.js',
   ],
   //
   // ============
@@ -63,7 +63,7 @@ exports.config = {
   bail: 0,
   //
   // Saves a screenshot to a given path if a command fails.
-  screenshotPath: './rea-app/packages/app/tests/screenshots',
+  screenshotPath: './packages/app/tests/screenshots',
   //
   // Set a base URL in order to shorten url command calls. If your `url` parameter starts
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.

@@ -1,5 +1,4 @@
-import {isNull, isNullOrUndefined} from "util";
-
+"use strict";
 export function sortByName(elements){
   elements.sort(function(a, b) {
     return a.name.localeCompare(b.name);
@@ -7,19 +6,30 @@ export function sortByName(elements){
   return elements;
 }
 export function sortByDistance(elements,baseLocation){
-  console.log(elements);
   elements.sort(function(a,b) {
     return getDistanceBetweenPoints(a.primaryLocation,baseLocation) - getDistanceBetweenPoints(b.primaryLocation,baseLocation)
   });
-  console.log(elements);
   return elements;
 }
-function getDistanceBetweenPoints(location,baseLocation) {
-  if (isNullOrUndefined(location)) {
+export function getDistanceBetweenPoints(location,baseLocation) {
+  if (location == null) {
     return Number.MAX_SAFE_INTEGER;
     //TODO Figure out how we want to handle organization without a location
   }
-  let baseLongitude = baseLocation[0];
-  let baseLatitude = baseLocation[1];
-  return 1;
+//Code below this, including the deg2rad method were taken from the following location, with the credit to them:
+//https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula/11178145
+  let R = 3959; // Radius of the earth in km
+  let dLat = deg2rad(location.latitude-baseLocation.latitude);  // deg2rad below
+  let dLon = deg2rad(location.longitude-baseLocation.longitude);
+  let a =
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(location.latitude)) * Math.cos(deg2rad(baseLocation.latitude)) *
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+  ;
+  let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  // Distance in km
+  return Math.abs(R * c);
+}
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
 }
