@@ -5,9 +5,7 @@ import * as themable from "react-themeable";
 import CardFront from "./orgCardFront";
 import * as cardTheme from "./cardStyle.scss";
 import * as pageTheme from "./searchStyle.scss";
-import {sortByName} from "./sorting.tsx"
-import {sortByDistance} from "./sorting.tsx"
-import {getDistanceBetweenPoints} from "./sorting.tsx"
+import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities.tsx"
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
 import {isNullOrUndefined} from "util";
 
@@ -18,12 +16,17 @@ class SearchResults extends React.Component {
     super();
     this.state = {
       sorting: "alphabetical",
+      typeFilter: "All",
       load: true
     };
   }
 
   onChange = (value) => {
     this.setState({sorting:value});
+  };
+
+  onTypeFilterChange = (value) => {
+    this.setState({typeFilter:value});
   };
 
   render() {
@@ -52,6 +55,9 @@ class SearchResults extends React.Component {
             console.log("Matching Org: " + org.name);
           }
         }
+          if(this.state.typeFilter !== "All") {
+            filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
+          }
           if(this.state.sorting === "alphabetical"){
             filteredOrgs = sortByName(filteredOrgs);
           }
@@ -93,17 +99,17 @@ class SearchResults extends React.Component {
               </div>
                 <div>
                   <label>Type:</label>
-                  <select onChange{(event) => this.onTypeFilterChange(event.target.value)}>
-                    <option selected = {this.state.sorting === 'all'} value={'all'}>All</option>
-                    <option selected = {this.state.sorting === 'school'} value={'school'}>School</option>
-                    <option selected = {this.state.sorting === 'church'} value={'church'}>Church</option>
-                    <option selected = {this.state.sorting === 'for-profit company'} value={'for-profit company'}>For-profit Company</option>
-                    <option selected = {this.state.sorting === 'individual'} value={'individual'}>Individual</option>
-                    <option selected = {this.state.sorting === 'organization'} value={'organization'}>Organization</option>
-                    <option selected = {this.state.sorting === 'library'} value={'library'}>Library</option>
-                    <option selected = {this.state.sorting === 'makerspace'} value={'makerspace'}>Makerspace</option>
-                    <option selected = {this.state.sorting === 'network'} value={'network'}>Network</option>
-                    <option selected = {this.state.sorting === 'non-profit'} value={'non-profit'}>Non-profit</option>
+                  <select onChange={(event) => this.onTypeFilterChange(event.target.value)}>
+                    <option selected = {this.state.typeFilter === 'All'} value={'All'}>All</option>
+                    <option selected = {this.state.typeFilter === 'School'} value={'School'}>School</option>
+                    <option selected = {this.state.typeFilter === 'Church'} value={'Church'}>Church</option>
+                    <option selected = {this.state.typeFilter === 'For-profit Company'} value={'For-Profit Company'}>For-profit Company</option>
+                    <option selected = {this.state.typeFilter === 'dividual'} value={'Individual'}>Individual</option>
+                    <option selected = {this.state.typeFilter === 'Organization'} value={'Organization'}>Organization</option>
+                    <option selected = {this.state.typeFilter === 'Library'} value={'Library'}>Library</option>
+                    <option selected = {this.state.typeFilter === 'Makerspace'} value={'Makerspace'}>Makerspace</option>
+                    <option selected = {this.state.typeFilter === 'Network'} value={'Network'}>Network</option>
+                    <option selected = {this.state.typeFilter === 'Non-profit Company'} value={'Non-profit Company'}>Non-profit Company</option>
                   </select>
                 </div>
                 <div>
