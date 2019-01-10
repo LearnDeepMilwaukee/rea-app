@@ -75,7 +75,7 @@ class SearchResults extends React.Component {
 
 //{...card_theme(0,"card")}
         return (
-          <div>
+          <div {...page_theme(1,"page")}>
             <div {...page_theme(1,"search-container")}>
               <h2>All orgs</h2>
               <div><form>
