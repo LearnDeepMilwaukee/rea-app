@@ -3,6 +3,7 @@
 
   background-color: #e7eff6;
 
+
   html {
     font-size: 16px;
   }
@@ -24,11 +25,22 @@
   }
 }
 
+.org-category{
+  margin-left: 60px;
+  margin-top: 20px;
+}
+
+
 .search-container{
   display: flex;
   padding: 4px;
   padding-right: 6px;
-
+  margin-top: 10px;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  justify-items: center;
+  justify-content: center;
 }
 
 .connect-button{
@@ -41,12 +53,16 @@
   justify-content: center;
   border-style: solid;
   border-width: thin;
+  border-radius: 8px;
 }
 
 .search-filter-group{
+  margin: 6px;
+
   input {
-    padding-right: 10px;
+    margin-right: 4px;
   }
+  label { margin-right: 12px;}
 }
 
 .org-card-button{

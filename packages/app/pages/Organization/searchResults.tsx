@@ -70,9 +70,9 @@ class SearchResults extends React.Component {
 //{...card_theme(0,"card")}
         return (
           <div {...page_theme(1,"page")}>
-            <div {...page_theme(1,"search-container")}>
-              <h2>All orgs</h2>
-              <div><form>
+            <h2 {...page_theme(8,"org-category")}>All orgs</h2>
+            <div {...page_theme(4,"search-container")}>
+              <div {...page_theme(5,"search-filter-group")}><form>
                        <input type="text" name="name"/></form>
                        <input type={'checkbox'} name={'myOrgsFilter'}/>
                        <label>My Orgs</label>
@@ -81,7 +81,7 @@ class SearchResults extends React.Component {
                        <input type={'checkbox'} name={'placeholderFilter'}/>
               </div>
 
-              <div>
+              <div {...page_theme(6,"search-filter-group")}>
                 <div>
                   <label>Max Distance:</label>
                   <input type={'text'} name={'maxDistText'}/>
@@ -90,8 +90,8 @@ class SearchResults extends React.Component {
                   <input type={'range'} name={'maxDistRange'}/>
                 </div>
 
-              </div>
-                <div>
+              </div >
+                <div{...page_theme(7,"search-filter-group")}>
                   <label>Type:</label>
                   <select onChange{(event) => this.onTypeFilterChange(event.target.value)}>
                     <option selected = {this.state.sorting === 'all'} value={'all'}>All</option>
@@ -106,7 +106,7 @@ class SearchResults extends React.Component {
                     <option selected = {this.state.sorting === 'non-profit'} value={'non-profit'}>Non-profit</option>
                   </select>
                 </div>
-                <div>
+                <div {...page_theme(8,"search-filter-group")}>
                   <label>Sort:</label>
                      <select onChange={(event) => this.onChange(event.target.value)}>
                        <option selected = {this.state.sorting === 'alphabetical'} value={'alphabetical'}>Alphabetical</option>
