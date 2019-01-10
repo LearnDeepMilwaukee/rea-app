@@ -37,8 +37,6 @@ class SearchResults extends React.Component {
     let orgname = search.get("searchParams");
     let msoeCC = {latitude:43.044004,longitude:-87.909020};
 
-    console.log("Params:" + orgname);
-
     const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
 
       if (loading) {
