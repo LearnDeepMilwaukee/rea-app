@@ -26,7 +26,7 @@ describe('Testing distance', function () {
     distance.should.be.below(960);
     distance.should.be.above(959);
   });
-  it('Should return items in ascending distance', function () {
+  it('Sorting with Valid distances', function () {
     var org1 = {name:"org1", primaryLocation: {latitude: 10, longitude: 10}};
     var org2 = {name:"org2", primaryLocation: {latitude: 11, longitude: 11}};
     var org3 = {name:"org3", primaryLocation: {latitude: 12, longitude: 12}};
@@ -39,6 +39,18 @@ describe('Testing distance', function () {
     orderedArray[2].should.equal(org2);
     orderedArray[3].should.equal(org1);
   });
+  it('Sorting with invalid distances', function () {
+    var org1 = {name:"org1", primaryLocation: {latitude: 10, longitude: 10}};
+    var org2 = {name:"org2", primaryLocation: {latitude: 11, longitude: 11}};
+    var org3 = {name:"org3", primaryLocation: null};
+    var reference = {latitude: 20, longitude: 20};
+    var orderedArray = sorting.sortByDistance([org1,org2,org3],reference);
+    orderedArray.length.should.equal(3);
+    orderedArray[0].should.equal(org2);
+    orderedArray[1].should.equal(org1);
+    orderedArray[2].should.equal(org3);
+  });
+
 });
 
 

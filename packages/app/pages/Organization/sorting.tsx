@@ -1,4 +1,5 @@
 "use strict";
+import {isNullOrUndefined} from "util";
 export function sortByName(elements){
   elements.sort(function(a, b) {
     return a.name.localeCompare(b.name);
@@ -12,9 +13,8 @@ export function sortByDistance(elements,baseLocation){
   return elements;
 }
 export function getDistanceBetweenPoints(location,baseLocation) {
-  if (location == null) {
+  if (isNullOrUndefined(location)) {
     return Number.MAX_SAFE_INTEGER;
-    //TODO Figure out how we want to handle organization without a location
   }
 //Code below this, including the deg2rad method were taken from the following location, with the credit to them:
 //https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula/11178145

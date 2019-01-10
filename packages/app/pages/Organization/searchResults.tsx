@@ -18,11 +18,14 @@ class SearchResults extends React.Component {
   constructor() {
     super();
     this.state = {
-      sorting: "",
+      sorting: "alphabetical",
       load: true
     };
   }
 
+  onChange = (value) => {
+    this.setState({sorting:value});
+  };
 
   render() {
 
@@ -45,21 +48,16 @@ class SearchResults extends React.Component {
         for(let org of organizationList){
             if (org.name.includes(orgname)){
               filteredOrgs.push(org);
-              console.log("Matching Org: " + org.name);
             }
         }
-        if(this.state.sorting != ""){
           if(this.state.sorting === "alphabetical"){
             filteredOrgs = sortByName(filteredOrgs);
-            console.log("alphabetical");
           }
           else if(this.state.sorting === "distance"){
-            filteredOrgs = sortByDistance(filteredOrgs);
-            console.log("distance");
+            let baseLocation = [-87.909020,43.044004];
+            filteredOrgs = sortByDistance(filteredOrgs,baseLocation);
           }
-        }
-        let baseLocation = [-87.909020,43.044004];
-        filteredOrgs = sortByDistance(filteredOrgs,baseLocation);
+
         const cardsArray = filteredOrgs.map(card => (
           <div>
             <CardFront card={card}/>
@@ -102,9 +100,9 @@ class SearchResults extends React.Component {
                    </div>
                    <div>
                      <label>Sort:</label>
-                     <select>
-                       <option value={'alphabetical'}>Alphabetical</option>
-                       <option value={'distance'}>Distance</option>
+                     <select onChange={(event) => this.onChange(event.target.value)}>
+                       <option selected = {this.state.sorting === 'alphabetical'} value={'alphabetical'}>Alphabetical</option>
+                       <option selected = {this.state.sorting === 'distance'} value={'distance'}>Distance</option>
                      </select>
                    </div>
               </span>
