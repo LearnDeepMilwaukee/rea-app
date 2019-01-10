@@ -1,10 +1,9 @@
 // React component for the frontside of the card
-import has = Reflect.has;
 import * as React from "react";
 import * as themable from "react-themeable";
 import CardFront from "./orgCardFront";
 import * as cardTheme from "./cardStyle.scss";
-import * as pageTheme from "./searchStyle.scss";
+import * as pageTheme from "./catalogStyle.scss";
 import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities.tsx"
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
 import {isNullOrUndefined} from "util";
@@ -34,7 +33,6 @@ class SearchResults extends React.Component {
     let card_theme = themable(cardTheme);
     let page_theme = themable(pageTheme);
     let search = new URLSearchParams(this.props.location.search);
-    let orgname = search.get("searchParams");
     let msoeCC = {latitude:43.044004,longitude:-87.909020};
 
     const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
@@ -46,13 +44,8 @@ class SearchResults extends React.Component {
       } else if (error) {
         return (<p style={{color: "#F00"}}>API error</p>);
       } else {
-        let filteredOrgs = [];
-        for (let org of organizationList) {
-          if (org.name.includes(orgname)) {
-            filteredOrgs.push(org);
-            console.log("Matching Org: " + org.name);
-          }
-        }
+        let filteredOrgs = organizationList.slice();
+
           if(this.state.typeFilter !== "All") {
             filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
           }
@@ -86,7 +79,7 @@ class SearchResults extends React.Component {
 
               <div {...page_theme(6,"search-dist-group")}>
                 <div>
-                  <label>Max Distance:</label>
+                  <label {...page_theme(9,"max-distance-label")}>Max Distance:</label>
                   <input type={'text'} name={'maxDistText'} value={50} style={{width:'40px';}}/>
                 </div>
                 <div>
