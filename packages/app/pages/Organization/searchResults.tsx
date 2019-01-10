@@ -79,18 +79,17 @@ class SearchResults extends React.Component {
             <h2 {...page_theme(8,"org-category")}>All orgs</h2>
             <div {...page_theme(4,"search-container")}>
               <div {...page_theme(5,"search-filter-group")}><form>
-                       <input type="text" name="name"/></form>
-                       <input type={'checkbox'} name={'myOrgsFilter'}/>
+                       <input type="text" name="name" placeholder={"search by name"}/>
+                       <input type={'checkbox'} name={'myOrgsFilter'} checked/>
                        <label>My Orgs</label>
-                       <input type={'checkbox'} name={'publicOrgsFilter'}/>
-                       <label>Public</label>
-                       <input type={'checkbox'} name={'placeholderFilter'}/>
+                       <input type={'checkbox'} name={'publicOrgsFilter'} checked/>
+                       <label>Public</label></form>
               </div>
 
-              <div {...page_theme(6,"search-filter-group")}>
+              <div {...page_theme(6,"search-dist-group")}>
                 <div>
                   <label>Max Distance:</label>
-                  <input type={'text'} name={'maxDistText'}/>
+                  <input type={'text'} name={'maxDistText'} value={50} style={{width:'40px';}}/>
                 </div>
                 <div>
                   <input type={'range'} name={'maxDistRange'}/>

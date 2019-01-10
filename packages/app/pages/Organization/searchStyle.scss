@@ -58,12 +58,23 @@
 
 .search-filter-group{
   margin: 6px;
-
+  margin-top: 10px;
   input {
     margin-right: 4px;
   }
   label { margin-right: 12px;}
 }
+
+.search-dist-group{
+
+  margin: 6px;
+  margin-top: 10px;
+  input {
+    margin-right: 4px;
+  }
+  label { margin-right: 12px;}
+}
+
 
 .org-card-button{
   display: flex;
