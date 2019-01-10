@@ -7,7 +7,6 @@
   .hcontainer {
     font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 18px;
-    font-size: 100%;
     background-color: #fff;
     display: inline-block;
   }
@@ -37,10 +36,16 @@
   justify-content: center;
   border-style: solid;
   border-width: thin;
+  align-self: flex-end;
 }
 
 .search-filter-group{
   input {
     padding-right: 10px;
   }
+}
+
+.org-card-button{
+  display: flex;
+  flex-direction: row;
 }
