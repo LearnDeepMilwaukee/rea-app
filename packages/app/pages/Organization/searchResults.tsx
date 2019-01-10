@@ -58,7 +58,7 @@ class SearchResults extends React.Component {
           }
 
         const cardsArray = filteredOrgs.map(card => (
-          <div><span>
+          <div><span {...page_theme(4,"org-card-button")}>
             <CardFront card={card}/>
             <button {...page_theme(3,"connect-button")}>Connect</button>
           </span>
