@@ -28,6 +28,11 @@ export function getDistanceBetweenPoints(location,baseLocation) {
   ;
   let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   // Distance in km
+  console.log("dLat " + dLat);
+  console.log("dLon " + dLon);
+  console.log(location);
+  console.log(baseLocation);
+  console.log("Distance: " + Math.abs(R*c));
   return Math.abs(R * c);
 }
 function deg2rad(deg) {

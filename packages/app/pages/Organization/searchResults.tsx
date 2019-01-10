@@ -7,8 +7,9 @@ import * as cardTheme from "./cardStyle.scss";
 import * as pageTheme from "./searchStyle.scss";
 import {sortByName} from "./sorting.tsx"
 import {sortByDistance} from "./sorting.tsx"
-
+import {getDistanceBetweenPoints} from "./sorting.tsx"
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
+import {isNullOrUndefined} from "util";
 
 
 class SearchResults extends React.Component {
@@ -31,6 +32,8 @@ class SearchResults extends React.Component {
     let page_theme = themable(pageTheme);
     let search = new URLSearchParams(this.props.location.search);
     let orgname = search.get("searchParams");
+    let msoeCC = {latitude:43.044004,longitude:-87.909020};
+
     console.log("Params:" + orgname);
 
     const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
@@ -53,13 +56,12 @@ class SearchResults extends React.Component {
             filteredOrgs = sortByName(filteredOrgs);
           }
           else if(this.state.sorting === "distance"){
-            let baseLocation = [-87.909020,43.044004];
-            filteredOrgs = sortByDistance(filteredOrgs,baseLocation);
+            filteredOrgs = sortByDistance(filteredOrgs,msoeCC);
           }
 
         const cardsArray = filteredOrgs.map(card => (
           <div><span {...page_theme(4,"org-card-button")}>
-            <CardFront card={card}/>
+            <CardFront card={card} distance={isNullOrUndefined(card.primaryLocation) ? null : getDistanceBetweenPoints(card.primaryLocation,msoeCC).toFixed(3)}/>
             <button {...page_theme(3,"connect-button")}>Connect</button>
           </span>
           </div>
