@@ -7,13 +7,11 @@
   border-style: solid;
   border-width: thin;
   background-color: white;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  padding-left: 6px;
-  padding-right: 6px;
+  padding: 8px;
   margin-top: 6px;
   margin-left: 60px;
   margin-right: 6px;
+  margin-bottom: 6px;
   max-width: 75%;
   flex-basis: 75%;
   flex-grow: 1;
@@ -40,6 +38,7 @@
   perspective: 1000px;
   border: 1px solid black;
   display:flex;
+  align-self: center;
 
 
 }

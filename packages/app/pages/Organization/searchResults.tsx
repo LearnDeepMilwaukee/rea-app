@@ -5,9 +5,9 @@ import * as themable from "react-themeable";
 import CardFront from "./orgCardFront";
 import * as cardTheme from "./cardStyle.scss";
 import * as pageTheme from "./searchStyle.scss";
-import {sortByName} from "./sorting.tsx"
-import {sortByDistance} from "./sorting.tsx"
-import {getDistanceBetweenPoints} from "./sorting.tsx"
+import {sortByName} from "./utilities.tsx"
+import {sortByDistance} from "./utilities.tsx"
+import {getDistanceBetweenPoints} from "./utilities.tsx"
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
 import {isNullOrUndefined} from "util";
 
