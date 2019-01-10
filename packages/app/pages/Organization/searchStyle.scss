@@ -1,13 +1,17 @@
 /*- Typograpy and resets -*/
 .page{
+
+  background-color: #e7eff6;
+
+
   html {
     font-size: 16px;
   }
 
+
   .hcontainer {
     font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 18px;
-    font-size: 100%;
     background-color: #fff;
     display: inline-block;
   }
@@ -21,26 +25,50 @@
   }
 }
 
+.org-category{
+  margin-left: 60px;
+  margin-top: 20px;
+}
+
+
 .search-container{
   display: flex;
   padding: 4px;
   padding-right: 6px;
-
+  margin-top: 10px;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  justify-items: center;
+  justify-content: center;
 }
 
 .connect-button{
   width: 10%;
-  background-color: #0ceaf2;
+  background-color: #169BD5;
   display: flex;
   height: 45px;
+  color: white;
   font-size: 18px;
   justify-content: center;
   border-style: solid;
   border-width: thin;
+  border-radius: 8px;
 }
 
 .search-filter-group{
+  margin: 6px;
+
   input {
-    padding-right: 10px;
+    margin-right: 4px;
   }
+  label { margin-right: 12px;}
+}
+
+.org-card-button{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
 }

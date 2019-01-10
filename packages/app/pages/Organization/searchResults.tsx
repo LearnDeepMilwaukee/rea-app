@@ -5,9 +5,7 @@ import * as themable from "react-themeable";
 import CardFront from "./orgCardFront";
 import * as cardTheme from "./cardStyle.scss";
 import * as pageTheme from "./searchStyle.scss";
-import {sortByName} from "./sorting.tsx"
-import {sortByDistance} from "./sorting.tsx"
-import {getDistanceBetweenPoints} from "./sorting.tsx"
+import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities.tsx"
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
 import {isNullOrUndefined} from "util";
 
@@ -18,12 +16,17 @@ class SearchResults extends React.Component {
     super();
     this.state = {
       sorting: "alphabetical",
+      typeFilter: "All",
       load: true
     };
   }
 
   onChange = (value) => {
     this.setState({sorting:value});
+  };
+
+  onTypeFilterChange = (value) => {
+    this.setState({typeFilter:value});
   };
 
   render() {
@@ -50,6 +53,9 @@ class SearchResults extends React.Component {
             console.log("Matching Org: " + org.name);
           }
         }
+          if(this.state.typeFilter !== "All") {
+            filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
+          }
           if(this.state.sorting === "alphabetical"){
             filteredOrgs = sortByName(filteredOrgs);
           }
@@ -58,7 +64,7 @@ class SearchResults extends React.Component {
           }
 
         const cardsArray = filteredOrgs.map(card => (
-          <div><span>
+          <div><span {...page_theme(4,"org-card-button")}>
             <CardFront card={card} distance={isNullOrUndefined(card.primaryLocation) ? null : getDistanceBetweenPoints(card.primaryLocation,msoeCC).toFixed(3)}/>
             <button {...page_theme(3,"connect-button")}>Connect</button>
           </span>
@@ -67,10 +73,10 @@ class SearchResults extends React.Component {
 
 //{...card_theme(0,"card")}
         return (
-          <div>
-            <div {...page_theme(1,"search-container")}>
-              <h2>All orgs</h2>
-              <div><form>
+          <div {...page_theme(1,"page")}>
+            <h2 {...page_theme(8,"org-category")}>All orgs</h2>
+            <div {...page_theme(4,"search-container")}>
+              <div {...page_theme(5,"search-filter-group")}><form>
                        <input type="text" name="name"/></form>
                        <input type={'checkbox'} name={'myOrgsFilter'}/>
                        <label>My Orgs</label>
@@ -79,7 +85,7 @@ class SearchResults extends React.Component {
                        <input type={'checkbox'} name={'placeholderFilter'}/>
               </div>
 
-              <div>
+              <div {...page_theme(6,"search-filter-group")}>
                 <div>
                   <label>Max Distance:</label>
                   <input type={'text'} name={'maxDistText'}/>
@@ -88,22 +94,23 @@ class SearchResults extends React.Component {
                   <input type={'range'} name={'maxDistRange'}/>
                 </div>
 
-              </div>
-                <div>
+              </div >
+                <div{...page_theme(7,"search-filter-group")}>
                   <label>Type:</label>
-                  <select>
-                    <option value={'school'}>School</option>
-                    <option value={'church'}>Church</option>
-                    <option value={'for-profit company'}>For-profit Company</option>
-                    <option value={'individual'}>Individual</option>
-                    <option value={'organization'}>Organization</option>
-                    <option value={'library'}>Library</option>
-                    <option value={'makerspace'}>Makerspace</option>
-                    <option value={'network'}>Network</option>
-                    <option value={'non-profit'}>Non-profit</option>
+                  <select onChange={(event) => this.onTypeFilterChange(event.target.value)}>
+                    <option selected = {this.state.typeFilter === 'All'} value={'All'}>All</option>
+                    <option selected = {this.state.typeFilter === 'School'} value={'School'}>School</option>
+                    <option selected = {this.state.typeFilter === 'Church'} value={'Church'}>Church</option>
+                    <option selected = {this.state.typeFilter === 'For-profit Company'} value={'For-Profit Company'}>For-profit Company</option>
+                    <option selected = {this.state.typeFilter === 'dividual'} value={'Individual'}>Individual</option>
+                    <option selected = {this.state.typeFilter === 'Organization'} value={'Organization'}>Organization</option>
+                    <option selected = {this.state.typeFilter === 'Library'} value={'Library'}>Library</option>
+                    <option selected = {this.state.typeFilter === 'Makerspace'} value={'Makerspace'}>Makerspace</option>
+                    <option selected = {this.state.typeFilter === 'Network'} value={'Network'}>Network</option>
+                    <option selected = {this.state.typeFilter === 'Non-profit Company'} value={'Non-profit Company'}>Non-profit Company</option>
                   </select>
                 </div>
-                <div>
+                <div {...page_theme(8,"search-filter-group")}>
                   <label>Sort:</label>
                      <select onChange={(event) => this.onChange(event.target.value)}>
                        <option selected = {this.state.sorting === 'alphabetical'} value={'alphabetical'}>Alphabetical</option>
