@@ -38,17 +38,20 @@ class SearchResults extends React.Component {
           }
         }
         const cardsArray = filteredOrgs.map(card => (
-          <div>
+          <div><span>
             <CardFront card={card}/>
+            <button {...page_theme(3,"connect-button")}>Connect</button>
+          </span>
           </div>
         ));
 
 //{...card_theme(0,"card")}
         return (
           <div>
-            <div {...page_theme(0,"search-container")}>
+            <div {...page_theme(1,"search-container")}>
               <h2>All orgs</h2>
-              <div><form><input type="text" name="name"/></form>
+              <div><form>
+                       <input type="text" name="name"/></form>
                        <input type={'checkbox'} name={'myOrgsFilter'}/>
                        <label>My Orgs</label>
                        <input type={'checkbox'} name={'publicOrgsFilter'}/>
