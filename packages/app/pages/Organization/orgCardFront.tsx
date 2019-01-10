@@ -24,7 +24,7 @@ class CardFront extends React.Component {
         <h2 id="name" {...card_theme(1,"name")}>{name}</h2>
         <div {...card_theme(2,"details")}>
           <h3 id="type">{"Type: " + type}</h3>
-          <h3 id="note">{isNullOrUndefined(distance) ? "Distance not available" : "Distance: " + distance + " mi."}</h3>
+          <h3 id="note">{isNullOrUndefined(distance) ? "Distance: not available" : "Distance: " + distance + " mi."}</h3>
           {/*<p id="note">{note}</p>*/} {/*Todo think this should be distance and not note*/}
           </div>
       </span>
