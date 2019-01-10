@@ -93,16 +93,17 @@ class SearchResults extends React.Component {
               </div>
                 <div>
                   <label>Type:</label>
-                  <select>
-                    <option value={'school'}>School</option>
-                    <option value={'church'}>Church</option>
-                    <option value={'for-profit company'}>For-profit Company</option>
-                    <option value={'individual'}>Individual</option>
-                    <option value={'organization'}>Organization</option>
-                    <option value={'library'}>Library</option>
-                    <option value={'makerspace'}>Makerspace</option>
-                    <option value={'network'}>Network</option>
-                    <option value={'non-profit'}>Non-profit</option>
+                  <select onChange{(event) => this.onTypeFilterChange(event.target.value)}>
+                    <option selected = {this.state.sorting === 'all'} value={'all'}>All</option>
+                    <option selected = {this.state.sorting === 'school'} value={'school'}>School</option>
+                    <option selected = {this.state.sorting === 'church'} value={'church'}>Church</option>
+                    <option selected = {this.state.sorting === 'for-profit company'} value={'for-profit company'}>For-profit Company</option>
+                    <option selected = {this.state.sorting === 'individual'} value={'individual'}>Individual</option>
+                    <option selected = {this.state.sorting === 'organization'} value={'organization'}>Organization</option>
+                    <option selected = {this.state.sorting === 'library'} value={'library'}>Library</option>
+                    <option selected = {this.state.sorting === 'makerspace'} value={'makerspace'}>Makerspace</option>
+                    <option selected = {this.state.sorting === 'network'} value={'network'}>Network</option>
+                    <option selected = {this.state.sorting === 'non-profit'} value={'non-profit'}>Non-profit</option>
                   </select>
                 </div>
                 <div>
