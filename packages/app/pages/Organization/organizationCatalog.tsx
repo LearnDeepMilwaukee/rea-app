@@ -79,7 +79,7 @@ class SearchResults extends React.Component {
 
               <div {...page_theme(6,"search-dist-group")}>
                 <div>
-                  <label>Max Distance:</label>
+                  <label {...page_theme(9,"max-distance-label")}>Max Distance:</label>
                   <input type={'text'} name={'maxDistText'} value={50} style={{width:'40px';}}/>
                 </div>
                 <div>
