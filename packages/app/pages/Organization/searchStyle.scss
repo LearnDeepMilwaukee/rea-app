@@ -20,3 +20,21 @@
 
   }
 }
+
+.search-container{
+  display: flex;
+  padding: 4px;
+  padding-right: 6px;
+
+}
+
+.connect-button{
+  max-width: 20%;
+  background-color: #0ceaf2;
+}
+
+.search-filter-group{
+  input {
+    padding-right: 10px;
+  }
+}
