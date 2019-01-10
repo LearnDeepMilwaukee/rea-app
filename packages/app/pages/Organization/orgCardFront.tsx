@@ -3,7 +3,9 @@ import has = Reflect.has;
 import * as React from "react";
 import * as themable from "react-themeable";
 import * as cardTheme from "./cardStyle.scss";
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined, isUndefined} from "util";
+import {NULL} from "graphql/language/kinds";
+import defaultimg from './default.png'
 
 class CardFront extends React.Component {
 
@@ -16,16 +18,19 @@ class CardFront extends React.Component {
     let note = org.note;
     let org_image = org.image;
     let card_theme = themable(cardTheme);
-    let alt_desc = name + " logo";
-    console.log(org);
+
+    if(org_image.trim() == ""){
+      console.log("DDDDDDDDDDDDD");
+      console.log(defaultimg);
+
+    }
     return(
       <span {...card_theme(0,"card")}>
-        <img src={org_image} alt={alt_desc} {...card_theme(4,"img")}/>
+        <img src={isNullOrUndefined(org_image) ? defaultimg : org_image} {...card_theme(4,"img")}/>
         <h2 id="name" {...card_theme(1,"name")}>{name}</h2>
         <div {...card_theme(2,"details")}>
           <h3 id="type">{"Type: " + type}</h3>
           <h3 id="note">{isNullOrUndefined(distance) ? "Distance not available" : "Distance: " + distance + " mi."}</h3>
-          {/*<p id="note">{note}</p>*/} {/*Todo think this should be distance and not note*/}
           </div>
       </span>
   )
