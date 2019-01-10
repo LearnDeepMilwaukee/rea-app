@@ -25,6 +25,11 @@ fragment agentInterface on Agent {
   ownedEconomicResources{
     id
   }
+  primaryLocation{
+    latitude,
+    longitude,
+    address
+  }
   agentProcesses{
     id
   }

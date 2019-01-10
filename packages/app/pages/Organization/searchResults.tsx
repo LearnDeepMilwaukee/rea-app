@@ -5,13 +5,25 @@ import * as themable from "react-themeable";
 import CardFront from "./orgCardFront";
 import * as cardTheme from "./cardStyle.scss";
 import * as pageTheme from "./searchStyle.scss";
-
+import {sortByName} from "./sorting.tsx"
+import {sortByDistance} from "./sorting.tsx"
 
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
 
 
 class SearchResults extends React.Component {
 
+  constructor() {
+    super();
+    this.state = {
+      sorting: "alphabetical",
+      load: true
+    };
+  }
+
+  onChange = (value) => {
+    this.setState({sorting:value});
+  };
 
   render() {
 
@@ -37,6 +49,14 @@ class SearchResults extends React.Component {
             console.log("Matching Org: " + org.name);
           }
         }
+          if(this.state.sorting === "alphabetical"){
+            filteredOrgs = sortByName(filteredOrgs);
+          }
+          else if(this.state.sorting === "distance"){
+            let baseLocation = [-87.909020,43.044004];
+            filteredOrgs = sortByDistance(filteredOrgs,baseLocation);
+          }
+
         const cardsArray = filteredOrgs.map(card => (
           <div><span>
             <CardFront card={card}/>
@@ -85,10 +105,10 @@ class SearchResults extends React.Component {
                 </div>
                 <div>
                   <label>Sort:</label>
-                  <select>
-                    <option value={'alphabetical'}>Alphabetical</option>
-                    <option value={'distance'}>Distance</option>
-                  </select>
+                     <select onChange={(event) => this.onChange(event.target.value)}>
+                       <option selected = {this.state.sorting === 'alphabetical'} value={'alphabetical'}>Alphabetical</option>
+                       <option selected = {this.state.sorting === 'distance'} value={'distance'}>Distance</option>
+                     </select>
                 </div>
               </div>
             <div>
