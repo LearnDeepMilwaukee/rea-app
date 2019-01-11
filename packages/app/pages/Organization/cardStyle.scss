@@ -19,12 +19,14 @@
 }
 
 .name{
-  align-self: flex-start;
+  align-self: center;
+  justify-content: flex-start;
 }
 
 .details{
-  align-self: flex-end;
-  justify-content: flex-end;
+  align-self: center;
+  margin-left: auto;
+
 }
 
 
@@ -39,6 +41,7 @@
   perspective: 1000px;
   border: 1px solid black;
   display:flex;
+  flex-direction: row;
   align-self: center;
   justify-content: flex-start;
 
