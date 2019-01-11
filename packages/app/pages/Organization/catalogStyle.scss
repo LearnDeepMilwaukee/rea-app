@@ -1,8 +1,9 @@
 /*- Typograpy and resets -*/
 .page{
 
-  background-color: #e7eff6;
-
+  background-color:#e7eff6;
+  min-width:100vw;
+  min-height: 100vh;
 
   html {
     font-size: 16px;
@@ -16,13 +17,6 @@
     display: inline-block;
   }
 
-.org-card {
-
-}
-
-  .card-container{
-
-  }
 }
 
 .org-category{
