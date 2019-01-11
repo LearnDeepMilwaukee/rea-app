@@ -88,8 +88,8 @@ class SearchResults extends React.Component {
 
               </div >
                 <div{...page_theme(7,"search-filter-group")}>
-                  <label>Type:</label>
-                  <select onChange={(event) => this.onTypeFilterChange(event.target.value)}>
+                  <label>Type:</label><br/>
+                  <select onChange={(event) => this.onTypeFilterChange(event.target.value)} style={{width:'100px';}}>
                     <option selected = {this.state.typeFilter === 'All'} value={'All'}>All</option>
                     <option selected = {this.state.typeFilter === 'School'} value={'School'}>School</option>
                     <option selected = {this.state.typeFilter === 'Church'} value={'Church'}>Church</option>
