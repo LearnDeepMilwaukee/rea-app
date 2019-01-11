@@ -1,10 +1,11 @@
 // React component for the frontside of the card
+import has = Reflect.has;
 import * as React from "react";
 import * as themable from "react-themeable";
 import CardFront from "./orgCardFront";
 import * as cardTheme from "./cardStyle.scss";
 import * as pageTheme from "./catalogStyle.scss";
-import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities.tsx"
+import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities"
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
 import {isNullOrUndefined} from "util";
 
@@ -16,16 +17,23 @@ class SearchResults extends React.Component {
     this.state = {
       sorting: "alphabetical",
       typeFilter: "All",
+      distanceFilter: 50,
       load: true
     };
   }
 
   onChange = (value) => {
+    console.log(value);
     this.setState({sorting:value});
   };
 
   onTypeFilterChange = (value) => {
+    console.log(value);
     this.setState({typeFilter:value});
+  };
+
+  onDistanceFilterChange = (value) => {
+    this.setState({distanceFilter:value});
   };
 
   render() {
@@ -49,8 +57,10 @@ class SearchResults extends React.Component {
         for(let org of organizationList){
           if(isNullOrUndefined(orgname) || org.name.includes(orgname)){
             filteredOrgs.push(org);
+            console.log("Matching Org: " + org.name);
           }
         }
+          filteredOrgs = filterByDistance(filteredOrgs,this.state.distanceFilter,msoeCC);
           if(this.state.typeFilter !== "All") {
             filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
           }
@@ -90,7 +100,7 @@ class SearchResults extends React.Component {
               <div {...page_theme(6,"search-dist-group")}>
                 <div>
                   <label {...page_theme(9,"max-distance-label")}>Max Distance:</label>
-                  <input type={'text'} name={'maxDistText'} value={50} style={{width:'40px';}}/>
+                  <input onChange={(event) => this.onDistanceFilterChange(event.target.value)} type={'text'} name={'maxDistText'} value={50} style={{width:'40px'}}/>
                 </div>
                 <div>
                   <input type={'range'} name={'maxDistRange'}/>
@@ -99,7 +109,7 @@ class SearchResults extends React.Component {
               </div >
                 <div{...page_theme(7,"search-filter-group")}>
                   <label>Type:</label><br/>
-                  <select onChange={(event) => this.onTypeFilterChange(event.target.value)} style={{width:'100px';}}>
+                  <select onChange={(event) => this.onTypeFilterChange(event.target.value)} style={{width:'100px'}}>
                     <option selected = {this.state.typeFilter === 'All'} value={'All'}>All</option>
                     <option selected = {this.state.typeFilter === 'School'} value={'School'}>School</option>
                     <option selected = {this.state.typeFilter === 'Church'} value={'Church'}>Church</option>
