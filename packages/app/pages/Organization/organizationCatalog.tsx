@@ -78,10 +78,11 @@ class SearchResults extends React.Component {
             <div {...page_theme(4,"search-container")}>
               <div {...page_theme(5,"search-filter-group")}>
                 <form>
-                       <input type="text" name="nameSearchParam" value={isNullOrUndefined(orgname) ? "" : orgname}/>
-                       <input type={'checkbox'} name={'myOrgsFilter'}/>
+                       <input type="text" name="nameSearchParam" defaultValue={orgname}/>
+                       <input type={'checkbox'} name={'myOrgsFilter'} checked={search.get('myOrgsFilter') === 'on'} onClick={this.checked = !this.checked}/>
                        <label>My Orgs</label>
-                       <input type={'checkbox'} name={'publicOrgsFilter'} checked/>
+                  {/*If there is no nameSearchParam, then this button should be checked since it is the initial load*/}
+                       <input type={'checkbox'} name={'publicOrgsFilter'} checked={search.get('publicOrgsFilter') === 'on' || !search.has("nameSearchParam")} onClick={this.checked = !this.checked}/>
                        <label>Public</label>
                 </form>
               </div>
