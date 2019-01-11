@@ -34,7 +34,7 @@ class SearchResults extends React.Component {
     let page_theme = themable(pageTheme);
     let search = new URLSearchParams(this.props.location.search);
     let msoeCC = {latitude:43.044004,longitude:-87.909020};
-
+    let orgname = search.get("nameSearchParam");
     const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
 
       if (loading) {
@@ -44,8 +44,13 @@ class SearchResults extends React.Component {
       } else if (error) {
         return (<p style={{color: "#F00"}}>API error</p>);
       } else {
-        let filteredOrgs = organizationList.slice();
+        let filteredOrgs = [];
 
+        for(let org of organizationList){
+          if(isNullOrUndefined(orgname) || org.name.includes(orgname)){
+            filteredOrgs.push(org);
+          }
+        }
           if(this.state.typeFilter !== "All") {
             filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
           }
@@ -63,18 +68,22 @@ class SearchResults extends React.Component {
           </span>
           </div>
         ));
+        if(cardsArray.length == 0){
+          cardsArray = <p {...page_theme(10,"no-results")}> No search results</p>;
+        }
 
-//{...card_theme(0,"card")}
         return (
           <div {...page_theme(1,"page")}>
             <h2 {...page_theme(8,"org-category")}>All orgs</h2>
             <div {...page_theme(4,"search-container")}>
-              <div {...page_theme(5,"search-filter-group")}><form>
-                       <input type="text" name="name" placeholder={"search by name"}/>
-                       <input type={'checkbox'} name={'myOrgsFilter'} checked/>
+              <div {...page_theme(5,"search-filter-group")}>
+                <form>
+                       <input type="text" name="nameSearchParam" value={isNullOrUndefined(orgname) ? "" : orgname}/>
+                       <input type={'checkbox'} name={'myOrgsFilter'}/>
                        <label>My Orgs</label>
                        <input type={'checkbox'} name={'publicOrgsFilter'} checked/>
-                       <label>Public</label></form>
+                       <label>Public</label>
+                </form>
               </div>
 
               <div {...page_theme(6,"search-dist-group")}>
