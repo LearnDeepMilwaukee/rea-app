@@ -7,13 +7,14 @@ import * as cardTheme from "./cardStyle.scss";
 import * as pageTheme from "./catalogStyle.scss";
 import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities"
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
-import {isNullOrUndefined} from "util";
+import {error, isNullOrUndefined} from "util";
 
 
 class SearchResults extends React.Component {
 
   constructor() {
     super();
+    this.handleReset = this.handleReset.bind(this);
     this.state = {
       sorting: "alphabetical",
       typeFilter: "All",
@@ -35,6 +36,14 @@ class SearchResults extends React.Component {
   onDistanceFilterChange = function(value) {
     this.setState({distanceFilter:value});
   };
+
+  handleReset (event) {
+    console.log("CLCIKEDCKED");
+    this.setState({distanceFilter:"50"});
+    this.setState({typeFilter:"alphabetical"});
+    this.setState({sorting:"All"});
+
+  }
 
   render() {
 
