@@ -43,17 +43,32 @@
   justify-content: center;
 }
 
-.connect-button{
-  width: 10%;
+.primary-button{
+  width: auto;
+  height: auto;
   background-color: #169BD5;
   display: flex;
-  height: 45px;
   color: white;
   font-size: 18px;
   justify-content: center;
   border-style: solid;
   border-width: thin;
   border-radius: 8px;
+  padding: 8px;
+}
+
+.negative-button{
+  width: auto;
+  height: auto;
+  background-color: #f6602d;
+  display: flex;
+  color: white;
+  font-size: 18px;
+  justify-content: center;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 8px;
+  padding: 8px;
 }
 
 .search-filter-group{

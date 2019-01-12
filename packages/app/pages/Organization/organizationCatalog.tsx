@@ -22,17 +22,17 @@ class SearchResults extends React.Component {
     };
   }
 
-  onChange = (value) => {
+  onSortFilterChange = function (value){
     console.log(value);
     this.setState({sorting:value});
   };
 
-  onTypeFilterChange = (value) => {
+  onTypeFilterChange = function(value) {
     console.log(value);
     this.setState({typeFilter:value});
   };
 
-  onDistanceFilterChange = (value) => {
+  onDistanceFilterChange = function(value) {
     this.setState({distanceFilter:value});
   };
 
@@ -74,7 +74,7 @@ class SearchResults extends React.Component {
         const cardsArray = filteredOrgs.map(card => (
           <div><span {...page_theme(4,"org-card-button")}>
             <CardFront card={card} distance={isNullOrUndefined(card.primaryLocation) ? null : getDistanceBetweenPoints(card.primaryLocation,msoeCC).toFixed(3)}/>
-            <button {...page_theme(3,"connect-button")}>Connect</button>
+            <button {...page_theme(3,"primary-button")}>connect</button>
           </span>
           </div>
         ));
@@ -95,18 +95,18 @@ class SearchResults extends React.Component {
                        <input type={'checkbox'} name={'publicOrgsFilter'} checked={search.get('publicOrgsFilter') === 'on' || !search.has("nameSearchParam")} onClick={this.checked = !this.checked}/>
                        <label>Public</label>
                 </form>
-              </div>
+                </div>
 
-              <div {...page_theme(6,"search-dist-group")}>
+                <div {...page_theme(6,"search-dist-group")}>
                 <div>
-                  <label {...page_theme(9,"max-distance-label")}>Max Distance:</label>
+                  <label {...page_theme(9,"max-distance-label")}>Max Distance(mi):</label>
                   <input onChange={(event) => this.onDistanceFilterChange(event.target.value)} type={'text'} name={'maxDistText'} value={50} style={{width:'40px'}}/>
                 </div>
                 <div>
                   <input type={'range'} name={'maxDistRange'}/>
                 </div>
 
-              </div >
+                </div >
                 <div{...page_theme(7,"search-filter-group")}>
                   <label>Type:</label><br/>
                   <select onChange={(event) => this.onTypeFilterChange(event.target.value)} style={{width:'100px'}}>
@@ -124,10 +124,13 @@ class SearchResults extends React.Component {
                 </div>
                 <div {...page_theme(8,"search-filter-group")}>
                   <label>Sort:</label>
-                     <select onChange={(event) => this.onChange(event.target.value)}>
+                     <select onChange={(event) => this.onSortFilterChange(event.target.value)}>
                        <option selected = {this.state.sorting === 'alphabetical'} value={'alphabetical'}>Alphabetical</option>
                        <option selected = {this.state.sorting === 'distance'} value={'distance'}>Distance</option>
                      </select>
+                </div>
+                <div {...page_theme(12,"search-filter-group")}>
+                  <button {...page_theme(13,"negative-button")}>reset filters</button>
                 </div>
               </div>
             <div>
