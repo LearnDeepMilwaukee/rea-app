@@ -113,18 +113,23 @@ class SearchResults extends React.Component {
             <h2 {...page_theme(8,"org-category")}>All orgs</h2>
             <div {...page_theme(4,"search-container")}>
               <div {...page_theme(5,"search-filter-group")}>
-
+                <div>
                 <input autoFocus={this.state.nameChanged} type="text" onChange={(event) => this.onNameChange(event.target.value)} defaultValue={this.state.nameFilter}/>
-                <label>My Orgs</label>
+                </div>
                 <input type="checkbox" checked={this.state.myOrgsFilter} onClick={(event) => {this.checked = !this.checked; this.onMyOrgsChange(event.target.checked)}}/>
-                <label>Public</label>
+                <label>My Orgs</label>
+
                 <input type="checkbox" checked={this.state.pubOrgsFilter} onClick={(event) => {this.checked = !this.checked; this.onPubOrgsChange(event.target.checked)}}/>
+                <label>Public</label>
+
+              </div>
                 <div {...page_theme(6,"search-dist-group")}>
                   <label {...page_theme(9,"max-distance-label")}>Max Distance(mi):</label>
                   <input autoFocus={this.state.distanceChanged} onChange={(event) => {this.onDistanceFilterChange(event.target.value)}} type={'number'} min={1} name={'maxDistText'} defaultValue={this.state.distanceFilter} style={{width:'40px'}}/>
                   <div>
                     <input type={'range'} name={'maxDistRange'} min={1} max={100} onMouseUp={(event) => {this.onDistanceFilterChange(event.target.value)}} defaultValue={this.state.distanceFilter}/>
                   </div>
+                </div>
                 <div{...page_theme(7,"search-filter-group")}>
                   <label>Type:</label><br/>
                   <select onChange={(event) => this.onTypeFilterChange(event.target.value)} style={{width:'100px'}}>
@@ -148,11 +153,6 @@ class SearchResults extends React.Component {
                   </select>
                 </div>
 
-                </div>
-
-
-
-                </div >
 
                 <div {...page_theme(12,"search-filter-group")}>
                   <button {...page_theme(13,"negative-button")} onClick={this.handleReset}>reset filters</button>
