@@ -21,7 +21,9 @@ class SearchResults extends React.Component {
       load: true,
       nameFilter: "",
       myOrgsFilter:false,
-      pubOrgsFilter: true
+      pubOrgsFilter: true,
+      nameChanged: true,
+      distanceChanged: false
     };
   }
 
@@ -36,7 +38,7 @@ class SearchResults extends React.Component {
   };
 
   onDistanceFilterChange = function(value) {
-    this.setState({distanceFilter:value});
+    this.setState({distanceFilter:value, nameChanged:false, distanceChanged:true});
   };
 
   handleReset = function(value) {
@@ -47,7 +49,7 @@ class SearchResults extends React.Component {
   };
   onNameChange = function (value) {
     console.log(value);
-    this.setState({nameFilter:value});
+    this.setState({nameFilter:value, nameChanged:true, distanceChanged:false});
   };
   onMyOrgsChange = function (value) {
     console.log("myOrgs: " + value.toString());
@@ -82,7 +84,9 @@ class SearchResults extends React.Component {
             // console.log("Matching Org: " + org.name);
           }
         }
-          filteredOrgs = filterByDistance(filteredOrgs,this.state.distanceFilter,msoeCC);
+          if(this.state.distanceFilter!='') {
+            filteredOrgs = filterByDistance(filteredOrgs, this.state.distanceFilter, msoeCC);
+          }
           if(this.state.typeFilter !== "All") {
             filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
           }
@@ -110,14 +114,14 @@ class SearchResults extends React.Component {
             <div {...page_theme(4,"search-container")}>
               <div {...page_theme(5,"search-filter-group")}>
 
-                <input autoFocus type="text" onChange={(event) => this.onNameChange(event.target.value)} defaultValue={this.state.nameFilter}/>
+                <input autoFocus={this.state.nameChanged} type="text" onChange={(event) => this.onNameChange(event.target.value)} defaultValue={this.state.nameFilter}/>
                 <label>My Orgs</label>
                 <input type="checkbox" checked={this.state.myOrgsFilter} onClick={(event) => {this.checked = !this.checked; this.onMyOrgsChange(event.target.checked)}}/>
                 <label>Public</label>
                 <input type="checkbox" checked={this.state.pubOrgsFilter} onClick={(event) => {this.checked = !this.checked; this.onPubOrgsChange(event.target.checked)}}/>
                 <div {...page_theme(6,"search-dist-group")}>
                   <label {...page_theme(9,"max-distance-label")}>Max Distance(mi):</label>
-                  <input onChange={(event) => this.onDistanceFilterChange(event.target.value)} type={'text'} name={'maxDistText'} value={50} style={{width:'40px'}}/>
+                  <input autoFocus={this.state.distanceChanged} onChange={(event) => {this.onDistanceFilterChange(event.target.value)}} type={'number'} min={1} name={'maxDistText'} defaultValue={this.state.distanceFilter} style={{width:'40px'}}/>
                   <div>
                     <input type={'range'} name={'maxDistRange'}/>
                   </div>
