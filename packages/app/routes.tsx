@@ -32,7 +32,8 @@ import OrgCatalog from "./pages/Organization/organizationCatalog";
 
 const routes = (
   <Route path="/" component={App}>
-    <IndexRoute component={Landing}/>
+    {/*<IndexRoute component={Landing} />*/}
+    <IndexRoute component={OrgCatalog} />
 
     <Route path="login" component={Todo}/>
     <Route path="register">
