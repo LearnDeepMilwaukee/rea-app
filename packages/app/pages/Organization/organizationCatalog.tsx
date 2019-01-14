@@ -41,10 +41,9 @@ class SearchResults extends React.Component {
     this.setState({distanceFilter:value, nameChanged:false, distanceChanged:true});
   };
 
-  handleReset = function(value) {
-    console.log("CLCIKEDCKED");
-    // Update state here
-    // this.setState({distanceFilter: 50,sorting:"alphabetical",typeFilter:"All", nameFilter: "", myOrgsFilter: false, pubOrgsFilter:true});
+  handleReset = function(env, value) {
+    console.log("Resetting search filters");
+    env.setState({distanceFilter: 50,sorting:"alphabetical",typeFilter:"All", nameFilter: "", myOrgsFilter: false, pubOrgsFilter:true});
 
   };
   onNameChange = function (value) {
@@ -159,7 +158,7 @@ class SearchResults extends React.Component {
 
 
                 <div {...page_theme(12,"search-filter-group")}>
-                  <button {...page_theme(13,"negative-button")} onClick={this.handleReset}>reset filters</button>
+                  <button {...page_theme(13,"negative-button")} onClick={(event) => {this.handleReset(this,event.target.value)}}>reset filters</button>
                 </div>
               </div>
             <div>
