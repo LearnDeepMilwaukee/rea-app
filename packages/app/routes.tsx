@@ -34,7 +34,8 @@ import Card from "./pages/Organization/orgCard"
 
 const routes = (
   <Route path="/" component={App}>
-    <IndexRoute component={Landing} />
+    {/*<IndexRoute component={Landing} />*/}
+    <IndexRoute component={OrgCatalog} />
 
     <Route path="login" component={Todo} />
     <Route path="register">
