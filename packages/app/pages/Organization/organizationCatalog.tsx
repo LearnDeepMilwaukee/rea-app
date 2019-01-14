@@ -7,7 +7,7 @@ import * as cardTheme from "./cardStyle.scss";
 import * as pageTheme from "./catalogStyle.scss";
 import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities"
 import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
-import {error, isNullOrUndefined} from "util";
+import {isNullOrUndefined} from "util";
 
 
 class SearchResults extends React.Component {
@@ -22,8 +22,7 @@ class SearchResults extends React.Component {
       nameFilter: "",
       myOrgsFilter:false,
       pubOrgsFilter: true,
-      nameChanged: true,
-      distanceChanged: false
+      useNameFilter: true
     };
   }
 
@@ -38,17 +37,17 @@ class SearchResults extends React.Component {
   };
 
   onDistanceFilterChange = function(value) {
-    this.setState({distanceFilter:value, nameChanged:false, distanceChanged:true});
+    this.setState({distanceFilter:value});
   };
 
   handleReset = function(env, value) {
     console.log("Resetting search filters");
-    env.setState({distanceFilter: 50,sorting:"alphabetical",typeFilter:"All", nameFilter: "", myOrgsFilter: false, pubOrgsFilter:true});
+    env.setState({distanceFilter: 50,sorting:"alphabetical",typeFilter:"All", nameFilter: "", myOrgsFilter: false, pubOrgsFilter:true, useNameFilter: false});
 
   };
   onNameChange = function (value) {
     console.log(value);
-    this.setState({nameFilter:value, nameChanged:true, distanceChanged:false});
+    this.setState({nameFilter:value, useNameFilter: true});
   };
   onMyOrgsChange = function (value) {
     console.log("myOrgs: " + value.toString());
@@ -67,7 +66,7 @@ class SearchResults extends React.Component {
     let page_theme = themable(pageTheme);
     let msoeCC = {latitude:43.044004,longitude:-87.909020};
     let paramSearch = new URLSearchParams(this.props.location.search);
-    this.state.nameFilter = paramSearch.get("orgName");
+    this.state.nameFilter = (this.state.useNameFilter ? paramSearch.get("orgName") : "");
     const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
 
       if (loading) {
@@ -116,7 +115,7 @@ class SearchResults extends React.Component {
               <div {...page_theme(5,"search-filter-group")}>
                 <div>
                 <form >
-                  <input name={'orgName'} autoFocus={this.state.nameChanged} type="text" onSubmit={(event) => this.onNameChange(event.target.value)} defaultValue={this.state.nameFilter}/>
+                  <input name={'orgName'} type="text" onSubmit={(event) => this.onNameChange(event.target.value)} defaultValue={this.state.nameFilter}/>
                 </form>
                 </div>
                 <input type="checkbox" checked={this.state.myOrgsFilter} onClick={(event) => {this.checked = !this.checked; this.onMyOrgsChange(event.target.checked)}}/>
@@ -128,7 +127,7 @@ class SearchResults extends React.Component {
               </div>
                 <div {...page_theme(6,"search-dist-group")}>
                   <label {...page_theme(9,"max-distance-label")}>Max Distance(mi):</label>
-                  <input autoFocus={this.state.distanceChanged} onChange={(event) => {this.onDistanceFilterChange(event.target.value)}} type={'number'} min={1} name={'maxDistText'} defaultValue={this.state.distanceFilter} style={{width:'40px'}}/>
+                  <input onChange={(event) => {this.onDistanceFilterChange(event.target.value)}} type={'number'} min={1} name={'maxDistText'} defaultValue={this.state.distanceFilter} style={{width:'40px'}}/>
                   <div>
                     <input type={'range'} name={'maxDistRange'} min={1} max={100} onMouseUp={(event) => {this.onDistanceFilterChange(event.target.value)}} defaultValue={this.state.distanceFilter}/>
                   </div>
