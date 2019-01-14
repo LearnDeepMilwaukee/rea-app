@@ -49,7 +49,7 @@ export function filterByDistance(elements, maxDistance, baseLocation) {
     nullLocationCounter += (isNullOrUndefined(element.primaryLocation) ? 1 : 0);
   });
   if (nullLocationCounter > 0) {
-    alert("There were " + nullLocationCounter + " Organizations without a location");
+    console.log("There were " + nullLocationCounter + " Organizations without a location");
   }
   return elements.filter(function (element) {
     return getDistanceBetweenPoints(element.primaryLocation, baseLocation) < maxDistance;

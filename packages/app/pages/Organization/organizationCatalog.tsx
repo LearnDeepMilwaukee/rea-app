@@ -67,6 +67,8 @@ class SearchResults extends React.Component {
     console.log(this.state);
     let page_theme = themable(pageTheme);
     let msoeCC = {latitude:43.044004,longitude:-87.909020};
+    let paramSearch = new URLSearchParams(this.props.location.search);
+    this.state.nameFilter = paramSearch.get("orgName");
     const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
 
       if (loading) {
@@ -81,7 +83,7 @@ class SearchResults extends React.Component {
         for(let org of organizationList){
           if(isNullOrUndefined(this.state.nameFilter) || org.name.includes(this.state.nameFilter)){
             filteredOrgs.push(org);
-            // console.log("Matching Org: " + org.name);
+            console.log("Org matching filter " + this.state.nameFilter + ": " + org.name);
           }
         }
           if(this.state.distanceFilter!='') {
@@ -114,7 +116,9 @@ class SearchResults extends React.Component {
             <div {...page_theme(4,"search-container")}>
               <div {...page_theme(5,"search-filter-group")}>
                 <div>
-                <input autoFocus={this.state.nameChanged} type="text" onChange={(event) => this.onNameChange(event.target.value)} defaultValue={this.state.nameFilter}/>
+                <form >
+                  <input name={'orgName'} autoFocus={this.state.nameChanged} type="text" onSubmit={(event) => this.onNameChange(event.target.value)} defaultValue={this.state.nameFilter}/>
+                </form>
                 </div>
                 <input type="checkbox" checked={this.state.myOrgsFilter} onClick={(event) => {this.checked = !this.checked; this.onMyOrgsChange(event.target.checked)}}/>
                 <label>My Orgs</label>
