@@ -55,6 +55,10 @@ class SearchResults extends React.Component {
     this.setState({pubOrgsFilter:value});
   };
 
+  notImplementedFunction = function () {
+    alert("This feature is not yet implemented");
+  };
+
 
 
   render() {
@@ -93,7 +97,7 @@ class SearchResults extends React.Component {
         const cardsArray = filteredOrgs.map(card => (
           <div><span {...page_theme(4,"org-card-button")}>
             <CardFront card={card} distance={isNullOrUndefined(card.primaryLocation) ? null : getDistanceBetweenPoints(card.primaryLocation,msoeCC).toFixed(3)}/>
-            <button {...page_theme(3,"primary-button")}>connect</button>
+            <button {...page_theme(3,"primary-button")} onClick={this.notImplementedFunction}>connect</button>
           </span>
           </div>
         ));
@@ -150,7 +154,7 @@ class SearchResults extends React.Component {
 
 
                 <div {...page_theme(12,"search-filter-group")}>
-                  <button {...page_theme(13,"negative-button")} onClick={(event) => {this.handleReset(this,event.target.value)}}>reset filters</button>
+                  <button {...page_theme(13,"negative-button")} onClick={(event) => {this.handleReset(this,event.target.value)}}>Reset filters</button>
                 </div>
               </div>
             <div>
