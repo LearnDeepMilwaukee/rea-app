@@ -31,13 +31,13 @@ class SearchResults extends React.Component {
     this.setState({typeFilter: value});
   };
 
-  onDistanceFilterChange = function (event) {
-    if (event.key === 'Enter') {
+  onDistanceFilterChange = function (event, override) {
+    if (event.key === 'Enter' || override) {
       this.setState({distanceFilter: event.target.value});
     }
   };
 
-  handleReset = function (env, value) {
+  handleReset = function (env) {
     env.setState({
       distanceFilter: 50,
       sorting: "alphabetical",
@@ -135,13 +135,13 @@ class SearchResults extends React.Component {
               <div {...page_theme(6, "search-dist-group")}>
                 <label {...page_theme(9, "max-distance-label")}>Max Distance(mi):</label>
                 <input onKeyPress={(event) => {
-                  this.onDistanceFilterChange(event)
+                  this.onDistanceFilterChange(event,false)
                 }} type={'number'} min={1} name={'maxDistText'} defaultValue={this.state.distanceFilter}
                        style={{width: '50px'}}/>
                 <div><span>
                     <label>1 mi</label>
                     <input type={'range'} name={'maxDistRange'} min={1} max={100} onMouseUp={(event) => {
-                      this.onDistanceFilterChange(event.target.value)
+                      this.onDistanceFilterChange(event,true)
                     }} defaultValue={this.state.distanceFilter}/>
                   <label>100 mi</label></span>
                 </div>
@@ -177,7 +177,7 @@ class SearchResults extends React.Component {
 
               <div {...page_theme(12, "search-filter-group")}>
                 <button {...page_theme(13, "negative-button")} onClick={(event) => {
-                  this.handleReset(this, event.target.value)
+                  this.handleReset(this)
                 }}>Reset filters
                 </button>
               </div>

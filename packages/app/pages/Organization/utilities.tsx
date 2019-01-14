@@ -52,6 +52,7 @@ export function filterByDistance(elements, maxDistance, baseLocation) {
     console.log("There were " + nullLocationCounter + " Organizations without a location");
   }
   return elements.filter(function (element) {
-    return getDistanceBetweenPoints(element.primaryLocation, baseLocation) < maxDistance;
+    let distance = getDistanceBetweenPoints(element.primaryLocation, baseLocation);
+    return distance < maxDistance || distance == Number.MAX_SAFE_INTEGER;
   })
 }
