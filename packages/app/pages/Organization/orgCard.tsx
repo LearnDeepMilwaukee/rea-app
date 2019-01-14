@@ -13,7 +13,6 @@ class CardFront extends React.Component {
     let name = org.name;
     let distance = this.props.distance;
     let type = org.type;
-    let note = org.note;
     let org_image = org.image;
     let card_theme = themable(cardTheme);
     let alt_desc = require("./defaultuserimg.jpg"); // Way of using images in react it has to be done this way for web pack to recognize it. Doing reacts way does not work, only the webpack specific way works.

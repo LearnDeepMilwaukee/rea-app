@@ -31,13 +31,14 @@ class SearchResults extends React.Component {
     this.setState({typeFilter: value});
   };
 
+  //Override is here for the distance slider so that it updates the value as well.
   onDistanceFilterChange = function (event, override) {
     if (event.key === 'Enter' || override) {
       this.setState({distanceFilter: event.target.value});
     }
   };
 
-  handleReset = function (env, value) {
+  handleReset = function (env) {
     env.setState({
       distanceFilter: 50,
       sorting: "alphabetical",
@@ -102,7 +103,7 @@ class SearchResults extends React.Component {
           <div id={"cardContainer"}><span {...page_theme(4, "org-card-button")}>
             <CardFront card={card}
                        distance={isNullOrUndefined(card.primaryLocation) ? null : getDistanceBetweenPoints(card.primaryLocation, msoeCC).toFixed(1)}/>
-            <button {...page_theme(3, "primary-button")} onClick={this.notImplementedFunction}>connect</button>
+            <button {...page_theme(3, "primary-button")} onClick={this.notImplementedFunction}>Connect</button>
           </span>
           </div>
         ));
