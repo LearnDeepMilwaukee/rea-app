@@ -19,9 +19,6 @@ fragment agentInterface on Agent {
   type
   image
   note
-   primaryLocation{
-        address
-   }
   ownedEconomicResources{
     id
   }
@@ -59,7 +56,6 @@ export interface Agent {
   type: string
   image: string
   note: string
-  address: string
   ownedEconomicResources: [EconomicResource]
   agentProcesses: [Process]
   agentPlans: [any] // TODO replace with [Plan]
