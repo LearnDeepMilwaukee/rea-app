@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Route, IndexRoute, IndexRedirect } from "react-router";
+import {Route, IndexRoute, IndexRedirect} from "react-router";
 
 import App from "./main/App";
 import Todo from "./pages/Todo";
@@ -28,62 +28,60 @@ import Plan from "./pages/Api/plan";
 import orgEdit from "./pages/Edit/organizationEdit";
 import OrganizationRegistration from "./pages/Registration/organizationRegistration";
 import IndividualRegistration from "./pages/Registration/individualRegistration";
-import CardFront from "./pages/Organization/orgCardFront";
 import OrgCatalog from "./pages/Organization/organizationCatalog";
-import Card from "./pages/Organization/orgCard"
 
 const routes = (
   <Route path="/" component={App}>
     {/*<IndexRoute component={Landing} />*/}
     <IndexRoute component={OrgCatalog} />
 
-    <Route path="login" component={Todo} />
+    <Route path="login" component={Todo}/>
     <Route path="register">
-      <Route path="organization" component={OrganizationRegistration} />
-      <Route path="individual" component={IndividualRegistration} />
+      <Route path="organization" component={OrganizationRegistration}/>
+      <Route path="individual" component={IndividualRegistration}/>
     </Route>
     <Route path="organizationCatalog" component={OrgCatalog}/>
 
     <Route path="tasks" component={Todo}>
-      <IndexRedirect to="my-tasks" />
-      <Route path="my-tasks" component={Todo} />
-      <Route path="find-tasks" component={Todo} />
+      <IndexRedirect to="my-tasks"/>
+      <Route path="my-tasks" component={Todo}/>
+      <Route path="find-tasks" component={Todo}/>
     </Route>
 
     <Route path="projects">
-        <IndexRoute component={AllProjectsPage} />
-        <Route path=":id/edit" component={orgEdit}/>
-        <Route path=":id" component={SingleProjectTemplate}>
-          <IndexRoute component={OverviewPage} />
-          <Route path="processes" component={ProcessesPage} />
-          <Route path="accounts" component={AccountsPage} />
-          <Route path="members" component={MembersPage} />
-          <Route path="inventory" component={InventoryPage} />
-        </Route>
+      <IndexRoute component={AllProjectsPage}/>
+      <Route path=":id/edit" component={orgEdit}/>
+      <Route path=":id" component={SingleProjectTemplate}>
+        <IndexRoute component={OverviewPage}/>
+        <Route path="processes" component={ProcessesPage}/>
+        <Route path="accounts" component={AccountsPage}/>
+        <Route path="members" component={MembersPage}/>
+        <Route path="inventory" component={InventoryPage}/>
+      </Route>
     </Route>
 
     <Route path="profile" component={Todo}>
-      <IndexRoute component={Todo} />
-      <Route path="my-account" component={Todo} />
-      <Route path="my-skills" component={Todo} />
+      <IndexRoute component={Todo}/>
+      <Route path="my-account" component={Todo}/>
+      <Route path="my-skills" component={Todo}/>
     </Route>
 
     <Route path="api">
-      <Route path="processClassification" component={ProcessClassificationPage} />
-      <Route path="unit" component={UnitPage} />
-      <Route path="orgType" component={OrgTypePage} />
-      <Route path="agent" component={AgentPage} />
-      <Route path="organization" component={OrganizationPage} />
-      <Route path="economicresource" component={EconomicResourcePage} />
-      <Route path="economicevent" component={EconomicEvent} />
-      <Route path="agentrelationshiprole" component={AgentRelationshipRoles} />
+      <Route path="processClassification" component={ProcessClassificationPage}/>
+      <Route path="unit" component={UnitPage}/>
+      <Route path="orgType" component={OrgTypePage}/>
+      <Route path="agent" component={AgentPage}/>
+      <Route path="organization" component={OrganizationPage}/>
+      <Route path="economicresource" component={EconomicResourcePage}/>
+      <Route path="economicevent" component={EconomicEvent}/>
+      <Route path="agentrelationshiprole" component={AgentRelationshipRoles}/>
       <Route path="agentrelationship" component={AgentRelationship}/>
       <Route path="process" component={Process}/>
       <Route path="plan" component={Plan}/>
-      <Route path="person" component={PersonPage} />
+      <Route path="person" component={PersonPage}/>
 
       <Route path="mutations">
-        <Route path="createeconomicevent" component={CreateEconomicEvent} />
+        <Route path="createeconomicevent" component={CreateEconomicEvent}/>
       </Route>
     </Route>
 
