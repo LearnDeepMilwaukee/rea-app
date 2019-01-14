@@ -4,7 +4,7 @@ import * as themable from "react-themeable";
 import * as cardTheme from "./cardStyle.scss";
 import {isNullOrUndefined} from "util";
 
-
+//This method formats the content of the returned from data from the graphql requests
 class CardFront extends React.Component {
 
 

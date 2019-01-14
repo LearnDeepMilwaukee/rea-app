@@ -46,14 +46,20 @@ class SearchResults extends React.Component {
     env.setState({distanceFilter: 50,sorting:"alphabetical",typeFilter:"All", nameFilter: "", myOrgsFilter: false, pubOrgsFilter:true});
 
   };
+
+  //This function only allows Names of orgs to be shown if the search box for searching for an org changes
   onNameChange = function (event) {
     if(event.key === 'Enter') {
       this.setState({nameFilter: event.target.value});
     }
   };
+
+  //This function only allows a users orgs to be shown if the checkbox for MyOrgs is slected in the all orgs filter box
   onMyOrgsChange = function (value) {
     this.setState({myOrgsFilter:value});
   };
+
+  //This function only allows public orgs to be shown if the checkbox for public orgs is slected in the all orgs filter box
   onPubOrgsChange = function (value) {
     this.setState({pubOrgsFilter:value});
   };
