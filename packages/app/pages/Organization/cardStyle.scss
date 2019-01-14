@@ -1,7 +1,7 @@
 /*- Typograpy and resets -*/
-.card{
+.card {
 
-  display:flex;
+  display: flex;
   justify-content: space-between;
   flex-direction: row;
   border-style: solid;
@@ -18,18 +18,16 @@
   flex-grow: 1;
 }
 
-.name{
+.name {
   align-self: center;
   justify-content: flex-start;
 }
 
-.details{
+.details {
   align-self: center;
   margin-left: auto;
 
 }
-
-
 
 /*- Card container -*/
 .card-container {
@@ -40,7 +38,7 @@
   height: 420px;
   perspective: 1000px;
   border: 1px solid black;
-  display:flex;
+  display: flex;
   flex-direction: row;
   align-self: center;
   justify-content: flex-start;
@@ -48,7 +46,7 @@
 }
 
 img {
- //TODO seems to be an error when you try to redo margins
+  //TODO seems to be an error when you try to redo margins
   width: 50px;
   height: 50px;
 }
