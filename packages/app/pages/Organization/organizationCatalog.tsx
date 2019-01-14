@@ -21,52 +21,45 @@ class SearchResults extends React.Component {
       load: true,
       nameFilter: "",
       myOrgsFilter:false,
-      pubOrgsFilter: true,
-      useNameFilter: true
+      pubOrgsFilter: true
     };
   }
 
   onSortFilterChange = function (value){
-    console.log(value);
     this.setState({sorting:value});
   };
 
   onTypeFilterChange = function(value) {
-    console.log(value);
     this.setState({typeFilter:value});
   };
 
-  onDistanceFilterChange = function(value) {
-    this.setState({distanceFilter:value});
+  onDistanceFilterChange = function(event) {
+    if(event.key === 'Enter'){
+      this.setState({distanceFilter: event.target.value});
+    }
   };
 
   handleReset = function(env, value) {
-    console.log("Resetting search filters");
-    env.setState({distanceFilter: 50,sorting:"alphabetical",typeFilter:"All", nameFilter: "", myOrgsFilter: false, pubOrgsFilter:true, useNameFilter: false});
+    env.setState({distanceFilter: 50,sorting:"alphabetical",typeFilter:"All", nameFilter: "", myOrgsFilter: false, pubOrgsFilter:true});
 
   };
-  onNameChange = function (value) {
-    console.log(value);
-    this.setState({nameFilter:value, useNameFilter: true});
+  onNameChange = function (event) {
+    if(event.key === 'Enter') {
+      this.setState({nameFilter: event.target.value});
+    }
   };
   onMyOrgsChange = function (value) {
-    console.log("myOrgs: " + value.toString());
     this.setState({myOrgsFilter:value});
   };
   onPubOrgsChange = function (value) {
-    console.log("pubOrgs: " + value.toString());
     this.setState({pubOrgsFilter:value});
   };
 
 
 
   render() {
-    console.log("Start");
-    console.log(this.state);
     let page_theme = themable(pageTheme);
     let msoeCC = {latitude:43.044004,longitude:-87.909020};
-    let paramSearch = new URLSearchParams(this.props.location.search);
-    this.state.nameFilter = (this.state.useNameFilter ? paramSearch.get("orgName") : "");
     const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
 
       if (loading) {
@@ -114,9 +107,7 @@ class SearchResults extends React.Component {
             <div {...page_theme(4,"search-container")}>
               <div {...page_theme(5,"search-filter-group")}>
                 <div>
-                <form >
-                  <input name={'orgName'} type="text" onSubmit={(event) => this.onNameChange(event.target.value)} defaultValue={this.state.nameFilter}/>
-                </form>
+                  <input name={'orgName'} type="text" onKeyPress={(event) => this.onNameChange(event)} defaultValue={this.state.nameFilter}/>
                 </div>
                 <input type="checkbox" checked={this.state.myOrgsFilter} onClick={(event) => {this.checked = !this.checked; this.onMyOrgsChange(event.target.checked)}}/>
                 <label>My Orgs</label>
@@ -127,7 +118,7 @@ class SearchResults extends React.Component {
               </div>
                 <div {...page_theme(6,"search-dist-group")}>
                   <label {...page_theme(9,"max-distance-label")}>Max Distance(mi):</label>
-                  <input onChange={(event) => {this.onDistanceFilterChange(event.target.value)}} type={'number'} min={1} name={'maxDistText'} defaultValue={this.state.distanceFilter} style={{width:'40px'}}/>
+                  <input onKeyPress={(event) => {this.onDistanceFilterChange(event)}} type={'number'} min={1} name={'maxDistText'} defaultValue={this.state.distanceFilter} style={{width:'40px'}}/>
                   <div>
                     <input type={'range'} name={'maxDistRange'} min={1} max={100} onMouseUp={(event) => {this.onDistanceFilterChange(event.target.value)}} defaultValue={this.state.distanceFilter}/>
                   </div>
