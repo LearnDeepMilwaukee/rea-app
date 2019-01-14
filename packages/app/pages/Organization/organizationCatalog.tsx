@@ -123,7 +123,7 @@ class SearchResults extends React.Component {
                   <label {...page_theme(9,"max-distance-label")}>Max Distance(mi):</label>
                   <input autoFocus={this.state.distanceChanged} onChange={(event) => {this.onDistanceFilterChange(event.target.value)}} type={'number'} min={1} name={'maxDistText'} defaultValue={this.state.distanceFilter} style={{width:'40px'}}/>
                   <div>
-                    <input type={'range'} name={'maxDistRange'}/>
+                    <input type={'range'} name={'maxDistRange'} min={1} max={100} onMouseUp={(event) => {this.onDistanceFilterChange(event.target.value)}} defaultValue={this.state.distanceFilter}/>
                   </div>
                 <div{...page_theme(7,"search-filter-group")}>
                   <label>Type:</label><br/>
