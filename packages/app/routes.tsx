@@ -32,7 +32,6 @@ import OrgCatalog from "./pages/Organization/organizationCatalog";
 
 const routes = (
   <Route path="/" component={App}>
-    {/*<IndexRoute component={Landing} />*/}
     <IndexRoute component={OrgCatalog} />
 
     <Route path="login" component={Todo}/>
@@ -40,7 +39,6 @@ const routes = (
       <Route path="organization" component={OrganizationRegistration}/>
       <Route path="individual" component={IndividualRegistration}/>
     </Route>
-    <Route path="organizationCatalog" component={OrgCatalog}/>
 
     <Route path="tasks" component={Todo}>
       <IndexRedirect to="my-tasks"/>
