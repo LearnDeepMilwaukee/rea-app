@@ -11,6 +11,11 @@ import { adminToken } from "../../../../apiKeys.json";
 import * as themeable from 'react-themeable';
 import * as theme from "./individualRegistration.scss";
 
+/**
+ * This data structure stores the information that is entered by
+ * the user into the fields on the page, and is sent to the
+ * mutation to create a new user account.
+ */
 let userInformation = {
      email: "",
      pswd: "",
@@ -21,6 +26,9 @@ let userInformation = {
      allValid: false
 };
 
+/**
+ * The email field on the page
+ */
 const EmailFieldConst = (props) => {
   let currentTheme = themeable(theme);
   return(
@@ -33,11 +41,20 @@ const EmailFieldConst = (props) => {
   );
 };
 
+/**
+ * The username field on the page
+ */
 class UsernameField extends React.Component {
   public state = {
     value: ""
   };
 
+  /**
+   * This executes every time the text in the field is modified.  This
+   * grabs the value from the input field and stores it in the userInformation variable
+   * to be used with the query
+   * @param value: the value of the input field
+   */
   onChange = (value) => {
     this.setState({value: value});
     this.props.saveUsername(value);
@@ -55,12 +72,21 @@ class UsernameField extends React.Component {
   }
 }
 
+/**
+ * the password field on the page
+ */
 class PasswordField extends React.Component {
   private state = {
     passwordOne: undefined,
     passwordTwo: undefined
   };
 
+  /**
+   * This executes every time the text in the first password field is modified.  This
+   * grabs the value from the input field and stores it in the userInformation variable
+   * to be used with the query
+   * @param value: the value of the input field
+   */
   updateFirstPassword = (value) => {
     this.setState({passwordOne: value}, () => {
       if (this.state.passwordOne === this.state.passwordTwo) {
@@ -72,6 +98,12 @@ class PasswordField extends React.Component {
 
   };
 
+  /**
+   * This executes every time the text in the second password field is modified.  This
+   * grabs the value from the input field and stores it in the userInformation variable
+   * to be used with the query
+   * @param value: the value of the input field
+   */
   updateSecondPassword = (value) => {
     this.setState({passwordTwo: value}, () => {
       if (this.state.passwordOne === this.state.passwordTwo) {
@@ -100,6 +132,11 @@ class PasswordField extends React.Component {
   }
 }
 
+/**
+ * Verifies if a user exists in the database with that email.
+ * If the email is unique, create a new user.
+ * @type {React.ComponentClass<{}>}
+ */
 const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
   if (loading) {
     console.log("Loading " + loading);
@@ -119,6 +156,10 @@ const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
     }
 });
 
+/**
+ * Creates a new user in the database
+ * @type {React.ComponentClass<{}>}
+ */
 const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
 
   if (error) {
@@ -132,6 +173,10 @@ const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
   }
 });
 
+/**
+ * Calls the create user query using the values passed in through props
+ * @param props contains the infomation to be used in the query
+ */
 function CreateUser(props) {
 
   let element;
@@ -151,6 +196,11 @@ function CreateUser(props) {
   return <div>{element}</div>;
 }
 
+/**
+ * The base element for the user registration page.  This is made up of an EmailFieldConst, UsernameField
+ * and PasswordField.  This handles basic validation of the values passed and calls the queries to create
+ * a new user.
+ */
 class IndividualRegistration extends React.Component {
   private state = {
     queryingEmail: "",
