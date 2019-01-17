@@ -8,6 +8,7 @@ node_modules
 /typings
 /packages/app/webpack/webpack-assets.json
 .nyc_output
+/packages/app/tests/output
 
 /packages/**/*.js
 /packages/**/*.js.map
@@ -16,5 +17,7 @@ node_modules
 !/packages/test-helpers/*.js
 !/packages/test-helpers/**/*.js
 !/packages/app/tests/**/*.js
+
+rea-app/packages/tests/app/tests
 
 .idea/*
