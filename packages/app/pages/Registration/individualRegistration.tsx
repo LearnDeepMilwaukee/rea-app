@@ -8,7 +8,8 @@ import createUserPerson from "../../../ui-bindings/user/CreateUserPerson.tsx";
 import userEmailExist from "../../../ui-bindings/user/UserEmailExists.tsx";
 import * as EmailValidator from "email-validator";
 import {adminToken} from "../../../../apiKeys.json"
-
+import * as themeable from 'react-themeable';
+import * as theme from "./individualRegistration.scss"
 
 class EmailField extends React.Component {
   private state = {
@@ -34,11 +35,12 @@ class EmailField extends React.Component {
   };
 
   render() {
+    let currentTheme = themeable(theme);
     return (
       <div>
-        Email:*<br/>
         <span>
-        <input type="text" name="email" onChange={(event) => this.onChange(event.target.value)}/>
+          <text>Email</text>
+          <text {...currentTheme(3,"required")}>*</text><input {...currentTheme(4,"emailBox")} type="text" name="email" onChange={(event) => this.onChange(event.target.value)}/>
           {!this.state.valid ? "Email is not valid" : ""}</span>
       </div>
     );
@@ -58,10 +60,12 @@ class UsernameField extends React.Component {
   };
 
   render() {
+    let currentTheme = themeable(theme);
     return (
       <div>
-        Username*:<br/>
-        <input type="text" name="username" onChange={(event) => this.onChange(event.target.value)}/>
+        <text>Username</text>
+        <text {...currentTheme(0,"required")}>*</text><input {...currentTheme(5,"usernameBox")} type="text" name="username" onChange={(event) => this.onChange(event.target.value)}/>
+
       </div>
     );
   }
@@ -95,13 +99,19 @@ class PasswordField extends React.Component {
   };
 
   render() {
+    let currentTheme = themeable(theme);
     return (
       <div>
-        Password:*<br/>
-        <input type="password" name="password" onChange={(event) => this.updateFirstPassword(event.target.value)}/><br/>
-        Confirm Password:*<br/>
-        <input type="password" name="password"
-               onChange={(event) => this.updateSecondPassword(event.target.value)}/><br/>
+        <text>Password</text>
+        <text {...currentTheme(1,"required")}>*</text><input {...currentTheme(6,"passwordBox")} type="password" name="password" onChange={(event) => this.updateFirstPassword(event.target.value)} />
+
+        <br/>
+        <br/>
+        <text>Confirm Password</text>
+        <text {...currentTheme(2,"required")}>*</text><input {...currentTheme(7,"confirmPasswordBox")} type="password" name="password"
+               onChange={(event) => this.updateSecondPassword(event.target.value)}/>
+
+        <br/>
       </div>
     );
   }
@@ -134,8 +144,9 @@ function CheckEmail(props) {
 const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
 
   if (error) {
-    console.log(error);
-    return <p>error</p>;
+    if (error.message.indexOf("username") !== -1) {
+      alert("This username is already in use");
+    }
   }
   else if (createUserPersonVar != null) {
     return <p>{createUserPersonVar.split(',')[0]}</p>
@@ -150,10 +161,16 @@ function CreateUser(props) {
   let element;
 
   if (props.userEntered && !props.emailExists && props.allValid) {
-    element = <CreateUserQuery username={props.username} email={props.email} pswd={props.pswd}
-                               name={props.name}
-                               token={adminToken}
-                               image={props.image}/>
+    let emailExistsVariable = <EmailExistsQuery email={props.email}/>;
+    if (!emailExistsVariable) {
+      element = <CreateUserQuery username={props.username} email={props.email} pswd={props.pswd}
+                                 name={props.name}
+                                 token={adminToken}
+                                 image={props.image}/>
+    }
+    else {
+      alert("An account with this email already exists");
+    }
 
   }
   return (
@@ -201,6 +218,7 @@ class IndividualRegistration extends React.Component {
         <form id="form" onSubmit={this.handleClick}>
 
           <UsernameField saveUsername={(nameParam) => this.setNames(nameParam)}/>
+          <br/>
           <EmailField saveEmail={(emailParam) => this.state.email = emailParam}/>
           <CheckEmail email={this.state.email}/>
           <br/>
@@ -208,6 +226,7 @@ class IndividualRegistration extends React.Component {
           <CreateUser userEntered={this.state.userRan} allValid={this.state.allValid}
                       username={this.state.username} email={this.state.email}
                       pswd={this.state.pswd} name={this.state.name} image={this.state.image}/>
+          <br/>
           <input type="submit" id="register" value="Create Account"/>
         </form>
       </div>
