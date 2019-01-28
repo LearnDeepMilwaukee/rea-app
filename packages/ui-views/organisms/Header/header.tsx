@@ -60,5 +60,10 @@ const Header = CurrentUser(({ user, loading, error, theme }: UserProps) => {
       )
     ));
 });
-
+//TODO Make this header
+export const UnauthorizedHeader = () => {
+  return (
+      <p>Unauthorized Header</p>
+    );
+}
 export default Header;

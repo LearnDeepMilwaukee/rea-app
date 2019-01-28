@@ -22,6 +22,8 @@ import { matchPath } from "react-router";
 
 import LoginPage from "../../pages/Login";
 import Contributions from "../../pages/Contributions";
+import {UnauthorizedHeader} from "../../../ui-views/organisms/Header/header";
+import {Header} from "../../../ui-views/organisms/Header/header";
 const styles = require("./siteTemplate.css");
 
 export interface Props {
@@ -53,7 +55,15 @@ class SiteTemplate extends Component<Props, State> {
     return pathExempt;
   }
 
-  renderSite() {
+  renderPublicSite() {
+    return (
+        <div>
+          <UnauthorizedHeader/>
+          {this.props.children}
+        </div>
+      );
+    }
+  renderPrivateSite() {
     return (
         <div>
           <Header/>
@@ -64,21 +74,21 @@ class SiteTemplate extends Component<Props, State> {
 
 
   render() {
-    // if(this.publicSite()){
-    //   return(
-    //     <div>
-    //       {this.renderSite()}
-    //     </div>
-    //   )
-    // }
-    // else {
+    if (this.publicSite()) {
+      return (
+        <div>
+           {this.renderPublicSite()}
+         </div>
+       )
+     }
+    else {
       return (
         <AuthenticatedOnly unauthenticatedComponent={<LoginPage/>}>
-          {this.renderSite()}
+          {this.renderPrivateSite()}
         </AuthenticatedOnly>
       );
     }
-  // }
+  }
 }
 
 export default SiteTemplate;
