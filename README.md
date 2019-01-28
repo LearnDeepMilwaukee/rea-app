@@ -187,7 +187,10 @@ In practise, you'll probably want to run the app via a process manager like [PM2
 
 Along with the process file, you'll also need to configure PM2 to [start on boot](http://pm2.keymetrics.io/docs/usage/startup/). Since it's running in `watch` mode, all that should be necessary is to rebuild the app and it will automatically update. If you prefer you can save some system resources by disabling this and running `pm2 start` / `pm2 restart` etc manually.
 
-
+Update 1/28/2019
+The user registration page requires an administrator token to make the query call to the database.  That token can be created by going to the following url on valuenetwork and running the createToken mutation which takes a username and password as parameters.  The URL is 127.0.0.1:8000/api/graphiql
+You then need to place the token in apiKeys.json in the root directory of this folder.  The line you will need to enter is:
+    "adminToken": "PLACE TOKEN HERE"
 
 ## Frameworks & conventions used
 

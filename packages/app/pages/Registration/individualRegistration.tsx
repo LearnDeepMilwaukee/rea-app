@@ -7,6 +7,7 @@ import * as React from "react";
 import createUserPerson from "../../../ui-bindings/user/CreateUserPerson.tsx";
 import userEmailExist from "../../../ui-bindings/user/UserEmailExists.tsx";
 import * as EmailValidator from "email-validator";
+import {adminToken} from "../../../../apiKeys.json"
 
 
 class EmailField extends React.Component {
@@ -16,16 +17,15 @@ class EmailField extends React.Component {
   };
 
 
-
   onChange = (value) => {
     let valid = EmailValidator.validate(value);
     this.setState({valid: valid});
-    if(!valid){
+    if (!valid) {
       this.setState({value: ""});
 
       this.props.saveEmail("");
     }
-    else{
+    else {
       this.props.saveEmail(value);
 
     }
@@ -77,7 +77,7 @@ class PasswordField extends React.Component {
       if (this.state.passwordOne === this.state.passwordTwo) {
         this.props.savePassword(value);
       }
-      else{
+      else {
         this.props.savePassword("");
       }
     });
@@ -88,7 +88,7 @@ class PasswordField extends React.Component {
       if (this.state.passwordOne === this.state.passwordTwo) {
         this.props.savePassword(value);
       }
-      else{
+      else {
         this.props.savePassword("");
       }
     });
@@ -124,8 +124,7 @@ function CheckEmail(props) {
   let element;
   if (props.email) {
     element = <EmailExistsQuery email={props.email}
-                                token={ENTER TOKEN HERE}/>;
-    console.log("Email exists is: " + element.toString());
+                                token={adminToken}/>;
   }
   return (
     <div>{element}</div>
@@ -135,8 +134,7 @@ function CheckEmail(props) {
 const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
 
   if (error) {
-    console.log({error});
-    //TODO Add better error handling here
+    console.log(error);
     return <p>error</p>;
   }
   else if (createUserPersonVar != null) {
@@ -150,13 +148,11 @@ const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
 function CreateUser(props) {
 
   let element;
-  //TODO Check here if email exists
-  //TODO Figure out how we will get the token
 
   if (props.userEntered && !props.emailExists && props.allValid) {
     element = <CreateUserQuery username={props.username} email={props.email} pswd={props.pswd}
                                name={props.name}
-                               token={ENTER TOKEN HERE}
+                               token={adminToken}
                                image={props.image}/>
 
   }
