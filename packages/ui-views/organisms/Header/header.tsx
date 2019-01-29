@@ -61,7 +61,7 @@ const Header = CurrentUser(({user, loading, error, theme}: UserProps) => {
       )
     ));
 });
-//TODO Make this header
+
 export const UnauthorizedHeader = () => {
   const currentTheme = themeable(unauthorizedTheme);
   return (

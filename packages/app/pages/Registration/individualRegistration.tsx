@@ -161,7 +161,7 @@ function CreateUser(props) {
   let element;
 
   if (props.userEntered && !props.emailExists && props.allValid) {
-    let emailExistsVariable = <EmailExistsQuery email={props.email}/>;
+    let emailExistsVariable = <EmailExistsQuery email={props.email} token={adminToken}/>;
     if (!emailExistsVariable) {
       element = <CreateUserQuery username={props.username} email={props.email} pswd={props.pswd}
                                  name={props.name}
