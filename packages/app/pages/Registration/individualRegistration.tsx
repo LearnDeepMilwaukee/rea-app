@@ -28,7 +28,7 @@ const EmailFieldConst = (props) => {
         <span>
           <text>Email</text>
           <text {...currentTheme(3,"required")}>*</text><input {...currentTheme(4,"emailBox")} type="text" name="email" onChange={(event) => props.saveEmail(event.target.value)}/>
-          {!props.validEmail ? "Email is not valid" : ""}</span>
+        </span>
     </div>
   );
 };
@@ -107,17 +107,23 @@ class PasswordField extends React.Component {
 const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
   if (loading) {
     console.log("Loading " + loading);
+    return     <p> </p>;
   } else if (error) {
     console.log("Error: " + error);
-    return <h3>ERROR!</h3>;
+    return <h3>Error!</h3>;
   }
-  if(emailExists === false){
-    return <CreateUser userEntered={userInformation.userRan} allValid={userInformation.allValid}
-                username={userInformation.username} email={userInformation.email}
-                pswd={userInformation.pswd} name={userInformation.name} image={userInformation.image}
-                emailExists={emailExists}/>
-  }
-  return "";
+
+    if (emailExists === false) {
+      return <CreateUser userEntered={userInformation.userRan} allValid={userInformation.allValid}
+                         username={userInformation.username} email={userInformation.email}
+                         pswd={userInformation.pswd} name={userInformation.name} image={userInformation.image}
+                         />
+    }
+    else if(emailExists === true){
+      alert("An account with this email already exists");
+      return <p> </p>
+    }
+
 });
 
 
@@ -141,15 +147,10 @@ function CreateUser(props) {
   let element;
 
   if (props.userEntered && props.allValid) {
-    if (!props.emailExists) {
       element = <CreateUserQuery username={props.username} email={props.email} pswd={props.pswd}
                                  name={props.name}
                                  token={adminToken}
                                  image={props.image}/>
-    }
-    else {
-      alert("An account with this email already exists");
-    }
 
   }
   return (
@@ -166,17 +167,30 @@ class IndividualRegistration extends React.Component {
 
 
   handleClick = (event) => {
-    let allValid = userInformation.email !== ""
-      && userInformation.pswd !== ""
-      && userInformation.username !== "";
-    this.setState({queryingEmail:userInformation.email});
-    userInformation.userRan = true;
-    userInformation.allValid = allValid;
-    if (!allValid) {
-      alert("Please enter correct information");
+    event.preventDefault();
+
+
+    let message = "";
+    if(!EmailValidator.validate(userInformation.email)){
+      message += "Invalid email\n";
+    }
+    if (userInformation.pswd === "") {
+      message += "Passwords do not match\n";
+    }
+    if (userInformation.username === "") {
+      message += "Please enter a username\n";
+    }
+
+    if(message !== ""){
+      alert(message);
       return;
     }
-    event.preventDefault();
+    else {
+      this.setState({queryingEmail: userInformation.email});
+      userInformation.userRan = true;
+      userInformation.allValid = true;
+    }
+
   };
 
   saveEmail = (email) => {
@@ -200,7 +214,7 @@ class IndividualRegistration extends React.Component {
 
           <UsernameField saveUsername={(nameParam) => this.setNames(nameParam)}/>
           <br/>
-          <EmailFieldConst saveEmail={this.saveEmail} email={userInformation.email} validEmail={EmailValidator.validate(userInformation.email)}/>
+          <EmailFieldConst saveEmail={this.saveEmail} email={userInformation.email} />
           <br/>
           <PasswordField savePassword={(passwordParam) => userInformation.pswd = passwordParam}/>
 
