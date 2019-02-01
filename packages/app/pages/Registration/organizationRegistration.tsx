@@ -11,7 +11,6 @@ import * as EmailValidator from "email-validator";
 import { Link } from "react-router";
 import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
 import * as Phone from "phone";
-import Link from "../../../ui-views/atoms/Link/Link";
 // import allOrgsClass from "../../../ui-bindings/Organization/allOrgsClass.tsx";
 
 /**
@@ -476,7 +475,6 @@ class Registration extends React.Component {
 
   getRegistrationJSON = (event) => {
     event.preventDefault();
-    console.log(this.props);
 
     let allValid = this.state.orgType !== undefined
       && this.state.orgName !== undefined
@@ -511,7 +509,6 @@ class Registration extends React.Component {
 
   // Draws all of the components on the screen
   render() {
-    console.log(this.props.mutate);
     return (
       <div>
         <h1>Organization Registeration</h1>
