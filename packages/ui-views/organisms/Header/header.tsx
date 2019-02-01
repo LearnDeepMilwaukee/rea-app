@@ -1,11 +1,12 @@
 import * as React from "react";
-import { Link } from "react-router";
+import {Link} from "react-router";
 import * as themeable from "react-themeable";
-import { SFC } from "react";
+import {SFC} from "react";
 import CurrentUser from "@vflows/bindings/user/CurrentUser";
 import Link from "../../atoms/Link";
-import { Bell, Search, Horizontal } from "../../icons";
+import {Bell, Search, Horizontal} from "../../icons";
 import Dropdown from "./dropdownMenu";
+import * as unauthorizedTheme from "./unauthorizedTheme.scss";
 
 interface UserProps {
   user?: {
@@ -17,26 +18,26 @@ interface UserProps {
   theme: Object,
 }
 
-const Header = CurrentUser(({ user, loading, error, theme }: UserProps) => {
-    let currentTheme = themeable(theme);
-    return (
-        loading ? <strong>Loading...</strong> : (error ? <p style={{ color: "#F00" }}>API error</p> : (
+const Header = CurrentUser(({user, loading, error, theme}: UserProps) => {
+  let currentTheme = themeable(theme);
+  return (
+    loading ? <strong>Loading...</strong> : (error ? <p style={{color: "#F00"}}>API error</p> : (
         <header {...currentTheme(0, "main_header")} >
           <div {...currentTheme(1, "row")}>
             <div id="ttHomeButton">
-                <Link href="/"><span  {...currentTheme(2, "header_logo")} /></Link>
+              <Link href="/"><span  {...currentTheme(2, "header_logo")} /></Link>
             </div>
             <div {...currentTheme(4, "header_search")} >
-              <input {...currentTheme(5, "search", "input")} placeholder="Searching Disabled" />
-              <span {...currentTheme(6, "search_icon")}><Search /></span>
+              <input {...currentTheme(5, "search", "input")} placeholder="Searching Disabled"/>
+              <span {...currentTheme(6, "search_icon")}><Search/></span>
             </div>
             <div {...currentTheme(3, "header_menu")} >
-                  <div {...currentTheme(14, "menu_profile")} >
-                    <div {...currentTheme(15, "profile_image")}>
-                      <img src={user.image} />
-                    </div>
-                    <h4>{user.name || "nobody"}</h4>
-                    <span {...currentTheme(16, "profile_other")}>
+              <div {...currentTheme(14, "menu_profile")} >
+                <div {...currentTheme(15, "profile_image")}>
+                  <img src={user.image}/>
+                </div>
+                <h4>{user.name || "nobody"}</h4>
+                <span {...currentTheme(16, "profile_other")}>
                       <div {...currentTheme(17, "dropdown")}>
                         <span>°°°</span>
                         <div {...currentTheme(18, "dropdown-content")}>
@@ -45,7 +46,7 @@ const Header = CurrentUser(({ user, loading, error, theme }: UserProps) => {
                         </div>
                       </div>
                     </span>
-                </div>
+              </div>
             </div>
             <div {...currentTheme(284484, "header_mobile")}>
               <ul {...currentTheme(24449, "mobile_list")}>
@@ -61,4 +62,12 @@ const Header = CurrentUser(({ user, loading, error, theme }: UserProps) => {
     ));
 });
 
+export const UnauthorizedHeader = () => {
+  const currentTheme = themeable(unauthorizedTheme);
+  return (
+    <header {...currentTheme(0, "main_header")} >
+      <span {...currentTheme(2, "header_logo")}/>
+    </header>
+  );
+}
 export default Header;
