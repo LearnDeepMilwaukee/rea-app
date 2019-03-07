@@ -1,25 +1,29 @@
 import React from 'react';
-import getAllOrganizations from "../queries/getAllOrganizations.js";
-import {Item} from 'semantic-ui-react'
+import getAllOrganizations from "../queries/getAllOrganizations.js"
+import {Item, Button} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-import {isNullOrUndefined} from "util";
-
+import {isNullOrUndefined} from "util"
+import {getDistanceBetweenPoints} from "../utilities.tsx";
 
 let default_image = require("../resources/defaultImage.jpg");
+let msoeCC = {latitude: 43.044004, longitude: -87.909020};
 const orgCard = (agent) => (
     <Item>
         <Item.Image src={isNullOrUndefined(agent.image) || agent.image === "" ? default_image : agent.image}/>
 
         <Item.Content>
-            <Item.Header as='p'>{agent.name}</Item.Header>
-            <Item.Meta>
-                <span>{isNullOrUndefined(agent.primaryLocation) ? "" : agent.primaryLocation.address}</span>
-            </Item.Meta>
-            <Item.Description>{agent.note}</Item.Description>
+            <Item.Header as='h1' >{agent.name}</Item.Header>
 
+            <Item.Description>
+                <p floated='left'>{isNullOrUndefined(agent.primaryLocation) ? "" : agent.primaryLocation.address}</p>
+                <p floated='right'>{isNullOrUndefined(agent.primaryLocation) ? "" : "Distance: "+getDistanceBetweenPoints(agent.primaryLocation, msoeCC)+" mi"}</p>
+            </Item.Description>
+            <Item.Extra>
+                <Button floated='right' color='blue' size='large'>Connect</Button>
+            </Item.Extra>
         </Item.Content>
     </Item>
-);
+)
 
 const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
     if (loading) {
