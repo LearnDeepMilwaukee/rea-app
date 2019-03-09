@@ -3,7 +3,7 @@ import getAllOrganizations from "../queries/getAllOrganizations.js"
 import {Item, Button} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import {isNullOrUndefined} from "util"
-import {getDistanceBetweenPoints} from "../utilities.tsx";
+import {getDistanceBetweenPoints} from "../utilities.js";
 
 let default_image = require("../resources/defaultImage.jpg");
 let msoeCC = {latitude: 43.044004, longitude: -87.909020};

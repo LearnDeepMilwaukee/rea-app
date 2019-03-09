@@ -1,4 +1,3 @@
-"use strict";
 import {isNullOrUndefined} from "util";
 
 export function sortByName(elements) {
@@ -53,6 +52,6 @@ export function filterByDistance(elements, maxDistance, baseLocation) {
     }
     return elements.filter(function (element) {
         let distance = getDistanceBetweenPoints(element.primaryLocation, baseLocation);
-        return distance < maxDistance || distance == Number.MAX_SAFE_INTEGER;
+        return distance < maxDistance || distance === Number.MAX_SAFE_INTEGER;
     })
 }
