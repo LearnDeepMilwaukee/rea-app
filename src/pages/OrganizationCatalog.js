@@ -105,7 +105,7 @@ const orgCard = (agent) => (
 // });
 
 const optionsType = [
-    { key: 'a', text: 'All', value: 'all' },
+    { key: 'a', text: 'All', value: 'All' },
     { key: 'sd', text: 'School District', value: 'School District' },
     { key: 's', text: 'School', value: 'School' },
     { key: 'p', text: 'Person', value: 'Person' },
@@ -147,45 +147,61 @@ class BasePage extends React.Component {
     }
 
     onSortFilterChange = function (event, {value}) {
-        console.log("____________________");
-        console.log(value);
+        // console.log("____________________");
+        // console.log(value);
         this.setState({sorting: value});
     };
 
     onTypeFilterChange = function (event, {value}) {
-        console.log("____________________");
-        console.log(value);
+        // console.log("____________________");
+        // console.log(value);
         this.setState({typeFilter: value});
     };
 
     //Override is here for the distance slider so that it updates the value as well.
     onDistanceFilterChange = function (event, override) {
         if (event.key === 'Enter' || override) {
-            this.setState({distanceFilter: event.target.value});
+            event.preventDefault();
+            console.log("sdsdssddsd");
+            console.log(event.target.value);
+            console.log(typeof parseInt(event.target.value));
+
+            this.setState({distanceFilter: parseInt(event.target.value)});
         }
     };
 
-    handleReset = function (env) {
-        env.setState({
-            distanceFilter: 50,
-            sorting: "alphabetical",
-            typeFilter: "All",
-            nameFilter: "",
-            myOrgsFilter: false,
-            pubOrgsFilter: true
-        });
+    handleReset = function (event, {value}) {
+
+        // if(event.target.type != 'textarea'){}
+        console.log("ashkdhkkshaskhdas COMPARE");
+
+        this.setState({distanceFilter: 50});
+        this.setState({sorting: "alphabetical"});
+        this.setState({typeFilter: "All"});
+        this.setState({nameFilter: ""});
+        this.setState({myOrgsFilter: false});
+        this.setState({pubOrgsFilter: true});
+
+        //TODO need to clear other
 
     };
-    onNameChange = function (event, {value}) {
+    onNameChange = function (event) {
+        console.log("1211211212");
         if (event.key === 'Enter') {
+            console.log("asasaaasa");
+            event.preventDefault();
+
             this.setState({nameFilter: event.target.value});
         }
     };
     onMyOrgsChange = function (event, {value}) {
-        this.setState({myOrgsFilter: value});
+        this.setState({myOrgsFilter: true});
+        this.setState({pubOrgsFilter: false});
+
     };
     onPubOrgsChange = function (event, {value}) {
-        this.setState({pubOrgsFilter: value});
+        this.setState({myOrgsFilter: false});
+        this.setState({pubOrgsFilter: true});
     };
 
     notImplementedFunction = function () {
@@ -220,18 +236,26 @@ class BasePage extends React.Component {
 
 
                     if ((this.state.nameFilter === null) || (this.state.nameFilter === "undefined") || org.name.includes(this.state.nameFilter)) {
+                        console.log("TO COMPARE");
+                        console.log(this.state.nameFilter);
+                        console.log("ORG ______");
+                        console.log(org.name);
                         filteredOrgs.push(org);
-                        console.log("Org matching filter " + this.state.nameFilter + ": " + org.name);
+                        //console.log("Org matching filter " + this.state.nameFilter + ": " + org.name);
                     }
                 }
                 if (this.state.distanceFilter !== '') {
+                     // console.log("TO COMPARE");
+                     // console.log(this.state.distanceFilter);
+                     // console.log("ORG ______");
+                     // console.log(filteredOrgs);
                     filteredOrgs = filterByDistance(filteredOrgs, this.state.distanceFilter, msoeCC);
                 }
                 if (this.state.typeFilter !== "All") {
-                    console.log("TO COMPARE");
-                    console.log(this.state.typeFilter);
-                    console.log("ORG ______");
-                    console.log(filteredOrgs);
+                    // console.log("TO COMPARE");
+                    // console.log(this.state.typeFilter);
+                    // console.log("ORG ______");
+                    // console.log(filteredOrgs);
                     filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
                 }
                 if (this.state.sorting === "alphabetical") {
@@ -260,17 +284,17 @@ class BasePage extends React.Component {
                 <Form>
                     <header> All orgs </header>
                     <Form.Group widths='equal'>
-                        <Form.Input fluid label='Search For Org' placeholder='Search' onChange={this.onNameChange} />
+                        <Form.Input fluid label='Search For Org' placeholder='Search' onKeyPress={this.onNameChange} />
                         <Form.Field>
-                            <Form.Input fluid label='Max Distance' placeholder='Search'onChange={this.onDistanceFilterChange} />
+                            <Form.Input fluid label='Max Distance' placeholder='Search' onKeyPress={this.onDistanceFilterChange} />
                         </Form.Field>
                         <Form.Select fluid label='Type' options={optionsType} placeholder='All' onChange={this.onTypeFilterChange} />
                         <Form.Select fluid label='Sort' options={optionsSort} placeholder='Alphabetical' onChange={this.onSortFilterChange} />
                     </Form.Group>
                     <Form.Group inline>
-                        <Form.Radio label='myOrgs' value='myOrgs' onChange={this.onMyOrgsChange}/>
-                        <Form.Radio label='publicOrgs' value='publicOrgs' onChange={this.onPubOrgsChange}/>
-                        <Form.Button color='red' onChange={this.handleReset}>Reset</Form.Button>
+                        <Form.Radio label='myOrgs' value='myOrgs' checked={this.state.myOrgsFilter === true} onChange={this.onMyOrgsChange}/>
+                        <Form.Radio label='publicOrgs' value='publicOrgs' checked={this.state.myOrgsFilter === false} onChange={this.onPubOrgsChange}/>
+                        <Form.Button color='red' onClick={this.handleReset}>Reset</Form.Button>
                     </Form.Group>
                 </Form>
                 <OrgList
