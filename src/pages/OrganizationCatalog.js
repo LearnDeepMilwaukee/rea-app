@@ -156,33 +156,20 @@ class BasePage extends React.Component {
     onDistanceFilterChange = function (event, override) {
         if (event.key === 'Enter' || override) {
             event.preventDefault();
-            console.log("sdsdssddsd");
-            console.log(event.target.value);
-            console.log(typeof parseInt(event.target.value));
-
             this.setState({distanceFilter: parseInt(event.target.value)});
         }
     };
 
     handleReset = function (event, {value}) {
-
-        // if(event.target.type != 'textarea'){}
-        console.log("ashkdhkkshaskhdas COMPARE");
-
         this.setState({distanceFilter: 50});
         this.setState({sorting: "alphabetical"});
         this.setState({typeFilter: "All"});
         this.setState({nameFilter: ""});
         this.setState({myOrgsFilter: false});
         this.setState({pubOrgsFilter: true});
-
-        //TODO need to clear other
-
     };
     onNameChange = function (event) {
-        console.log("1211211212");
         if (event.key === 'Enter') {
-            console.log("asasaaasa");
             event.preventDefault();
 
             this.setState({nameFilter: event.target.value});
@@ -237,7 +224,6 @@ class BasePage extends React.Component {
                 else if (this.state.sorting === "distance") {
                     filteredOrgs = sortByDistance(filteredOrgs, msoeCC);
                 }
-
                 const cardsArray = filteredOrgs.map(org => (
                     orgCard(org)
                 ));
@@ -254,14 +240,15 @@ class BasePage extends React.Component {
         return (
             <div>
                 <Form>
-                    <header> All orgs </header>
+                    <header as='h1'>All Orgs</header>
+
                     <Form.Group widths='equal'>
                         <Form.Input fluid label='Search For Org' placeholder='Search' onKeyPress={this.onNameChange} />
                         <Form.Field>
-                            <Form.Input fluid label='Max Distance' placeholder='Search' onKeyPress={this.onDistanceFilterChange} />
+                            <Form.Input fluid label='Max Distance' placeholder='Search' value={this.state.distanceFilter} onKeyPress={this.onDistanceFilterChange} />
                         </Form.Field>
-                        <Form.Select fluid label='Type' options={optionsType} placeholder='All' onChange={this.onTypeFilterChange} />
-                        <Form.Select fluid label='Sort' options={optionsSort} placeholder='Alphabetical' onChange={this.onSortFilterChange} />
+                        <Form.Select fluid label='Type' options={optionsType} value={this.state.typeFilter} onChange={this.onTypeFilterChange} />
+                        <Form.Select fluid label='Sort' options={optionsSort} value={this.state.sorting} onChange={this.onSortFilterChange} />
                     </Form.Group>
                     <Form.Group inline>
                         <Form.Radio label='myOrgs' value='myOrgs' checked={this.state.myOrgsFilter === true} onChange={this.onMyOrgsChange}/>
