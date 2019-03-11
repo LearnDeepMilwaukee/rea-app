@@ -135,8 +135,6 @@ class BasePage extends React.Component {
             myOrgsFilter: false,
             pubOrgsFilter: true
         };
-        console.log("State ");
-        console.log(this.state);
         this.onTypeFilterChange = this.onTypeFilterChange.bind(this);
         this.onSortFilterChange = this.onSortFilterChange.bind(this);
         this.onDistanceFilterChange = this.onDistanceFilterChange.bind(this);
@@ -147,14 +145,10 @@ class BasePage extends React.Component {
     }
 
     onSortFilterChange = function (event, {value}) {
-        // console.log("____________________");
-        // console.log(value);
         this.setState({sorting: value});
     };
 
     onTypeFilterChange = function (event, {value}) {
-        // console.log("____________________");
-        // console.log(value);
         this.setState({typeFilter: value});
     };
 
@@ -223,39 +217,18 @@ class BasePage extends React.Component {
                     <p style={{color: "#F00"}}>API error</p>
                 );
             } else {
-                // console.log(organizationList);
-                // const cardsArray = organizationList.map(org => (
-                //     orgCard(org)
-                // ));
-
                 let filteredOrgs = [];
-                // console.log();
-                // console.log("FILTERING");
-                // console.log(filteredOrgs);
                 for (let org of organizationList) {
 
 
                     if ((this.state.nameFilter === null) || (this.state.nameFilter === "undefined") || org.name.includes(this.state.nameFilter)) {
-                        console.log("TO COMPARE");
-                        console.log(this.state.nameFilter);
-                        console.log("ORG ______");
-                        console.log(org.name);
                         filteredOrgs.push(org);
-                        //console.log("Org matching filter " + this.state.nameFilter + ": " + org.name);
                     }
                 }
                 if (this.state.distanceFilter !== '') {
-                     // console.log("TO COMPARE");
-                     // console.log(this.state.distanceFilter);
-                     // console.log("ORG ______");
-                     // console.log(filteredOrgs);
                     filteredOrgs = filterByDistance(filteredOrgs, this.state.distanceFilter, msoeCC);
                 }
                 if (this.state.typeFilter !== "All") {
-                    // console.log("TO COMPARE");
-                    // console.log(this.state.typeFilter);
-                    // console.log("ORG ______");
-                    // console.log(filteredOrgs);
                     filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
                 }
                 if (this.state.sorting === "alphabetical") {
@@ -268,7 +241,6 @@ class BasePage extends React.Component {
                 const cardsArray = filteredOrgs.map(org => (
                     orgCard(org)
                 ));
-                //console.log();
                 return (
                     <div>
                         <Item.Group divided>
