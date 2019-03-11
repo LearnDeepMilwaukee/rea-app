@@ -245,7 +245,7 @@ class BasePage extends React.Component {
                     <Form.Group widths='equal'>
                         <Form.Input fluid label='Search For Org' placeholder='Search' onKeyPress={this.onNameChange} />
                         <Form.Field>
-                            <Form.Input fluid label='Max Distance' placeholder='Search' value={this.state.distanceFilter} onKeyPress={this.onDistanceFilterChange} />
+                            <Form.Input fluid label='Search Distance' placeholder='Initially 50 mi' onKeyPress={this.onDistanceFilterChange} />
                         </Form.Field>
                         <Form.Select fluid label='Type' options={optionsType} value={this.state.typeFilter} onChange={this.onTypeFilterChange} />
                         <Form.Select fluid label='Sort' options={optionsSort} value={this.state.sorting} onChange={this.onSortFilterChange} />
