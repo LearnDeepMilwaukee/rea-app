@@ -4,6 +4,7 @@ import OrganizationCatalog from './pages/OrganizationCatalog.js';
 import BasicTextPage from './pages/BasicTextPage.js';
 import ErrorPage from './pages/ErrorPage.js';
 import OrganizationRegistration from './pages/OrganizationRegistration.js';
+import * as ReduxTest from "./pages/ReduxTest.js";
 
 class Routes extends Component {
     render() {
@@ -13,6 +14,7 @@ class Routes extends Component {
                     <Route exact path="/" component={OrganizationCatalog}/>
                     <Route exact path="/text" component={BasicTextPage}/>
                     <Route path="/registration/organization" component={OrganizationRegistration}/>
+                    <Route path="/reduxTest" componet={ReduxTest}/>
                     <Route component={ErrorPage}/>
 
                 </Switch>

@@ -1,17 +1,13 @@
 import initialState from './initialState';
-import {GET_CURRENT_ORG_ID,SET_CURRENT_ORG_ID} from "../actions/actionTypes";
+import {GET_CURRENT_ORG_ID, SET_CURRENT_ORG_ID} from "../actions/actionTypes";
 
 export default function currentOrg(state = initialState.currentOrgId, action) {
-    let newState;
     switch (action.type) {
         case SET_CURRENT_ORG_ID:
-
-            console.log('SET_ID Action');
-            return action;
+            state = action.newOrgId;
+            return state;
         case GET_CURRENT_ORG_ID:
-            newState = action.currentOrgId;
-            console.log('GET_ID Action');
-            return newState;
+            return state;
         default:
             return state;
     }
