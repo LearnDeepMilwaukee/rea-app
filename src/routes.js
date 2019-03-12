@@ -5,7 +5,7 @@ import BasicTextPage from './pages/BasicTextPage.js';
 import ErrorPage from './pages/ErrorPage.js';
 import OrganizationRegistration from './pages/OrganizationRegistration.js';
 
-class App extends Component {
+class Routes extends Component {
     render() {
         return (
             <div>
@@ -23,4 +23,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default Routes;

@@ -1,0 +1,2 @@
+export const GET_CURRENT_ORG_ID = 'GET_CURRENT_ORG_ID';
+export const SET_CURRENT_ORG_ID = 'SET_CURRENT_ORG_ID';
