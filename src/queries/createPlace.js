@@ -1,19 +1,31 @@
 import {graphql, compose} from "react-apollo";
 import gql from "graphql-tag";
 
-const query = gql`
-query($token: String) {
-  viewer(token: $token) {
-    organizationTypes{
-    id,
-    name
+export const mutation = gql`
+  mutation(
+    $token: String!,
+    $name: String!,
+    $latitude: Float!,
+    $note: String,
+    $address: String!,
+    $longitude: Float!
+  ) {
+    createPlace (
+      token: $token,
+      name: $name,
+      latitude: $latitude,
+      note: $note,
+      address: $address,
+      longitude: $longitude
+    ){
+      place{
+        id
+      }
     }
-  }
-}
-`;
+  }`;
 
 export default compose(
-    graphql(query, {
+    graphql(mutation, {
         // read query vars into query from input data above
         options: (props) => ({
             variables: {
@@ -26,7 +38,7 @@ export default compose(
                 loading,
                 error,
                 refetchAgent: refetch,  // :NOTE: call this in the component to force reload the data
-                orgTypeList: viewer ? viewer.organizationTypes : null,
-            }),
+                organizationList: viewer ? viewer.allOrganizations : null,
+            }), name:"createLocationMutation",
     })
 );
