@@ -1,2 +1,1 @@
 export const SET_CURRENT_ORG_ID = 'SET_CURRENT_ORG_ID';
-export const SET_CURRENT_RUN_ID = 'SET_CURRENT_RUN_ID';

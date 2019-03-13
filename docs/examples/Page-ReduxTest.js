@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as orgIdActions from '../redux/actions/currentOrgActions.js'
+import * as orgIdActions from '../../src/redux/actions/currentOrgActions.js'
 
 
 class OrgId extends React.Component {
@@ -11,8 +11,6 @@ class OrgId extends React.Component {
             <div className="">
                 <button onClick={(event) => this.props.orgIdActions.setCurrentId(11)}>Update State!</button>
                 Current Organization id is: {this.props.currentOrgId}
-                <button onClick={(event) => this.props.orgIdActions.setCurrentRun(122)}>Update currentRun!</button>
-                Current Run Num is: {this.props.currentRun}
             </div>
         );
     }
@@ -20,8 +18,7 @@ class OrgId extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        currentOrgId: state.userInfo.currentOrgId,
-        currentRun: state.userInfo.currentRun
+        currentOrgId: state.getUserInfo.currentOrgId,
     };
 }
 

@@ -1,4 +1,4 @@
-import {SET_CURRENT_ORG_ID, SET_CURRENT_RUN_ID} from "./actionTypes";
+import {SET_CURRENT_ORG_ID} from "./actionTypes";
 
 /**
  * This is an action creator, it creates an action and returns it
@@ -7,8 +7,4 @@ import {SET_CURRENT_ORG_ID, SET_CURRENT_RUN_ID} from "./actionTypes";
  */
 export function setCurrentId(newOrgIdParam) {
     return {type: SET_CURRENT_ORG_ID, newOrgId: newOrgIdParam};
-}
-
-export function setCurrentRun(currentRun) {
-    return {type: SET_CURRENT_RUN_ID, currentRun: currentRun};
 }

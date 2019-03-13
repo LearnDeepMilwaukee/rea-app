@@ -1,7 +1,9 @@
 import {combineReducers} from 'redux';
-import userInfo from "./userInfoReducer.js";
+import getUserInfo from "./userInfoReducer.js";
 
-
+/**
+ * Each reducer added in here has a separate store
+ */
 export const rootReducer = combineReducers({
-    userInfo
+    getUserInfo
 });
