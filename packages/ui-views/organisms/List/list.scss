@@ -1,0 +1,104 @@
+.list_spaced {
+    margin-top: 0px;
+    padding: 20px;
+    padding-top: 0;
+    background: white;
+    margin-bottom: 60px;
+    .list_box {
+      border-radius: 3px;
+      @include clearfix;
+      margin-left: -20px;
+      margin-right: -20px;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .list_item {
+        border-bottom: $separator;
+        background: white;
+        margin-top: 20px;
+        &:last-of-type {
+          border-bottom: 0;
+        }
+        .item_info {
+          @include clearfix;
+          height: 30px;
+        }
+        .item_photo {
+          width: 30px;
+          height: 30px;
+          border-radius: 100%;
+          display: block;
+          float: left;
+          margin-top: 0px;
+          margin-right: 10px;
+          background: #d7d7d7;
+          margin-left: 10px;
+          img {
+            width: 30px;
+            height: 30px;
+            border-radius: 100%;
+          }
+        }
+        .item_actions {
+          margin-left: 47px;
+          margin-bottom: 10px;
+          margin-top: -5px;
+          .actions_date {
+            @include text-mini-black(#b5b5b5);
+          }
+        }
+        .item_title {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            color: #13293D;
+            float: left;
+            font-weight: 400;
+            padding: 5px;
+            padding-left: 0;
+            width: 500px;
+            @include truncate;
+          a {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            color: #13293D;
+          }
+        }
+        .item_description {
+          font-size: 15px;
+          font-weight: 500;
+          line-height: 22px;
+          letter-spacing: 0px;
+          color: #3e4448;
+          /* font-style: italic; */
+          padding: 5px;
+          padding-left: 0;
+          margin-left: 47px;
+          padding-top: 0;
+
+        }
+    }
+}
+
+/* Portrait and Landscape */
+@media (max-width: 480px) {
+  .list_spaced {
+    margin-bottom: 0;
+  }
+  .item_title {
+    font-size: 16px !important;
+    float: none !important;
+    width: auto !important;
+    white-space: pre-line !important;
+  }
+  .item_description {
+    margin-left: 50px;
+    padding-top: 0px;
+  }
+  .item_info {
+    height: auto !important;
+  }
+}

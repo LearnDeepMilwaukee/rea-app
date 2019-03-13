@@ -1,0 +1,37 @@
+/**
+ * App login form
+ *
+ * @package: REA app
+ * @author:  pospi <pospi@spadgos.com>
+ * @since:   2017-03-31
+ */
+
+import * as React from "react";
+import { Link } from "react-router";
+import { SFC } from "react";
+import { Field } from "redux-form";
+import T from "i18n-react";
+
+import Button from "../../atoms/Button";
+import Input from "../../molecules/FormInput";
+import FormError from "../../atoms/FormError";
+
+interface Props {
+  handleSubmit?: () => void,
+  hasLoginError?: boolean,
+  errorMessage?: string,
+  submitting?: boolean,
+}
+
+const LoginForm: SFC<Props> = ({ handleSubmit, hasLoginError, errorMessage, submitting }) => (
+  <form onSubmit={handleSubmit}>
+    <Field id="usernameField" name="user" type="text" component={Input} placeholder="Username" />
+    <Field id="passwordField" name="pass" type="password" component={Input} placeholder="Password" />
+    <Button id="loginButton" type="submit" raised primary disabled={submitting}><T.text text="loginForm.loginButton" /></Button>
+    {hasLoginError ? (<FormError>{errorMessage}</FormError>) : null}
+
+    <Button><Link to="/register/individual">Register</Link></Button>
+  </form>
+);
+
+export default LoginForm;

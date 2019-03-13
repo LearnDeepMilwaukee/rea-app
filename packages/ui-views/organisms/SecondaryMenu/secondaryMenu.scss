@@ -1,0 +1,88 @@
+.secondaryMenu {
+    height: 50px;
+    background: white;
+    border-bottom: 1px solid #E9E9E9;
+    @include clearfix;
+    .menu_list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        @include clearfix;
+        padding-left: 20px;
+        .list_item {
+            float: left;
+            height: 50px;
+            position: relative;
+            cursor: pointer;
+            margin-right: 80px;
+            span {
+              margin-right: 5px;
+              text-align: center;
+              display: inline-block;
+              line-height: 20px;
+            }
+            &.active {
+                font-weight: 700;
+                a {
+                  color: $accent-500;
+                }
+                &:after {
+                    position: absolute;
+                    content: "";
+                    left: 0px;
+                    right: 0px;
+                    height: 3px;
+                    border-radius: 100px;
+                    bottom: 0;
+                    display: block;
+                    background: $accent-500;
+                }
+            }
+            a {
+              // font-size: 14px;
+              @include text-label($p900);
+              font-weight: 600;
+              line-height: 50px;
+              font-size: 13px;
+              letter-spacing: 1px;
+            }
+        }
+    }
+    .menu_actions {
+        float: right;
+        .actions_process {
+          border-radius: 2px;
+          background: $accent-500;
+          height: 30px;
+          padding: 0 15px;
+          @include text-mini-black(white);
+          text-align: center;
+          float: right;
+          margin-top: -45px;
+          margin-right: 30px;
+        }
+    }
+}
+
+/* Portrait and Landscape */
+@media (max-width: 480px) {
+  .secondaryMenu {
+    .menu_list {
+      padding-left: 10px;
+      .list_item {
+        margin-right: 30px;
+        &:last-of-type {
+          margin: 0;
+        }
+        a {
+          span {
+            display: none;
+          }
+          font-size: 10px;
+          letter-spacing: .5px;
+          text-transform: uppercase;
+        }
+      }
+    }
+  }
+}

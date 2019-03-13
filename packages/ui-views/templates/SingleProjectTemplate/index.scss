@@ -1,0 +1,10 @@
+@import "../../base.scss";
+@import "./projectTemplate.scss";
+
+/* Portrait and Landscape */
+@media (max-width: 480px) {
+  .responsiveModal {
+    margin: 0 !important;
+    width: 100% !important;
+  }
+}
