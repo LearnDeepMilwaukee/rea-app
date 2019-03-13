@@ -6,28 +6,22 @@ import * as orgIdActions from '../redux/actions/currentOrgActions.js'
 
 class OrgId extends React.Component {
 
-    updateState(props) {
-        props.orgIdActions.setCurrentId(11);
-
-        console.log("Running" + JSON.stringify(this.props));
-
-    }
-
     render() {
-        console.log(this.props);
         return (
             <div className="">
-                <button onClick={(event) => this.updateState(this.props)}>Update State!</button>
+                <button onClick={(event) => this.props.orgIdActions.setCurrentId(11)}>Update State!</button>
                 Current Organization id is: {this.props.currentOrgId}
+                <button onClick={(event) => this.props.orgIdActions.setCurrentRun(122)}>Update currentRun!</button>
+                Current Run Num is: {this.props.currentRun}
             </div>
         );
     }
 }
 
 function mapStateToProps(state) {
-    console.log(state);
     return {
-        currentOrgId: state.currentOrg
+        currentOrgId: state.userInfo.currentOrgId,
+        currentRun: state.userInfo.currentRun
     };
 }
 

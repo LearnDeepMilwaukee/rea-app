@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
-import currentOrg from "./currentOrgReducer.js";
+import userInfo from "./userInfoReducer.js";
+
 
 export const rootReducer = combineReducers({
-    currentOrg
+    userInfo
 });
