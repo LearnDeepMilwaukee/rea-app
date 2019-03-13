@@ -1,0 +1,19 @@
+Implemented following this tutorial as a rough outline. https://code.likeagirl.io/tutorial-for-adding-redux-to-a-react-app-1a94cc1738e5?gi=1be01ea6d9dc
+
+You will want to install Redux DevTools for whatever browser you are using.  For Chome it is here: https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
+    You can get to the current state of the program by going into developer settings in your browser and clicking the Redux tab.  If there are any issues with the state being displayed there, you will be given a message with steps to follow.
+
+1. To add a value to the initial state of the program, add it to 'src/redux/store/intialState.js'
+      a. If you need to add ways to edit/get this data, continue.  If not, you are done.
+2. Go into 'redux/actions/actionTypes.js' and a unique name that describes what each method you will be created to access the global state will do.
+      a. Ex. I have created GET_CURRENT_ORG_ID, you can probably guess what it does
+3. Then add or update a reducer(if it is not similar to one already implemented, create a new file.) in 'redux/reducers'
+      a. If you have added to an existing state, add your functionality to the reducer that already implements that state.
+      b. Otherwise, create a new reducer:
+          i. The naming scheme for this file is (whatIsBeingAccessedOnState)Reducer.  So the file for accessing the curentOrgId on the redux state is named 'currentOrgReducer.js'
+      c. An example is available in 'redux/reducers/currentOrgReducer.js'
+      d. If the file that contains the reducer is not already included in 'redux/reducers/rootReducer.js' add it.
+4. If you created a new Reducer, you will have to create a new Actions File.  Otherwise, add it to the Actions file that corresponds to that reducer file.
+      a. An example of this is in 'redux/actions/currentOrgActions.js'
+      b. The curly brackets enclose the variables that are sent to the reduce. The type specifies what type of action is being done.
+5. See 'docs/examples/Page-ReduxTest.js' for an example of how to implement redux on a page.
