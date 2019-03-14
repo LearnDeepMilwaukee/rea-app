@@ -1,31 +1,29 @@
-import * as React from "react";
 // import CurrentUser from "@vflows/bindings/user/CurrentUser";
-import {Search} from "../../icons";
+// import * as Search from "../resources/searchIcon.svg";
 // import getAllAgentRelationships from "../queries/agent/getAllAgentRelationships";
 // import getMyAgent from "../queries/agent/getMyAgent";
 // import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
 // import {isNullOrUndefined} from "util";
 // import agent from "../../../ui-bindings/Agent/agent";
+import 'semantic-ui-css/semantic.min.css'
 
-
-//
-// interface UserProps {
-//     user?: {
-//         name: string,
-//         image: string
-//     },
-//         loading?: boolean,
-//         error?: Error,
-//         theme: Object,
-// }
-
+import _ from "lodash";
+import React, { Component } from "react";
+import { render } from "react-dom";
+import {
+    Container,
+    Image,
+    Menu,
+    Responsive
+} from "semantic-ui-react";
+import * as logo from '../resources/upcycleLogo.png'
 let organizationId = -1;
 let currentOrganization = undefined;
-// const Header = CurrentUser(({user, loading, error, theme}: UserProps) => {
-//     let currentTheme = themeable(theme);
+// const Header = CurrentUser(({user, loading, error}) => {
 //
 //     let ownedOrgIDsArray;
 //     let myAgentID = -1;
+//
 //     let MyAgent = getMyAgent(({agent, loading, error}) => {
 //         if (loading) {
 //             return (<strong>Loading...</strong>);
@@ -47,10 +45,10 @@ let currentOrganization = undefined;
 //             if (organizationId == organization.id) currentOrganization = organization;
 //             let linkArray = window.location.href.split("/");
 //             let link = (linkArray.length > 2 ? linkArray.slice(3).join("/") : "");
-//             return (<div className = "orgNameCard" {...currentTheme(12, "orgNameCard")}><Link to={{
+//             return (<div className="orgNameCard"><Link to={{
 //                 pathname: link,
 //                 state: [{organizationId: organization.id}]
-//             }}{...currentTheme(13, "link")} onClick={() => {
+//             }} onClick={() => {
 //                 // Set the organizationId and currentOrganization to the selected values
 //                 organizationId = organization.id;
 //                 currentOrganization = organization;
@@ -89,10 +87,10 @@ let currentOrganization = undefined;
 //                 <OrgNameByID organizationId={relationship.object.id}/>
 //             ));
 //             if (ownedOrgIDsArray.length == 0) {
-//                 ownedOrgIDsArray = <p {...currentTheme(10, "no-results")}> No search results</p>;
+//                 ownedOrgIDsArray = <p> No search results</p>;
 //             }
 //             // return (<div><div id="orgDropdown" >{ownedOrgIDsArray} </div><p id="ownedOrgLength" hidden>{filteredRelationships.length}</p></div>)
-//             return (<div data-count={filteredRelationships.length} id="orgDropdown" >{ownedOrgIDsArray} </div>)
+//             return (<div data-count={filteredRelationships.length} id="orgDropdown">{ownedOrgIDsArray} </div>)
 //         }
 //     });
 //
@@ -107,51 +105,112 @@ let currentOrganization = undefined;
 //
 //     return (
 //         loading ? <strong>Loading...</strong> : (error ? <p style={{color: "#F00"}}>API error</p> : (
-//                 <header {...currentTheme(0, "main_header")} >
-//                     <div id="ttHomeButton"><Link href="/"><span  {...currentTheme(1, "header_logo")} /></Link></div>
-//                     <div {...currentTheme(2, "header_search")} >
-//                         <input {...currentTheme(3, "search", "input")} placeholder="Searching Disabled"/>
-//                         <span {...currentTheme(4, "search_icon")}><Search/></span>
+//                             <div>
+//
+//                                 <div id="ttHomeButton"><Link href="/"><span/></Link></div>
+//                     <div>
+//                         <input placeholder="Searching Disabled"/>
 //                     </div>
-//                     <span  {...currentTheme(5, "account-switches")}>
-//             <div {...currentTheme(11, "dropdown")} >
-//             <div {...currentTheme(7, "profile_image")}>
+//                     <span>
+//             <div>
+//             <div>
 //               <h4 id="orgNameHeader">
 //                 <img
 //                     src={!isNullOrUndefined(currentOrganization) && currentOrganization.image ? currentOrganization.image : "https://via.placeholder.com/200.png?text=Logo%20Preview"}/> {!isNullOrUndefined(currentOrganization) ? currentOrganization.name : "No Org Selected"}</h4></div>
-//               <div {...currentTheme(9, "dropdown-content")}>
+//               <div>
 //
 //                 <MyAgent/><AgentRelationships/>
 //             </div>
 //             </div>
-//             <div {...currentTheme(7, "profile_image")}><img
+//             <div><img
 //                 src={user.image ? user.image : "https://via.placeholder.com/200.png?text=Logo%20Preview"}/></div>
 //             <h4>{user.name}</h4>
-//            <div {...currentTheme(8, "dropdown")} >
+//            <div>
 //             <span>°°°</span>
-//             <div {...currentTheme(9, "dropdown-content")}>
+//             <div>
 //               {/*This is where you  can add new menu items*/}
-//                 <Link to={"/"} {...currentTheme(10, "link")}>Home</Link>
+//                 <Link to={"/"}>Home</Link>
 //             </div>
 //            </div>
 //             </span>
-//                     <div {...currentTheme(284484, "header_mobile")}>
-//                         <ul {...currentTheme(24449, "mobile_list")}>
-//                             <li {...currentTheme(22383, "active")}>Projects</li>
+//                     <div>
+//                         <ul>
+//                             <li>Projects</li>
 //                             <li>Activities</li>
 //                             <li>Profile</li>
 //                             <li>Notifications</li>
 //                         </ul>
 //                     </div>
-//                 </header>
+//                 </div>
 //             )
 //         )
 //
 //     );
 // });
-const Header = () => {
-    return (
-        <p>Header Bar</p>
-    )
-};
-export default Header;
+
+
+
+const NavMenu = ({ leftItems, rightItems }) => (
+    <Menu fixed="top" inverted>
+        <Menu.Item>
+            <Image size="mini" src={logo} />
+        </Menu.Item>
+        {_.map(leftItems, item => <Menu.Item {...item} />)}
+        <Menu.Menu position="right">
+            {_.map(rightItems, item => <Menu.Item {...item} />)}
+        </Menu.Menu>
+    </Menu>
+);
+
+const NavBarChildren = ({ children }) => (
+    <Container style={{ marginTop: "5em" }}>{children}</Container>
+);
+
+class NavBar extends Component {
+    state = {
+        visible: false
+    };
+
+    handlePusher = () => {
+        const { visible } = this.state;
+
+        if (visible) this.setState({ visible: false });
+    };
+
+    handleToggle = () => this.setState({ visible: !this.state.visible });
+
+    render() {
+        const { children, leftItems, rightItems } = this.props;
+        const { visible } = this.state;
+
+        return (
+            <div>
+                <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+                    <NavMenu leftItems={leftItems} rightItems={rightItems} />
+                    <NavBarChildren>{children}</NavBarChildren>
+                </Responsive>
+            </div>
+        );
+    }
+}
+
+const leftItems = [
+    { as: "a", content: "Home", key: "home" },
+    { as: "a", content: "Users", key: "users" }
+];
+const rightItems = [
+    { as: "a", content: "Login", key: "login" },
+    { as: "a", content: "Register", key: "register" }
+];
+
+const App = () => (
+    <NavBar leftItems={leftItems} rightItems={rightItems}>
+        <Image src={logo}
+               as='a'
+               size='medium'
+               href='/'
+               target='_blank' />
+    </NavBar>
+);
+
+export default NavBar;
