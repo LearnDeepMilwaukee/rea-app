@@ -6,17 +6,22 @@
 // import {isNullOrUndefined} from "util";
 // import agent from "../../../ui-bindings/Agent/agent";
 import 'semantic-ui-css/semantic.min.css'
+import {Link} from 'react-router-dom';
 
 import _ from "lodash";
-import React, { Component } from "react";
-import { render } from "react-dom";
+import React, {Component} from "react";
+import {render} from "react-dom";
 import {
     Container,
     Image,
     Menu,
-    Responsive
+    Responsive,
+    Input,
+    Dropdown
 } from "semantic-ui-react";
 import * as logo from '../resources/upcycleLogo.png'
+import './Header.css';
+
 let organizationId = -1;
 let currentOrganization = undefined;
 // const Header = CurrentUser(({user, loading, error}) => {
@@ -149,67 +154,58 @@ let currentOrganization = undefined;
 // });
 
 
+const NavMenu = () => (
 
-const NavMenu = ({ leftItems, rightItems }) => (
-    <Menu fixed="top" inverted>
-        <Menu.Item>
-            <Image size="mini" src={logo} />
+    <Menu fixed="top">
+        <Menu.Item fitted="vertically">
+            <Image size="mini" src={logo}/>
         </Menu.Item>
-        {_.map(leftItems, item => <Menu.Item {...item} />)}
+        <Menu.Item fitted="vertically">
+            <Input className='icon' icon='search' placeholder='Searching is disabled' disabled/>
+        </Menu.Item>
         <Menu.Menu position="right">
-            {_.map(rightItems, item => <Menu.Item {...item} />)}
+            {/*Add Org Dropdown here*/}
+            {/*Add User Info here*/}
+            <Menu.Item>
+                <Dropdown floating options={menuDropDown} text='°°°' icon={null} openOnMouseEnter/>
+            </Menu.Item>
         </Menu.Menu>
+
     </Menu>
 );
 
-const NavBarChildren = ({ children }) => (
-    <Container style={{ marginTop: "5em" }}>{children}</Container>
-);
 
 class NavBar extends Component {
-    state = {
-        visible: false
-    };
 
-    handlePusher = () => {
-        const { visible } = this.state;
-
-        if (visible) this.setState({ visible: false });
-    };
-
-    handleToggle = () => this.setState({ visible: !this.state.visible });
 
     render() {
-        const { children, leftItems, rightItems } = this.props;
-        const { visible } = this.state;
 
         return (
             <div>
                 <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-                    <NavMenu leftItems={leftItems} rightItems={rightItems} />
-                    <NavBarChildren>{children}</NavBarChildren>
+                    <NavMenu/>
                 </Responsive>
             </div>
         );
     }
 }
 
-const leftItems = [
-    { as: "a", content: "Home", key: "home" },
-    { as: "a", content: "Users", key: "users" }
-];
-const rightItems = [
-    { as: "a", content: "Login", key: "login" },
-    { as: "a", content: "Register", key: "register" }
+const menuDropDown = [
+    {key: 'home', text: 'Home', as: Link, to: '/'},
+    {key: 'projects', text: 'Projects', as: Link, to: '/'},
+    {key: 'activities', text: 'Activities', as: Link, to: '/'},
+    {key: 'profile', text: 'Profile', as: Link, to: '/'},
+    {key: 'notifications', text: 'Notifications', as: Link, to: '/'}
+
 ];
 
 const App = () => (
-    <NavBar leftItems={leftItems} rightItems={rightItems}>
+    <NavBar>
         <Image src={logo}
                as='a'
                size='medium'
                href='/'
-               target='_blank' />
+               target='_blank'/>
     </NavBar>
 );
 
