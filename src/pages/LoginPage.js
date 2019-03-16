@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Button} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
+import createToken from "../queries/createToken";
 
 class LoginPage extends React.Component {
 
@@ -20,6 +21,18 @@ class LoginPage extends React.Component {
 
         this.setState({ submittedName: username, submittedPassword: password });
         console.log(this.state);
+
+        let mutationVariables = {
+            username: username,
+            password: password
+        };
+
+        this.props.createToken({variables: mutationVariables}).then((response) => {
+            let token = response.data.createToken.token;
+            console.log(token);
+        }).catch((error) => {
+             console.log(error);
+        });
     };
 
 
@@ -46,4 +59,4 @@ class LoginPage extends React.Component {
 
 
 
-export default LoginPage;
+export default createToken(LoginPage);
