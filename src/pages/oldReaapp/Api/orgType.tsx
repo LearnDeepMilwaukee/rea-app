@@ -8,7 +8,7 @@
 
 import * as React from "react";
 import "./api.css"
-import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOrganizationTypes.js";
+import GetOrganizationTypes from "../../../queries/OrganizationType/getAllOrganizationTypes";
 
 export const OrganizationType = (props) => {
   return(

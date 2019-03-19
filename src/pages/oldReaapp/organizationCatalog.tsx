@@ -4,7 +4,7 @@ import * as themable from "react-themeable";
 import CardFront from "./orgCard";
 import * as pageTheme from "./catalogStyle.scss";
 import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities"
-import getAllOrganizations from "../../queries/oldQueries/Organization/getAllOrganizations";
+import getAllOrganizations from "../../queries/Organization/getAllOrganizations";
 import {isNullOrUndefined} from "util";
 
 

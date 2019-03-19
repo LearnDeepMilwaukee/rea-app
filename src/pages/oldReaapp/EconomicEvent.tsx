@@ -8,8 +8,8 @@
  */
 
 import * as React from "react";
-import allEconomicEvents from "../../../ui-bindings/EconomicEvent/getAllEconomicEvents";
-import economicEventById from "../../../ui-bindings/EconomicEvent/getEconomicEventById";
+import allEconomicEvents from "../../queries/EconomicEvent/getAllEconomicEvents";
+import economicEventById from "../../queries/EconomicEvent/getEconomicEventById";
 
 /**
  * Binds to the database passing in any variables defined in props. Then maps

@@ -8,8 +8,8 @@
  */
 
 import * as React from "react";
-import allAgentRelationshipRoles from "../../../ui-bindings/AgentRelationshipRole/getAllAgentRelationshipRoles";
-import agentRelationshipRoleById from "../../../ui-bindings/AgentRelationshipRole/getAgentRelationshipRoleById";
+import allAgentRelationshipRoles from "../../queries/AgentRelationshipRole/getAllAgentRelationshipRoles";
+import agentRelationshipRoleById from "../../queries/AgentRelationshipRole/getAgentRelationshipRoleById";
 
 const AgentRelationshipRole = (props) => {
   let role = props.agentRelationshipRole;

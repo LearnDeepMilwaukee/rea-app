@@ -9,8 +9,8 @@
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { AppState } from "../../../node_modules_prev_reaapp/store/types";
-import { getActiveLoginToken } from "../../../node_modules_prev_reaapp/store/selectors/auth";
+import { AppState } from "../../node_modules_prev_reaapp/store/types";
+import { getActiveLoginToken } from "../../node_modules_prev_reaapp/store/selectors/auth";
 
 import { organizationInterface } from "./organizationInterface";
 

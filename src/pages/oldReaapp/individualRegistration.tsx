@@ -4,8 +4,8 @@
  */
 
 import * as React from "react";
-import createUserPerson from "../../../ui-bindings/user/CreateUserPerson";
-import userEmailExist from "../../../ui-bindings/user/UserEmailExists";
+import createUserPerson from "../../queries/User/CreateUserPerson";
+import userEmailExist from "../../queries/User/UserEmailExists";
 import * as EmailValidator from "email-validator";
 import { adminToken } from "../../../../apiKeys.json";
 import * as themeable from 'react-themeable';
@@ -13,8 +13,8 @@ import * as theme from "./individualRegistration.scss";
 
 /**
  * This data structure stores the information that is entered by
- * the user into the fields on the page, and is sent to the
- * mutation to create a new user account.
+ * the User into the fields on the page, and is sent to the
+ * mutation to create a new User account.
  */
 let userInformation = {
      email: "",
@@ -133,8 +133,8 @@ class PasswordField extends React.Component {
 }
 
 /**
- * Verifies if a user exists in the database with that email.
- * If the email is unique, create a new user.
+ * Verifies if a User exists in the database with that email.
+ * If the email is unique, create a new User.
  * @type {React.ComponentClass<{}>}
  */
 const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
@@ -157,7 +157,7 @@ const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
 });
 
 /**
- * Creates a new user in the database
+ * Creates a new User in the database
  * @type {React.ComponentClass<{}>}
  */
 const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
@@ -174,7 +174,7 @@ const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
 });
 
 /**
- * Calls the create user query using the values passed in through props
+ * Calls the create User query using the values passed in through props
  * @param props contains the infomation to be used in the query
  */
 function CreateUser(props) {
@@ -197,9 +197,9 @@ function CreateUser(props) {
 }
 
 /**
- * The base element for the user registration page.  This is made up of an EmailFieldConst, UsernameField
+ * The base element for the User registration page.  This is made up of an EmailFieldConst, UsernameField
  * and PasswordField.  This handles basic validation of the values passed and calls the queries to create
- * a new user.
+ * a new User.
  */
 class IndividualRegistration extends React.Component {
   private state = {

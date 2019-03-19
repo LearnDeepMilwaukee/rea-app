@@ -9,9 +9,9 @@
 
 import * as React from "react";
 import "./api.css";
-import getAllOrganizations from "../../../ui-bindings/Organization/getAllOrganizations";
+import getAllOrganizations from "../../../queries/Organization/getAllOrganizations";
 import { concatArray } from "./common";
-import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
+import getOrganizationById from "../../../queries/Organization/getOrganizationById";
 
 export const Organization = (props) => {
   let organization = props.organization;

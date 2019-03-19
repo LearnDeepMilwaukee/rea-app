@@ -47,7 +47,7 @@ ${economicEventInterface}
 export default compose(
   /**
    * The connect function reaches out to the Redux data store
-   * and fetches the token for the currently logged in user,
+   * and fetches the token for the currently logged in User,
    * and injects it into the query
    */
   connect(state => ({

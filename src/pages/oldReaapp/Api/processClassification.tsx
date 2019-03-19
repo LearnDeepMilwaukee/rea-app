@@ -8,8 +8,8 @@
 
 import * as React from "react";
 import "./api.css"
-import getAllProcessClassifications from "../../../ui-bindings/ProcessClassification/getAllProcessClassifications";
-import getProcessClassificationById from "../../../ui-bindings/ProcessClassification/getProcessClassificationById";
+import getAllProcessClassifications from "../../../queries/ProcessClassification/getAllProcessClassifications";
+import getProcessClassificationById from "../../../queries/ProcessClassification/getProcessClassificationById";
 
 /**
  * How to render a single ProcessClassification

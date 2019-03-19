@@ -9,7 +9,7 @@
 
 import * as React from "react";
 
-import createEconomicEvent from "../../../ui-bindings/EconomicEvent/CreateEconomicEvent";
+import createEconomicEvent from "../../queries/EconomicEvent/CreateEconomicEvent";
 import { SingleEconomicEvent } from "./EconomicEvent";
 
 /**

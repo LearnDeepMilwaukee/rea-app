@@ -9,8 +9,8 @@
 
 import * as React from "react";
 import "./api.css";
-import getAllprocesses from "../../../ui-bindings/Process/getAllProcesses";
-import getProcessById from "../../../ui-bindings/Process/getProcessById";
+import getAllprocesses from "../../../queries/Process/getAllProcesses";
+import getProcessById from "../../../queries/Process/getProcessById";
 import { concatArray } from "./common";
 
 export const Process = (props) => {

@@ -7,8 +7,8 @@ import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration.scss";
 import * as Modal from "react-modal";
 import {Link} from "react-router";
-import createOrganization from "../../../ui-bindings/Organization/CreateOrganization.tsx";
-import GetOrganizationTypes from "../../../ui-bindings/OrganizationType/getAllOrganizationTypes.js";
+import createOrganization from "../../queries/Organization/CreateOrganization.tsx";
+import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
 
 class Registration extends React.Component {
   constructor() {

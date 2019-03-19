@@ -10,7 +10,7 @@
 
 import * as React from "react";
 import "./organizationEdit.css";
-import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
+import getOrganizationById from "../../queries/Organization/getOrganizationById";
 import { getValidation } from "../Common/common";
 
 /**

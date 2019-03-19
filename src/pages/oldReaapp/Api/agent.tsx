@@ -9,9 +9,9 @@
 
 import * as React from "react";
 import "./api.css";
-import getMyAgent from "../../../ui-bindings/Agent/getMyAgent.js";
-import getAllAgents from "../../../ui-bindings/Agent/getAllAgents.js";
-import getAgentById from "../../../ui-bindings/Agent/getAgentById";
+import getMyAgent from "../../../queries/Agent/getMyAgent";
+import getAllAgents from "../../../queries/Agent/getAllAgents";
+import getAgentById from "../../../queries/Agent/getAgentById";
 import { concatArray } from "./common";
 
 export const Agent = (props) => {

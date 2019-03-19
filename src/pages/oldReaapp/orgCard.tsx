@@ -17,7 +17,7 @@ class CardFront extends React.Component {
     let card_theme = themable(cardTheme);
     let alt_desc = require("../../resources/defaultImage.jpg"); // Way of using images in react it has to be done this way for web pack to recognize it. Doing reacts way does not work, only the webpack specific way works.
     console.log("DEFAULT IMG    "+ alt_desc);
-    if(org_image.trim() == "" || org_image.trim().length == 0){ // If no image is returned the default user profile picture is shown. This also occurs if there is an issue displaying the image it displays the default user image
+    if(org_image.trim() == "" || org_image.trim().length == 0){ // If no image is returned the default User profile picture is shown. This also occurs if there is an issue displaying the image it displays the default User image
       org_image = alt_desc; // Sets the image to the alternative image
     }
     return(
