@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form, Button} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-import createToken from "../queries/createToken";
+import createToken from "../queries/createToken.js";
 
 class LoginPage extends React.Component {
 
@@ -19,7 +19,7 @@ class LoginPage extends React.Component {
     handleSubmit = () => {
         const { username, password } = this.state;
 
-        this.setState({ submittedName: username, submittedPassword: password });
+        this.setState({ submittedUsername: username, submittedPassword: password });
         console.log(this.state);
 
         let mutationVariables = {
@@ -27,9 +27,11 @@ class LoginPage extends React.Component {
             password: password
         };
 
-        this.props.createToken({variables: mutationVariables}).then((response) => {
+        console.log(this.props);
+        this.props.createTokenMutation({variables: mutationVariables}).then((response) => {
             let token = response.data.createToken.token;
-            console.log(token);
+            console.log(response);
+            //console.log(token);
         }).catch((error) => {
              console.log(error);
         });
@@ -43,11 +45,11 @@ class LoginPage extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Field required>
                         <label>Username</label>
-                        <Form.Input placeholder='Username' name='username' value={username} onChange={this.handleChange}/>
+                        <Form.Input width={4} placeholder='Username' name='username' value={username} onChange={this.handleChange}/>
                     </Form.Field>
                     <Form.Field required>
                         <label>Password</label>
-                        <Form.Input type='password' placeholder='Password' name='password' value={password} onChange={this.handleChange}/>
+                        <Form.Input width={4} type='password' placeholder='Password' name='password' value={password} onChange={this.handleChange}/>
                     </Form.Field>
                     <Button type='submit'>Submit</Button>
                 </Form>
