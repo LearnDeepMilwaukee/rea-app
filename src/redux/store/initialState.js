@@ -2,5 +2,7 @@
  * Each initial state should only be used in ONE reducer
  */
 export const initialUserState = {
-    currentOrgId: -1
+    currentOrgId: -1,
+    currentUserToken: "N/A",
+    currentUserId: -1
 };
