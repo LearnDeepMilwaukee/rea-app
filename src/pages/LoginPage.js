@@ -2,6 +2,9 @@ import React from 'react';
 import {Form, Button} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import createToken from "../queries/createToken.js";
+import * as currentUserActions from '../redux/actions/currentUserActions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 class LoginPage extends React.Component {
 
@@ -27,10 +30,12 @@ class LoginPage extends React.Component {
         console.log(this.props);
         this.props.createToken({variables: mutationVariables}).then((response) => {
             let token = response.data.createToken.token;
-            console.log(token);
+            this.props.currentUserActions.setCurrentUserToken(token);
+            console.log(this.props.currentUserToken);
+            // console.log(token);
         }).catch((error) => {
             console.log("Caught an error");
-            if(error.message.includes("'NoneType' object has no attribute")){
+            if (error.message.includes("'NoneType' object has no attribute")) {
                 //Incorrect login, give the user a heads up that the login details are wrong
             }
             console.log(error);
@@ -60,5 +65,20 @@ class LoginPage extends React.Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        currentUserToken: state.getUserInfo.currentUserToken,
+        currentUserId: state.getUserInfo.currentUserId,
+    };
+}
 
-export default createToken(LoginPage);
+function mapDispatchToProps(dispatch) {
+    return {
+        currentUserActions: bindActionCreators(currentUserActions, dispatch)
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(createToken(LoginPage));
