@@ -5,6 +5,7 @@ import BasicTextPage from './pages/BasicTextPage.js';
 import ErrorPage from './pages/ErrorPage.js';
 import OrganizationRegistration from './pages/OrganizationRegistration.js';
 import LoginPage from './pages/LoginPage.js';
+import SearchResults from './pages/oldReaapp/organizationCatalog'
 
 class Routes extends Component {
     render() {
@@ -15,6 +16,7 @@ class Routes extends Component {
                     <Route exact path="/login" component={LoginPage}/>
                     <Route exact path="/text" component={BasicTextPage}/>
                     <Route path="/registration/organization" component={OrganizationRegistration}/>
+                    <Route exact path = "/test" component={SearchResults}/>
                     <Route component={ErrorPage}/>
                 </Switch>
 
