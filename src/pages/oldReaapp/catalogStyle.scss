@@ -1,0 +1,94 @@
+/*- Typograpy and resets -*/
+.page {
+
+  background-color: #e7eff6;
+  min-width: 100vw;
+  min-height: 100vh;
+
+}
+
+.org-category {
+  margin-left: 60px;
+  margin-top: 20px;
+}
+
+.search-container {
+  display: flex;
+  padding: 4px;
+  padding-right: 6px;
+  margin-top: 10px;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  justify-items: center;
+  justify-content: center;
+}
+
+.primary-button {
+  width: auto;
+  height: auto;
+  background-color: #169BD5;
+  display: flex;
+  color: white;
+  font-size: 18px;
+  justify-content: center;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.negative-button {
+  width: auto;
+  height: auto;
+  background-color: #f6602d;
+  display: flex;
+  color: white;
+  justify-content: center;
+  border-style: solid;
+  border-width: thin;
+  border-radius: 8px;
+  padding: 4px;
+  font-size: 12px;
+}
+
+.search-filter-group {
+  margin: 6px;
+  margin-top: 10px;
+  input {
+    margin-right: 4px;
+  }
+  label {
+    margin-right: 12px;
+  }
+}
+
+.search-dist-group {
+
+  margin: 6px;
+  margin-top: 10px;
+  input {
+    margin-right: 4px;
+  }
+  label {
+    margin-right: 12px;
+  }
+}
+
+.org-card-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+}
+
+.max-distance-label {
+  padding: 9px;
+}
+
+.no-results {
+  margin-left: 200px;
+  font-size: 20px;
+  font-weight: bold;
+}
