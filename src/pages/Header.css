@@ -1,0 +1,8 @@
+.ui[class*="top fixed"].menu, [class*="visible menu transition"] {
+    background-color: #26547c !important;
+
+}
+.text {
+    color: white;
+
+}
