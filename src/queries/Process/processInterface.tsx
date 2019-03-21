@@ -6,7 +6,6 @@
  * @since:   2018-02-12
  */
 
-import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 import { Agent } from "../Agent/agentInterface";
 import { Plan } from "../Plan/planInterface";

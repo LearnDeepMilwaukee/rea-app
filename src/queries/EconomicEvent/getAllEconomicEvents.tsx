@@ -8,8 +8,6 @@
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { AppState } from "@vflows/store/types";
-import { getActiveLoginToken } from "@vflows/store/selectors/auth";
 import economicEventInterface from "./EconomicEvent.tsx";
 
 const query = gql`
@@ -26,7 +24,7 @@ ${economicEventInterface}
 export default compose(
   connect(state => ({
     variables: {
-      token: getActiveLoginToken(state)
+      token: state.getUserInfo.currentUserToken
     }
   })),
 

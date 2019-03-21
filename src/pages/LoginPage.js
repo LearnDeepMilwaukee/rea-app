@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form, Button} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
-import createToken from "../queries/createToken.js";
+import createToken from "../queries/User/createToken.js";
 import * as currentUserActions from '../redux/actions/currentUserActions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -29,6 +29,8 @@ class LoginPage extends React.Component {
         };
         console.log(this.props);
         this.props.createToken({variables: mutationVariables}).then((response) => {
+            console.log("State is");
+            console.log(this.state);
             let token = response.data.createToken.token;
             this.props.currentUserActions.setCurrentUserToken(token);
             console.log(this.props.currentUserToken);

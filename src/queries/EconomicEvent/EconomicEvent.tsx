@@ -7,7 +7,6 @@
  * @since:   2018-1-28
  */
 
-import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 // The commented out elements lead to errors in the query. They are non-nullable values
 // and some of the elements were missing the values

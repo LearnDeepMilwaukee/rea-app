@@ -7,10 +7,8 @@
  */
 
 
-import {connect} from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import {AppState} from "@vflows/store/types.js";
 
 
 export const query = gql`

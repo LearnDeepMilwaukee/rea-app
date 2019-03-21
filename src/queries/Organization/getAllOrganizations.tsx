@@ -6,11 +6,9 @@
  * @since:   2018-02-11
  */
 
-import { connect } from "react-redux";
-import { graphql, compose } from "react-apollo";
+import {connect} from "react-redux";
+import {graphql, compose} from "react-apollo";
 import gql from "graphql-tag";
-import { AppState } from "../../node_modules_prev_reaapp/store/types";
-import { getActiveLoginToken } from "../../node_modules_prev_reaapp/store/selectors/auth";
 
 import { organizationInterface } from "./organizationInterface";
 
@@ -27,9 +25,9 @@ ${organizationInterface}
 
 export default compose(
   // bind input data from the store
-  connect((state: AppState) => ({
+  connect((state) => ({
     variables: {
-      token: getActiveLoginToken(state),
+      token: state.getUserInfo.currentUserToken
     },
   })),
 

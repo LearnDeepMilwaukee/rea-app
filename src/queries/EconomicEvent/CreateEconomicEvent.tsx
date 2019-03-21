@@ -9,8 +9,6 @@
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { AppState } from "@vflows/store/types";
-import { getActiveLoginToken } from "@vflows/store/selectors/auth";
 import EconomicEventFragment from "./EconomicEvent.tsx";
 
 /**
@@ -99,7 +97,7 @@ export default compose(
    * injects that as the token variable in the mutation.
    */
   connect(state => ({
-    token: getActiveLoginToken(state)
+    token: state.getUserInfo.currentUserToken
   })),
   /**
    * The graphql function wraps the GraphQL mutation defined above

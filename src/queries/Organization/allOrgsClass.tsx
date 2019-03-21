@@ -9,8 +9,6 @@
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { AppState } from "../../../../node_modules/@vflows/store/types.js";
-import { getActiveLoginToken } from "../../../../@vflows/store/selectors/auth.js";
 
 const query = gql`
 query($token: String) {
@@ -24,9 +22,9 @@ query($token: String) {
 
 export default compose(
   // bind input data from the store
-  connect((state: AppState) => ({
+  connect((state) => ({
     variables: {
-      token: getActiveLoginToken(state),
+      token: state.getUserInfo.currentUserToken,
     },
   })),
 

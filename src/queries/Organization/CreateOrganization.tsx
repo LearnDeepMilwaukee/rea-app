@@ -9,8 +9,6 @@
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { AppState } from "@vflows/store/types";
-import { getActiveLoginToken } from "@vflows/store/selectors/auth";
 import { organizationInterface } from "./organizationInterface";
 
 export const mutation = gql`
@@ -38,7 +36,7 @@ ${organizationInterface}
 
 export default compose(
   connect(state => ({
-    token: getActiveLoginToken(state)
+    token: state.getUserInfo.currentUserToken
   })),
   graphql(mutation)
 );

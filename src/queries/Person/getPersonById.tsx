@@ -9,8 +9,6 @@
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { AppState } from "@vflows/store/types.js";
-import { getActiveLoginToken } from "@vflows/store/selectors/auth.js";
 
 import { personInterface } from "./personInterface";
 
@@ -27,9 +25,9 @@ ${personInterface}
 
 export default compose(
   // Bind input data from the store
-  connect((state: AppState) => ({
+  connect((state) => ({
     variables: {
-      token: getActiveLoginToken(state),
+      token: state.getUserInfo.currentUserToken,
     },
   })),
 

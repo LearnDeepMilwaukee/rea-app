@@ -1,8 +1,6 @@
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { AppState } from "@vflows/store/types";
-import { getActiveLoginToken } from "@vflows/store/selectors/auth";
 import agentRelationshipRole from "./AgentRelationshipRoleInterface";
 
 const query = gql`
@@ -19,7 +17,7 @@ ${agentRelationshipRole}
 export default compose(
   connect(state => ({
     variables: {
-      token: getActiveLoginToken(state)
+      token: state.getUserInfo.currentUserToken
     }
   })),
 
