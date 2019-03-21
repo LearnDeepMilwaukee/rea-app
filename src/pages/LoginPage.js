@@ -33,7 +33,9 @@ class LoginPage extends React.Component {
             console.log(this.state);
             let token = response.data.createToken.token;
             this.props.currentUserActions.setCurrentUserToken(token);
-            console.log(this.props.currentUserToken);
+            if(this.props.currentUserToken !== "N/A"){
+                // DISPLAY SUCCESS / REDIRECT
+            }
             // console.log(token);
         }).catch((error) => {
             console.log("Caught an error");
