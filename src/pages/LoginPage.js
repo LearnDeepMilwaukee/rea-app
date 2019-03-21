@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Button} from 'semantic-ui-react'
+import {Form, Button, Grid, Header} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import createToken from "../queries/createToken.js";
 import * as currentUserActions from '../redux/actions/currentUserActions';
@@ -49,19 +49,26 @@ class LoginPage extends React.Component {
         const {username, password} = this.state;
         return (
             <div>
-                <Form onSubmit={this.handleSubmit}>
-                    <Form.Field required>
-                        <label>Username</label>
-                        <Form.Input width={4} placeholder='Username' name='username' value={username}
-                                    onChange={this.handleChange}/>
-                    </Form.Field>
-                    <Form.Field required>
-                        <label>Password</label>
-                        <Form.Input width={4} type='password' placeholder='Password' name='password' value={password}
-                                    onChange={this.handleChange}/>
-                    </Form.Field>
-                    <Button type='submit'>Submit</Button>
-                </Form>
+                <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle' columns={1} centered>
+                    <Grid.Row>
+                        <Grid.Column style={{maxWidth: 450}}>
+                            <Header as='h2' textAlign='center'>
+                             Log-in to Makerspace
+                         </Header>
+                            <Form size='large' onSubmit={this.handleSubmit}>
+                                <Form.Field required>
+                                    <Form.Input fluid placeholder='Username' name='username' value={username}
+                                            onChange={this.handleChange}/>
+                                </Form.Field>
+                                <Form.Field required>
+                                    <Form.Input fluid type='password' placeholder='Password' name='password' value={password}
+                                            onChange={this.handleChange}/>
+                                </Form.Field>
+                                <Button type='submit'>Submit</Button>
+                            </Form>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </div>
         );
     }
