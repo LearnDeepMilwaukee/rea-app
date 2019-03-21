@@ -21,16 +21,29 @@ class CardFront extends React.Component {
       org_image = alt_desc; // Sets the image to the alternative image
     }
     return(
-      <span {...card_theme(0,"card")}>
-
-        <img src={isNullOrUndefined(org_image) ?  alt_desc : org_image} {...card_theme(4,"img")}/>
-        <h2 id="name" {...card_theme(1,"name")}>{name}</h2>
-        <div {...card_theme(2,"details")}>
-          <h3 id="type">{"Type: " + type}</h3>
-          <h3 id="note">{isNullOrUndefined(distance) ? "Distance: Not Available" : "Distance: " + distance + " mi."}</h3>
+                <div className="item">
+                  <div className="image">
+                    <img src={alt_desc}/>
+                  </div>
+        <div className="content">
+          <a className="header">{name}</a>
+          <div className="meta">
+            <span className="cinema">{"Type: " + type}</span>
           </div>
-      </span>
-  )
+          <div className="description">
+            <p>{isNullOrUndefined(distance) ? "Distance: Not Available" : "Distance: " + distance + " mi."}</p>
+          </div>
+        </div>
+
+          <div className="extra">
+            <div className="ui right floated primary button">
+              Connect
+              <i className="right chevron icon"></i>
+            </div>
+          </div>
+      </div>
+
+    )
   }
 }
 

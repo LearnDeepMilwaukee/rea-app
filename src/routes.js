@@ -5,7 +5,6 @@ import BasicTextPage from './pages/BasicTextPage.js';
 import ErrorPage from './pages/ErrorPage.js';
 import LoginPage from './pages/LoginPage.js';
 import SearchResults from './pages/oldReaapp/organizationCatalog'
-import OrganizationRegistration from './pages/OrganizationRegistration.js';
 import Header from './pages/Header.js';
 
 class Routes extends Component {

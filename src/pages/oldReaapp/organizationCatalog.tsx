@@ -6,6 +6,7 @@ import * as pageTheme from "./catalogStyle.scss";
 import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities"
 import getAllOrganizations from "../../queries/Organization/getAllOrganizations";
 import {isNullOrUndefined} from "util";
+import OrgFilter from "../components/searchFilter";
 
 
 class SearchResults extends React.Component {
@@ -22,44 +23,6 @@ class SearchResults extends React.Component {
       pubOrgsFilter: true
     };
   }
-
-  onSortFilterChange = function (value) {
-    this.setState({sorting: value});
-  };
-
-  onTypeFilterChange = function (value) {
-    this.setState({typeFilter: value});
-  };
-
-  //Override is here for the distance slider so that it updates the value as well.
-  onDistanceFilterChange = function (event, override) {
-    if (event.key === 'Enter' || override) {
-      this.setState({distanceFilter: event.target.value});
-    }
-  };
-
-  handleReset = function (env) {
-    env.setState({
-      distanceFilter: 50,
-      sorting: "alphabetical",
-      typeFilter: "All",
-      nameFilter: "",
-      myOrgsFilter: false,
-      pubOrgsFilter: true
-    });
-
-  };
-  onNameChange = function (event) {
-    if (event.key === 'Enter') {
-      this.setState({nameFilter: event.target.value});
-    }
-  };
-  onMyOrgsChange = function (value) {
-    this.setState({myOrgsFilter: value});
-  };
-  onPubOrgsChange = function (value) {
-    this.setState({pubOrgsFilter: value});
-  };
 
   notImplementedFunction = function () {
     alert("This feature is not yet implemented");
@@ -100,12 +63,11 @@ class SearchResults extends React.Component {
         }
 
         const cardsArray = filteredOrgs.map(card => (
-          <div id={"cardContainer"}><span {...page_theme(4, "org-card-button")}>
+            <div className="ui divided items">
             <CardFront card={card}
                        distance={isNullOrUndefined(card.primaryLocation) ? null : getDistanceBetweenPoints(card.primaryLocation, msoeCC).toFixed(1)}/>
-            <button {...page_theme(3, "primary-button")} onClick={this.notImplementedFunction}>Connect</button>
-          </span>
-          </div>
+            {/*<button {...page_theme(3, "primary-button")} onClick={this.notImplementedFunction}>Connect</button>*/}
+            </div>
         ));
         if (cardsArray.length == 0) {
           cardsArray = <p {...page_theme(10, "no-results")}> No search results</p>;
@@ -114,78 +76,8 @@ class SearchResults extends React.Component {
         return (
           <div id={'baseElement'}{...page_theme(1, "page")}>
             <h2 {...page_theme(8, "org-category")}>All orgs</h2>
-            <div {...page_theme(4, "search-container")}>
-              <div {...page_theme(5, "search-filter-group")}>
-                <div>
-                  <input id={'orgName'} type="text" onKeyPress={(event) => this.onNameChange(event)}
-                         defaultValue={this.state.nameFilter}/>
-                </div>
-                <input type="checkbox" checked={this.state.myOrgsFilter} onClick={(event) => {
-                  this.checked = !this.checked;
-                  this.onMyOrgsChange(event.target.checked)
-                }}/>
-                <label>My Orgs</label>
-
-                <input type="checkbox" checked={this.state.pubOrgsFilter} onClick={(event) => {
-                  this.checked = !this.checked;
-                  this.onPubOrgsChange(event.target.checked)
-                }}/>
-                <label>Public</label>
-
-              </div>
-              <div {...page_theme(6, "search-dist-group")}>
-                <label {...page_theme(9, "max-distance-label")}>Max Distance(mi):</label>
-                <input onKeyPress={(event) => {
-                  this.onDistanceFilterChange(event, false)
-                }} type={'number'} min={1} name={'maxDistText'} defaultValue={this.state.distanceFilter}
-                       style={{width: '50px'}}/>
-                <div><span>
-                    <label>1 mi</label>
-                    <input type={'range'} name={'maxDistRange'} min={1} max={100} onMouseUp={(event) => {
-                      this.onDistanceFilterChange(event, true)
-                    }} defaultValue={this.state.distanceFilter}/>
-                  <label>100 mi</label></span>
-                </div>
-              </div>
-              <div{...page_theme(7, "search-filter-group")}>
-                <label>Type:</label><br/>
-                <select onChange={(event) => this.onTypeFilterChange(event.target.value)} style={{width: '100px'}}>
-                  <option selected={this.state.typeFilter === 'All'} value={'All'}>All</option>
-                  <option selected={this.state.typeFilter === 'School'} value={'School'}>School</option>
-                  <option selected={this.state.typeFilter === 'Church'} value={'Church'}>Church</option>
-                  <option selected={this.state.typeFilter === 'For-profit Company'} value={'For-Profit Company'}>
-                    For-profit Company
-                  </option>
-                  <option selected={this.state.typeFilter === 'dividual'} value={'Individual'}>Individual</option>
-                  <option selected={this.state.typeFilter === 'Organization'} value={'Organization'}>Organization
-                  </option>
-                  <option selected={this.state.typeFilter === 'Library'} value={'Library'}>Library</option>
-                  <option selected={this.state.typeFilter === 'Makerspace'} value={'Makerspace'}>Makerspace</option>
-                  <option selected={this.state.typeFilter === 'Network'} value={'Network'}>Network</option>
-                  <option selected={this.state.typeFilter === 'Non-profit Company'} value={'Non-profit Company'}>
-                    Non-profit Company
-                  </option>
-                </select>
-              </div>
-              <div {...page_theme(8, "search-filter-group")}>
-                <label>Sort:</label>
-                <select onChange={(event) => this.onSortFilterChange(event.target.value)}>
-                  <option selected={this.state.sorting === 'alphabetical'} value={'alphabetical'}>Alphabetical</option>
-                  <option selected={this.state.sorting === 'distance'} value={'distance'}>Distance</option>
-                </select>
-              </div>
-
-
-              <div {...page_theme(12, "search-filter-group")}>
-                <button {...page_theme(13, "negative-button")} onClick={(event) => {
-                  this.handleReset(this, event.target.value)
-                }}>Reset filters
-                </button>
-              </div>
-            </div>
-            <div>
+              <OrgFilter style={{width:'50%'}}/>
               {cardsArray}
-            </div>
           </div>
         );
       }

@@ -8,7 +8,6 @@
 import 'semantic-ui-css/semantic.min.css'
 import {Link} from 'react-router-dom';
 
-import _ from "lodash";
 import React, {Component} from "react";
 import {render} from "react-dom";
 import {
