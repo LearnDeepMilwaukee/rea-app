@@ -7,7 +7,8 @@
  */
 
 import { connect } from "react-redux";
-import { gql, graphql, compose } from "react-apollo";
+import {graphql, compose} from "react-apollo";
+import gql from "graphql-tag";
 
 
 
