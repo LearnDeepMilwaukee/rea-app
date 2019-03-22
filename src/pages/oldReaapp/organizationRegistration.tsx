@@ -6,7 +6,7 @@ import * as React from "react";
 import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration.scss";
 import * as Modal from "react-modal";
-import {Link} from "react-router";
+import {Link} from "react-router-dom  ";
 import createOrganization from "../../queries/Organization/CreateOrganization.tsx";
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
 

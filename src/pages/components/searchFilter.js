@@ -3,7 +3,11 @@ import * as pageTheme from "../oldReaapp/catalogStyle.scss";
 import * as themable from "react-themeable";
 import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "../oldReaapp/utilities"
 
-
+//**************************
+// This file is not used, it is a componentized version of the search filter
+// used on the orgCatalog but didn't work due to not passing state
+// back to the parent page
+//**************************
 
 
 class OrgFilter extends React.Component{
