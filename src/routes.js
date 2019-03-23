@@ -5,6 +5,7 @@ import BasicTextPage from './pages/BasicTextPage.js';
 import ErrorPage from './pages/ErrorPage.js';
 import LoginPage from './pages/LoginPage.js';
 import SearchResults from './pages/oldReaapp/organizationCatalog';
+import ViewInventory from './pages/ViewInventory';
 import OrganizationRegistration from './pages/oldReaapp/organizationRegistration';
 import Header from './pages/Header.js';
 
@@ -17,6 +18,8 @@ class Routes extends Component {
                     <Route exact path="/" component={OrganizationCatalog}/>
                     <Route exact path="/login" component={LoginPage}/>
                     <Route exact path="/text" component={BasicTextPage}/>
+                    <Route exact path = "/stuff" component={ViewInventory}/>
+
                     <Route exact path = "/orgCatalog" component={SearchResults}/>
                     <Route exact path = "/RegisterOrg" component={OrganizationRegistration}/>
                     <Route component={ErrorPage}/>
