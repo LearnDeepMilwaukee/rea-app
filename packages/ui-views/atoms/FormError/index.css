@@ -1,6 +1,0 @@
-// theme variables
-@import "../../base.css";
-// component variables
-@import "./vars.css";
-// component styles
-@import "./FormError.css";
