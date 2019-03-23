@@ -145,7 +145,7 @@ const NavMenu = () => (
 
     <Menu fixed="top">
         <Menu.Item fitted="vertically">
-            <Image size="mini" src={logo}/>
+            <Image size="mini" src={logo} href={'/'}/>
         </Menu.Item>
         <Menu.Item fitted="vertically">
             <Input className='icon' icon='search' placeholder='Searching is disabled' disabled/>
@@ -161,7 +161,7 @@ class NavBar extends Component {
         currentOrganizationId = this.props.currentOrganizationId;
         setCurrentOrganizationId = this.props.currentOrgActions.setCurrentId;
         return (
-            <div>
+            <div style={{height: 50, marginBottom:10}}>
                 <NavMenu/>
             </div>
         );
