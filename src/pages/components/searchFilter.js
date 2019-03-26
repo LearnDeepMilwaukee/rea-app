@@ -1,7 +1,7 @@
 import * as React from "react";
-import * as pageTheme from "../oldReaapp/catalogStyle.scss";
+import * as pageTheme from "../OrganizationCatalog/catalogStyle.scss";
 import * as themable from "react-themeable";
-import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "../oldReaapp/utilities"
+import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities"
 
 //**************************
 // This file is not used, it is a componentized version of the search filter

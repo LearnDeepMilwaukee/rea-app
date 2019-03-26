@@ -7,9 +7,8 @@ import * as React from "react";
 import createUserPerson from "../../queries/User/CreateUserPerson";
 import userEmailExist from "../../queries/User/UserEmailExists";
 import * as EmailValidator from "email-validator";
-import { adminToken } from "../../../../apiKeys.json";
-import * as themeable from 'react-themeable';
-import * as theme from "./individualRegistration.scss";
+import { adminToken } from "../../apiKeys.json";
+import "./individualRegistration.css";
 
 /**
  * This data structure stores the information that is entered by
@@ -30,12 +29,11 @@ let userInformation = {
  * The email field on the page
  */
 const EmailFieldConst = (props) => {
-  let currentTheme = themeable(theme);
   return(
     <div>
         <span>
           <text>Email</text>
-          <text {...currentTheme(3, "required")}>*</text><input {...currentTheme(4, "emailBox")} type="text" name="email" onChange={(event) => props.saveEmail(event.target.value)}/>
+          <text className="required">*</text><input className="emailBox" type="text" name="email" onChange={(event) => props.saveEmail(event.target.value)}/>
         </span>
     </div>
   );
@@ -61,11 +59,10 @@ class UsernameField extends React.Component {
   };
 
   render() {
-    let currentTheme = themeable(theme);
     return (
       <div>
         <text>Username</text>
-        <text {...currentTheme(0, "required")}>*</text><input {...currentTheme(5, "usernameBox")} type="text" name="username" onChange={(event) => this.onChange(event.target.value)}/>
+        <text className="required">*</text><input className="usernameBox" type="text" name="username" onChange={(event) => this.onChange(event.target.value)}/>
 
       </div>
     );
@@ -115,16 +112,15 @@ class PasswordField extends React.Component {
   };
 
   render() {
-    let currentTheme = themeable(theme);
     return (
       <div>
         <text>Password</text>
-        <text {...currentTheme(1, "required")}>*</text><input {...currentTheme(6, "passwordBox")} type="password" name="password" onChange={(event) => this.updateFirstPassword(event.target.value)} />
+        <text className="required">*</text><input className="passwordBox" type="password" name="password" onChange={(event) => this.updateFirstPassword(event.target.value)} />
 
         <br/>
         <br/>
         <text>Confirm Password</text>
-        <text {...currentTheme(2, "required")}>*</text><input {...currentTheme(7, "confirmPasswordBox")} type="password" name="password" onChange={(event) => this.updateSecondPassword(event.target.value)}/>
+        <text className="required">*</text><input className="confirmPasswordBox" type="password" name="password" onChange={(event) => this.updateSecondPassword(event.target.value)}/>
 
         <br/>
       </div>

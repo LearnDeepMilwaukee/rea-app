@@ -3,7 +3,7 @@ import * as React from "react";
 import * as themable from "react-themeable";
 import CardFront from "./orgCard";
 import * as pageTheme from "./catalogStyle.scss";
-import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "./utilities"
+import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "../components/utilities"
 import getAllOrganizations from "../../queries/Organization/getAllOrganizations";
 import {isNullOrUndefined} from "util";
 import OrgFilter from "../components/searchFilter";

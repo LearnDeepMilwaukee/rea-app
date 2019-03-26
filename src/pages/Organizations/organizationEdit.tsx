@@ -11,7 +11,7 @@
 import * as React from "react";
 import "./organizationEdit.css";
 import getOrganizationById from "../../queries/Organization/getOrganizationById";
-import { getValidation } from "./common";
+import { getValidation } from "../common";
 
 /**
  * Creates the EditForm for a given Organization.

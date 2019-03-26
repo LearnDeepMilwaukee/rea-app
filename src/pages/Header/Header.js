@@ -18,7 +18,7 @@ import {
     Input,
     Dropdown
 } from "semantic-ui-react";
-import * as logo from '../resources/upcycleLogo.png'
+import * as logo from '../../resources/upcycleLogo.png'
 import './Header.css';
 
 let organizationId = -1;
