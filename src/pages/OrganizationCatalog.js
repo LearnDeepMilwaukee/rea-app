@@ -1,6 +1,5 @@
 import React from 'react';
-import getAllOrganizations from "../queries/getAllOrganizations.js"
-//import getAllOrganizationTypes from "../queries/getAllOrganizationTypes.js"
+import getAllOrganizations from "../queries/Organization/getAllOrganizations"
 
 import {Item, Button, Form} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
