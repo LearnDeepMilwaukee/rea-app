@@ -7,6 +7,7 @@ import {ApolloProvider} from "react-apollo";
 import configureStore from "./redux/store/configureStore";
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
+import './index.css'
 
 let storeAndPersistor =configureStore();
 const store = storeAndPersistor.store;
