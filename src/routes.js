@@ -6,6 +6,7 @@ import ErrorPage from './pages/ErrorPage.js';
 import LoginPage from './pages/LoginPage.js';
 import SearchResults from './pages/oldReaapp/organizationCatalog';
 import OrganizationRegistration from './pages/oldReaapp/organizationRegistration';
+import orgEdit from "./pages/oldReaapp/organizationEdit";
 import Header from './pages/Header.js';
 
 class Routes extends Component {
@@ -14,11 +15,12 @@ class Routes extends Component {
             <div>
                 <Header/>
                 <Switch>
-                    <Route exact path="/" component={OrganizationCatalog}/>
-                    <Route exact path="/login" component={LoginPage}/>
-                    <Route exact path="/text" component={BasicTextPage}/>
+                    <Route exact path = "/" component={OrganizationCatalog}/>
+                    <Route exact path = "/login" component={LoginPage}/>
+                    <Route exact path = "/text" component={BasicTextPage}/>
                     <Route exact path = "/orgCatalog" component={SearchResults}/>
                     <Route exact path = "/RegisterOrg" component={OrganizationRegistration}/>
+                    <Route exact path = "/EditOrg/:id" component={orgEdit}/>
                     <Route component={ErrorPage}/>
                 </Switch>
             </div>

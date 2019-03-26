@@ -11,7 +11,7 @@
 import * as React from "react";
 import "./organizationEdit.css";
 import getOrganizationById from "../../queries/Organization/getOrganizationById";
-import { getValidation } from "../Common/common";
+import { getValidation } from "./common";
 
 /**
  * Creates the EditForm for a given Organization.
@@ -266,7 +266,8 @@ class OrganizationTypeSection extends React.Component {
 
 class App extends React.Component {
   render() {
-    let orgId = this.props.params.id;
+    console.log("props", this.props);
+    let orgId = this.props.match.params.id;
     return (
       <div>
         Click on a field to begin editing it. <br/>
