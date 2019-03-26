@@ -7,8 +7,9 @@ import * as React from "react";
 import createUserPerson from "../../queries/User/CreateUserPerson";
 import userEmailExist from "../../queries/User/UserEmailExists";
 import * as EmailValidator from "email-validator";
-import { adminToken } from "../../apiKeys.json";
+import {adminToken} from "../../apiKeys.json";
 import "./individualRegistration.css";
+import {Form, Button, Grid, Header, Segment, Message} from 'semantic-ui-react'
 
 /**
  * This data structure stores the information that is entered by
@@ -16,117 +17,15 @@ import "./individualRegistration.css";
  * mutation to create a new User account.
  */
 let userInformation = {
-     email: "",
-     pswd: "",
-     username: "",
-     name: "",
-     image: "",
-     userRan: false,
-     allValid: false
+    email: "",
+    pswd: "",
+    username: "",
+    name: "",
+    image: "",
+    userRan: false,
+    allValid: false
 };
 
-/**
- * The email field on the page
- */
-const EmailFieldConst = (props) => {
-  return(
-    <div>
-        <span>
-          <text>Email</text>
-          <text className="required">*</text><input className="emailBox" type="text" name="email" onChange={(event) => props.saveEmail(event.target.value)}/>
-        </span>
-    </div>
-  );
-};
-
-/**
- * The username field on the page
- */
-class UsernameField extends React.Component {
-  public state = {
-    value: ""
-  };
-
-  /**
-   * This executes every time the text in the field is modified.  This
-   * grabs the value from the input field and stores it in the userInformation variable
-   * to be used with the query
-   * @param value: the value of the input field
-   */
-  onChange = (value) => {
-    this.setState({value: value});
-    this.props.saveUsername(value);
-  };
-
-  render() {
-    return (
-      <div>
-        <text>Username</text>
-        <text className="required">*</text><input className="usernameBox" type="text" name="username" onChange={(event) => this.onChange(event.target.value)}/>
-
-      </div>
-    );
-  }
-}
-
-/**
- * the password field on the page
- */
-class PasswordField extends React.Component {
-  private state = {
-    passwordOne: undefined,
-    passwordTwo: undefined
-  };
-
-  /**
-   * This executes every time the text in the first password field is modified.  This
-   * grabs the value from the input field and stores it in the userInformation variable
-   * to be used with the query
-   * @param value: the value of the input field
-   */
-  updateFirstPassword = (value) => {
-    this.setState({passwordOne: value}, () => {
-      if (this.state.passwordOne === this.state.passwordTwo) {
-        this.props.savePassword(value);
-      } else {
-        this.props.savePassword("");
-      }
-    });
-
-  };
-
-  /**
-   * This executes every time the text in the second password field is modified.  This
-   * grabs the value from the input field and stores it in the userInformation variable
-   * to be used with the query
-   * @param value: the value of the input field
-   */
-  updateSecondPassword = (value) => {
-    this.setState({passwordTwo: value}, () => {
-      if (this.state.passwordOne === this.state.passwordTwo) {
-        this.props.savePassword(value);
-      } else {
-        this.props.savePassword("");
-      }
-    });
-  };
-
-  render() {
-    return (
-      <div>
-        <text>Password</text>
-        <text className="required">*</text><input className="passwordBox" type="password" name="password" onChange={(event) => this.updateFirstPassword(event.target.value)} />
-
-        <br/>
-        <br/>
-        <text>Confirm Password</text>
-        <text className="required">*</text><input className="confirmPasswordBox" type="password" name="password" onChange={(event) => this.updateSecondPassword(event.target.value)}/>
-
-        <br/>
-      </div>
-    );
-  }
-}
 
 /**
  * Verifies if a User exists in the database with that email.
@@ -134,22 +33,23 @@ class PasswordField extends React.Component {
  * @type {React.ComponentClass<{}>}
  */
 const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
-  if (loading) {
-    console.log("Loading " + loading);
-    return     <p/>;
-  } else if (error) {
-    console.log("Error: " + error);
-    return <h3>Error!</h3>;
-  }
-  if (emailExists === false) {
-    return <CreateUser userEntered={userInformation.userRan} allValid={userInformation.allValid}
-                       username={userInformation.username} email={userInformation.email}
-                       pswd={userInformation.pswd} name={userInformation.name} image={userInformation.image}
-            />
-    } else if(emailExists === true) {
-      alert("An account with this email already exists");
-      return <p/>;
+    if (loading) {
+        console.log("Loading " + loading);
+        return <p/>;
+    } else if (error) {
+        console.log("Error: " + error);
+        return <h3>Error!</h3>;
     }
+    if (emailExists === false && userInformation.userRan) {
+        return <CreateUser allValid={userInformation.allValid}
+                           username={userInformation.username} email={userInformation.email}
+                           pswd={userInformation.pswd} name={userInformation.name} image={userInformation.image}
+        />
+    } else if (emailExists === true) {
+        alert("An account with this email already exists");
+        return <p/>;
+    }
+    return <p/>
 });
 
 /**
@@ -157,16 +57,15 @@ const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
  * @type {React.ComponentClass<{}>}
  */
 const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
-
-  if (error) {
-    if (error.message.indexOf("username") !== -1) {
-      alert("This username is already in use");
+    if (error) {
+        if (error.message.indexOf("username") !== -1) {
+            alert("This username is already in use");
+        }
+    } else if (createUserPersonVar != null) {
+        return <p>{createUserPersonVar.split(',')[0]}</p>
+    } else {
+        return <p>{createUserPersonVar}</p>;
     }
-  } else if (createUserPersonVar != null) {
-    return <p>{createUserPersonVar.split(',')[0]}</p>
-  } else {
-    return <p>{createUserPersonVar}</p>;
-  }
 });
 
 /**
@@ -175,92 +74,115 @@ const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
  */
 function CreateUser(props) {
 
-  let element;
-
-  if (props.userEntered && props.allValid) {
-      element = (
-        <CreateUserQuery
-          username={props.username}
-          email={props.email}
-          pswd={props.pswd}
-          name={props.name}
-          token={adminToken}
-          image={props.image}
-        />
-      );
-  }
-  return <div>{element}</div>;
+    let element;
+    if (props.allValid) {
+        element = (
+            <CreateUserQuery
+                username={props.username}
+                email={props.email}
+                pswd={props.pswd}
+                name={props.name}
+                token={adminToken}
+                image={props.image}
+            />
+        );
+    }
+    return <div>{element}</div>;
 }
 
 /**
- * The base element for the User registration page.  This is made up of an EmailFieldConst, UsernameField
- * and PasswordField.  This handles basic validation of the values passed and calls the queries to create
- * a new User.
+ * The base element for the User registration page.
+ * This handles basic validation of the values passed and calls the queries to create a new User.
  */
 class IndividualRegistration extends React.Component {
-  private state = {
-    queryingEmail: "",
-    validEmail: false,
-  };
 
-  handleClick = (event) => {
-    event.preventDefault();
 
-    let message = "";
-    if (!EmailValidator.validate(userInformation.email)) {
-      message += "Invalid email\n";
+    runEmailExists = () => {
+        return <EmailExistsQuery email={this.state.email} token={adminToken} allValid={true}/>
+    };
+
+
+    state = {
+        username: '',
+        password1: '',
+        password2: '',
+        submittalPassword: '',
+        email: '',
+        queryingEmail: ''
+    };
+
+    handleChange = (e, {name, value}) => {
+        if ((name == 'password1' && value == this.state.password2) || (name == 'password2' && value == this.state.password1)) {
+            this.setState({[name]: value, submittalPassword: value});
+        }
+        this.setState({[name]: value});
+
+    };
+
+    handleSubmit = () => {
+        if (EmailValidator.validate(this.state.email)) {
+            userInformation.email = this.state.email;
+        }
+        userInformation.pswd = this.state.submittalPassword;
+        userInformation.username = this.state.username;
+        userInformation.allValid = (userInformation.email != "" && userInformation.pswd != "" && userInformation.username != "");
+
+        userInformation.userRan = true;
+        this.setState({queryingEmail: this.state.email});
+    };
+
+    render() {
+        const {username, email, password1, password2} = this.state;
+        return (
+            <div className='login'>
+                <style>{`
+                body > div,
+                body > div > div,
+                body > div > div > div.login {
+                    height: 100%;
+                }
+            `}
+                </style>
+                <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>>
+                    <Grid.Column style={{maxWidth: 450}}>
+                        <Header as='h2' textAlign='center'>
+                            User Registration
+                        </Header>
+                        <Form size='large' onSubmit={this.handleSubmit} error={"Error"}>
+                            <Segment stacked>
+                                <Form.Field required>
+                                    <Form.Input fluid placeholder='Username' name='username' value={username}
+                                                onChange={this.handleChange}/>
+                                </Form.Field>
+                                <Form.Field required>
+                                    <Form.Input fluid placeholder='Email' name='email' value={email}
+                                                onChange={this.handleChange}/>
+                                </Form.Field>
+
+                                <Form.Field required>
+                                    <Form.Input fluid type='password' placeholder='Password' name='password1'
+                                                value={password1}
+                                                onChange={this.handleChange}/>
+                                </Form.Field>
+                                <Form.Field required>
+                                    <Form.Input fluid type='password' placeholder='Confirm Password' name='password2'
+                                                value={password2}
+                                                onChange={this.handleChange}/>
+                                </Form.Field>
+                                <Button color='blue' fluid type='submit' size='large'>Register</Button>
+                            </Segment>
+
+                            {/*<Message error header='Login attempt failed!'*/}
+                            {/*list={["Please check your credentials!"]}/>*/}
+                        </Form>
+                    </Grid.Column>
+                </Grid>
+                {this.state.email ? this.runEmailExists() : ""}
+
+            </div>
+
+        );
     }
-    if (userInformation.pswd === "") {
-      message += "Passwords do not match\n";
-    }
-    if (userInformation.username === "") {
-      message += "Please enter a username\n";
-    }
-
-    if (message !== ""){
-      alert(message);
-      return;
-    } else {
-      this.setState({queryingEmail: userInformation.email});
-      userInformation.userRan = true;
-      userInformation.allValid = true;
-    }
-  };
-
-  saveEmail = (email) => {
-    let valid = EmailValidator.validate(email);
-    userInformation.email = (valid ? email : "");
-  };
-
-  setNames = (nameParam) => {
-    userInformation.username = nameParam;
-    userInformation.name = nameParam;
-  };
-
-  runEmailExists = () => {
-    return <EmailExistsQuery email={this.state.queryingEmail} token={adminToken} allValid={userInformation.allValid}/>
-};
-
-  render() {
-    return (
-      <div>
-        <h1>Individual Registration</h1>
-        <form id="form" onSubmit={this.handleClick}>
-
-          <UsernameField saveUsername={(nameParam) => this.setNames(nameParam)}/>
-          <br/>
-          <EmailFieldConst saveEmail={this.saveEmail} email={userInformation.email} />
-          <br/>
-          <PasswordField savePassword={(passwordParam) => userInformation.pswd = passwordParam}/>
-
-          <br/>
-          <input type="submit" id="register" value="Create Account"/>
-        </form>
-        {this.state.queryingEmail ? this.runEmailExists() : ""}
-
-      </div>
-    );
-  }
 }
 
 export default IndividualRegistration;
