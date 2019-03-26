@@ -12,14 +12,12 @@ class Routes extends Component {
     render() {
         return (
             <div>
-                <Header/>
-                <Switch>
-                    <Route exact path="/" component={OrganizationCatalog}/>
-                    <Route exact path="/login" component={LoginPage}/>
-                    <Route exact path="/text" component={BasicTextPage}/>
-                    <Route exact path = "/test" component={SearchResults}/>
-                    <Route component={ErrorPage}/>
-                </Switch>
+                <Route path="/" render={(props) => (props.location.pathname !== "/login") && <Header/>}/>
+
+                <Route exact path="/" component={OrganizationCatalog}/>
+                <Route exact path="/login" component={LoginPage}/>
+                <Route exact path="/text" component={BasicTextPage}/>
+                <Route exact path="/test" component={SearchResults}/>
             </div>
 
         );
