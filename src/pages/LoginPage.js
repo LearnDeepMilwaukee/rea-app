@@ -57,11 +57,12 @@ class LoginPage extends React.Component {
         });
     };
 
-    renderRedirect = () => {
+    componentDidUpdate() {
         if (this.state.loginSuccess) {
-            return <Redirect to={'/'}/>;
+            this.props.history.push("/");
+            window.location.reload();
         }
-    };
+    }
 
     render() {
         const {username, password} = this.state;
@@ -75,7 +76,6 @@ class LoginPage extends React.Component {
                 }
             `}
                 </style>
-                {this.renderRedirect()}
                 <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>>
                         <Grid.Column style={{maxWidth: 450}}>
                             <Header as='h2' textAlign='center'>
