@@ -107,25 +107,30 @@ export const GetSingleEconomicResource = getEconomicResourceById(({ economicReso
 // {/*</div>*/}
 export const EconomicResource = (props) => {
     let economicResource = props.economicResource;
+    console.log("___________________________________________________");
+    console.log(economicResource.resourceClassifiedAs);
+
     return(
+        <Item.Group>
         <Item>
             <Item.Image size="tiny" src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_resource_img : economicResource.image}/>
             <Item.Content>
                 <Item.Header as='h1' >{economicResource.id}</Item.Header>
                 <Item.Meta>
-                    <span className='category'>Category: {economicResource.category}</span>
-                    <span className='class'>Resource Classification: {economicResource.resourceClassifiedAs}</span>
-                    <span className='trackingIdentifier'>Tracking Id: {economicResource.trackingIdentifier}</span>
-                    <span className='quntitiy'>Quantity: {economicResource.currentQuantity}</span>
-                    {/*<span className='units'>Quantity Unit: {economicResource.currentQuantity.unit.name }</span>*/}
-                    <span className='transfers'>Transfers: {economicResource.transfers}</span>
+                    <span className='category'>Category: {isNullOrUndefined(economicResource.category) || economicResource.category === "" ? "none\t" : economicResource.category}</span>
+                    <span className='class'>Resource Classification: {isNullOrUndefined(economicResource.resourceClassifiedAs) || economicResource.resourceClassifiedAs === "" ? "none\t" : economicResource.resourceClassifiedAs}</span>
+                    <span className='trackingIdentifier'>Tracking Id: {isNullOrUndefined(economicResource.trackingIdentifier) || economicResource.trackingIdentifier === "" ? "none\t" : economicResource.trackingIdentifier}</span>
+                    <span className='quntitiy'>Quantity: {isNullOrUndefined(economicResource.currentQuantity) || economicResource.currentQuantity === "" ? "none\t" : economicResource.currentQuantity}</span>
+                    {/*<span className='units'>Quantity Unit: {isNullOrUndefined(economicResource.currentQuantity.unit.name) || economicResource.currentQuantity.unit.name === "" ? "none\t" : economicResource.currentQuantity.unit.name}</span>*/}
+                    <span className='transfers'>Transfers: {concatArray(economicResource.transfers)}</span>
                 </Item.Meta>
-                {/*<Item.Descritpion>{economicResource.note}</Item.Descritpion>*/}
+                {/*<Item.Descritpion>Note: {isNullOrUndefined(economicResource.note) || economicResource.note === "" ? "Hi" : "Hey"}</Item.Descritpion>*/}
                 <Item.Extra>
                 <Button floated='right' color='red' size='large'>Edit</Button>
             </Item.Extra>
     </Item.Content>
     </Item>
+        </Item.Group>
     );
 };
 
