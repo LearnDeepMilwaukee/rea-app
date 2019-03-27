@@ -6,7 +6,7 @@ import getOrganizationById from "../queries/Organization/getOrganizationById.tsx
 import getEconomicResourceById from "../queries/EconomicResource/getEconomicResourceById.tsx";
 import default_resource_img from "../resources/defualt_resource_img.jpg";
 import {isNullOrUndefined} from "util"
-import {Item, Button} from 'semantic-ui-react'
+import {Item, Button, Description} from 'semantic-ui-react'
 
 import { concatArray } from "./methods/common.tsx";
 
@@ -23,51 +23,19 @@ export const GetSingleOrganization = getOrganizationById(({ organization, loadin
             <p style={{color: "#F00"}}>API error</p>
         );
     } else {
-        // var ret_val = [];
-        // console.log(organization.ownedEconomicResources);
-        // let resource_count = organization.ownedEconomicResources.length;
-        // for(let i = 0; i<resource_count; i++) {
-        //     ret_val.push(<GetSingleEconomicResource economicResource={22}/>);
-        // }
-        // console.log("VALUES");
-        // console.log(ret_val);
         let economicResourceList = organization.ownedEconomicResources;
-        console.log("_____________________");
-        console.log(economicResourceList);
-        console.log("- - - - - - - - -  - -  --  - -- - - ");
-
+        economicResourceList.map( (economicResource) =>
+            (console.log(economicResource.id))
+        )
         return(
             <div>
                 {economicResourceList.map( (economicResource) =>
-                    (<EconomicResource key={economicResource.id} economicResource={economicResource}/>)
+                    (<GetSingleEconomicResource economicResourceId={economicResource.id}/>)
                 )}
             </div>
         );
     }
 });
-
-
-// export const OrganizationResources = (props) => {
-//     let organization = props.organization;
-//     return(
-//         <div>
-//             <div>id: {organization.id}</div>
-//             <div>name: {organization.name}</div>
-//             <div>type: {organization.type}</div>
-//             <div>image: {organization.image}</div>
-//             <div>note: {organization.note}</div>
-//             <div>ownedEconomicResources: {concatArray(organization.ownedEconomicResources)}</div>
-//             {/*<div>agentProcesses: {concatArray(organization.agentProcesses)}</div>*/}
-//             {/*<div>agentPlans: {concatArray(organization.agentPlans)}</div>*/}
-//             {/*<div>agentEconomicEvents: {concatArray(organization.agentEconomicEvents)}</div>*/}
-//             {/*<div>agentCommitments: {concatArray(organization.agentCommitments)}</div>*/}
-//             {/*<div>agentRelationships: {concatArray(organization.agentRelationships)}</div>*/}
-//             {/*<div>agentRoles: {concatArray(organization.agentRoles)}</div>*/}
-//             {/*<div>agentRecipess: {concatArray(organization.agentRecipes)}</div>*/}
-//             <br/>
-//         </div>
-//     );
-// };
 
 
 export const GetSingleEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
@@ -90,41 +58,26 @@ export const GetSingleEconomicResource = getEconomicResourceById(({ economicReso
 });
 
 
-
-
-
-// {/*<div>*/}
-//     {/*<div>Id: {economicResource.id}</div>*/}
-//     {/*<div>Resource Classification: {economicResource.resourceClassifiedAs}</div>*/}
-//     {/*<div>Tracking Id: {economicResource.trackingIdentifier}</div>*/}
-//     {/*<div>Image: {economicResource.image}</div>*/}
-//     {/*<div>currentQuantity: {economicResource.currentQuantity ? economicResource.currentQuantity.numericValue : "null"}*/}
-//         {/*{economicResource.currentQuantity ? " " +  economicResource.currentQuantity.unit.name : ""}</div>*/}
-//     {/*<div>Note: {economicResource.note}</div>*/}
-//     {/*<div>Category: {economicResource.category}</div>*/}
-//     {/*<div>Transfers: {concatArray(economicResource.transfers)}</div>*/}
-//     {/*<br/>*/}
-// {/*</div>*/}
 export const EconomicResource = (props) => {
     let economicResource = props.economicResource;
-    console.log("___________________________________________________");
-    console.log(economicResource.resourceClassifiedAs);
+    console.log("_ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ __ __ _");
+    console.log(economicResource);
 
     return(
         <Item.Group>
         <Item>
             <Item.Image size="tiny" src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_resource_img : economicResource.image}/>
             <Item.Content>
-                <Item.Header as='h1' >{economicResource.id}</Item.Header>
+                <Item.Header as='h1' >{isNullOrUndefined(economicResource.id) || economicResource.id === "" ? "none\t\t" : economicResource.id}</Item.Header>
                 <Item.Meta>
-                    <span className='category'>Category: {isNullOrUndefined(economicResource.category) || economicResource.category === "" ? "none\t" : economicResource.category}</span>
-                    <span className='class'>Resource Classification: {isNullOrUndefined(economicResource.resourceClassifiedAs) || economicResource.resourceClassifiedAs === "" ? "none\t" : economicResource.resourceClassifiedAs}</span>
-                    <span className='trackingIdentifier'>Tracking Id: {isNullOrUndefined(economicResource.trackingIdentifier) || economicResource.trackingIdentifier === "" ? "none\t" : economicResource.trackingIdentifier}</span>
-                    <span className='quntitiy'>Quantity: {isNullOrUndefined(economicResource.currentQuantity) || economicResource.currentQuantity === "" ? "none\t" : economicResource.currentQuantity}</span>
-                    {/*<span className='units'>Quantity Unit: {isNullOrUndefined(economicResource.currentQuantity.unit.name) || economicResource.currentQuantity.unit.name === "" ? "none\t" : economicResource.currentQuantity.unit.name}</span>*/}
-                    <span className='transfers'>Transfers: {concatArray(economicResource.transfers)}</span>
+                    <span className='category'>Category: {isNullOrUndefined(economicResource.category) || economicResource.category === "" ? "none\t\t" : economicResource.category}</span>
+                    {/*<span className='class'>Resource Classification: {isNullOrUndefined(economicResource.resourceClassifiedAs) || economicResource.resourceClassifiedAs === "" ? "none\t" : economicResource.resourceClassifiedAs}</span>*/}
+                    <span className='trackingIdentifier'>Tracking Id: {isNullOrUndefined(economicResource.trackingIdentifier) || economicResource.trackingIdentifier === "" ? "none\t\t" : economicResource.trackingIdentifier}</span>
+                    <span className='quantity'>Quantity: {isNullOrUndefined(economicResource.currentQuantity.numericValue) || economicResource.currentQuantity.numericValue === "" ? "none\t\t" : economicResource.currentQuantity.numericValue}</span>
+                    <span className='unit'>Quantity Unit: {isNullOrUndefined(economicResource.currentQuantity.unit.name) || economicResource.currentQuantity.unit.name === "" ? "none\t\t" : economicResource.currentQuantity.unit.name}</span>
+                    <span className='transfers'>Transfers: {concatArray(economicResource.transfers) }</span>
                 </Item.Meta>
-                {/*<Item.Descritpion>Note: {isNullOrUndefined(economicResource.note) || economicResource.note === "" ? "Hi" : "Hey"}</Item.Descritpion>*/}
+                <Item.Description>Note: {isNullOrUndefined(economicResource.note) || economicResource.note === "" ? "none\t\t" : economicResource.note}</Item.Description>
                 <Item.Extra>
                 <Button floated='right' color='red' size='large'>Edit</Button>
             </Item.Extra>
