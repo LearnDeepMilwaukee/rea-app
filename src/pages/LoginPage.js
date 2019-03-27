@@ -1,18 +1,27 @@
 import React from 'react';
-import {Form, Button} from 'semantic-ui-react'
+import {Form, Button, Grid, Header, Segment, Message} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import createToken from "../queries/User/createToken.js";
 import * as currentUserActions from '../redux/actions/currentUserActions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import { withRouter, Redirect} from 'react-router-dom';
 
+/**
+ * Allows user to login to the site
+ * Adapted from the Semantic UI for React Login Form Demo
+ *
+ * Author: Aaron Murphy
+ */
 class LoginPage extends React.Component {
 
     state = {
         username: '',
         password: '',
         submittedUsername: '',
-        submittedPassword: ''
+        submittedPassword: '',
+        loginFailed: false,
+        loginSuccess: false
     };
 
     handleChange = (e, {name, value}) => {
@@ -33,37 +42,62 @@ class LoginPage extends React.Component {
             console.log(this.state);
             let token = response.data.createToken.token;
             this.props.currentUserActions.setCurrentUserToken(token);
-            if(this.props.currentUserToken !== "N/A"){
+            if (this.props.currentUserToken !== "N/A") {
+                this.setState({loginFailed: false});
                 // DISPLAY SUCCESS / REDIRECT
+                this.setState({loginSuccess: true});
             }
-            // console.log(token);
         }).catch((error) => {
-            console.log("Caught an error");
             if (error.message.includes("'NoneType' object has no attribute")) {
                 //Incorrect login, give the user a heads up that the login details are wrong
+                this.setState({loginFailed: true});
             }
             console.log(error);
         });
     };
 
+    componentDidUpdate() {
+        if (this.state.loginSuccess) {
+            this.props.history.push("/");
+            window.location.reload();
+        }
+    }
 
     render() {
         const {username, password} = this.state;
         return (
-            <div>
-                <Form onSubmit={this.handleSubmit}>
-                    <Form.Field required>
-                        <label>Username</label>
-                        <Form.Input width={4} placeholder='Username' name='username' value={username}
-                                    onChange={this.handleChange}/>
-                    </Form.Field>
-                    <Form.Field required>
-                        <label>Password</label>
-                        <Form.Input width={4} type='password' placeholder='Password' name='password' value={password}
-                                    onChange={this.handleChange}/>
-                    </Form.Field>
-                    <Button type='submit'>Submit</Button>
-                </Form>
+            <div className='login'>
+                <style>{`
+                body > div,
+                body > div > div,
+                body > div > div > div.login {
+                    height: 100%;
+                }
+            `}
+                </style>
+                <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>>
+                        <Grid.Column style={{maxWidth: 450}}>
+                            <Header as='h2' textAlign='center'>
+                                Log-in to Makerspace
+                            </Header>
+                            <Form size='large' onSubmit={this.handleSubmit} error={this.state.loginFailed}>
+                                <Segment stacked>
+                                    <Form.Field required>
+                                        <Form.Input fluid placeholder='Username' name='username' value={username}
+                                                    onChange={this.handleChange}/>
+                                    </Form.Field>
+                                    <Form.Field required>
+                                        <Form.Input fluid type='password' placeholder='Password' name='password'
+                                                    value={password}
+                                                    onChange={this.handleChange}/>
+                                    </Form.Field>
+                                    <Button color='blue' fluid type='submit' size='large'>Login</Button>
+                                </Segment>
+                                <Message error header='Login attempt failed!'
+                                         list={["Please check your credentials!"]}/>
+                            </Form>
+                        </Grid.Column>
+                </Grid>
             </div>
         );
     }
@@ -82,7 +116,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(createToken(LoginPage));
+)(createToken(LoginPage)));
