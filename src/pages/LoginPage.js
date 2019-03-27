@@ -6,7 +6,6 @@ import * as currentUserActions from '../redux/actions/currentUserActions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import { withRouter, Redirect} from 'react-router-dom';
-//import {COLOR_BUTTON_SUBMIT} from "../resources/colors.js";
 
 /**
  * Allows user to login to the site
@@ -46,9 +45,7 @@ class LoginPage extends React.Component {
                 // DISPLAY SUCCESS / REDIRECT
                 this.setState({loginSuccess: true});
             }
-            // console.log(token);
         }).catch((error) => {
-            console.log("Caught an error");
             if (error.message.includes("'NoneType' object has no attribute")) {
                 //Incorrect login, give the user a heads up that the login details are wrong
                 this.setState({loginFailed: true});
