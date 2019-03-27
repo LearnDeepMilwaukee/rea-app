@@ -4,8 +4,7 @@ import getAllOrganizations from "../queries/Organization/getAllOrganizations"
 import {Item, Button, Form} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import {isNullOrUndefined} from "util"
-import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "..//utilities"
-// import {getDistanceBetweenPoints, filterByType} from "..//utilities"
+import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "../utilities"
 
 let default_image = require("../resources/defaultImage.jpg");
 let msoeCC = {latitude: 43.044004, longitude: -87.909020};

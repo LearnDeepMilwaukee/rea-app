@@ -3,7 +3,6 @@ import {Switch, Route} from 'react-router-dom';
 import OrganizationCatalog from './pages/OrganizationCatalog.js';
 import ErrorPage from './pages/ErrorPage.js';
 import LoginPage from './pages/LoginPage.js';
-import SearchResults from './pages/OrganizationCatalog/organizationCatalog';
 import OrganizationRegistration from './pages/Organizations/organizationRegistration';
 import IndividualRegistration from './pages/Individuals/individualRegistration';
 import orgEdit from "./pages/Organizations/organizationEdit";
@@ -30,7 +29,6 @@ class Routes extends Component {
                 <Switch>
                     <Route exact path="/" component={OrganizationCatalog}/>
                     <Route exact path="/login" component={LoginPage}/>
-                    <Route exact path="/orgCatalog" component={SearchResults}/>
                     <Route exact path="/RegisterOrg" component={OrganizationRegistration}/>
                     <Route exact path="/EditOrg/:id" component={orgEdit}/>
                     <Route exact path="/RegisterIndividual" component={IndividualRegistration}/>
