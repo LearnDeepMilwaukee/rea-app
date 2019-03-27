@@ -5,7 +5,7 @@ import createToken from "../queries/User/createToken.js";
 import * as currentUserActions from '../redux/actions/currentUserActions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import { withRouter, Redirect} from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 
 /**
  * Allows user to login to the site
