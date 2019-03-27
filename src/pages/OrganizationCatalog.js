@@ -10,100 +10,24 @@ import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filt
 let default_image = require("../resources/defaultImage.jpg");
 let msoeCC = {latitude: 43.044004, longitude: -87.909020};
 const orgCard = (agent) => (
-    <div className={"ui container"}>
-    <Item>
+    <Item className={""}>
         <Item.Image className="ui small rounded image" src={isNullOrUndefined(agent.image) || agent.image === "" ? default_image : agent.image}/>
 
         <Item.Content>
             <Item.Header as='h1' >{agent.name}</Item.Header>
 
-            <Item.Description className={"ui right floated"}>
-                <p className={"ui right floated"}>{isNullOrUndefined(agent.primaryLocation) ? "(no location available)" : agent.primaryLocation.address}</p>
-                <p className={"ui right floated"}>{isNullOrUndefined(agent.primaryLocation) ? "(distance not available)" : "Distance: "+getDistanceBetweenPoints(agent.primaryLocation, msoeCC).toFixed(2)+" mi"}</p>
+            <Item.Description>
+                <p >{isNullOrUndefined(agent.primaryLocation) ? "(no location available)" : agent.primaryLocation.address}</p>
+                <p >{isNullOrUndefined(agent.primaryLocation) ? "(distance not available)" : "Distance: "+getDistanceBetweenPoints(agent.primaryLocation, msoeCC).toFixed(2)+" mi"}</p>
             </Item.Description>
             <Item.Extra>
                 <Button className="ui right floated primary">Connect</Button>
             </Item.Extra>
         </Item.Content>
     </Item>
-    </div>
 )
 
-// const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
-//     if (loading) {
-//         console.log("LOADING");
-//         return (
-//             <strong>Loading...</strong>
-//         );
-//     } else if (error) {
-//         console.log(error);
-//
-//         return (
-//             <p style={{color: "#F00"}}>API error</p>
-//         );
-//     } else {
-//         // console.log(organizationList);
-//         const cardsArray = organizationList.map(org => (
-//             orgCard(org)
-//         ));
-//
-//         let filteredOrgs = [];
-//         console.log();
-//         console.log("FILTERING");
-//         console.log(filteredOrgs);
-//         for (let org of cardsArray) {
-//             if (isNullOrUndefined(this.state.nameFilter) || org.name.includes(this.state.nameFilter)) {
-//                 filteredOrgs.push(org);
-//                 console.log("Org matching filter " + this.state.nameFilter + ": " + org.name);
-//             }
-//         }
-//         if (this.state.distanceFilter !== '') {
-//             filteredOrgs = filterByDistance(filteredOrgs, this.state.distanceFilter, msoeCC);
-//         }
-//         if (this.state.typeFilter !== "All") {
-//             filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
-//         }
-//         if (this.state.sorting === "alphabetical") {
-//             filteredOrgs = sortByName(filteredOrgs);
-//         }
-//         else if (this.state.sorting === "distance") {
-//             filteredOrgs = sortByDistance(filteredOrgs, msoeCC);
-//         }
-//         return (
-//             <div>
-//                 <Item.Group divided>
-//                     {filteredOrgs}
-//                 </Item.Group>
-//             </div>
-//         );
-//     }
-// });
 
-// const OrgTypeList = getAllOrganizationTypes(({organizationList, loading, error}) => {
-//     console.log("Entered");
-//     if (loading) {
-//         console.log("LOADING");
-//         return (
-//             <strong>Loading...</strong>
-//         );
-//     } else if (error) {
-//         console.log(error);
-//
-//         return (
-//             <p style={{color: "#F00"}}>API error</p>
-//         );
-//     } else {
-//         console.log("TEST!!!");
-//         console.log(organizationList);
-//         return (
-//             <div>
-//                 <Item.Group divided>
-//                     {organizationList}
-//                 </Item.Group>
-//             </div>
-//         );
-//     }
-// });
 
 const optionsType = [
     { key: 'a', text: 'All', value: 'All' },
@@ -237,9 +161,11 @@ class BasePage extends React.Component {
                 );
             }
         });
+        console.log("typeFilter:", this.state.typeFilter)
+        console.log("sorting:", this.state.sorting)
 
         return (
-            <div className={"ui 8 column container"}>
+            <div className={"ui container"}>
                 <Form>
                     <h2 className={"ui header"}>All Orgs</h2>
                     <Form.Group widths='equal'>
@@ -256,8 +182,10 @@ class BasePage extends React.Component {
                         <Form.Button className="ui negative" color={'red'} onClick={this.handleReset}>Reset filters</Form.Button>
                     </Form.Group>
                 </Form>
-                <OrgList
-                    token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5vciIsImlhdCI6MTU1MTg0ODI3MSwicGFzc3dvcmQiOiI3YzA4ODliOWU5ZmNjYzAxZDIzMDcwNzljNDk5OTcyNDFlNTZlNzU0IiwiaWQiOjZ9.unIuk6g8HcmyIuF1sONrLAiftApTlcuqMWWLO6DtqUQ"/>
+                <div className={"ui container"}>
+                    <OrgList
+                        token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5vciIsImlhdCI6MTU1MTg0ODI3MSwicGFzc3dvcmQiOiI3YzA4ODliOWU5ZmNjYzAxZDIzMDcwNzljNDk5OTcyNDFlNTZlNzU0IiwiaWQiOjZ9.unIuk6g8HcmyIuF1sONrLAiftApTlcuqMWWLO6DtqUQ"/>
+                </div>
             </div>
         )
     }
