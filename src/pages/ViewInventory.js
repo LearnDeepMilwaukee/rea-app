@@ -1,6 +1,10 @@
+/**
+ * Form that displays the inventory of a current organization
+ *
+ * @author Donal Moloney
+ * @date March 23, 2019
+ */
 import React from 'react';
-// import {Header} from 'semantic-ui-react'
-
 import 'semantic-ui-css/semantic.min.css'
 import getOrganizationById from "../queries/Organization/getOrganizationById.tsx";
 import getEconomicResourceById from "../queries/EconomicResource/getEconomicResourceById.tsx";
@@ -10,6 +14,9 @@ import {Item, Button, Description} from 'semantic-ui-react'
 
 import { concatArray } from "./methods/common.tsx";
 
+/**
+ * Gets an organizations data
+ */
 export const GetSingleOrganization = getOrganizationById(({ organization, loading, error }) => {
 
     if (loading) {
@@ -37,9 +44,10 @@ export const GetSingleOrganization = getOrganizationById(({ organization, loadin
     }
 });
 
-
+/**
+ * Gets a single economic resource that the organization owns
+ */
 export const GetSingleEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
-
     if (loading) {
         return(
             <strong>Loading...</strong>
@@ -57,40 +65,35 @@ export const GetSingleEconomicResource = getEconomicResourceById(({ economicReso
     }
 });
 
-
+/**
+ * Formats economicresource data
+ */
 export const EconomicResource = (props) => {
     let economicResource = props.economicResource;
-    console.log("_ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ __ __ _");
-    console.log(economicResource);
-
     return(
         <Item.Group>
-        <Item>
-            <Item.Image size="tiny" src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_resource_img : economicResource.image}/>
-            <Item.Content>
-                <Item.Header as='h1' >{isNullOrUndefined(economicResource.id) || economicResource.id === "" ? "none\t\t" : economicResource.id}</Item.Header>
-                <Item.Meta>
-                    <span className='category'>Category: {isNullOrUndefined(economicResource.category) || economicResource.category === "" ? "none\t\t" : economicResource.category}</span>
-                    {/*<span className='class'>Resource Classification: {isNullOrUndefined(economicResource.resourceClassifiedAs) || economicResource.resourceClassifiedAs === "" ? "none\t" : economicResource.resourceClassifiedAs}</span>*/}
-                    <span className='trackingIdentifier'>Tracking Id: {isNullOrUndefined(economicResource.trackingIdentifier) || economicResource.trackingIdentifier === "" ? "none\t\t" : economicResource.trackingIdentifier}</span>
-                    <span className='quantity'>Quantity: {isNullOrUndefined(economicResource.currentQuantity.numericValue) || economicResource.currentQuantity.numericValue === "" ? "none\t\t" : economicResource.currentQuantity.numericValue}</span>
-                    <span className='unit'>Quantity Unit: {isNullOrUndefined(economicResource.currentQuantity.unit.name) || economicResource.currentQuantity.unit.name === "" ? "none\t\t" : economicResource.currentQuantity.unit.name}</span>
-                    <span className='transfers'>Transfers: {concatArray(economicResource.transfers) }</span>
-                </Item.Meta>
-                <Item.Description>Note: {isNullOrUndefined(economicResource.note) || economicResource.note === "" ? "none\t\t" : economicResource.note}</Item.Description>
-                <Item.Extra>
-                <Button floated='right' color='red' size='large'>Edit</Button>
-            </Item.Extra>
-    </Item.Content>
-    </Item>
+            <Item>
+                <Item.Image size="tiny" src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_resource_img : economicResource.image}/>
+                <Item.Content>
+                    <Item.Header as='h1' >{isNullOrUndefined(economicResource.id) || economicResource.id === "" ? "none\t\t" : economicResource.id}</Item.Header>
+                    <Item.Meta>
+                        <span className='category'>Category: {isNullOrUndefined(economicResource.category) || economicResource.category === "" ? "none\t\t" : economicResource.category}</span>
+                        <span className='trackingIdentifier'>Tracking Id: {isNullOrUndefined(economicResource.trackingIdentifier) || economicResource.trackingIdentifier === "" ? "none\t\t" : economicResource.trackingIdentifier}</span>
+                        <span className='quantity'>Quantity: {isNullOrUndefined(economicResource.currentQuantity.numericValue) || economicResource.currentQuantity.numericValue === "" ? "none\t\t" : economicResource.currentQuantity.numericValue}</span>
+                        <span className='unit'>Quantity Unit: {isNullOrUndefined(economicResource.currentQuantity.unit.name) || economicResource.currentQuantity.unit.name === "" ? "none\t\t" : economicResource.currentQuantity.unit.name}</span>
+                        <span className='transfers'>Transfers: {concatArray(economicResource.transfers) }</span>
+                    </Item.Meta>
+                    <Item.Description>Note: {isNullOrUndefined(economicResource.note) || economicResource.note === "" ? "none\t\t" : economicResource.note}</Item.Description>
+                    <Item.Extra>
+                        <Button floated='right' color='red' size='large'>Edit</Button>
+                    </Item.Extra>
+                </Item.Content>
+            </Item>
         </Item.Group>
     );
 };
 
 class ViewInventory extends React.Component {
-
-
-
     render() {
         //You need the two <br> tag so that the header does not cover up the text
         return (
