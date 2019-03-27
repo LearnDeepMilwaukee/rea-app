@@ -18,7 +18,7 @@ class Routes extends Component {
                     <Route exact path="/" component={OrganizationCatalog}/>
                     <Route exact path="/login" component={LoginPage}/>
                     <Route exact path="/text" component={BasicTextPage}/>
-                    <Route exact path = "/stuff" component={ViewInventory}/>
+                    <Route exact path = "/inventory" component={ViewInventory}/>
 
                     <Route exact path = "/orgCatalog" component={SearchResults}/>
                     <Route exact path = "/RegisterOrg" component={OrganizationRegistration}/>
