@@ -8,37 +8,32 @@ import React from 'react';
 import 'semantic-ui-css/semantic.min.css'
 import getOrganizationById from "../queries/Organization/getOrganizationById.tsx";
 import getEconomicResourceById from "../queries/EconomicResource/getEconomicResourceById.tsx";
+import getMyAgent from "../queries/Agent/getMyAgent.tsx";
 import default_resource_img from "../resources/defualt_resource_img.jpg";
 import {isNullOrUndefined} from "util"
-import {Item, Button, Description} from 'semantic-ui-react'
-
+import {Item, Button} from 'semantic-ui-react'
 import { concatArray } from "./methods/common.tsx";
 
 /**
  * Gets an organizations data
  */
 export const GetSingleOrganization = getOrganizationById(({ organization, loading, error }) => {
-
     if (loading) {
         return(
             <strong>Loading...</strong>
         );
     } else if (error) {
-        console.log(error);
-
         return(
             <p style={{color: "#F00"}}>API error</p>
         );
     } else {
         let economicResourceList = organization.ownedEconomicResources;
-        economicResourceList.map( (economicResource) =>
-            (console.log(economicResource.id))
-        )
+        console.log(economicResourceList.length ===0);
         return(
             <div>
-                {economicResourceList.map( (economicResource) =>
+                {(economicResourceList.length ===0)? <p>No Inventory Currently</p> :(economicResourceList.map( (economicResource) =>
                     (<GetSingleEconomicResource economicResourceId={economicResource.id}/>)
-                )}
+                ))}
             </div>
         );
     }
@@ -93,8 +88,29 @@ export const EconomicResource = (props) => {
     );
 };
 
+
+
 class ViewInventory extends React.Component {
     render() {
+        const GetMyAgent = getMyAgent(({ agent, loading, error}) => {
+
+            if (loading) {
+                return(
+                    <strong>Loading...</strong>
+                );
+            } else if (error) {
+                return(
+                    <p style={{color: "#F00"}}>API error</p>
+                );
+            } else {
+                return (
+                    <div>
+                        <GetSingleOrganization organizationId={agent.id}/>
+                    </div>
+                )
+
+            }
+        });
         //You need the two <br> tag so that the header does not cover up the text
         return (
             <div>
@@ -102,7 +118,7 @@ class ViewInventory extends React.Component {
                 <br/>
                 <h1 class="ui header">Your Inventory</h1>
                 <br/>
-                <GetSingleOrganization organizationId={8}/> :
+                <GetMyAgent/>
             </div>
         )
     }
