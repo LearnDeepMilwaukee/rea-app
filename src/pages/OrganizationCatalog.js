@@ -10,21 +10,23 @@ import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filt
 let default_image = require("../resources/defaultImage.jpg");
 let msoeCC = {latitude: 43.044004, longitude: -87.909020};
 const orgCard = (agent) => (
+    <div className={"ui container"}>
     <Item>
-        <Item.Image src={isNullOrUndefined(agent.image) || agent.image === "" ? default_image : agent.image}/>
+        <Item.Image className="ui small rounded image" src={isNullOrUndefined(agent.image) || agent.image === "" ? default_image : agent.image}/>
 
         <Item.Content>
             <Item.Header as='h1' >{agent.name}</Item.Header>
 
-            <Item.Description>
-                <p floated='left'>{isNullOrUndefined(agent.primaryLocation) ? "" : agent.primaryLocation.address}</p>
-                <p floated='right'>{isNullOrUndefined(agent.primaryLocation) ? "" : "Distance: "+getDistanceBetweenPoints(agent.primaryLocation, msoeCC)+" mi"}</p>
+            <Item.Description className={"ui right floated"}>
+                <p className={"ui right floated"}>{isNullOrUndefined(agent.primaryLocation) ? "(no location available)" : agent.primaryLocation.address}</p>
+                <p className={"ui right floated"}>{isNullOrUndefined(agent.primaryLocation) ? "(distance not available)" : "Distance: "+getDistanceBetweenPoints(agent.primaryLocation, msoeCC).toFixed(2)+" mi"}</p>
             </Item.Description>
             <Item.Extra>
-                <Button floated='right' color='blue' size='large'>Connect</Button>
+                <Button className="ui right floated primary">Connect</Button>
             </Item.Extra>
         </Item.Content>
     </Item>
+    </div>
 )
 
 // const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
@@ -237,10 +239,9 @@ class BasePage extends React.Component {
         });
 
         return (
-            <div>
+            <div className={"ui 8 column container"}>
                 <Form>
-                    <header as='h1'>All Orgs</header>
-
+                    <h2 className={"ui header"}>All Orgs</h2>
                     <Form.Group widths='equal'>
                         <Form.Input fluid label='Search For Org' placeholder='Search' onKeyPress={this.onNameChange} />
                         <Form.Field>
@@ -250,9 +251,9 @@ class BasePage extends React.Component {
                         <Form.Select fluid label='Sort' options={optionsSort} value={this.state.sorting} onChange={this.onSortFilterChange} />
                     </Form.Group>
                     <Form.Group inline>
-                        <Form.Radio label='myOrgs' value='myOrgs' checked={this.state.myOrgsFilter === true} onChange={this.onMyOrgsChange}/>
-                        <Form.Radio label='publicOrgs' value='publicOrgs' checked={this.state.myOrgsFilter === false} onChange={this.onPubOrgsChange}/>
-                        <Form.Button color='red' onClick={this.handleReset}>Reset</Form.Button>
+                        <Form.Radio label='My Orgs' value='myOrgs' checked={this.state.myOrgsFilter === true} onChange={this.onMyOrgsChange}/>
+                        <Form.Radio label='Public Orgs' value='publicOrgs' checked={this.state.myOrgsFilter === false} onChange={this.onPubOrgsChange}/>
+                        <Form.Button className="ui negative" color={'red'} onClick={this.handleReset}>Reset filters</Form.Button>
                     </Form.Group>
                 </Form>
                 <OrgList

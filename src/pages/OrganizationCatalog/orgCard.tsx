@@ -3,6 +3,8 @@ import * as React from "react";
 import * as themable from "react-themeable";
 import * as cardTheme from "./cardStyle.scss";
 import {isNullOrUndefined} from "util";
+import {Item} from "semantic-ui-react";
+import agent from "../../queries/Agent/agent";
 
 //This method formats the content of the returned from data from the graphql requests
 class CardFront extends React.Component {
@@ -23,7 +25,7 @@ class CardFront extends React.Component {
     return(
                 <div className="item">
                   <div className="image">
-                    <img src={alt_desc}/>
+                  <Item.Image src={org_image}/>
                   </div>
         <div className="content">
           <a className="header">{name}</a>
