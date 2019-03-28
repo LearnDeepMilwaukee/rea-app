@@ -25,6 +25,7 @@ class Routes extends Component {
     render() {
         return (
             <div>
+                <Route path="/" render={(props) => (props.location.pathname !== "/login") && <Header/>}/>
                 {/*<Header/>*/}
                 <Switch>
                     <Route exact path="/" component={OrganizationCatalog}/>
