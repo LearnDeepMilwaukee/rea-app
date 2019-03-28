@@ -3,6 +3,7 @@ import {Switch, Route} from 'react-router-dom';
 import OrganizationCatalog from './pages/OrganizationCatalog.js';
 import ErrorPage from './pages/ErrorPage.js';
 import LoginPage from './pages/LoginPage.js';
+import ProtectedRoute from './ProtectedRoute.js';
 import OrganizationRegistration from './pages/Organizations/organizationRegistration';
 import IndividualRegistration from './pages/Individuals/individualRegistration';
 import orgEdit from "./pages/Organizations/organizationEdit";
@@ -25,15 +26,18 @@ class Routes extends Component {
     render() {
         return (
             <div>
+                {/*<Route path="/" render={(props) => (props.location.pathname !== "/login") && <LoginBarrier/>}/>*/}
                 <Route path="/" render={(props) => (props.location.pathname !== "/login") && <Header/>}/>
                 {/*<Header/>*/}
                 <Switch>
-                    <Route exact path="/" component={OrganizationCatalog}/>
+//                     <Route exact path="/" component={OrganizationCatalog}/>
                     <Route exact path="/login" component={LoginPage}/>
                     <Route exact path="/RegisterOrg" component={OrganizationRegistration}/>
                     <Route exact path="/EditOrg/:id" component={orgEdit}/>
                     <Route exact path="/RegisterIndividual" component={IndividualRegistration}/>
 
+                <ProtectedRoute exact path="/" component={OrganizationCatalog}/>
+                <Route exact path="/login" component={LoginPage}/>
                     {/*Below here are the api pages*/}
                     <Route path="/api/processClassification" component={ProcessClassificationPage}/>
                     <Route path="/api/unit" component={UnitPage}/>
