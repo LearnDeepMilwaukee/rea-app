@@ -18,8 +18,8 @@ class Routes extends Component {
 
                 <ProtectedRoute exact path="/" component={OrganizationCatalog}/>
                 <Route exact path="/login" component={LoginPage}/>
-                <Route exact path="/text" component={BasicTextPage}/>
-                <Route exact path="/test" component={SearchResults}/>
+                <ProtectedRoute exact path="/text" component={BasicTextPage}/>
+                <ProtectedRoute exact path="/test" component={SearchResults}/>
             </div>
 
         );
