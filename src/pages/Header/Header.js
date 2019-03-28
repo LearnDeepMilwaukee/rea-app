@@ -32,7 +32,7 @@ let OrgNameByID = getOrganizationById(({organization, loading, error}) => {
         return (<p style={{color: "#F00"}}>API error</p>);
 
     } else {
-        if (currentOrganizationId == organization.id) {
+        if (currentOrganizationId === organization.id) {
             return (
                 <div>
                     <Image src={organization.image ? organization.image : defaultImage} avatar/>
@@ -40,7 +40,7 @@ let OrgNameByID = getOrganizationById(({organization, loading, error}) => {
                 </div>
             );
         }
-        else if (currentOrganizationId == -1) {
+        else if (currentOrganizationId === -1) {
             return (
 
                 <div>

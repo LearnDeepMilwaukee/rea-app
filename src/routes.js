@@ -29,6 +29,7 @@ class Routes extends Component {
             <div>
 
                 {/*<Header/>*/}
+                <Route path="/" render={(props) => (props.location.pathname !== "/login") && <Header/>}/>
                 <Switch>
 //                     <Route exact path="/" component={OrganizationCatalog}/>
                     <Route exact path="/login" component={LoginPage}/>
