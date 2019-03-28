@@ -1,7 +1,0 @@
-.ui[class*="top fixed"].menu, [class*="visible menu transition"], #orgDropdown {
-    background-color: #26547c !important;
-
-}
-.text, #orgDropdown, #username {
-    color: white !important;
-}

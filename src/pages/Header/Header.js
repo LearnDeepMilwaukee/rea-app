@@ -1,194 +1,21 @@
-// import CurrentUser from "@vflows/bindings/user/CurrentUser";
-// import * as Search from "../resources/searchIcon.svg";
-// import getAllAgentRelationships from "../queries/agent/getAllAgentRelationships";
-// import getMyAgent from "../queries/agent/getMyAgent";
-// import getOrganizationById from "../../../ui-bindings/Organization/getOrganizationById";
-// import {isNullOrUndefined} from "util";
-// import agent from "../../../ui-bindings/Agent/agent";
-import 'semantic-ui-css/semantic.min.css'
+import getAllAgentRelationships from "../../queries/AgentRelationship/getAllAgentRelationships";
+import getMyAgent from "../../queries/Agent/getMyAgent";
+import getOrganizationById from "../../queries/Organization/getOrganizationById";
 import {Link} from 'react-router-dom';
-
+import {bindActionCreators} from 'redux';
+import * as currentOrgActions from '../../redux/actions/currentOrgActions';
+import {connect} from 'react-redux';
+import * as defaultImage from "../../resources/defaultImage.jpg";
+import * as logo from '../../resources/upcycleLogo.png'
 import React, {Component} from "react";
 import {render} from "react-dom";
-import {
-    Container,
-    Image,
-    Menu,
-    Responsive,
-    Input,
-    Dropdown
-} from "semantic-ui-react";
-import * as logo from '../../resources/upcycleLogo.png'
+import {Image, Menu, Input, Dropdown, Loader} from "semantic-ui-react";
 import './Header.css';
+import 'semantic-ui-css/semantic.min.css'
 
-let organizationId = -1;
-let currentOrganization = undefined;
-// const Header = CurrentUser(({user, loading, error}) => {
-//
-//     let ownedOrgIDsArray;
-//     let myAgentID = -1;
-//
-//     let MyAgent = getMyAgent(({agent, loading, error}) => {
-//         if (loading) {
-//             return (<strong>Loading...</strong>);
-//         } else if (error) {
-//             return (<p style={{color: "#F00"}}>API error</p>);
-//         } else {
-//             myAgentID = agent.id;
-//             return (<div/>);
-//         }
-//     });
-//
-//     let OrgNameByID = getOrganizationById(({organization, loading, error}) => {
-//         if (loading) {
-//             return (<strong>Loading...</strong>);
-//         } else if (error) {
-//             console.log(error);
-//             return (<p style={{color: "#F00"}}>API error</p>);
-//         } else {
-//             if (organizationId == organization.id) currentOrganization = organization;
-//             let linkArray = window.location.href.split("/");
-//             let link = (linkArray.length > 2 ? linkArray.slice(3).join("/") : "");
-//             return (<div className="orgNameCard"><Link to={{
-//                 pathname: link,
-//                 state: [{organizationId: organization.id}]
-//             }} onClick={() => {
-//                 // Set the organizationId and currentOrganization to the selected values
-//                 organizationId = organization.id;
-//                 currentOrganization = organization;
-//             }}>{organization.name}</Link></div>);
-//         }
-//     });
-//
-//
-//     let AgentRelationships = getAllAgentRelationships(({agentRelationshipList, loading, error}) => {
-//         if (loading) {
-//             return (<strong>Loading...</strong>);
-//         } else if (error) {
-//             return (<p style={{color: "#F00"}}>API error</p>);
-//         } else {
-//             let filteredRelationships = [];
-//             let counter = 1;
-//             for (let relationship of agentRelationshipList) {
-//                 if (relationship.subject.id === myAgentID) {
-//                     console.log("Match " + JSON.stringify(relationship.object));
-//                     if (relationship.object.id === organizationId) {
-//                         filteredRelationships[0] = relationship;
-//                         organizationId = relationship.object.id;
-//                     }
-//                     else {
-//                         filteredRelationships[counter] = relationship;
-//                         counter++;
-//                     }
-//                 }
-//             }
-//
-//             //Remove the first index if there isn't an entry there
-//             if (filteredRelationships.length > 0 && isNullOrUndefined(filteredRelationships[0])) {
-//                 filteredRelationships.shift();
-//             }
-//             ownedOrgIDsArray = filteredRelationships.map(relationship => (
-//                 <OrgNameByID organizationId={relationship.object.id}/>
-//             ));
-//             if (ownedOrgIDsArray.length == 0) {
-//                 ownedOrgIDsArray = <p> No search results</p>;
-//             }
-//             // return (<div><div id="orgDropdown" >{ownedOrgIDsArray} </div><p id="ownedOrgLength" hidden>{filteredRelationships.length}</p></div>)
-//             return (<div data-count={filteredRelationships.length} id="orgDropdown">{ownedOrgIDsArray} </div>)
-//         }
-//     });
-//
-//     /*
-//     class AgentAssociation(models.Model):
-//   "An AgentAssociation is a defined relationship between two Agents."
-//   is_associate = models.ForeignKey(EconomicAgent,
-//       verbose_name=_('is associate of'), related_name='is_associate_of')
-//   has_associate = models.ForeignKey(EconomicAgent,
-//       verbose_name=_('has associate'), related_name='has_associates')
-//     */
-//
-//     return (
-//         loading ? <strong>Loading...</strong> : (error ? <p style={{color: "#F00"}}>API error</p> : (
-//                             <div>
-//
-//                                 <div id="ttHomeButton"><Link href="/"><span/></Link></div>
-//                     <div>
-//                         <input placeholder="Searching Disabled"/>
-//                     </div>
-//                     <span>
-//             <div>
-//             <div>
-//               <h4 id="orgNameHeader">
-//                 <img
-//                     src={!isNullOrUndefined(currentOrganization) && currentOrganization.image ? currentOrganization.image : "https://via.placeholder.com/200.png?text=Logo%20Preview"}/> {!isNullOrUndefined(currentOrganization) ? currentOrganization.name : "No Org Selected"}</h4></div>
-//               <div>
-//
-//                 <MyAgent/><AgentRelationships/>
-//             </div>
-//             </div>
-//             <div><img
-//                 src={user.image ? user.image : "https://via.placeholder.com/200.png?text=Logo%20Preview"}/></div>
-//             <h4>{user.name}</h4>
-//            <div>
-//             <span>°°°</span>
-//             <div>
-//               {/*This is where you  can add new menu items*/}
-//                 <Link to={"/"}>Home</Link>
-//             </div>
-//            </div>
-//             </span>
-//                     <div>
-//                         <ul>
-//                             <li>Projects</li>
-//                             <li>Activities</li>
-//                             <li>Profile</li>
-//                             <li>Notifications</li>
-//                         </ul>
-//                     </div>
-//                 </div>
-//             )
-//         )
-//
-//     );
-// });
-
-
-const NavMenu = () => (
-
-    <Menu fixed="top">
-        <Menu.Item fitted="vertically">
-            <Image size="mini" src={logo}/>
-        </Menu.Item>
-        <Menu.Item fitted="vertically">
-            <Input className='icon' icon='search' placeholder='Searching is disabled' disabled/>
-        </Menu.Item>
-        <Menu.Menu position="right">
-            {/*Add Org Dropdown here*/}
-            {/*Add User Info here*/}
-            <Menu.Item>
-                <Dropdown floating options={menuDropDown} text='°°°' icon={null} openOnMouseEnter/>
-            </Menu.Item>
-        </Menu.Menu>
-
-    </Menu>
-);
-
-
-class NavBar extends Component {
-
-
-    render() {
-
-        return (
-            <div>
-                <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-                    <NavMenu/>
-                </Responsive>
-            </div>
-        );
-    }
-}
-
+let myAgentId = -1;
+let currentOrganizationId = -1;
+let setCurrentOrganizationId;
 const menuDropDown = [
     {key: 'home', text: 'Home', as: Link, to: '/'},
     {key: 'projects', text: 'Projects', as: Link, to: '/'},
@@ -198,14 +25,164 @@ const menuDropDown = [
 
 ];
 
-const App = () => (
-    <NavBar>
-        <Image src={logo}
-               as='a'
-               size='medium'
-               href='/'
-               target='_blank'/>
-    </NavBar>
+let OrgNameByID = getOrganizationById(({organization, loading, error}) => {
+    if (loading) {
+        return <Loader active inline='centered'/>;
+    } else if (error) {
+        return (<p style={{color: "#F00"}}>API error</p>);
+
+    } else {
+        if (currentOrganizationId == organization.id) {
+            return (
+                <div>
+                    <Image src={organization.image ? organization.image : defaultImage} avatar/>
+                    <span>{organization.name}</span>
+                </div>
+            );
+        }
+        else if (currentOrganizationId == -1) {
+            return (
+
+                <div>
+                    <Image src={defaultImage} avatar/>
+                    <span>Select an organization</span>
+                </div>
+            );
+        }
+        else {
+            return (<Dropdown.Item onClick={() => {
+                    setCurrentOrganizationId(organization.id);
+                }} text={organization.name} value={organization.id}/>
+            );
+        }
+    }
+});
+
+
+let AgentRelationships = getAllAgentRelationships(({agentRelationshipList, loading, error}) => {
+    if (loading) {
+
+        return (
+            <Menu.Item fitted="vertically">
+                <Dropdown width={250} loading text={"Loading"} id={"orgDropdown"}/>
+            </Menu.Item>
+        );
+    } else if (error) {
+        return (
+            <Menu.Item fitted="vertically">
+                <Dropdown width={250} loading text={"Error"} id={"orgDropdown"}/>;
+            </Menu.Item>
+        );
+
+    } else {
+        let filteredRelationships = [];
+        let counter = 0;
+        for (let relationship of agentRelationshipList) {
+            if (relationship.subject.id === myAgentId && relationship.object.id !== currentOrganizationId) {
+                filteredRelationships[counter] = relationship;
+                counter++;
+            }
+        }
+
+        let orgList = filteredRelationships.map(relationship => (
+            <OrgNameByID organizationId={relationship.object.id}/>
+        ));
+        if (filteredRelationships.length === 0) {
+
+            // ownedOrgIDsArray = <p> No current orgs</p>;
+            //Empty
+        }
+        return (
+            <div>
+                <Menu.Item fitted="vertically">
+
+                    <Dropdown selection width={250} options={orgList}
+                              text={<OrgNameByID organizationId={currentOrganizationId}/>} id={"orgDropdown"}
+                              icon={null}/>
+                </Menu.Item>
+
+            </div>)
+    }
+});
+
+
+let MyAgent = getMyAgent(({agent, loading, error}) => {
+    let errorOrLoadingPart;
+    if (loading) {
+        errorOrLoadingPart = <Loader active inline='centered'/>;
+
+    } else if (error) {
+        errorOrLoadingPart = <p style={{color: "#F00"}}>API error</p>;
+    } else {
+        myAgentId = agent.id;
+        return (
+            <Menu.Menu position="right">
+                <Menu.Item fitted="vertically">
+                    <AgentRelationships/>
+                    <Image src={agent.image ? agent.image : "https://via.placeholder.com/200.png?text=Logo%20Preview"}
+                           avatar/>
+                    <span id={"username"}>{agent.name}</span>
+                </Menu.Item>
+                <Menu.Item>
+                    <Dropdown floating options={menuDropDown} text='°°°' icon={null}/>
+                </Menu.Item>
+            </Menu.Menu>
+        );
+    }
+    return (
+        <Menu.Menu position="right">
+            <Menu.Item>
+                {errorOrLoadingPart}
+            </Menu.Item>
+            <Menu.Item>
+                <Dropdown floating options={menuDropDown} text='°°°' icon={null}/>
+            </Menu.Item>
+        </Menu.Menu>
+    );
+});
+
+const NavMenu = () => (
+
+    <Menu fixed="top">
+        <Menu.Item fitted="vertically">
+            <Image size="mini" src={logo} href={'/'}/>
+        </Menu.Item>
+        <Menu.Item fitted="vertically">
+            <Input className='icon' icon='search' placeholder='Searching is disabled' disabled/>
+        </Menu.Item>
+        <MyAgent/>
+    </Menu>
 );
 
-export default NavBar;
+
+class NavBar extends Component {
+
+    render() {
+        currentOrganizationId = this.props.currentOrganizationId;
+        setCurrentOrganizationId = this.props.currentOrgActions.setCurrentId;
+        return (
+            <div style={{height: 50, marginBottom:10}}>
+                <NavMenu/>
+            </div>
+        );
+    }
+}
+
+
+function mapStateToProps(state) {
+    return {
+        currentOrganizationId: state.getUserInfo.currentOrgId,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        currentOrgActions: bindActionCreators(currentOrgActions, dispatch)
+    };
+}
+
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(NavBar);
