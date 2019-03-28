@@ -6,12 +6,12 @@
 import * as React from "react";
 import createUserPerson from "../../queries/User/CreateUserPerson";
 import userEmailExist from "../../queries/User/UserEmailExists";
+import usernameExists from "../../queries/User/UsernameExists";
 import * as EmailValidator from "email-validator";
 import {adminToken} from "../../apiKeys.json";
 import "./individualRegistration.css";
 import {Form, Button, Grid, Header, Segment, Message} from 'semantic-ui-react'
 import {isUndefined} from "util";
-
 /**
  * This data structure stores the information that is entered by
  * the User into the fields on the page, and is sent to the
@@ -57,21 +57,34 @@ const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
     return <p/>
 });
 
+const UsernameExistsQuery = usernameExists(({usernameExists, loading, error}) => {
+    if (loading) {
+        console.log("Loading " + loading);
+        return <p/>;
+    } else if (error) {
+        console.log("Error: " + error);
+        return <h3>Error!</h3>;
+    }
+    if (usernameExists === true && userInformation.errorMessage.indexOf("An account with this username already exists") < 0) {
+        userInformation.errorMessage.push("An account with this username already exists");
+    } else if (usernameExists === false) {
+        let indexToRemove = userInformation.errorMessage.indexOf("An account with this username already exists");
+        userInformation.errorMessage.splice(indexToRemove, 1);
+    }
+    return <p/>;
+});
+
 /**
  * Creates a new User in the database
  * @type {React.ComponentClass<{}>}
  */
 const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
-    // console.log("Error is");
-    // console.log(error);
     if (!isUndefined(error)) {
-        userInformation.errorMessage.push("This username already exist");
-        console.log("Inside error");
-        return <p/>;
-    } else if (createUserPersonVar != null) {
-        return <p>{createUserPersonVar.split(',')[0]}</p>
+        console.log("Error creating user");
+        //TODO Give a heads up to the user that the registration failed
     } else {
-        return <p>{createUserPersonVar}</p>;
+        return <p/>
+
     }
 });
 
@@ -107,6 +120,9 @@ class IndividualRegistration extends React.Component {
     runEmailExists = () => {
         return <EmailExistsQuery email={this.state.email} token={adminToken} allValid={true}/>;
 
+    };
+    runUsernameExists = () => {
+        return <UsernameExistsQuery username={this.state.username} token={adminToken} allValid={true}/>;
     };
 
 
@@ -200,6 +216,7 @@ class IndividualRegistration extends React.Component {
                     </Grid.Column>
                 </Grid>
                 {this.state.email ? this.runEmailExists() : ""}
+                {this.state.username ? this.runUsernameExists() : ""}
 
             </div>
 
