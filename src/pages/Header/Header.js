@@ -1,12 +1,12 @@
-import getAllAgentRelationships from "../queries/AgentRelationship/getAllAgentRelationships";
-import getMyAgent from "../queries/Agent/getMyAgent";
-import getOrganizationById from "../queries/Organization/getOrganizationById";
+import getAllAgentRelationships from "../../queries/AgentRelationship/getAllAgentRelationships";
+import getMyAgent from "../../queries/Agent/getMyAgent";
+import getOrganizationById from "../../queries/Organization/getOrganizationById";
 import {Link} from 'react-router-dom';
 import {bindActionCreators} from 'redux';
-import * as currentOrgActions from '../redux/actions/currentOrgActions';
+import * as currentOrgActions from '../../redux/actions/currentOrgActions';
 import {connect} from 'react-redux';
-import * as defaultImage from "../resources/defaultImage.jpg";
-import * as logo from '../resources/upcycleLogo.png'
+import * as defaultImage from "../../resources/defaultImage.jpg";
+import * as logo from '../../resources/upcycleLogo.png'
 import React, {Component} from "react";
 import {render} from "react-dom";
 import {Image, Menu, Input, Dropdown, Loader} from "semantic-ui-react";

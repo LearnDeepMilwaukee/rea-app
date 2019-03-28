@@ -4,104 +4,29 @@ import getAllOrganizations from "../queries/Organization/getAllOrganizations"
 import {Item, Button, Form} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import {isNullOrUndefined} from "util"
-import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "..//utilities"
-// import {getDistanceBetweenPoints, filterByType} from "..//utilities"
+import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filterByDistance} from "../utilities"
 
 let default_image = require("../resources/defaultImage.jpg");
 let msoeCC = {latitude: 43.044004, longitude: -87.909020};
 const orgCard = (agent) => (
-    <Item>
-        <Item.Image src={isNullOrUndefined(agent.image) || agent.image === "" ? default_image : agent.image}/>
+    <Item className={""}>
+        <Item.Image className="ui small rounded image" src={isNullOrUndefined(agent.image) || agent.image === "" ? default_image : agent.image}/>
 
         <Item.Content>
             <Item.Header as='h1' >{agent.name}</Item.Header>
 
             <Item.Description>
-                <p floated='left'>{isNullOrUndefined(agent.primaryLocation) ? "" : agent.primaryLocation.address}</p>
-                <p floated='right'>{isNullOrUndefined(agent.primaryLocation) ? "" : "Distance: "+getDistanceBetweenPoints(agent.primaryLocation, msoeCC)+" mi"}</p>
+                <p >{isNullOrUndefined(agent.primaryLocation) ? "(no location available)" : agent.primaryLocation.address}</p>
+                <p >{isNullOrUndefined(agent.primaryLocation) ? "(distance not available)" : "Distance: "+getDistanceBetweenPoints(agent.primaryLocation, msoeCC).toFixed(2)+" mi"}</p>
             </Item.Description>
             <Item.Extra>
-                <Button floated='right' color='blue' size='large'>Connect</Button>
+                <Button className="ui right floated primary">Connect</Button>
             </Item.Extra>
         </Item.Content>
     </Item>
 )
 
-// const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
-//     if (loading) {
-//         console.log("LOADING");
-//         return (
-//             <strong>Loading...</strong>
-//         );
-//     } else if (error) {
-//         console.log(error);
-//
-//         return (
-//             <p style={{color: "#F00"}}>API error</p>
-//         );
-//     } else {
-//         // console.log(organizationList);
-//         const cardsArray = organizationList.map(org => (
-//             orgCard(org)
-//         ));
-//
-//         let filteredOrgs = [];
-//         console.log();
-//         console.log("FILTERING");
-//         console.log(filteredOrgs);
-//         for (let org of cardsArray) {
-//             if (isNullOrUndefined(this.state.nameFilter) || org.name.includes(this.state.nameFilter)) {
-//                 filteredOrgs.push(org);
-//                 console.log("Org matching filter " + this.state.nameFilter + ": " + org.name);
-//             }
-//         }
-//         if (this.state.distanceFilter !== '') {
-//             filteredOrgs = filterByDistance(filteredOrgs, this.state.distanceFilter, msoeCC);
-//         }
-//         if (this.state.typeFilter !== "All") {
-//             filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
-//         }
-//         if (this.state.sorting === "alphabetical") {
-//             filteredOrgs = sortByName(filteredOrgs);
-//         }
-//         else if (this.state.sorting === "distance") {
-//             filteredOrgs = sortByDistance(filteredOrgs, msoeCC);
-//         }
-//         return (
-//             <div>
-//                 <Item.Group divided>
-//                     {filteredOrgs}
-//                 </Item.Group>
-//             </div>
-//         );
-//     }
-// });
 
-// const OrgTypeList = getAllOrganizationTypes(({organizationList, loading, error}) => {
-//     console.log("Entered");
-//     if (loading) {
-//         console.log("LOADING");
-//         return (
-//             <strong>Loading...</strong>
-//         );
-//     } else if (error) {
-//         console.log(error);
-//
-//         return (
-//             <p style={{color: "#F00"}}>API error</p>
-//         );
-//     } else {
-//         console.log("TEST!!!");
-//         console.log(organizationList);
-//         return (
-//             <div>
-//                 <Item.Group divided>
-//                     {organizationList}
-//                 </Item.Group>
-//             </div>
-//         );
-//     }
-// });
 
 const optionsType = [
     { key: 'a', text: 'All', value: 'All' },
@@ -235,12 +160,13 @@ class BasePage extends React.Component {
                 );
             }
         });
+        console.log("typeFilter:", this.state.typeFilter)
+        console.log("sorting:", this.state.sorting)
 
         return (
-            <div>
+            <div className={"ui container"}>
                 <Form>
-                    <header as='h1'>All Orgs</header>
-
+                    <h2 className={"ui header"}>All Orgs</h2>
                     <Form.Group widths='equal'>
                         <Form.Input fluid label='Search For Org' placeholder='Search' onKeyPress={this.onNameChange} />
                         <Form.Field>
@@ -250,13 +176,15 @@ class BasePage extends React.Component {
                         <Form.Select fluid label='Sort' options={optionsSort} value={this.state.sorting} onChange={this.onSortFilterChange} />
                     </Form.Group>
                     <Form.Group inline>
-                        <Form.Radio label='myOrgs' value='myOrgs' checked={this.state.myOrgsFilter === true} onChange={this.onMyOrgsChange}/>
-                        <Form.Radio label='publicOrgs' value='publicOrgs' checked={this.state.myOrgsFilter === false} onChange={this.onPubOrgsChange}/>
-                        <Form.Button color='red' onClick={this.handleReset}>Reset</Form.Button>
+                        <Form.Radio label='My Orgs' value='myOrgs' checked={this.state.myOrgsFilter === true} onChange={this.onMyOrgsChange}/>
+                        <Form.Radio label='Public Orgs' value='publicOrgs' checked={this.state.myOrgsFilter === false} onChange={this.onPubOrgsChange}/>
+                        <Form.Button className="ui negative" color={'red'} onClick={this.handleReset}>Reset filters</Form.Button>
                     </Form.Group>
                 </Form>
-                <OrgList
-                    token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5vciIsImlhdCI6MTU1MTg0ODI3MSwicGFzc3dvcmQiOiI3YzA4ODliOWU5ZmNjYzAxZDIzMDcwNzljNDk5OTcyNDFlNTZlNzU0IiwiaWQiOjZ9.unIuk6g8HcmyIuF1sONrLAiftApTlcuqMWWLO6DtqUQ"/>
+                <div className={"ui container"}>
+                    <OrgList
+                        token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5vciIsImlhdCI6MTU1MTg0ODI3MSwicGFzc3dvcmQiOiI3YzA4ODliOWU5ZmNjYzAxZDIzMDcwNzljNDk5OTcyNDFlNTZlNzU0IiwiaWQiOjZ9.unIuk6g8HcmyIuF1sONrLAiftApTlcuqMWWLO6DtqUQ"/>
+                </div>
             </div>
         )
     }
