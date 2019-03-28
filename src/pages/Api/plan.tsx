@@ -9,8 +9,8 @@
 
 import * as React from "react";
 import "./api.css";
-import getAllplans from "../../../queries/Plan/getAllPlans";
-import getPlanById from "../../../queries/Plan/getPlanById";
+import getAllplans from "../../queries/Plan/getAllPlans";
+import getPlanById from "../../queries/Plan/getPlanById";
 import { concatArray } from "./common";
 
 export const Plan = (props) => {
