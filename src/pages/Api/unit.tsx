@@ -9,8 +9,8 @@
 
 import * as React from "react";
 import "./api.css"
-import GetUnits from "../../../queries/Unit/getAllUnits";
-import GetUnit from "../../../queries/Unit/getUnitById"
+import GetUnits from "../../queries/Unit/getAllUnits";
+import GetUnit from "../../queries/Unit/getUnitById"
 
 export const Unit = (props) => {
   return(

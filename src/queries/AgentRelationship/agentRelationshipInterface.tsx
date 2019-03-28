@@ -6,7 +6,7 @@
  * @since:   2018-02-02
  */
 
-import { gql } from "react-apollo";
+import gql from "graphql-tag";
 import { Agent } from "../Agent/agentInterface";
 import { AgentRelationshipRole } from "../AgentRelationshipRole/AgentRelationshipRoleInterface";
 
