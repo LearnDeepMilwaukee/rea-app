@@ -10,6 +10,7 @@ import * as EmailValidator from "email-validator";
 import {adminToken} from "../../apiKeys.json";
 import "./individualRegistration.css";
 import {Form, Button, Grid, Header, Segment, Message} from 'semantic-ui-react'
+import {isUndefined} from "util";
 
 /**
  * This data structure stores the information that is entered by
@@ -23,7 +24,8 @@ let userInformation = {
     name: "",
     image: "",
     userRan: false,
-    allValid: false
+    allValid: false,
+    errorMessage: []
 };
 
 
@@ -45,9 +47,12 @@ const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
                            username={userInformation.username} email={userInformation.email}
                            pswd={userInformation.pswd} name={userInformation.name} image={userInformation.image}
         />
-    } else if (emailExists === true) {
-        alert("An account with this email already exists");
+    } else if (emailExists === true && userInformation.errorMessage.indexOf("An account with this email already exists") < 0) {
+        userInformation.errorMessage.push("An account with this email already exists");
         return <p/>;
+    } else if (emailExists === false) {
+        let indexToRemove = userInformation.errorMessage.indexOf("An account with this email already exists");
+        userInformation.errorMessage.splice(indexToRemove, 1);
     }
     return <p/>
 });
@@ -57,10 +62,12 @@ const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
  * @type {React.ComponentClass<{}>}
  */
 const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
-    if (error) {
-        if (error.message.indexOf("username") !== -1) {
-            alert("This username is already in use");
-        }
+    // console.log("Error is");
+    // console.log(error);
+    if (!isUndefined(error)) {
+        userInformation.errorMessage.push("This username already exist");
+        console.log("Inside error");
+        return <p/>;
     } else if (createUserPersonVar != null) {
         return <p>{createUserPersonVar.split(',')[0]}</p>
     } else {
@@ -98,7 +105,8 @@ class IndividualRegistration extends React.Component {
 
 
     runEmailExists = () => {
-        return <EmailExistsQuery email={this.state.email} token={adminToken} allValid={true}/>
+        return <EmailExistsQuery email={this.state.email} token={adminToken} allValid={true}/>;
+
     };
 
 
@@ -120,13 +128,27 @@ class IndividualRegistration extends React.Component {
     };
 
     handleSubmit = () => {
+        let userErrorMessage = [];
+        if (userInformation.errorMessage.indexOf("An account with this email already exists") > 0) {
+            userErrorMessage.push("An account with this email already exists");
+        }
         if (EmailValidator.validate(this.state.email)) {
             userInformation.email = this.state.email;
+        }
+        else {
+            userErrorMessage.push("Please enter an email");
         }
         userInformation.pswd = this.state.submittalPassword;
         userInformation.username = this.state.username;
         userInformation.allValid = (userInformation.email != "" && userInformation.pswd != "" && userInformation.username != "");
+        if (userInformation.pswd == "") {
+            userErrorMessage.push("Your passwords do not match");
+        }
+        if (userInformation.username == "") {
+            userErrorMessage.push("Please enter a username");
 
+        }
+        userInformation.errorMessage = userErrorMessage;
         userInformation.userRan = true;
         this.setState({queryingEmail: this.state.email});
     };
@@ -148,7 +170,8 @@ class IndividualRegistration extends React.Component {
                         <Header as='h2' textAlign='center'>
                             User Registration
                         </Header>
-                        <Form size='large' onSubmit={this.handleSubmit} error={"Error"}>
+                        <Form size='large' onSubmit={this.handleSubmit}
+                              error={userInformation.errorMessage.length != 0}>
                             <Segment stacked>
                                 <Form.Field required>
                                     <Form.Input fluid placeholder='Username' name='username' value={username}
@@ -172,8 +195,7 @@ class IndividualRegistration extends React.Component {
                                 <Button color='blue' fluid type='submit' size='large'>Register</Button>
                             </Segment>
 
-                            {/*<Message error header='Login attempt failed!'*/}
-                            {/*list={["Please check your credentials!"]}/>*/}
+                            <Message error list={userInformation.errorMessage}/>
                         </Form>
                     </Grid.Column>
                 </Grid>
