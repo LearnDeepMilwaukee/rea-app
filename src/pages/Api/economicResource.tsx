@@ -9,9 +9,9 @@
 
 import * as React from "react";
 import "./api.css";
-import getAllEconomicResources from "../../../queries/EconomicResource/getAllEconomicResources";
+import getAllEconomicResources from "../../queries/EconomicResource/getAllEconomicResources";
 import { concatArray } from "./common";
-import getEconomicResourceById from "../../../queries/EconomicResource/getEconomicResourceById";
+import getEconomicResourceById from "../../queries/EconomicResource/getEconomicResourceById";
 
 export const EconomicResource = (props) => {
   let economicResource = props.economicResource;
