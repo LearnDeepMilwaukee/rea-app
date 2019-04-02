@@ -12,6 +12,7 @@ import {adminToken} from "../../apiKeys.json";
 import "./individualRegistration.css";
 import {Form, Button, Grid, Header, Segment, Message} from 'semantic-ui-react'
 import {isUndefined} from "util";
+
 /**
  * This data structure stores the information that is entered by
  * the User into the fields on the page, and is sent to the
@@ -36,11 +37,9 @@ let userInformation = {
  */
 const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
     if (loading) {
-        console.log("Loading " + loading);
         return <p/>;
     } else if (error) {
-        console.log("Error: " + error);
-        return <h3>Error!</h3>;
+        return <Message visible error content="An error occured, please contact Makerspace"/>
     }
     if (emailExists === false && userInformation.userRan) {
         return <CreateUser allValid={userInformation.allValid}
@@ -52,24 +51,31 @@ const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
         return <p/>;
     } else if (emailExists === false) {
         let indexToRemove = userInformation.errorMessage.indexOf("An account with this email already exists");
-        userInformation.errorMessage.splice(indexToRemove, 1);
+        if (indexToRemove > -1) {
+            userInformation.errorMessage.splice(indexToRemove, 1);
+        }
     }
     return <p/>
 });
 
+/**
+ * Checks to see if the current username the user entered is in the database
+ * @type {any}
+ */
 const UsernameExistsQuery = usernameExists(({usernameExists, loading, error}) => {
     if (loading) {
-        console.log("Loading " + loading);
         return <p/>;
     } else if (error) {
-        console.log("Error: " + error);
-        return <h3>Error!</h3>;
+        return <Message visible error content="An error occured, please contact Makerspace"/>
     }
     if (usernameExists === true && userInformation.errorMessage.indexOf("An account with this username already exists") < 0) {
         userInformation.errorMessage.push("An account with this username already exists");
+        userInformation.allValid = false;
     } else if (usernameExists === false) {
         let indexToRemove = userInformation.errorMessage.indexOf("An account with this username already exists");
-        userInformation.errorMessage.splice(indexToRemove, 1);
+        if (indexToRemove > -1) {
+            userInformation.errorMessage.splice(indexToRemove, 1);
+        }
     }
     return <p/>;
 });
@@ -79,9 +85,8 @@ const UsernameExistsQuery = usernameExists(({usernameExists, loading, error}) =>
  * @type {React.ComponentClass<{}>}
  */
 const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
-    if (!isUndefined(error)) {
-        console.log("Error creating user");
-        //TODO Give a heads up to the user that the registration failed
+    if (!isUndefined(error) && !error.message.includes("UNIQUE constraint failed: valueaccounting_economicagent.")) {
+        return <Message visible error content="An error occurred attempting to register"/>
     } else {
         return <p/>
 
@@ -118,11 +123,17 @@ class IndividualRegistration extends React.Component {
 
 
     runEmailExists = () => {
-        return <EmailExistsQuery email={this.state.email} token={adminToken} allValid={true}/>;
+        if (EmailValidator.validate(this.state.email)) {
+            return <EmailExistsQuery email={this.state.email} token={adminToken} allValid={userInformation.allValid}/>;
+        } else {
+            userInformation.allValid = false;
+            return <p/>
+        }
 
     };
     runUsernameExists = () => {
-        return <UsernameExistsQuery username={this.state.username} token={adminToken} allValid={true}/>;
+        return <UsernameExistsQuery username={this.state.username} token={adminToken}
+                                    allValid={userInformation.allValid}/>;
     };
 
 
@@ -138,6 +149,9 @@ class IndividualRegistration extends React.Component {
     handleChange = (e, {name, value}) => {
         if ((name == 'password1' && value == this.state.password2) || (name == 'password2' && value == this.state.password1)) {
             this.setState({[name]: value, submittalPassword: value});
+        } else if (name == 'password1' || name == 'password2') {
+            this.setState({submittalPassword: ""});
+            userInformation.userRan = false;
         }
         this.setState({[name]: value});
 
@@ -162,7 +176,6 @@ class IndividualRegistration extends React.Component {
         }
         if (userInformation.username == "") {
             userErrorMessage.push("Please enter a username");
-
         }
         userInformation.errorMessage = userErrorMessage;
         userInformation.userRan = true;
@@ -210,13 +223,13 @@ class IndividualRegistration extends React.Component {
                                 </Form.Field>
                                 <Button color='blue' fluid type='submit' size='large'>Register</Button>
                             </Segment>
-
+                            {/*These queries should be run everytime this component is loaded*/}
+                            {this.state.username ? this.runUsernameExists() : ""}
+                            {this.state.email ? this.runEmailExists() : ""}
                             <Message error list={userInformation.errorMessage}/>
                         </Form>
                     </Grid.Column>
                 </Grid>
-                {this.state.email ? this.runEmailExists() : ""}
-                {this.state.username ? this.runUsernameExists() : ""}
 
             </div>
 
