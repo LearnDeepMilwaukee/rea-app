@@ -3,6 +3,7 @@ import {Switch, Route} from 'react-router-dom';
 import OrganizationCatalog from './pages/OrganizationCatalog.js';
 import ErrorPage from './pages/ErrorPage.js';
 import LoginPage from './pages/LoginPage.js';
+import ProtectedRoute from './ProtectedRoute.js';
 import OrganizationRegistration from './pages/Organizations/organizationRegistration';
 import IndividualRegistration from './pages/Individuals/individualRegistration';
 import orgEdit from "./pages/Organizations/organizationEdit";
@@ -21,6 +22,7 @@ import EconomicEvent from './pages/Api/EconomicEvent'
 import CreateEconomicEvent from './pages/Api/CreateEconomicEvent'
 import AgentRelationshipRoles from './pages/Api/AgentRelationshipRole'
 
+
 class Routes extends Component {
     render() {
         return (
@@ -28,12 +30,11 @@ class Routes extends Component {
                 <Route path="/" render={(props) => (props.location.pathname !== "/login") && <Header/>}/>
                 {/*<Header/>*/}
                 <Switch>
-                    <Route exact path="/" component={OrganizationCatalog}/>
                     <Route exact path="/login" component={LoginPage}/>
-                    <Route exact path="/RegisterOrg" component={OrganizationRegistration}/>
-                    <Route exact path="/EditOrg/:id" component={orgEdit}/>
-                    <Route exact path="/RegisterIndividual" component={IndividualRegistration}/>
-
+                    <ProtectedRoute exact path="/RegisterOrg" component={OrganizationRegistration}/>
+                    <ProtectedRoute exact path="/EditOrg/:id" component={orgEdit}/>
+                    <ProtectedRoute exact path="/RegisterIndividual" component={IndividualRegistration}/>
+                    <ProtectedRoute exact path="/" component={OrganizationCatalog}/>
                     {/*Below here are the api pages*/}
                     <Route path="/api/processClassification" component={ProcessClassificationPage}/>
                     <Route path="/api/unit" component={UnitPage}/>
