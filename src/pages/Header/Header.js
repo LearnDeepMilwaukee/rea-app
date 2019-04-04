@@ -40,15 +40,6 @@ let OrgNameByID = getOrganizationById(({organization, loading, error}) => {
                 </div>
             );
         }
-        else if (currentOrganizationId === -1) {
-            return (
-
-                <div>
-                    <Image src={defaultImage} avatar/>
-                    <span>Select an organization</span>
-                </div>
-            );
-        }
         else {
             return (<Dropdown.Item onClick={() => {
                     setCurrentOrganizationId(organization.id);
@@ -97,7 +88,12 @@ let AgentRelationships = getAllAgentRelationships(({agentRelationshipList, loadi
                 <Menu.Item fitted="vertically">
 
                     <Dropdown selection width={250} options={orgList}
-                              text={<OrgNameByID organizationId={currentOrganizationId}/>} id={"orgDropdown"}
+                              text={currentOrganizationId != -1 ?<OrgNameByID organizationId={currentOrganizationId}/> :
+                                  <div>
+                                  <Image src={defaultImage} avatar/>
+                                  <span>{"Select an organization"}</span>
+                                  </div>
+                                  } id={"orgDropdown"}
                               icon={null}/>
                 </Menu.Item>
 
