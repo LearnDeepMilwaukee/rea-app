@@ -151,8 +151,8 @@ class IndividualRegistration extends React.Component {
                 }).catch((error) => {
                     if (error.message.includes("'NoneType' object has no attribute")) {
                         return <Message visible error
-                                        content="An error occurred when attemptin to redirect you to the homepage.
-                                        \nHowever, you were regsitered"/>
+                                        content="An error occurred when attempting to redirect you to the homepage.
+                                        \nHowever, you were registered"/>
                     }
                     this.setState({loggingIn: false});
 
