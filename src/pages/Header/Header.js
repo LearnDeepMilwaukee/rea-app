@@ -32,20 +32,11 @@ let OrgNameByID = getOrganizationById(({organization, loading, error}) => {
         return (<p style={{color: "#F00"}}>API error</p>);
 
     } else {
-        if (currentOrganizationId == organization.id) {
+        if (currentOrganizationId === organization.id) {
             return (
                 <div>
                     <Image src={organization.image ? organization.image : defaultImage} avatar/>
                     <span>{organization.name}</span>
-                </div>
-            );
-        }
-        else if (currentOrganizationId == -1) {
-            return (
-
-                <div>
-                    <Image src={defaultImage} avatar/>
-                    <span>Select an organization</span>
                 </div>
             );
         }
@@ -97,7 +88,12 @@ let AgentRelationships = getAllAgentRelationships(({agentRelationshipList, loadi
                 <Menu.Item fitted="vertically">
 
                     <Dropdown selection width={250} options={orgList}
-                              text={<OrgNameByID organizationId={currentOrganizationId}/>} id={"orgDropdown"}
+                              text={currentOrganizationId != -1 ?<OrgNameByID organizationId={currentOrganizationId}/> :
+                                  <div>
+                                  <Image src={defaultImage} avatar/>
+                                  <span>{"Select an organization"}</span>
+                                  </div>
+                                  } id={"orgDropdown"}
                               icon={null}/>
                 </Menu.Item>
 
