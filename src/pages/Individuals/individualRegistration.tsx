@@ -7,11 +7,16 @@ import * as React from "react";
 import createUserPerson from "../../queries/User/CreateUserPerson";
 import userEmailExist from "../../queries/User/UserEmailExists";
 import usernameExists from "../../queries/User/UsernameExists";
+import createToken from "../../queries/User/createToken.js";
 import * as EmailValidator from "email-validator";
 import {adminToken} from "../../apiKeys.json";
 import "./individualRegistration.css";
 import {Form, Button, Grid, Header, Segment, Message} from 'semantic-ui-react'
 import {isUndefined} from "util";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {withRouter} from 'react-router-dom';
+import * as currentUserActions from '../../redux/actions/currentUserActions.js';
 
 /**
  * This data structure stores the information that is entered by
@@ -29,7 +34,7 @@ let userInformation = {
     errorMessage: []
 };
 
-
+let loginUser;
 /**
  * Verifies if a User exists in the database with that email.
  * If the email is unique, create a new User.
@@ -88,6 +93,7 @@ const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
     if (!isUndefined(error) && !error.message.includes("UNIQUE constraint failed: valueaccounting_economicagent.")) {
         return <Message visible error content="An error occurred attempting to register"/>
     } else {
+        loginUser();
         return <p/>
 
     }
@@ -120,7 +126,45 @@ function CreateUser(props) {
  * This handles basic validation of the values passed and calls the queries to create a new User.
  */
 class IndividualRegistration extends React.Component {
+    componentDidMount() {
+        loginUser = this.loginUserMethod;
 
+        if (this.props.currentUserToken !== "N/A") {
+            this.props.history.push("/");
+            window.location.reload();
+        }
+    }
+
+    loginUserMethod = () => {
+        if (!this.state.loggingIn && !this.state.loggedIn) {
+            this.setState({loggingIn: true}, () => {
+                let mutationVariables = {
+                    username: this.state.username,
+                    password: this.state.submittalPassword
+                };
+                this.props.createToken({variables: mutationVariables}).then((response) => {
+                    let token = response.data.createToken.token;
+
+                    this.props.currentUserActions.setCurrentUserToken(token);
+                    this.setState({loggedIn: true});
+
+                }).catch((error) => {
+                    if (error.message.includes("'NoneType' object has no attribute")) {
+                        return <Message visible error
+                                        content="An error occurred when attempting to redirect you to the homepage.
+                                        \nHowever, you were registered"/>
+                    }
+                    this.setState({loggingIn: false});
+
+                });
+            });
+
+        }
+        if (this.props.currentUserToken !== "N/A") {
+            this.props.history.push("/");
+            window.location.reload();
+        }
+    };
 
     runEmailExists = () => {
         if (EmailValidator.validate(this.state.email)) {
@@ -143,7 +187,9 @@ class IndividualRegistration extends React.Component {
         password2: '',
         submittalPassword: '',
         email: '',
-        queryingEmail: ''
+        queryingEmail: '',
+        loggingIn: false,
+        loggedIn: false
     };
 
     handleChange = (e, {name, value}) => {
@@ -170,6 +216,7 @@ class IndividualRegistration extends React.Component {
         }
         userInformation.pswd = this.state.submittalPassword;
         userInformation.username = this.state.username;
+        userInformation.name = this.state.username;
         userInformation.allValid = (userInformation.email != "" && userInformation.pswd != "" && userInformation.username != "");
         if (userInformation.pswd == "") {
             userErrorMessage.push("Your passwords do not match");
@@ -237,4 +284,19 @@ class IndividualRegistration extends React.Component {
     }
 }
 
-export default IndividualRegistration;
+function mapStateToProps(state) {
+    return {
+        currentUserToken: state.getUserInfo.currentUserToken
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        currentUserActions: bindActionCreators(currentUserActions, dispatch)
+    };
+}
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(createToken(IndividualRegistration)));
