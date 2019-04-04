@@ -129,33 +129,30 @@ class IndividualRegistration extends React.Component {
     componentDidMount() {
         loginUser = this.loginUserMethod;
 
-            if (this.props.currentUserToken !== "N/A") {
-                this.props.history.push("/");
-                window.location.reload();
-            }
+        if (this.props.currentUserToken !== "N/A") {
+            this.props.history.push("/");
+            window.location.reload();
         }
+    }
 
     loginUserMethod = () => {
-        console.log("OUTSIDE" + JSON.stringify(this.state));
-
-        if (!this.state.loggingIn && this.props.currentUserToken === "N/A") {
+        if (!this.state.loggingIn && !this.state.loggedIn) {
             this.setState({loggingIn: true}, () => {
-                console.log("RUNNING" + JSON.stringify(this.state));
                 let mutationVariables = {
                     username: this.state.username,
                     password: this.state.submittalPassword
                 };
                 this.props.createToken({variables: mutationVariables}).then((response) => {
                     let token = response.data.createToken.token;
-                    console.log(token);
 
                     this.props.currentUserActions.setCurrentUserToken(token);
+                    this.setState({loggedIn: true});
 
                 }).catch((error) => {
-                    console.log(error);
                     if (error.message.includes("'NoneType' object has no attribute")) {
-                        //Incorrect login, give the user a heads up that the login details are wrong
-
+                        return <Message visible error
+                                        content="An error occurred when attemptin to redirect you to the homepage.
+                                        \nHowever, you were regsitered"/>
                     }
                     this.setState({loggingIn: false});
 
@@ -163,10 +160,10 @@ class IndividualRegistration extends React.Component {
             });
 
         }
-        // if(this.props.currentUserToken !== "N/A"){
-        //     this.props.history.push("/");
-        //     window.location.reload();
-        // }
+        if (this.props.currentUserToken !== "N/A") {
+            this.props.history.push("/");
+            window.location.reload();
+        }
     };
 
     runEmailExists = () => {
@@ -191,7 +188,8 @@ class IndividualRegistration extends React.Component {
         submittalPassword: '',
         email: '',
         queryingEmail: '',
-        loggingIn: false
+        loggingIn: false,
+        loggedIn: false
     };
 
     handleChange = (e, {name, value}) => {
@@ -218,6 +216,7 @@ class IndividualRegistration extends React.Component {
         }
         userInformation.pswd = this.state.submittalPassword;
         userInformation.username = this.state.username;
+        userInformation.name = this.state.username;
         userInformation.allValid = (userInformation.email != "" && userInformation.pswd != "" && userInformation.username != "");
         if (userInformation.pswd == "") {
             userErrorMessage.push("Your passwords do not match");
