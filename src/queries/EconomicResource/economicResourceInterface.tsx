@@ -29,10 +29,12 @@ fragment economicResourceInterface on EconomicResource {
   transfers{
     id
   }
+  createdDate
 }`;
 
 export interface EconomicResource {
   id: number
+  createDate: string
   resourceClassifiedAs: number // TODO Replace with ResourceClassification
   trackingIdentifier: string
   image: string

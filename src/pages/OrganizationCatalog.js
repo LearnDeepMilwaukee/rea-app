@@ -1,6 +1,7 @@
 import React from 'react';
+import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
 import getAllOrganizations from "../queries/Organization/getAllOrganizations"
-
 import {Item, Button, Form} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import {isNullOrUndefined} from "util"
@@ -8,6 +9,11 @@ import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filt
 
 let default_image = require("../resources/defaultImage.jpg");
 let msoeCC = {latitude: 43.044004, longitude: -87.909020};
+function viewInventory(id) {
+    // let route = "/orgInventory/" + {id};
+    // this.props.history.push(route);
+    // window.location.reload();
+}
 const orgCard = (agent) => (
     <Item className={""}>
         <Item.Image className="ui small rounded image" src={isNullOrUndefined(agent.image) || agent.image === "" ? default_image : agent.image}/>
@@ -20,7 +26,7 @@ const orgCard = (agent) => (
                 <p >{isNullOrUndefined(agent.primaryLocation) ? "(distance not available)" : "Distance: "+getDistanceBetweenPoints(agent.primaryLocation, msoeCC).toFixed(2)+" mi"}</p>
             </Item.Description>
             <Item.Extra>
-                <Button className="ui right floated primary">Connect</Button>
+                <Button className="ui right floated primary" onClick={viewInventory(agent.id)}>View Inventory</Button>
             </Item.Extra>
         </Item.Content>
     </Item>
@@ -190,7 +196,11 @@ class BasePage extends React.Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        currentUserToken: state.getUserInfo.currentUserToken,
+    };
+}
 
-
-
-export default BasePage;
+export default withRouter(connect(
+    mapStateToProps)(BasePage));

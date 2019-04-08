@@ -8,13 +8,10 @@ import React from 'react';
 import 'semantic-ui-css/semantic.min.css'
 import getOrganizationById from "../../queries/Organization/getOrganizationById.tsx";
 import getEconomicResourceById from "../../queries/EconomicResource/getEconomicResourceById.tsx";
-import getMyAgent from "../../queries/Agent/getMyAgent.tsx";
-import default_resource_img from "../../resources/defualt_resource_img.jpg";
-//import EditInventoryModal from "../../components/EditInventoryModal.js";
-
 import {isNullOrUndefined} from "util"
-import {Item, Button} from 'semantic-ui-react'
-import { concatArray } from ".././methods/common.tsx";
+import {Item} from 'semantic-ui-react'
+
+let default_image = require("../../resources/defaultImage.jpg");
 
 /**
  * Gets an organizations data
@@ -33,9 +30,12 @@ export const GetSingleOrganization = getOrganizationById(({ organization, loadin
         console.log(economicResourceList.length ===0);
         return(
             <div>
+                <h2 className="ui header">{organization.name} Inventory</h2>
+                <Item.Group divided>
                 {(economicResourceList.length ===0)? <p>No Inventory Currently</p> :(economicResourceList.map( (economicResource) =>
                     (<GetSingleEconomicResource economicResourceId={economicResource.id}/>)
                 ))}
+                </Item.Group>
             </div>
         );
     }
@@ -55,9 +55,7 @@ export const GetSingleEconomicResource = getEconomicResourceById(({ economicReso
         );
     } else {
         return(
-            <div>
                 <EconomicResource economicResource={economicResource}/>
-            </div>
         );
     }
 });
@@ -68,33 +66,24 @@ export const GetSingleEconomicResource = getEconomicResourceById(({ economicReso
 export const EconomicResource = (props) => {
     let economicResource = props.economicResource;
     return(
-        <Item.Group>
-            <Item>
-                <Item.Image size="tiny" src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_resource_img : economicResource.image}/>
-                <Item.Content>
-                    <Item.Header as='h1' >{isNullOrUndefined(economicResource.id) || economicResource.id === "" ? "none\t\t" : economicResource.id}</Item.Header>
-                    <Item.Meta>
-                        <span className='category'>Category: {isNullOrUndefined(economicResource.category) || economicResource.category === "" ? "none\t\t" : economicResource.category}</span>
-                        <span className='trackingIdentifier'>Tracking Id: {isNullOrUndefined(economicResource.trackingIdentifier) || economicResource.trackingIdentifier === "" ? "none\t\t" : economicResource.trackingIdentifier}</span>
-                        <span className='quantity'>Quantity: {isNullOrUndefined(economicResource.currentQuantity.numericValue) || economicResource.currentQuantity.numericValue === "" ? "none\t\t" : economicResource.currentQuantity.numericValue}</span>
-                        <span className='unit'>Quantity Unit: {isNullOrUndefined(economicResource.currentQuantity.unit.name) || economicResource.currentQuantity.unit.name === "" ? "none\t\t" : economicResource.currentQuantity.unit.name}</span>
-                        <span className='transfers'>Transfers: {concatArray(economicResource.transfers) }</span>
-                    </Item.Meta>
-                    <Item.Description>Note: {isNullOrUndefined(economicResource.note) || economicResource.note === "" ? "none\t\t" : economicResource.note}</Item.Description>
-                    {/*<Item.Extra><EditInventoryModal dataValues={economicResource}/></Item.Extra>*/}
-                </Item.Content>
-            </Item>
-        </Item.Group>
+        <Item classname={""}>
+            <Item.Image className={"ui small rounded image"} src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_image : economicResource.image}/>
+            <Item.Content>
+                <Item.Header as='h1' >{economicResource.trackingIdentifier}</Item.Header>
+                <Item.Description>
+                    <p>{(economicResource.note === "") ? "(no description available)" : economicResource.note}</p>
+                    <p>Quantity: {economicResource.currentQuantity.numericValue} {economicResource.currentQuantity.unit.name}(s)</p>
+                    <p>Added on: {economicResource.createdDate}</p>
+                </Item.Description>
+            </Item.Content>
+        </Item>
     );
 };
-
-
 
 class OrganizationInventory extends React.Component {
     render() {
         return (
             <div className="ui container">
-                <h2 className="ui header">Inventory</h2>
                 <GetSingleOrganization organizationId={this.props.match.params.id}/>
 
             </div>
