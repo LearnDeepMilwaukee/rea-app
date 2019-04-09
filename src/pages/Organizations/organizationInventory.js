@@ -9,9 +9,9 @@ import 'semantic-ui-css/semantic.min.css'
 import getOrganizationById from "../../queries/Organization/getOrganizationById.tsx";
 import getEconomicResourceById from "../../queries/EconomicResource/getEconomicResourceById.tsx";
 import {isNullOrUndefined} from "util"
-import {Item} from 'semantic-ui-react'
+import {Item, Button} from 'semantic-ui-react'
 
-let default_image = require("../../resources/defaultImage.jpg");
+let default_image = require("../../resources/default_resource_img.jpg");
 
 /**
  * Gets an organizations data
@@ -27,12 +27,12 @@ export const GetSingleOrganization = getOrganizationById(({ organization, loadin
         );
     } else {
         let economicResourceList = organization.ownedEconomicResources;
-        console.log(economicResourceList.length ===0);
+        console.log(economicResourceList.length === 0);
         return(
             <div>
                 <h2 className="ui header">{organization.name} Inventory</h2>
                 <Item.Group divided>
-                {(economicResourceList.length ===0)? <p>No Inventory Currently</p> :(economicResourceList.map( (economicResource) =>
+                {(economicResourceList.length ===0)? <p>Inventory Empty</p> :(economicResourceList.map( (economicResource) =>
                     (<GetSingleEconomicResource economicResourceId={economicResource.id}/>)
                 ))}
                 </Item.Group>
@@ -67,7 +67,7 @@ export const EconomicResource = (props) => {
     let economicResource = props.economicResource;
     return(
         <Item classname={""}>
-            <Item.Image className={"ui small rounded image"} src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_image : economicResource.image}/>
+            <Item.Image className={"ui small rounded image"} src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_image : economicResource.image} onError={i => i.target.src=default_image}/>
             <Item.Content>
                 <Item.Header as='h1' >{economicResource.trackingIdentifier}</Item.Header>
                 <Item.Description>
@@ -75,6 +75,9 @@ export const EconomicResource = (props) => {
                     <p>Quantity: {economicResource.currentQuantity.numericValue} {economicResource.currentQuantity.unit.name}(s)</p>
                     <p>Added on: {economicResource.createdDate}</p>
                 </Item.Description>
+                <Item.Extra>
+                    <Button className="ui right floated primary">Edit</Button>
+                </Item.Extra>
             </Item.Content>
         </Item>
     );

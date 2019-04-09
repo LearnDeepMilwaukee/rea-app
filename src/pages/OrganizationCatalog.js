@@ -9,28 +9,38 @@ import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filt
 
 let default_image = require("../resources/defaultImage.jpg");
 let msoeCC = {latitude: 43.044004, longitude: -87.909020};
-function viewInventory(id) {
-    // let route = "/orgInventory/" + {id};
-    // this.props.history.push(route);
-    // window.location.reload();
+
+class OrgCard extends React.Component {
+
+
+    viewInventory = () => {
+        console.log(this.props);
+        this.props.history.push("/orginventory/" + this.props.agent.id);
+        window.location.reload();
+    }
+
+    render() {
+        return(
+        <Item className={""}>
+            <Item.Image className="ui small rounded image"
+                        src={isNullOrUndefined(this.props.agent.image) || this.props.agent.image === "" ? default_image : this.props.agent.image}/>
+
+            <Item.Content>
+                <Item.Header as='h1'>{this.props.agent.name}</Item.Header>
+
+                <Item.Description>
+                    <p>{isNullOrUndefined(this.props.agent.primaryLocation) ? "(no location available)" : this.props.agent.primaryLocation.address}</p>
+                    <p>{isNullOrUndefined(this.props.agent.primaryLocation) ? "(distance not available)" : "Distance: " + getDistanceBetweenPoints(this.props.agent.primaryLocation, msoeCC).toFixed(2) + " mi"}</p>
+                </Item.Description>
+                <Item.Extra>
+                    <Button className="ui right floated primary" onClick={this.viewInventory}>View
+                        Inventory</Button>
+                </Item.Extra>
+            </Item.Content>
+        </Item>
+        );
+    }
 }
-const orgCard = (agent) => (
-    <Item className={""}>
-        <Item.Image className="ui small rounded image" src={isNullOrUndefined(agent.image) || agent.image === "" ? default_image : agent.image}/>
-
-        <Item.Content>
-            <Item.Header as='h1' >{agent.name}</Item.Header>
-
-            <Item.Description>
-                <p >{isNullOrUndefined(agent.primaryLocation) ? "(no location available)" : agent.primaryLocation.address}</p>
-                <p >{isNullOrUndefined(agent.primaryLocation) ? "(distance not available)" : "Distance: "+getDistanceBetweenPoints(agent.primaryLocation, msoeCC).toFixed(2)+" mi"}</p>
-            </Item.Description>
-            <Item.Extra>
-                <Button className="ui right floated primary" onClick={viewInventory(agent.id)}>View Inventory</Button>
-            </Item.Extra>
-        </Item.Content>
-    </Item>
-)
 
 
 
@@ -155,7 +165,7 @@ class BasePage extends React.Component {
                     filteredOrgs = sortByDistance(filteredOrgs, msoeCC);
                 }
                 const cardsArray = filteredOrgs.map(org => (
-                    orgCard(org)
+                    <OrgCard agent={org} history={this.props.history}/>
                 ));
                 return (
                     <div>
