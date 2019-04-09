@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Switch, Route} from 'react-router-dom';
 import OrganizationCatalog from './pages/OrganizationCatalog.js';
+import OrganizationInventory from './pages/Organizations/organizationInventory';
 import ErrorPage from './pages/ErrorPage.js';
 import LoginPage from './pages/LoginPage.js';
 import ProtectedRoute from './ProtectedRoute.js';
@@ -34,6 +35,7 @@ class Routes extends Component {
                     <Route exact path="/login" component={LoginPage}/>
                     <ProtectedRoute exact path="/RegisterOrg" component={OrganizationRegistration}/>
                     <ProtectedRoute exact path="/EditOrg/:id" component={orgEdit}/>
+                    <ProtectedRoute exact path="/OrgInventory/:id" component={OrganizationInventory}/>
                     <ProtectedRoute exact path="/RegisterIndividual" component={IndividualRegistration}/>
                     <ProtectedRoute exact path="/" component={OrganizationCatalog}/>
 

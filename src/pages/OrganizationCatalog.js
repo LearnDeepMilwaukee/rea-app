@@ -1,6 +1,7 @@
 import React from 'react';
+import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
 import getAllOrganizations from "../queries/Organization/getAllOrganizations"
-
 import {Item, Button, Form} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
 import {isNullOrUndefined} from "util"
@@ -8,23 +9,36 @@ import {sortByName, sortByDistance, getDistanceBetweenPoints, filterByType, filt
 
 let default_image = require("../resources/defaultImage.jpg");
 let msoeCC = {latitude: 43.044004, longitude: -87.909020};
-const orgCard = (agent) => (
-    <Item className={""}>
-        <Item.Image className="ui small rounded image" src={isNullOrUndefined(agent.image) || agent.image === "" ? default_image : agent.image}/>
 
-        <Item.Content>
-            <Item.Header as='h1' >{agent.name}</Item.Header>
+class OrgCard extends React.Component {
 
-            <Item.Description>
-                <p >{isNullOrUndefined(agent.primaryLocation) ? "(no location available)" : agent.primaryLocation.address}</p>
-                <p >{isNullOrUndefined(agent.primaryLocation) ? "(distance not available)" : "Distance: "+getDistanceBetweenPoints(agent.primaryLocation, msoeCC).toFixed(2)+" mi"}</p>
-            </Item.Description>
-            <Item.Extra>
-                <Button className="ui right floated primary">Connect</Button>
-            </Item.Extra>
-        </Item.Content>
-    </Item>
-)
+
+    viewInventory = () => {
+        this.props.history.push("/orginventory/" + this.props.org.id);
+        window.location.reload();
+    }
+
+    render() {
+        return(
+        <Item className={""}>
+            <Item.Image className="ui small rounded image"
+                        src={isNullOrUndefined(this.props.org.image) || this.props.org.image === "" ? default_image : this.props.org.image}/>
+
+            <Item.Content>
+                <Item.Header as='h1'>{this.props.org.name}</Item.Header>
+
+                <Item.Description>
+                    <p>{isNullOrUndefined(this.props.org.primaryLocation) ? "(no location available)" : this.props.org.primaryLocation.address}</p>
+                    <p>{isNullOrUndefined(this.props.org.primaryLocation) ? "(distance not available)" : "Distance: " + getDistanceBetweenPoints(this.props.org.primaryLocation, msoeCC).toFixed(2) + " mi"}</p>
+                </Item.Description>
+                <Item.Extra>
+                    <Button className="ui right floated primary" onClick={this.viewInventory}>View Inventory</Button>
+                </Item.Extra>
+            </Item.Content>
+        </Item>
+        );
+    }
+}
 
 
 
@@ -149,7 +163,7 @@ class BasePage extends React.Component {
                     filteredOrgs = sortByDistance(filteredOrgs, msoeCC);
                 }
                 const cardsArray = filteredOrgs.map(org => (
-                    orgCard(org)
+                    <OrgCard org={org} history={this.props.history}/>
                 ));
                 return (
                     <div>
@@ -190,7 +204,11 @@ class BasePage extends React.Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        currentUserToken: state.getUserInfo.currentUserToken,
+    };
+}
 
-
-
-export default BasePage;
+export default withRouter(connect(
+    mapStateToProps)(BasePage));
