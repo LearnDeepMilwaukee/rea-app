@@ -9,7 +9,7 @@ import 'semantic-ui-css/semantic.min.css'
 import getOrganizationById from "../../queries/Organization/getOrganizationById.tsx";
 import getEconomicResourceById from "../../queries/EconomicResource/getEconomicResourceById.tsx";
 import {isNullOrUndefined} from "util"
-import {Item, Button} from 'semantic-ui-react'
+import {Item, Button, Loader} from 'semantic-ui-react'
 
 let default_image = require("../../resources/default_resource_img.jpg");
 
@@ -19,7 +19,7 @@ let default_image = require("../../resources/default_resource_img.jpg");
 export const GetSingleOrganization = getOrganizationById(({ organization, loading, error }) => {
     if (loading) {
         return(
-            <strong>Loading...</strong>
+            <Loader>Loading</Loader>
         );
     } else if (error) {
         return(
@@ -46,7 +46,7 @@ export const GetSingleOrganization = getOrganizationById(({ organization, loadin
 export const GetSingleEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
     if (loading) {
         return(
-            <strong>Loading...</strong>
+            <Loader>Loading</Loader>
         );
     } else if (error) {
         return(
