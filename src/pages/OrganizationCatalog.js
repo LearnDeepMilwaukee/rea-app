@@ -14,8 +14,7 @@ class OrgCard extends React.Component {
 
 
     viewInventory = () => {
-        console.log(this.props);
-        this.props.history.push("/orginventory/" + this.props.agent.id);
+        this.props.history.push("/orginventory/" + this.props.org.id);
         window.location.reload();
     }
 
@@ -23,18 +22,17 @@ class OrgCard extends React.Component {
         return(
         <Item className={""}>
             <Item.Image className="ui small rounded image"
-                        src={isNullOrUndefined(this.props.agent.image) || this.props.agent.image === "" ? default_image : this.props.agent.image}/>
+                        src={isNullOrUndefined(this.props.org.image) || this.props.org.image === "" ? default_image : this.props.org.image}/>
 
             <Item.Content>
-                <Item.Header as='h1'>{this.props.agent.name}</Item.Header>
+                <Item.Header as='h1'>{this.props.org.name}</Item.Header>
 
                 <Item.Description>
-                    <p>{isNullOrUndefined(this.props.agent.primaryLocation) ? "(no location available)" : this.props.agent.primaryLocation.address}</p>
-                    <p>{isNullOrUndefined(this.props.agent.primaryLocation) ? "(distance not available)" : "Distance: " + getDistanceBetweenPoints(this.props.agent.primaryLocation, msoeCC).toFixed(2) + " mi"}</p>
+                    <p>{isNullOrUndefined(this.props.org.primaryLocation) ? "(no location available)" : this.props.org.primaryLocation.address}</p>
+                    <p>{isNullOrUndefined(this.props.org.primaryLocation) ? "(distance not available)" : "Distance: " + getDistanceBetweenPoints(this.props.org.primaryLocation, msoeCC).toFixed(2) + " mi"}</p>
                 </Item.Description>
                 <Item.Extra>
-                    <Button className="ui right floated primary" onClick={this.viewInventory}>View
-                        Inventory</Button>
+                    <Button className="ui right floated primary" onClick={this.viewInventory}>View Inventory</Button>
                 </Item.Extra>
             </Item.Content>
         </Item>
@@ -165,7 +163,7 @@ class BasePage extends React.Component {
                     filteredOrgs = sortByDistance(filteredOrgs, msoeCC);
                 }
                 const cardsArray = filteredOrgs.map(org => (
-                    <OrgCard agent={org} history={this.props.history}/>
+                    <OrgCard org={org} history={this.props.history}/>
                 ));
                 return (
                     <div>
