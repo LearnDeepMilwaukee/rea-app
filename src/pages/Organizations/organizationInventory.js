@@ -27,7 +27,6 @@ export const GetSingleOrganization = getOrganizationById(({ organization, loadin
         );
     } else {
         let economicResourceList = organization.ownedEconomicResources;
-        console.log(economicResourceList.length === 0);
         return(
             <div>
                 <h2 className="ui header">{organization.name} Inventory</h2>
