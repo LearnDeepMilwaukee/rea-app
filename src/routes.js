@@ -20,6 +20,7 @@ import PersonPage from './pages/Api/person';
 import EconomicEvent from './pages/Api/EconomicEvent'
 import CreateEconomicEvent from './pages/Api/CreateEconomicEvent'
 import AgentRelationshipRoles from './pages/Api/AgentRelationshipRole'
+import InventoryItem from './pages/components/InventoryItem'
 
 class Routes extends Component {
     render() {
@@ -33,6 +34,7 @@ class Routes extends Component {
                     <Route exact path="/RegisterOrg" component={OrganizationRegistration}/>
                     <Route exact path="/EditOrg/:id" component={orgEdit}/>
                     <Route exact path="/RegisterIndividual" component={IndividualRegistration}/>
+                    <Route exact path="/SearchResults" component={InventoryItem}/>
 
                     {/*Below here are the api pages*/}
                     <Route path="/api/processClassification" component={ProcessClassificationPage}/>
