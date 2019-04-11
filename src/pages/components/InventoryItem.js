@@ -1,4 +1,6 @@
 import * as React from "react";
+import {Item, Button} from "semantic-ui-react";
+
 
 
 class InventoryItem extends React.Component{
@@ -10,27 +12,20 @@ class InventoryItem extends React.Component{
     render() {
 
         return(
-            <div className="item">
-                <div className="image">
-                    <img src="https://bobandsuewilliams.com/images/random-18.jpg"/>
-                </div>
-                <div className="content">
-                    <a className="header">Watchmen</a>
-                    <div className="meta">
-                        <span className="cinema">IFC</span>
-                    </div>
-                    <div className="description">
-                        <p></p>
-                    </div>
-                    <div className="extra">
-                        <div className="ui right floated primary button">
-                            Buy tickets
-                            <i className="right chevron icon"></i>
-                        </div>
-                    </div>
-            </div>
-        </div>
-
+                <Item classname={""}>
+                    <Item.Image className={"ui small rounded image"} src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_image : economicResource.image} onError={i => i.target.src=default_image}/>
+                    <Item.Content>
+                        <Item.Header as='h1' >{economicResource.trackingIdentifier}</Item.Header>
+                        <Item.Description>
+                            <p>{(economicResource.note === "") ? "(no description available)" : economicResource.note}</p>
+                            <p>Quantity: {economicResource.currentQuantity.numericValue} {economicResource.currentQuantity.unit.name}(s)</p>
+                            <p>Added on: {economicResource.createdDate}</p>
+                        </Item.Description>
+                        <Item.Extra>
+                            <Button className="ui right floated primary">Edit</Button>
+                        </Item.Extra>
+                    </Item.Content>
+                </Item>
 
     )}
 

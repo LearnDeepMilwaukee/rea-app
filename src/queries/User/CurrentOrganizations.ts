@@ -11,6 +11,7 @@ import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 
 import { coreAgentFields, coreOrganizationFields } from "../_fragments/Agent"
+import {withRouter} from "react-router";
 
 const query = gql`
 query($token: String) {
@@ -38,11 +39,11 @@ ${coreAgentFields}
 
 export default compose(
   // bind input data from the store
-  connect((state) => ({
+  withRouter(connect((state) => ({
     variables: {
       token: state.getUserInfo.currentUserToken,
     },
-  })),
+  }))),
   graphql(query, {
     // read query vars into query from input data above
     options: (props) => ({ variables: props.variables }),

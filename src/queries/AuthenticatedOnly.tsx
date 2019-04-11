@@ -12,6 +12,7 @@ import { ReactElement } from 'react'
 
 import { connect } from 'react-redux'
 import { isLoggedIn } from '@vflows/store/selectors/auth'
+import {withRouter} from "react-router";
 
 export interface Props {
   isLoggedIn: boolean,
@@ -27,4 +28,4 @@ const AuthenticatedOnly = ({ isLoggedIn, children, unauthenticatedComponent }: P
   isLoggedIn ? children : unauthenticatedComponent
 )
 
-export default connect(mapStateToProps)(AuthenticatedOnly)
+export default withRouter(connect(mapStateToProps)(AuthenticatedOnly))
