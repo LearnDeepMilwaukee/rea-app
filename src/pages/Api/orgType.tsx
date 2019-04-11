@@ -7,7 +7,6 @@
  */
 
 import * as React from "react";
-import "./api.css"
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
 
 export const OrganizationType = (props) => {

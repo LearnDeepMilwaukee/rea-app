@@ -1,25 +1,32 @@
 import * as React from "react";
 import {Item, Button} from "semantic-ui-react";
+import {isNullOrUndefined} from "util"
+
+let default_image = require("../../resources/defaultImage.jpg");
 
 
 
 class InventoryItem extends React.Component{
-    constructor() {
-        super();
 
+
+
+    constructor(item) {
+        super();
     }
 
     render() {
+        console.log("Item:")
+        console.log(this.props)
 
         return(
-                <Item classname={""}>
-                    <Item.Image className={"ui small rounded image"} src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_image : economicResource.image} onError={i => i.target.src=default_image}/>
+                <Item>
+                    <Item.Image className={"ui small rounded image"} src={isNullOrUndefined(this.item.image) || this.item.image === "" ? default_image : this.item.image} onError={i => i.target.src=default_image}/>
                     <Item.Content>
-                        <Item.Header as='h1' >{economicResource.trackingIdentifier}</Item.Header>
+                        <Item.Header as='h1' >{this.item.trackingIdentifier}</Item.Header>
                         <Item.Description>
-                            <p>{(economicResource.note === "") ? "(no description available)" : economicResource.note}</p>
-                            <p>Quantity: {economicResource.currentQuantity.numericValue} {economicResource.currentQuantity.unit.name}(s)</p>
-                            <p>Added on: {economicResource.createdDate}</p>
+                            <p>{(this.props.itemData.note === "") ? "(no description available)" : this.item.note}</p>
+                            <p>Quantity: {this.item.currentQuantity.numericValue} {this.item.currentQuantity.unit.name}(s)</p>
+                            <p>Added on: {this.item.createdDate}</p>
                         </Item.Description>
                         <Item.Extra>
                             <Button className="ui right floated primary">Edit</Button>

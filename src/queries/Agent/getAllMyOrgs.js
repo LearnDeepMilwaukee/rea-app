@@ -29,13 +29,13 @@ query ($token: String) {
 }
 `;
 
-export interface AllMyOrgsType {
-    id: number
-    note: string
-    image: string
-    name: string
-    type: string
-}
+// export interface AllMyOrgsType {
+//     id: number
+//     note: string
+//     image: string
+//     name: string
+//     type: string
+// }
 
 export default compose(
     // bind input data from the store

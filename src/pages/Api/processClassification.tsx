@@ -7,7 +7,6 @@
  */
 
 import * as React from "react";
-import "./api.css"
 import getAllProcessClassifications from "../../queries/ProcessClassification/getAllProcessClassifications";
 import getProcessClassificationById from "../../queries/ProcessClassification/getProcessClassificationById";
 

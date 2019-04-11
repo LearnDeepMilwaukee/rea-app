@@ -7,7 +7,6 @@
  */
 
 import * as React from "react";
-import "./api.css";
 import getAllAgentRelationships from "../../queries/AgentRelationship/getAllAgentRelationships";
 import getAgentRelationshipById from "../../queries/AgentRelationship/getAgentRelationshipById";
 

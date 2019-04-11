@@ -8,7 +8,6 @@
  */
 
 import * as React from "react";
-import "./api.css";
 import getMyAgent from "../../queries/Agent/getMyAgent";
 import getAllAgents from "../../queries/Agent/getAllAgents";
 import getAgentById from "../../queries/Agent/getAgentById";

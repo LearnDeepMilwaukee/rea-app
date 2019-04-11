@@ -7,7 +7,6 @@
  */
 
 import * as React from "react";
-import "./api.css"
 import getAllPeople from "../../queries/Person/getAllPeople";
 import getPersonById from "../../queries/Person/getPersonById";
 import { concatArray } from "./common";
