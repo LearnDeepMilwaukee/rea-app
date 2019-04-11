@@ -11,14 +11,33 @@ import getEconomicResourceById from "../../queries/EconomicResource/getEconomicR
 import {isNullOrUndefined} from "util"
 import {Item, Button, Loader} from 'semantic-ui-react'
 import {connect} from 'react-redux';
-
+import getMyAgent from "../../queries/Agent/getMyAgent"
 let default_image = require("../../resources/default_resource_img.jpg");
-let currentOrganizationId = undefined;
+let orgId = -1;
+let createItem;
+
+const AddItemButton = getMyAgent(({agent, loading, error}) => {
+    if (loading) {
+        return (
+            <Loader>Loading</Loader>
+        );
+    } else if (error) {
+        return (
+            <p style={{color: "#F00"}}>API error</p>
+        );
+    } else {
+        for (let i = 0; i < agent.agentRelationships.length; i++) {
+            if(agent.agentRelationships[i].object.id === orgId){
+                return (<Button className="ui right floated primary" onClick={createItem}>Add Item</Button>);
+            }
+
+        }
+        return <div/>
+    }
+
+});
 
 
-const createItem = () => {
-    console.log("create item")
-}
 /**
  * Gets an organizations data
  */
@@ -36,8 +55,8 @@ export const GetSingleOrganization = getOrganizationById(({organization, loading
         return (
             <div>
                 <h2 className="ui header">{organization.name} Inventory</h2>
-                {/*Update to check if you are apart of this org at all, not just if its your current org*/}
-                {(currentOrganizationId == organization.id) ? (<Button className="ui right floated primary" onClick={createItem}>Add Item</Button>) : <div/>}
+
+                <AddItemButton/>
 
 
                 <Item.Group divided>
@@ -97,9 +116,16 @@ export const EconomicResource = (props) => {
 };
 
 class OrganizationInventory extends React.Component {
+    componentDidMount() {
+        createItem = () => {
+            this.props.history.push("/CreateInventoryItem/"+orgId);
+            window.location.reload();
+        }
 
+    }
     render() {
-        currentOrganizationId = this.props.currentOrganizationId;
+        orgId = this.props.match.params.id;
+
         return (
             <div className="ui container">
                 <GetSingleOrganization organizationId={this.props.match.params.id}/>
@@ -109,11 +135,5 @@ class OrganizationInventory extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        currentOrganizationId: state.getUserInfo.currentOrgId,
-    };
-}
 
-export default connect(
-    mapStateToProps)(OrganizationInventory);
+export default OrganizationInventory;
