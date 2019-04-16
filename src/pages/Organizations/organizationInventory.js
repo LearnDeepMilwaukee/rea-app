@@ -55,6 +55,22 @@ const optionsSort = [
     { key: 'old', text: 'Date (Oldest)', value: 'oldest' }
 ];
 
+const getEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
+    if (loading) {
+        return(
+            <Loader>Loading</Loader>
+        );
+    } else if (error) {
+        return(
+            <p style={{color: "#F00"}}>API error</p>
+        );
+    } else {
+        return(
+            economicResource
+        );
+    }
+});
+
 class OrganizationInventory extends React.Component {
 
     constructor() {
@@ -76,21 +92,36 @@ class OrganizationInventory extends React.Component {
     };
 
     render() {
-        const GetSingleEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
-            if (loading) {
-                return(
-                    <Loader>Loading</Loader>
-                );
-            } else if (error) {
-                return(
-                    <p style={{color: "#F00"}}>API error</p>
-                );
-            } else {
-                return(
-                    <InventoryCard economicResource={economicResource} history={this.props.history}/>
-                );
-            }
-        });
+        // const GetSingleEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
+        //     if (loading) {
+        //         return(
+        //             <Loader>Loading</Loader>
+        //         );
+        //     } else if (error) {
+        //         return(
+        //             <p style={{color: "#F00"}}>API error</p>
+        //         );
+        //     } else {
+        //         return(
+        //             <InventoryCard economicResource={economicResource} history={this.props.history}/>
+        //         );
+        //     }
+        // });
+        //
+        // const getOrganization = getOrganizationById(({ organization, loading, error }) => {
+        //     if (loading) {
+        //         return (
+        //             <Loader>Loading</Loader>
+        //         );
+        //     } else if (error) {
+        //         return (
+        //             <p style={{color: "#F00"}}>API error</p>
+        //         );
+        //     } else {
+        //         let economicResourceList = organization;
+        //         return economicResourceList;
+        //     }
+        // });
 
         const OrgInventory = getOrganizationById(({ organization, loading, error }) => {
             if (loading) {
@@ -103,6 +134,16 @@ class OrganizationInventory extends React.Component {
                 );
             } else {
                 let economicResourceList = organization.ownedEconomicResources;
+                let filteredResources = [];
+                // FILTER INVENTORY BY SEARCH
+                for(let res of economicResourceList) {
+                    //TODO
+                    let resource = <getEconomicResource economicResourceId={res.id}/>;
+                    console.log(resource);
+                    // if ((this.state.nameFilter === null) || (this.state.nameFilter === "undefined") || resource.trackingIdentifier.includes(this.state.nameFilter)) {
+                    //     filteredResources.push(resource)
+                    // }
+                }
                 return(
                     <div>
                         <h2 className="ui header">{organization.name} Inventory</h2>
@@ -115,11 +156,11 @@ class OrganizationInventory extends React.Component {
                                 <Form.Button className="ui negative" color={'red'} onClick={this.handleReset}>Reset filters</Form.Button>
                             </Form.Group>
                         </Form>
-                        <Item.Group divided>
-                            {(economicResourceList.length ===0)? <p>Inventory Empty</p> :(economicResourceList.map( (economicResource) =>
-                                (<GetSingleEconomicResource economicResourceId={economicResource.id}/>)
-                            ))}
-                        </Item.Group>
+                        {/*<Item.Group divided>*/}
+                            {/*{(filteredResources.length ===0)? <p>Inventory Empty</p> :(filteredResources.map( (economicResource) =>*/}
+                                {/*(<GetSingleEconomicResource economicResourceId={economicResource.id}/>)*/}
+                            {/*))}*/}
+                        {/*</Item.Group>*/}
                     </div>
                 );
             }
