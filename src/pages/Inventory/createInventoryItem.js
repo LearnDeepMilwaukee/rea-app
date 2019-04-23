@@ -5,13 +5,12 @@ import {Form, Button, Grid, Header, Segment, Image, Label, Message} from 'semant
 import createEconomicEvent from "../../queries/EconomicEvent/CreateEconomicEvent";
 import getMyAgent from "../../queries/Agent/getMyAgent";
 import GetUnits from "../../queries/Unit/getAllUnits";
+import createResourceClassification from "../../queries/ResourceClassification/createResourceClassification";
 
-let stringSimilarity = require('string-similarity');
 
 let default_image = require("../../resources/default_resource_img.jpg");
 let units = "";
-let resourceClassificationId = -1;
-let unitId = -1;
+let unitExists = undefined;
 let mutationVars = [];
 
 const GetMyAgent = getMyAgent(({agent, loading, error}) => {
@@ -24,23 +23,18 @@ const GetMyAgent = getMyAgent(({agent, loading, error}) => {
     );
 });
 
-const UnitId = GetUnits(({unitList, loading, error}) => {
-    let currentCoefficient = 0.74;
+const UnitExist = GetUnits(({unitList, loading, error}) => {
+    console.log("calling");
     if (!loading && !error) {
-        console.log(units);
         for (let i = 0; i < unitList.length; i++) {
-            if (stringSimilarity.compareTwoStrings(units, unitList[i].name.toLowerCase()) > currentCoefficient) {
-                unitId = unitList[i].id;
-                currentCoefficient = stringSimilarity.compareTwoStrings(units, unitList[i].name.toLowerCase());
+            if (units.toLowerCase() === unitList[i].name.toLowerCase()) {
+                unitExists = true;
+                return <div/>;
             }
         }
-        if (unitId !== -1) {
-            console.log(unitId);
-        }
+        unitExists = false;
     }
-
     return <div/>;
-
 });
 
 
@@ -54,16 +48,53 @@ class CreateInventoryItem extends React.Component {
         units: "",
         userRan: false
     };
+
+
+
+
     createItem = () => {
-
+        let createdItem = false;
         console.log(mutationVars);
-        this.props.mutate({variables: mutationVars}).then((response) => {
-            return <Message visible content="The item has been created"/>;
-            // let economicEvent = response.data.createEconomicEvent.economicEvent;
+        while (!createdItem) {
+            //Case where the unit already exists in the backend
+            if(unitExists === true){
+                createdItem = true;
 
-        }).catch((error) => {
-            console.log(error);
-        });
+                this.props.createResourceClassification({variables: mutationVars}).then((response) => {
+                    mutationVars["affectedResourceClassifiedAsId"] = response.data.createResourceClassification.resourceClassification.id;
+                    this.props.createEconomicEvent({variables: mutationVars}).then((response) => {
+                        console.log("Created");
+                        return <Message visible content="The item has been created"/>;
+                        // let economicEvent = response.data.createEconomicEvent.economicEvent;
+
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                }).catch((error) => {
+                    console.log(error)
+                });
+            }
+
+            //Case where the unit doesn't exists in the backend
+            else if(unitExists === false){
+                createdItem = true;
+
+                this.props.createResourceClassification({variables: mutationVars}).then((response) => {
+                    mutationVars["affectedResourceClassifiedAsId"] = response.data.createResourceClassification.resourceClassification.id;
+                    this.props.createEconomicEvent({variables: mutationVars}).then((response) => {
+                        return <Message visible content="The item has been created"/>;
+                        // let economicEvent = response.data.createEconomicEvent.economicEvent;
+
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                }).catch((error) => {
+                    console.log(error)
+                });
+            }
+
+        }
+
     };
     handleSubmit = () => {
 
@@ -74,11 +105,13 @@ class CreateInventoryItem extends React.Component {
         mutationVars["resourceNote"] = this.state.notes;
         mutationVars["action"] = "produce";
         mutationVars["affectedNumericValue"] = this.state.quantity;
-        mutationVars["affectedResourceClassifiedAsId"] = 7;//Get Resource classification id from units from units name
         mutationVars["resourceTrackingIdentifier"] = this.state.name;
+        mutationVars["name"] = this.state.name;
         mutationVars["scopeId"] = this.state.orgId;
+        mutationVars["unit"] = this.state.units;
 
         this.setState({userRan: true});
+        this.createItem();
 
     };
     handleChange = (e, {name, value}) => {
@@ -168,7 +201,7 @@ class CreateInventoryItem extends React.Component {
                         </Form>
                     </Grid.Column>
                 </Grid>
-                {this.state.userRan ? <UnitId/> : <div/>}
+                {this.state.userRan ? <UnitExist/> : <div/>}
             </div>
         );
 
@@ -176,4 +209,4 @@ class CreateInventoryItem extends React.Component {
 }
 
 
-export default withRouter(createEconomicEvent(CreateInventoryItem));
+export default withRouter(createResourceClassification(createEconomicEvent(CreateInventoryItem)));
