@@ -22,7 +22,7 @@ export const mutation = gql`
     createOrganization (
       token: $token,
       type: $type,
-      name: $name
+      name: $name,
       image: $image,
       note: $note
     ) {
