@@ -5,31 +5,21 @@ import gql from "graphql-tag";
 
 export const mutation = gql`
   mutation(
-    $category: String,
+    $symbol: String,
     $name: String!,
-    $image: String,
-    $note: String,
-    $token: String!,
-    $unit: String!
+    $token: String! 
   ){
-    createResourceClassification (
-    category: $category,
+    createUnit (
+    
    name: $name,
-   image: $image,
-    note: $note,
     token: $token,
-    unit: $unit
+    symbol: $symbol
     ) {
-      resourceClassification {
-        id,
-        name,
-        note,
-        unit {
+      unit {
+        
             id,
             name
-        },
-        image,
-        category
+       
       }
     }
   }
@@ -49,5 +39,5 @@ export default compose(
      * The graphql function wraps the GraphQL mutation defined above
      * as an Apollo recognized mutation.
      */
-    graphql(mutation,{name:"createResourceClassification"})
+    graphql(mutation, {name: "createUnit"})
 );

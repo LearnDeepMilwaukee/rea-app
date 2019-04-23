@@ -6,12 +6,13 @@ import createEconomicEvent from "../../queries/EconomicEvent/CreateEconomicEvent
 import getMyAgent from "../../queries/Agent/getMyAgent";
 import GetUnits from "../../queries/Unit/getAllUnits";
 import createResourceClassification from "../../queries/ResourceClassification/createResourceClassification";
-
+import createUnit from "../../queries/Unit/createUnit";
 
 let default_image = require("../../resources/default_resource_img.jpg");
 let units = "";
-let unitExists = undefined;
 let mutationVars = [];
+let createItemUnitExists;
+let createItemUnitDoesNotExist;
 
 const GetMyAgent = getMyAgent(({agent, loading, error}) => {
 
@@ -23,18 +24,20 @@ const GetMyAgent = getMyAgent(({agent, loading, error}) => {
     );
 });
 
+
 const UnitExist = GetUnits(({unitList, loading, error}) => {
-    console.log("calling");
     if (!loading && !error) {
+        console.log(units);
         for (let i = 0; i < unitList.length; i++) {
+            console.log(unitList[i].name);
             if (units.toLowerCase() === unitList[i].name.toLowerCase()) {
-                unitExists = true;
-                return <div/>;
+                console.log("Exists");
+                return createItemUnitExists();
             }
         }
-        unitExists = false;
+        return createItemUnitDoesNotExist();
     }
-    return <div/>;
+    return <div/>
 });
 
 
@@ -49,53 +52,42 @@ class CreateInventoryItem extends React.Component {
         userRan: false
     };
 
+    componentDidMount() {
+        createItemUnitExists = this.createItemUnitExists;
+        createItemUnitDoesNotExist = this.createItemUnitDoesNotExist;
+    }
 
+    createItemUnitExists = () => {
+        this.props.createResourceClassification({variables: mutationVars}).then((response) => {
+            mutationVars["affectedResourceClassifiedAsId"] = response.data.createResourceClassification.resourceClassification.id;
+            this.props.createEconomicEvent({variables: mutationVars}).then((response) => {
+                console.log("Created");
+                return <Message visible content="The item has been created"/>;
 
-
-    createItem = () => {
-        let createdItem = false;
-        console.log(mutationVars);
-        while (!createdItem) {
-            //Case where the unit already exists in the backend
-            if(unitExists === true){
-                createdItem = true;
-
-                this.props.createResourceClassification({variables: mutationVars}).then((response) => {
-                    mutationVars["affectedResourceClassifiedAsId"] = response.data.createResourceClassification.resourceClassification.id;
-                    this.props.createEconomicEvent({variables: mutationVars}).then((response) => {
-                        console.log("Created");
-                        return <Message visible content="The item has been created"/>;
-                        // let economicEvent = response.data.createEconomicEvent.economicEvent;
-
-                    }).catch((error) => {
-                        console.log(error);
-                    });
-                }).catch((error) => {
-                    console.log(error)
-                });
-            }
-
-            //Case where the unit doesn't exists in the backend
-            else if(unitExists === false){
-                createdItem = true;
-
-                this.props.createResourceClassification({variables: mutationVars}).then((response) => {
-                    mutationVars["affectedResourceClassifiedAsId"] = response.data.createResourceClassification.resourceClassification.id;
-                    this.props.createEconomicEvent({variables: mutationVars}).then((response) => {
-                        return <Message visible content="The item has been created"/>;
-                        // let economicEvent = response.data.createEconomicEvent.economicEvent;
-
-                    }).catch((error) => {
-                        console.log(error);
-                    });
-                }).catch((error) => {
-                    console.log(error)
-                });
-            }
-
-        }
-
+            }).catch((error) => {
+                console.log(error);
+                return <Message error visible content="There was an error when creating the item"/>;
+            });
+        }).catch((error) => {
+            console.log(error);
+            return <Message error visible content="There was an error when creating the item"/>;
+        });
     };
+
+    createItemUnitDoesNotExist = () => {
+        let unitMutationVars = [];
+        unitMutationVars["name"] = this.state.units;
+        unitMutationVars["symbol"] = this.state.units;
+        console.log(unitMutationVars);
+        this.props.createUnit({variables: unitMutationVars}).then((response) => {
+            console.log(response);
+            this.createItemUnitExists();
+        }).catch((error) => {
+            console.log(error);
+            return <Message error visible content="There was an error when creating the item"/>;
+        });
+    };
+
     handleSubmit = () => {
 
         mutationVars["receiverId"] = this.state.orgId;
@@ -111,7 +103,6 @@ class CreateInventoryItem extends React.Component {
         mutationVars["unit"] = this.state.units;
 
         this.setState({userRan: true});
-        this.createItem();
 
     };
     handleChange = (e, {name, value}) => {
@@ -137,6 +128,8 @@ class CreateInventoryItem extends React.Component {
 
         return (
             <div className='createItem'>
+                {this.state.userRan ? <UnitExist/> : <div/>}
+
                 <style>{`
                 body > div,
                 body > div > div,
@@ -201,7 +194,6 @@ class CreateInventoryItem extends React.Component {
                         </Form>
                     </Grid.Column>
                 </Grid>
-                {this.state.userRan ? <UnitExist/> : <div/>}
             </div>
         );
 
@@ -209,4 +201,4 @@ class CreateInventoryItem extends React.Component {
 }
 
 
-export default withRouter(createResourceClassification(createEconomicEvent(CreateInventoryItem)));
+export default withRouter(createUnit(createResourceClassification(createEconomicEvent(CreateInventoryItem))));
