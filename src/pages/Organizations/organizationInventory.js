@@ -13,6 +13,13 @@ import {Item, Button, Loader, Form} from 'semantic-ui-react'
 import {withRouter} from "react-router-dom";
 
 let default_image = require("../../resources/default_resource_img.jpg");
+let currentItem = {
+    image: undefined,
+    trackingIdentifier:  undefined,
+    note: undefined,
+    currentQuantity: undefined,
+    createdDate: undefined
+};
 
 /**
  * Formats economicresource data
@@ -56,6 +63,7 @@ const optionsSort = [
 ];
 
 const getEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
+    let retVal;
     if (loading) {
         return(
             <Loader>Loading</Loader>
@@ -65,8 +73,14 @@ const getEconomicResource = getEconomicResourceById(({ economicResource, loading
             <p style={{color: "#F00"}}>API error</p>
         );
     } else {
+        currentItem.image = economicResource.image;
+        currentItem.note = economicResource.note;
+        currentItem.currentQuantity = economicResource.currentQuantity;
+        currentItem.trackingIdentifier = economicResource.trackingIdentifier;
+        currentItem.createdDate = economicResource.createdDate;
         return(
-            economicResource
+            <div/>
+            //economicResource
         );
     }
 });
@@ -139,7 +153,7 @@ class OrganizationInventory extends React.Component {
                 for(let res of economicResourceList) {
                     //TODO
                     let resource = <getEconomicResource economicResourceId={res.id}/>;
-                    console.log(resource);
+                    console.log(currentItem);
                     // if ((this.state.nameFilter === null) || (this.state.nameFilter === "undefined") || resource.trackingIdentifier.includes(this.state.nameFilter)) {
                     //     filteredResources.push(resource)
                     // }
