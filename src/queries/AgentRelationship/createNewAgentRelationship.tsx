@@ -11,19 +11,19 @@ import gql from "graphql-tag";
 import { agentRelationshipInterface } from "./agentRelationshipInterface";
 
 export const mutation = gql`
- mutation(
-  $note:String,
-  $subjectId: Int!,
+mutation(
+  $objectId: Int!,
   $relationshipId: Int!,
   $token: String!,
-  $objectId: Int!
+  $subjectId: Int!,
+  $note: String
 ){
   createAgentRelationship(
-    note: $note,
-    subjectId: $subjectId,
+    objectId: $objectId,
     relationshipId: $relationshipId,
     token: $token,
-    objectId: $objectId
+    subjectId: $subjectId
+    note: $note
   ){
     agentRelationship{
         ...agentRelationshipInterface

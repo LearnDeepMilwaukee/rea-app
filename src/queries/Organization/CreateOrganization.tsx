@@ -38,5 +38,5 @@ export default compose(
   connect(state => ({
     token: state.getUserInfo.currentUserToken
   })),
-  graphql(mutation)
+  graphql(mutation,{name:"createOrgMutation"})
 );
