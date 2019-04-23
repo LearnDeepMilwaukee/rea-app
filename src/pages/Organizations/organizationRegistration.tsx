@@ -6,10 +6,27 @@ import * as React from "react";
 import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration";
 import * as Modal from "react-modal";
-
+import createAgentRelationship from "../../queries/AgentRelationship/createNewAgentRelationship";
 import {Link} from "react-router-dom";
 import createOrganization from "../../queries/Organization/CreateOrganization";
+import getMyAgent from "../../queries/Agent/getMyAgent";
+
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
+
+var myAgentId = ""; //Global variable that holds value returned from GetMyAgent
+
+//Global query that returns id of current user logged in else returns undefined
+export const GetMyAgent = getMyAgent(({ agent, loading, error}) => {
+
+    if (loading) {
+        myAgentId = undefined;
+    } else if (error) {
+        myAgentId = undefined;
+    } else {
+        myAgentId = agent.id;
+    }
+    return (<span></span>);
+});
 
 class Registration extends React.Component {
   constructor() {
@@ -27,7 +44,50 @@ class Registration extends React.Component {
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.autoRelateAgent = this.autoRelateAgent.bind(this);
   }
+
+    //Method that creates relationship between the org just created and user signed in
+    autoRelateAgent() {
+        // let parts = {
+        //     note: this.state.description, // Gives context to relationship,
+        //     subjectId: parseInt(myAgentId),
+        //     relationshipId: parseInt(myAgentId.toString() + this.state.newOrganizationID.toString()),
+        //     token: this.props.token,
+        //     objectId: parseInt(this.state.newOrganizationID)
+        // }
+
+        let parts = {
+            note: this.state.description, // Gives context to relationship,
+            subjectId: parseInt(myAgentId),
+            relationshipId: 1287868123,
+            token: this.props.token,
+            objectId: parseInt(this.state.newOrganizationID)
+        }
+        let requiredFieldsValid = parts.subjectId != undefined
+            && parts.relationshipId != undefined
+            && parts.objectId != undefined;
+        console.log(parts);
+        console.log(typeof parts.subjectId);
+
+        if (!requiredFieldsValid) {//Making sure the required fields are not undefined
+            alert("Error occurred on necessary value for auto relating agents was undefiend and cannot be!");
+        } else {
+            //Calling the mutation
+            this.props.createAgentRelationship({parts}).then((response) => {        // perform the mutation
+                alert("made it");
+                let agentRelationshipValue = response.data;
+                console.log(agentRelationshipValue);
+
+                // let agentRelationshipValue = response.data.createOrganization.organization.id;
+                // if (agentRelationshipValue) {
+                //     alert("A relationship between your account and the newly created org. has been made!");
+                // }
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+    }
 
   openModal() {
     this.setState({modalIsOpen: true});
@@ -70,6 +130,8 @@ class Registration extends React.Component {
           console.log(newOrganization);
           this.setState({newOrganizationID: newOrganization,});
           this.openModal();
+          this.autoRelateAgent();
+
         }
       }).catch((error) => {
         console.log(error);
@@ -120,7 +182,7 @@ class Registration extends React.Component {
           />
           <br/>
           <p {...currentTheme(3, "required")}>*required</p>
-
+          <GetMyAgent/>
           <br/>
             <a href="/" {...currentTheme(18, "cancel")} id="cancelButton"> Cancel </a>
           <input {...currentTheme(17, "submit")}
@@ -354,5 +416,5 @@ class OrganizationDescriptionField extends React.Component {
   }
 }
 
-export default createOrganization(Registration);
+export default createAgentRelationship(createOrganization(Registration));
 
