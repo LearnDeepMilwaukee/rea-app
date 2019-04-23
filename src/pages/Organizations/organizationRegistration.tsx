@@ -49,18 +49,10 @@ class Registration extends React.Component {
 
     //Method that creates relationship between the org just created and user signed in
     autoRelateAgent() {
-        // let parts = {
-        //     note: this.state.description, // Gives context to relationship,
-        //     subjectId: parseInt(myAgentId),
-        //     relationshipId: parseInt(myAgentId.toString() + this.state.newOrganizationID.toString()),
-        //     token: this.props.token,
-        //     objectId: parseInt(this.state.newOrganizationID)
-        // }
-
         let parts = {
             note: this.state.description, // Gives context to relationship,
             subjectId: parseInt(myAgentId),
-            relationshipId: 1287868123,
+            relationshipId: parseInt(myAgentId.toString() + this.state.newOrganizationID.toString()),
             token: this.props.token,
             objectId: parseInt(this.state.newOrganizationID)
         }
