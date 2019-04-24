@@ -14,16 +14,15 @@ import getMyAgent from "../../queries/Agent/getMyAgent";
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
 import {isNullOrUndefined} from "util";
 
-var myAgentId = -1; //Global variable that holds value returned from GetMyAgent
-var parts = {}
+var myAgentId = -2; //Global variable that holds value returned from GetMyAgent
+// var variables = {}
 
 //Global query that returns id of current user logged in else returns -1
 export const GetMyAgent = getMyAgent(({ agent, loading, error}) => {
-
     if (loading) {
-        myAgentId = -1;
+        myAgentId = -3;
     } else if (error) {
-        myAgentId = -1;
+        myAgentId = -4;
     } else {
         myAgentId = agent.id;
     }
@@ -58,10 +57,17 @@ class Registration extends React.Component {
         //     note: this.state.name // Gives context to relationship,
         //
         // };
-        parts.objectId= 20;
-        parts.relationshipId= 1453646;
-        parts.subjectId= 14;
-        parts.note="Test";
+        let variables = {
+          objectId: 0,
+          subjectId: 0,
+          relationshipId: 0,
+          note: ""
+        }
+
+        variables.objectId= parseInt(this.state.newOrganizationID);
+        variables.subjectId= parseInt(myAgentId);
+        variables.relationshipId= parseInt(String(variables.objectId)+String(variables.subjectId));
+        variables.note= this.state.name;
         // let requiredFieldsValid = parts.subjectId != undefined
         //     && parts.relationshipId != undefined
         //     && parts.note != undefined
@@ -72,23 +78,21 @@ class Registration extends React.Component {
         //     alert("Error occurred on necessary value for auto relating agents was undefiend and cannot be!");
         // } else {
             //Calling the mutation
-            console.log(parts);
+            //console.log(parts);
             // console.log(typeof parts.subjectId);
             // console.log(typeof parts.objectId);
             // console.log(typeof parts.relationshipId);
             // console.log(typeof parts.note);
-
-            this.props.mutate({parts}).then((response) => {        // perform the mutation
+            console.log(variables);
+            this.props.createAgentRelationship({variables}).then((response) => {        // perform the mutation
                 alert("made it");
-                let agentRelationshipValue = response.data;
+                let agentRelationshipValue = response;
                 console.log(agentRelationshipValue);
-
                 // let agentRelationshipValue = response.data.createOrganization.organization.id;
                 // if (agentRelationshipValue) {
                 //     alert("A relationship between your account and the newly created org. has been made!");
                 // }
             }).catch((error) => {
-              console.log(parts);
                 console.log(error);
             });
         // }
@@ -108,56 +112,58 @@ class Registration extends React.Component {
       this.state.name !== undefined
       && this.state.type !== undefined;
 
-    console.log("name: " + this.state.name + "\n" +
-      "type: " + this.state.type + "\n" +
-      "logo: " + this.state.logo + "\n" +
-      "banner: " + this.state.banner + "\n" +
-      "description: " + this.state.description + "\n\n" +
-      "valid?  " + requiredFieldsValid);
+    // console.log("name: " + this.state.name + "\n" +
+    //   "type: " + this.state.type + "\n" +
+    //   "logo: " + this.state.logo + "\n" +
+    //   "banner: " + this.state.banner + "\n" +
+    //   "description: " + this.state.description + "\n\n" +
+    //   "valid?  " + requiredFieldsValid);
 
     if (!requiredFieldsValid) {
       alert("Please enter valid data into all required fields!");
     } else {
-      // let variables = {
-      //   name: this.state.name,
-      //   type: this.state.type,
-      //   image: this.state.logo,
-      //   note: this.state.description
-      //   // primaryLocationId: TODO
-      //   // TODO add banner field
-      // };
+      let variables = {
+        name: this.state.name,
+        type: this.state.type,
+        image: this.state.logo,
+        note: this.state.description
+        // primaryLocationId: TODO
+        // TODO add banner field
+      };
       // variables.token = this.props.token; // add the token in afterwards
-      this.autoRelateAgent()
+      // this.autoRelateAgent()
       // perform the mutation
-      // this.props.createOrgMutation({variables}).then((response) => {
-      //   let newOrganization = response.data.createOrganization.organization.id;
-      //   if (newOrganization) {
-      //     console.log(newOrganization);
-      //     this.openModal();
-      //     this.setState({newOrganizationID: newOrganization,});
-      //       let parts = {
-      //           note: this.state.description, // Gives context to relationship,
-      //           subjectId: parseInt(myAgentId),
-      //           relationshipId: parseInt(myAgentId.toString() + newOrganization.toString()),
-      //           objectId: parseInt(newOrganization)
-      //       }
-      //       this.props.createAgentRelationship({parts}).then((response) => {        // perform the mutation
-      //           alert("made it");
-      //           let agentRelationshipValue = response.data;
-      //           console.log(agentRelationshipValue);
-      //
-      //           let agentRelationshipValue = response.data.createOrganization.organization.id;
-      //           if (agentRelationshipValue) {
-      //               alert("A relationship between your account and the newly created org. has been made!");
-      //           }
-      //       }).catch((error) => {
-      //           console.log(parts);
-      //           console.log(error);
-      //       });
-        // }
-      // }).catch((error) => {
-      //   console.log(error);
-      // });
+      this.props.createOrgMutation({variables}).then((response) => {
+        let newOrganization = response.data.createOrganization.organization.id;
+        if (newOrganization) {
+          console.log(newOrganization);
+          this.openModal();
+          this.setState({newOrganizationID: newOrganization,});
+            var parts = {
+                note: "", // Gives context to relationship,
+                subjectId: 0,
+                relationshipId: 0,
+                objectId: 0
+            }
+            parts.objectId= parseInt(this.state.newOrganizationID);
+            parts.subjectId= parseInt(myAgentId);
+            parts.relationshipId= parseInt(String(parts.objectId)+String(parts.subjectId));
+            parts.note= this.state.name;
+            this.props.createAgentRelationship({parts}).then((response) => {        // perform the mutation
+                alert("made it");
+
+                let agentRelationshipValue = response.data.createOrganization.organization.id;
+                if (agentRelationshipValue) {
+                  alert("A relationship between your account and the newly created org. has been made!");
+                }
+            }).catch((error) => {
+                console.log(parts);
+                console.log(error);
+            });
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
     }
   };
 
@@ -438,5 +444,5 @@ class OrganizationDescriptionField extends React.Component {
   }
 }
 
-export default createAgentRelationship(Registration);
+export default createOrganization(createAgentRelationship(Registration));
 
