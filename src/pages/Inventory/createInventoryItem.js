@@ -13,7 +13,7 @@ let units = "";
 let mutationVars = [];
 let createItemUnitExists;
 let createItemUnitDoesNotExist;
-
+let running = false;
 const GetMyAgent = getMyAgent(({agent, loading, error}) => {
 
     if (!loading && !error) {
@@ -26,17 +26,16 @@ const GetMyAgent = getMyAgent(({agent, loading, error}) => {
 
 
 const UnitExist = GetUnits(({unitList, loading, error}) => {
+    running = true;
     if (!loading && !error) {
-        console.log(units);
         for (let i = 0; i < unitList.length; i++) {
-            console.log(unitList[i].name);
             if (units.toLowerCase() === unitList[i].name.toLowerCase()) {
-                console.log("Exists");
-                return createItemUnitExists();
+                return <div>{createItemUnitExists()}</div>
             }
         }
-        return createItemUnitDoesNotExist();
+        return <div>{createItemUnitDoesNotExist()}</div>;
     }
+
     return <div/>
 });
 
@@ -49,7 +48,10 @@ class CreateInventoryItem extends React.Component {
         notes: "",
         quantity: "",
         units: "",
-        userRan: false
+        userRan: false,
+        messageToDisplay: "",
+        error: false,
+        success: false
     };
 
     componentDidMount() {
@@ -60,17 +62,33 @@ class CreateInventoryItem extends React.Component {
     createItemUnitExists = () => {
         this.props.createResourceClassification({variables: mutationVars}).then((response) => {
             mutationVars["affectedResourceClassifiedAsId"] = response.data.createResourceClassification.resourceClassification.id;
-            this.props.createEconomicEvent({variables: mutationVars}).then((response) => {
-                console.log("Created");
-                return <Message visible content="The item has been created"/>;
+            this.props.createEconomicEvent({variables: mutationVars}).then(() => {
+                running = false;
+                mutationVars = [];
+                this.setState({
+                    image: default_image,
+                    name: "",
+                    notes: "",
+                    quantity: "",
+                    units: "",
+                    userRan: false,
+                    success: true,
+                    messageToDisplay: "The item has been created!"
+                });
+                return <div/>;
 
             }).catch((error) => {
+                running = false;
                 console.log(error);
-                return <Message error visible content="There was an error when creating the item"/>;
+                this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
+                return <div/>;
             });
         }).catch((error) => {
+            running = false;
             console.log(error);
-            return <Message error visible content="There was an error when creating the item"/>;
+            this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
+
+            return <div/>;
         });
     };
 
@@ -78,13 +96,14 @@ class CreateInventoryItem extends React.Component {
         let unitMutationVars = [];
         unitMutationVars["name"] = this.state.units;
         unitMutationVars["symbol"] = this.state.units;
-        console.log(unitMutationVars);
-        this.props.createUnit({variables: unitMutationVars}).then((response) => {
-            console.log(response);
+        this.props.createUnit({variables: unitMutationVars}).then(() => {
             this.createItemUnitExists();
         }).catch((error) => {
+            running = false;
             console.log(error);
-            return <Message error visible content="There was an error when creating the item"/>;
+            this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
+
+            return <div/>;
         });
     };
 
@@ -110,6 +129,12 @@ class CreateInventoryItem extends React.Component {
         if (name === "units") {
             units = value;
         }
+        if (this.state.success) {
+            this.setState({success: false})
+        }
+        if (this.state.error) {
+            this.setState({error: false})
+        }
     };
 
     onImageSelected = (event) => {
@@ -117,10 +142,11 @@ class CreateInventoryItem extends React.Component {
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-            this.setState({image: reader.result});
+            this.setState({image: reader.result, error: false});
         };
         reader.onerror = (error) => {
-            console.log("Error", error);
+            this.setState({error: true, messageToDisplay: "There was an error when processing the image"});
+            console.log(error);
         };
     };
 
@@ -128,7 +154,6 @@ class CreateInventoryItem extends React.Component {
 
         return (
             <div className='createItem'>
-                {this.state.userRan ? <UnitExist/> : <div/>}
 
                 <style>{`
                 body > div,
@@ -137,11 +162,13 @@ class CreateInventoryItem extends React.Component {
                     height: 100%;
                 }
             `}
-                    (currentAgentId === -1 ? <GetMyAgent/> :
-                    <div/>
-                    )
+                    {mutationVars["providerId"] === undefined ? <GetMyAgent/> :
+                        <div/>
+                    }
+
 
                 </style>
+                {this.state.userRan && !running ? <UnitExist/> : <div/>}
                 <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
                     <Grid.Column style={{maxWidth: 450}}>
                         <Header as='h2' textAlign='center'>
@@ -150,7 +177,7 @@ class CreateInventoryItem extends React.Component {
                         <Form size='large' onSubmit={this.handleSubmit}>
                             <Segment stacked>
                                 <Form.Field>
-                                    <Form.Input fluid placeholder='Tracking Identifier' name='name'
+                                    <Form.Input fluid placeholder='Name' name='name'
                                                 value={this.state.name}
                                                 onChange={this.handleChange}/>
                                 </Form.Field>
@@ -192,6 +219,11 @@ class CreateInventoryItem extends React.Component {
                                 <Button color='blue' fluid type='submit' size='large'>Create</Button>
                             </Segment>
                         </Form>
+
+                        {this.state.error ? <Message color="red" error visible content={this.state.messageToDisplay}/> :
+                            <div/>}
+                        {this.state.success ? <Message color="green" visible content={this.state.messageToDisplay}/> :
+                            <div/>}
                     </Grid.Column>
                 </Grid>
             </div>
