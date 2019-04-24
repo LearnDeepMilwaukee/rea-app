@@ -13,13 +13,20 @@ import {Item, Button, Loader, Form} from 'semantic-ui-react'
 import {withRouter} from "react-router-dom";
 
 let default_image = require("../../resources/default_resource_img.jpg");
-let currentItem = {
-    image: undefined,
-    trackingIdentifier:  undefined,
-    note: undefined,
-    currentQuantity: undefined,
-    createdDate: undefined
+
+const optionsSort = [
+    { key: 'alp', text: 'Alphabetical (A-Z)', value: 'alphabetical' },
+    { key: 'alprev', text: 'Alphabetical (Z-A)', value: 'alphabeticalreverse' },
+    { key: 'new', text: 'Date (Newest)', value: 'newest' },
+    { key: 'old', text: 'Date (Oldest)', value: 'oldest' }
+];
+
+let inventoryParams = {
+    nameFilter: "",
+    sort: optionsSort[1]
 };
+
+let items = [];
 
 /**
  * Formats economicresource data
@@ -55,14 +62,7 @@ class InventoryCard extends React.Component {
     }
 }
 
-const optionsSort = [
-    { key: 'alp', text: 'Alphabetical (A-Z)', value: 'alphabetical' },
-    { key: 'alprev', text: 'Alphabetical (Z-A)', value: 'alphabeticalreverse' },
-    { key: 'new', text: 'Date (Newest)', value: 'newest' },
-    { key: 'old', text: 'Date (Oldest)', value: 'oldest' }
-];
-
-const getEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
+const GetEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
     let retVal;
     if (loading) {
         return(
@@ -73,13 +73,14 @@ const getEconomicResource = getEconomicResourceById(({ economicResource, loading
             <p style={{color: "#F00"}}>API error</p>
         );
     } else {
-        currentItem.image = economicResource.image;
-        currentItem.note = economicResource.note;
-        currentItem.currentQuantity = economicResource.currentQuantity;
-        currentItem.trackingIdentifier = economicResource.trackingIdentifier;
-        currentItem.createdDate = economicResource.createdDate;
+        // currentItem.image = economicResource.image;
+        // currentItem.note = economicResource.note;
+        // currentItem.currentQuantity = economicResource.currentQuantity;
+        // currentItem.trackingIdentifier = economicResource.trackingIdentifier;
+        // currentItem.createdDate = economicResource.createdDate;
+        items.push(economicResource);
         return(
-            <div/>
+            //<p>{economicResource.trackingIdentifier}</p>
             //economicResource
         );
     }
@@ -106,36 +107,7 @@ class OrganizationInventory extends React.Component {
     };
 
     render() {
-        // const GetSingleEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
-        //     if (loading) {
-        //         return(
-        //             <Loader>Loading</Loader>
-        //         );
-        //     } else if (error) {
-        //         return(
-        //             <p style={{color: "#F00"}}>API error</p>
-        //         );
-        //     } else {
-        //         return(
-        //             <InventoryCard economicResource={economicResource} history={this.props.history}/>
-        //         );
-        //     }
-        // });
-        //
-        // const getOrganization = getOrganizationById(({ organization, loading, error }) => {
-        //     if (loading) {
-        //         return (
-        //             <Loader>Loading</Loader>
-        //         );
-        //     } else if (error) {
-        //         return (
-        //             <p style={{color: "#F00"}}>API error</p>
-        //         );
-        //     } else {
-        //         let economicResourceList = organization;
-        //         return economicResourceList;
-        //     }
-        // });
+        console.log(inventoryParams);
 
         const OrgInventory = getOrganizationById(({ organization, loading, error }) => {
             if (loading) {
@@ -152,12 +124,13 @@ class OrganizationInventory extends React.Component {
                 // FILTER INVENTORY BY SEARCH
                 for(let res of economicResourceList) {
                     //TODO
-                    let resource = <getEconomicResource economicResourceId={res.id}/>;
-                    console.log(currentItem);
+                    filteredResources.push(<GetEconomicResource economicResourceId={res.id}/>);
                     // if ((this.state.nameFilter === null) || (this.state.nameFilter === "undefined") || resource.trackingIdentifier.includes(this.state.nameFilter)) {
                     //     filteredResources.push(resource)
                     // }
+
                 }
+
                 return(
                     <div>
                         <h2 className="ui header">{organization.name} Inventory</h2>
