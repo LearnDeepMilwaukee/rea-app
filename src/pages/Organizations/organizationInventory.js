@@ -21,12 +21,6 @@ const optionsSort = [
     { key: 'old', text: 'Date (Oldest)', value: 'oldest' }
 ];
 
-let inventoryParams = {
-    nameFilter: "",
-    sort: optionsSort[1]
-};
-
-let items = [];
 
 /**
  * Formats economicresource data
@@ -40,6 +34,8 @@ class InventoryCard extends React.Component {
     }
 
     render() {
+
+
         return (
             <Item classname={""}>
                 <Item.Image className={"ui small rounded image"}
@@ -62,8 +58,7 @@ class InventoryCard extends React.Component {
     }
 }
 
-const GetEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
-    let retVal;
+const GetEconomicResource = getEconomicResourceById(({ economicResource, loading, error}) => {
     if (loading) {
         return(
             <Loader>Loading</Loader>
@@ -73,15 +68,9 @@ const GetEconomicResource = getEconomicResourceById(({ economicResource, loading
             <p style={{color: "#F00"}}>API error</p>
         );
     } else {
-        // currentItem.image = economicResource.image;
-        // currentItem.note = economicResource.note;
-        // currentItem.currentQuantity = economicResource.currentQuantity;
-        // currentItem.trackingIdentifier = economicResource.trackingIdentifier;
-        // currentItem.createdDate = economicResource.createdDate;
-        items.push(economicResource);
+
         return(
-            //<p>{economicResource.trackingIdentifier}</p>
-            //economicResource
+            <InventoryCard economicResource={economicResource}/>
         );
     }
 });
@@ -107,8 +96,6 @@ class OrganizationInventory extends React.Component {
     };
 
     render() {
-        console.log(inventoryParams);
-
         const OrgInventory = getOrganizationById(({ organization, loading, error }) => {
             if (loading) {
                 return(
@@ -121,14 +108,8 @@ class OrganizationInventory extends React.Component {
             } else {
                 let economicResourceList = organization.ownedEconomicResources;
                 let filteredResources = [];
-                // FILTER INVENTORY BY SEARCH
                 for(let res of economicResourceList) {
-                    //TODO
                     filteredResources.push(<GetEconomicResource economicResourceId={res.id}/>);
-                    // if ((this.state.nameFilter === null) || (this.state.nameFilter === "undefined") || resource.trackingIdentifier.includes(this.state.nameFilter)) {
-                    //     filteredResources.push(resource)
-                    // }
-
                 }
 
                 return(
@@ -143,11 +124,10 @@ class OrganizationInventory extends React.Component {
                                 <Form.Button className="ui negative" color={'red'} onClick={this.handleReset}>Reset filters</Form.Button>
                             </Form.Group>
                         </Form>
-                        {/*<Item.Group divided>*/}
-                            {/*{(filteredResources.length ===0)? <p>Inventory Empty</p> :(filteredResources.map( (economicResource) =>*/}
-                                {/*(<GetSingleEconomicResource economicResourceId={economicResource.id}/>)*/}
-                            {/*))}*/}
-                        {/*</Item.Group>*/}
+                        <Item.Group divided>
+                            {filteredResources}
+                            {console.log(filteredResources[0])}
+                        </Item.Group>
                     </div>
                 );
             }
