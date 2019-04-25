@@ -196,8 +196,7 @@ class BasePage extends React.Component {
                     </Form.Group>
                 </Form>
                 <div className={"ui container"}>
-                    <OrgList
-                        token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5vciIsImlhdCI6MTU1MTg0ODI3MSwicGFzc3dvcmQiOiI3YzA4ODliOWU5ZmNjYzAxZDIzMDcwNzljNDk5OTcyNDFlNTZlNzU0IiwiaWQiOjZ9.unIuk6g8HcmyIuF1sONrLAiftApTlcuqMWWLO6DtqUQ"/>
+                    <OrgList/>
                 </div>
             </div>
         )

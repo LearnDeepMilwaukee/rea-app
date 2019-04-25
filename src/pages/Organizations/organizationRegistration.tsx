@@ -5,9 +5,8 @@
 import * as React from "react";
 import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration";
-import * as Modal from "react-modal";
+import {withRouter} from 'react-router-dom';
 
-import {Link} from "react-router-dom";
 import createOrganization from "../../queries/Organization/CreateOrganization";
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
 
@@ -20,22 +19,11 @@ class Registration extends React.Component {
       type: "For-profit Company", // Required
       logo: undefined,
       banner: undefined, // TODO:  Not yet used because of missing backend implementation
-      description: undefined,
-      newOrganizationID: undefined,
-      modalIsOpen: false
+      description: undefined
     };
 
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
   }
 
-  openModal() {
-    this.setState({modalIsOpen: true});
-  }
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
-  }
 
   getRegistrationJSON = (event) => {
     event.preventDefault();
@@ -61,15 +49,14 @@ class Registration extends React.Component {
         // primaryLocationId: TODO
         // TODO add banner field
       };
-      variables.token = this.props.token; // add the token in afterwards
 
       // perform the mutation
       this.props.mutate({variables}).then((response) => {
         let newOrganization = response.data.createOrganization.organization.id;
         if (newOrganization) {
           console.log(newOrganization);
-          this.setState({newOrganizationID: newOrganization,});
-          this.openModal();
+            this.props.history.push("/");
+            window.location.reload();
         }
       }).catch((error) => {
         console.log(error);
@@ -84,16 +71,6 @@ class Registration extends React.Component {
       <div id="baseElement"
            {...currentTheme(0, "registrationPage")}
       >
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          {...currentTheme(1, "popup")}
-        >
-          <Link
-            to={"/projects/" + this.state.newOrganizationID}
-          >Take me there!
-          </Link>
-        </Modal>
         <h1>Register a new organization</h1>
         <form
           id="form"
@@ -354,5 +331,5 @@ class OrganizationDescriptionField extends React.Component {
   }
 }
 
-export default createOrganization(Registration);
+export default withRouter(createOrganization(Registration));
 
