@@ -3,6 +3,5 @@
  */
 export const initialUserState = {
     currentOrgId: -1,
-    currentUserToken: "N/A",
-    currentUserId: -1
+    currentUserToken: "N/A"
 };
