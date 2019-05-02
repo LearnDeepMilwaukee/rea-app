@@ -147,11 +147,9 @@ class NavMenu extends Component {
     constructor(props) {
         super(props);
         this.state = ({currentUserActions: this.props.currentUserActions});
-        console.log(this.props.currentUserActions);
     }
 
     logout = () => {
-        console.log(this.state);
         this.state.currentUserActions.setCurrentUserToken("N/A");
     };
 
@@ -165,7 +163,7 @@ class NavMenu extends Component {
                     <Input className='icon' icon='search' placeholder='Searching is disabled' disabled/>
                 </Menu.Item>
                 <MyAgent/>
-                <Menu.Item onClick={this.logout}>
+                <Menu.Item onClick={this.logout} className="text">
                     Log Out
                 </Menu.Item>
             </Menu>
