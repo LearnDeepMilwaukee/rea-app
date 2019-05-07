@@ -151,14 +151,6 @@ export const EconomicResource = (props) => {
 
 class OrganizationInventory extends React.Component {
     componentDidMount() {
-        // createItem = () => {
-        //     this.props.history.push("/CreateInventoryItem/"+orgId);
-        //     window.location.reload();
-        // };
-        //
-        // editItem = (resId) => {
-        //     this.props.history.push("/OrgInventory/"+orgId+"/Edit/"+resId);
-        // };
         history = this.props.history
     }
 

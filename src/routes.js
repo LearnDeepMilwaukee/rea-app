@@ -23,7 +23,7 @@ import EconomicEvent from './pages/Api/EconomicEvent'
 import CreateEconomicEvent from './pages/Api/CreateEconomicEvent'
 import AgentRelationshipRoles from './pages/Api/AgentRelationshipRole'
 import CreateInventoryItem from './pages/Inventory/createInventoryItem'
-import EditInventoryItem from './pages/Inventory/editInventoryItem'
+import EditInventoryItem from './pages/Inventory/EditInventoryItem'
 
 class Routes extends Component {
     render() {
