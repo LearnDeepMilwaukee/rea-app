@@ -9,20 +9,24 @@ import * as Modal from "react-modal";
 import createAgentRelationship from "../../queries/AgentRelationship/createNewAgentRelationship";
 import {Link} from "react-router-dom";
 import createOrganization from "../../queries/Organization/CreateOrganization";
-import getMyAgent from "../../queries/Agent/getMyAgent";
-
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
 import {isNullOrUndefined} from "util";
 
-var myAgentId = -2; //Global variable that holds value returned from GetMyAgent
-// var variables = {}
+ import getMyAgent from "../../queries/Agent/getMyAgent";
+var parts = {
+    note: "Test", // Gives context to relationship,
+    subjectId: 14,
+    objectId: 20,
+    relationshipId: 2
+}
 
+var myAgentId = 0; //Global variable that holds value returned from GetMyAgent
 //Global query that returns id of current user logged in else returns -1
 export const GetMyAgent = getMyAgent(({ agent, loading, error}) => {
     if (loading) {
-        myAgentId = -3;
+        myAgentId = -1;
     } else if (error) {
-        myAgentId = -4;
+        myAgentId = -1;
     } else {
         myAgentId = agent.id;
     }
@@ -30,349 +34,295 @@ export const GetMyAgent = getMyAgent(({ agent, loading, error}) => {
 });
 
 class Registration extends React.Component {
-  constructor() {
-    super();
+    constructor() {
+        super();
 
-    this.state = {
-      name: undefined, // Required
-      type: "For-profit Company", // Required
-      logo: undefined,
-      banner: undefined, // TODO:  Not yet used because of missing backend implementation
-      description: undefined,
-      newOrganizationID: undefined,
-      modalIsOpen: false
-    };
+        this.state = {
+            name: undefined, // Required
+            type: "For-profit Company", // Required
+            logo: undefined,
+            banner: undefined, // TODO:  Not yet used because of missing backend implementation
+            description: undefined,
+            newOrganizationID: undefined,
+            modalIsOpen: false
+        };
 
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.autoRelateAgent = this.autoRelateAgent.bind(this);
-  }
-
-    //Method that creates relationship between the org just created and user signed in
-    autoRelateAgent() {
-        // let parts = {
-        //     objectId: 20,
-        //     relationshipId: 14123456,
-        //     subjectId: isNullOrUndefined(parseInt(myAgentId))? parseInt(myAgentId):14,
-        //     note: this.state.name // Gives context to relationship,
-        //
-        // };
-        let variables = {
-          objectId: 0,
-          subjectId: 0,
-          relationshipId: 0,
-          note: ""
-        }
-
-        variables.objectId= parseInt(this.state.newOrganizationID);
-        variables.subjectId= parseInt(myAgentId);
-        variables.relationshipId= parseInt(String(variables.objectId)+String(variables.subjectId));
-        variables.note= this.state.name;
-        // let requiredFieldsValid = parts.subjectId != undefined
-        //     && parts.relationshipId != undefined
-        //     && parts.note != undefined
-        //     && parts.objectId != undefined;
-        //
-        //
-        // if (!requiredFieldsValid) {//Making sure the required fields are not undefined
-        //     alert("Error occurred on necessary value for auto relating agents was undefiend and cannot be!");
-        // } else {
-            //Calling the mutation
-            //console.log(parts);
-            // console.log(typeof parts.subjectId);
-            // console.log(typeof parts.objectId);
-            // console.log(typeof parts.relationshipId);
-            // console.log(typeof parts.note);
-            console.log(variables);
-            this.props.createAgentRelationship({variables}).then((response) => {        // perform the mutation
-                alert("made it");
-                let agentRelationshipValue = response;
-                console.log(agentRelationshipValue);
-                // let agentRelationshipValue = response.data.createOrganization.organization.id;
-                // if (agentRelationshipValue) {
-                //     alert("A relationship between your account and the newly created org. has been made!");
-                // }
-            }).catch((error) => {
-                console.log(error);
-            });
-        // }
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
-  openModal() {
-    this.setState({modalIsOpen: true});
-  }
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
 
-  closeModal() {
-    this.setState({modalIsOpen: false});
-  }
+    closeModal() {
+        this.setState({modalIsOpen: false});
+    }
 
-  getRegistrationJSON = (event) => {
-    event.preventDefault();
-    let requiredFieldsValid =
-      this.state.name !== undefined
-      && this.state.type !== undefined;
+    getRegistrationJSON = (event) => {
+        event.preventDefault();
+        let requiredFieldsValid =
+            this.state.name !== undefined
+            && this.state.type !== undefined;
 
-    // console.log("name: " + this.state.name + "\n" +
-    //   "type: " + this.state.type + "\n" +
-    //   "logo: " + this.state.logo + "\n" +
-    //   "banner: " + this.state.banner + "\n" +
-    //   "description: " + this.state.description + "\n\n" +
-    //   "valid?  " + requiredFieldsValid);
+        // console.log("name: " + this.state.name + "\n" +
+        //   "type: " + this.state.type + "\n" +
+        //   "logo: " + this.state.logo + "\n" +
+        //   "banner: " + this.state.banner + "\n" +
+        //   "description: " + this.state.description + "\n\n" +
+        //   "valid?  " + requiredFieldsValid);
 
-    if (!requiredFieldsValid) {
-      alert("Please enter valid data into all required fields!");
-    } else {
-      let variables = {
-        name: this.state.name,
-        type: this.state.type,
-        image: this.state.logo,
-        note: this.state.description
-        // primaryLocationId: TODO
-        // TODO add banner field
-      };
-      // variables.token = this.props.token; // add the token in afterwards
-      // this.autoRelateAgent()
-      // perform the mutation
-      this.props.createOrgMutation({variables}).then((response) => {
-        let newOrganization = response.data.createOrganization.organization.id;
-        if (newOrganization) {
-          console.log(newOrganization);
-          this.openModal();
-          this.setState({newOrganizationID: newOrganization,});
-            var parts = {
-                note: "", // Gives context to relationship,
-                subjectId: 0,
-                relationshipId: 0,
-                objectId: 0
-            }
-            parts.objectId= parseInt(this.state.newOrganizationID);
-            parts.subjectId= parseInt(myAgentId);
-            parts.relationshipId= parseInt(String(parts.objectId)+String(parts.subjectId));
-            parts.note= this.state.name;
-            this.props.createAgentRelationship({parts}).then((response) => {        // perform the mutation
-                alert("made it");
-
-                let agentRelationshipValue = response.data.createOrganization.organization.id;
-                if (agentRelationshipValue) {
-                  alert("A relationship between your account and the newly created org. has been made!");
+        if (!requiredFieldsValid) {
+            alert("Please enter valid data into all required fields!");
+        } else {
+            let variables = {
+                name: this.state.name,
+                type: this.state.type,
+                image: this.state.logo,
+                note: this.state.description
+                // primaryLocationId: TODO
+                // TODO add banner field
+            };
+            // variables.token = this.props.token; // add the token in afterwards
+            // perform the mutation
+            this.props.createOrgMutation({variables}).then((response) => {
+                let newOrganization = response.data.createOrganization.organization.id;
+                if (newOrganization) {
+                    this.openModal();
+                    this.setState({newOrganizationID: newOrganization,});
+                    var parts = {
+                        note: "A new org", // Gives context to relationship,
+                        subjectId: 14,
+                        relationshipId: 1,
+                        objectId:20
+                    }
+                    // parts.objectId= parseInt(this.state.newOrganizationID);
+                    // parts.subjectId= parseInt(myAgentId);
+                    // parts.relationshipId= parseInt(String(parts.objectId)+String(parts.subjectId));
+                    // parts.note= this.state.name;
+                    console.log(parts);
+                    this.props.createAgentRelationship({parts}).then((response) => {        // perform the mutation
+                        alert("made it");
+                        let agentRelationshipValue = response.data;
+                        if (agentRelationshipValue) {
+                            alert("A relationship between your account and the newly created org. has been made!");
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                    });
                 }
             }).catch((error) => {
-                console.log(parts);
                 console.log(error);
             });
         }
-      }).catch((error) => {
-        console.log(error);
-      });
+    };
+
+    // Draws all of the components on the screen
+    render() {
+        let currentTheme = themeable(theme);
+        return (
+            <div id="baseElement"
+                 {...currentTheme(0, "registrationPage")}
+            >
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this.closeModal}
+                    {...currentTheme(1, "popup")}
+                >
+                    <Link
+                        to={"/projects/" + this.state.newOrganizationID}
+                    >Take me there!
+                    </Link>
+                </Modal>
+                <h1>Register a new organization</h1>
+                <form
+                    id="form"
+                    onSubmit={this.getRegistrationJSON}
+                    {...currentTheme(2, "registrationForm")}
+                >
+
+                    <OrganizationNameField
+                        saveOrgName={(name) => this.setState({name})}
+                    />
+                    <br/>
+                    <OrganizationTypeField
+                        saveOrgType={(type) => this.setState({type})}
+                    />
+                    <br/>
+                    <OrganizationLogoField
+                        saveOrgLogo={(logo) => this.setState({logo})}
+                    />
+                    <br/>
+                    {/*<OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>*/}
+                    {/*<br/>*/}
+                    <OrganizationDescriptionField
+                        saveOrgDescription={(description) => this.setState({description})}
+                    />
+                    <br/>
+                    <p {...currentTheme(3, "required")}>*required</p>
+                    <GetMyAgent/>
+                    <br/>
+                    <a href="/" {...currentTheme(18, "cancel")} id="cancelButton"> Cancel </a>
+                    <input {...currentTheme(17, "submit")}
+                           type="submit"
+                           id="submit"
+                           value="Register"
+                    />
+                </form>
+
+            </div>
+        );
     }
-  };
-
-  // Draws all of the components on the screen
-  render() {
-    let currentTheme = themeable(theme);
-    return (
-      <div id="baseElement"
-           {...currentTheme(0, "registrationPage")}
-      >
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          {...currentTheme(1, "popup")}
-        >
-          <Link
-            to={"/projects/" + this.state.newOrganizationID}
-          >Take me there!
-          </Link>
-        </Modal>
-        <h1>Register a new organization</h1>
-        <form
-          id="form"
-          onSubmit={this.getRegistrationJSON}
-          {...currentTheme(2, "registrationForm")}
-        >
-
-          <OrganizationNameField
-            saveOrgName={(name) => this.setState({name})}
-          />
-          <br/>
-          <OrganizationTypeField
-            saveOrgType={(type) => this.setState({type})}
-          />
-          <br/>
-          <OrganizationLogoField
-            saveOrgLogo={(logo) => this.setState({logo})}
-          />
-          <br/>
-          {/*<OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>*/}
-          {/*<br/>*/}
-          <OrganizationDescriptionField
-            saveOrgDescription={(description) => this.setState({description})}
-          />
-          <br/>
-          <p {...currentTheme(3, "required")}>*required</p>
-          <GetMyAgent/>
-          <br/>
-            <a href="/" {...currentTheme(18, "cancel")} id="cancelButton"> Cancel </a>
-          <input {...currentTheme(17, "submit")}
-                 type="submit"
-                 id="submit"
-                 value="Register"
-          />
-        </form>
-
-      </div>
-    );
-  }
 }
 
 class OrganizationNameField extends React.Component {
 
-  state = {
-    valid: true,
-    value: ""
-  };
+    state = {
+        valid: true,
+        value: ""
+    };
 
-  validate = (name) => {
-    let valid = name.length > 0;
-    this.setState({valid: valid});
-    return valid;
-  };
+    validate = (name) => {
+        let valid = name.length > 0;
+        this.setState({valid: valid});
+        return valid;
+    };
 
-  onChange = (value) => {
-    let valid = this.validate(value);
-    this.setState({value: value});
-    this.props.saveOrgName(valid ? value : undefined);
-  };
+    onChange = (value) => {
+        let valid = this.validate(value);
+        this.setState({value: value});
+        this.props.saveOrgName(valid ? value : undefined);
+    };
 
-  render() {
-    let currentTheme = themeable(theme);
-    return (
-      <span
-        {...currentTheme(4, "orgNameSection")}
-      >
+    render() {
+        let currentTheme = themeable(theme);
+        return (
+            <span
+                {...currentTheme(4, "orgNameSection")}
+            >
         <span>Organization Name<p {...currentTheme(3, "required")}>*</p>&nbsp;</span>
         <input
-          id="nameBox"
-          type="text"
-          onChange={(event) => this.onChange(event.target.value)}
-          {...currentTheme(5, "orgNameInputField")}
+            id="nameBox"
+            type="text"
+            onChange={(event) => this.onChange(event.target.value)}
+            {...currentTheme(5, "orgNameInputField")}
         />
         <br/>
       </span>
-    );
+        );
 
-  }
+    }
 }
 
 export const OrganizationTypeList = GetOrganizationTypes(({orgTypeList, loading, error, onChange, checked}) => {
-  let currentTheme = themeable(theme);
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div
-          {...currentTheme(6, "orgTypeInputField")}
-        >
-          <select id="orgTypeDropdown"
-                  onChange={onChange}
-                  {...currentTheme(7, "orgTypeDropdown")}
-          >
-            {orgTypeList.map((orgType) => (
-              <option
-                id={orgType.name}
-                value={orgType.name}
-              >
-                {orgType.name}
-              </option>))}
-          </select>
-        </div>
-      )
-    )
-  );
+    let currentTheme = themeable(theme);
+    return (
+        loading ? <strong>Loading...</strong> : (
+            error ? <p style={{color: "#F00"}}>API error</p> : (
+                <div
+                    {...currentTheme(6, "orgTypeInputField")}
+                >
+                    <select id="orgTypeDropdown"
+                            onChange={onChange}
+                            {...currentTheme(7, "orgTypeDropdown")}
+                    >
+                        {orgTypeList.map((orgType) => (
+                            <option
+                                id={orgType.name}
+                                value={orgType.name}
+                            >
+                                {orgType.name}
+                            </option>))}
+                    </select>
+                </div>
+            )
+        )
+    );
 });
 
 class OrganizationTypeField extends React.Component {
 
-  state = {
-    valid: true,
-    value: ""
-  };
+    state = {
+        valid: true,
+        value: ""
+    };
 
-  onChange = (value) => {
-    this.setState({value: value});
-    this.props.saveOrgType(this.state.valid ? value : undefined);
-  };
+    onChange = (value) => {
+        this.setState({value: value});
+        this.props.saveOrgType(this.state.valid ? value : undefined);
+    };
 
-  render() {
-    let currentTheme = themeable(theme);
-    return (
-      <span
-        {...currentTheme(8, "orgTypeSection")}
-      >
+    render() {
+        let currentTheme = themeable(theme);
+        return (
+            <span
+                {...currentTheme(8, "orgTypeSection")}
+            >
         <span
-          {...currentTheme(9, "orgTypeLabel")}
+            {...currentTheme(9, "orgTypeLabel")}
         >
           Organization Type<p {...currentTheme(10, "required")}>*</p></span>
         <OrganizationTypeList onChange={(event) => this.onChange(event.target.value)} checked={this.state.value}/>
       </span>
-    );
-  }
+        );
+    }
 }
 
 class OrganizationLogoField extends React.Component {
 
-  state = {
-    valid: true,
-    path: "https://via.placeholder.com/200.png?text=Logo%20Preview"
-  };
-
-  onImageSelected = (event) => {
-    var file = event.target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.setState({path: reader.result});
-      this.props.saveOrgLogo(this.state.valid ? reader.result : undefined);
-      console.log(this.state.value);
+    state = {
+        valid: true,
+        path: "https://via.placeholder.com/200.png?text=Logo%20Preview"
     };
-    reader.onerror = (error) => {
-      console.log("Error", error);
-    };
-  };
 
-  // Draws the components on the screen
-  render() {
-    let currentTheme = themeable(theme);
-    return (
-      <div
-        {...currentTheme(11, "orgLogoSection")}
-      >
-        <br/>
-        Organization Logo:
-        <br/>
-        <span
-          {...currentTheme(12, "orgLogoPreview")}
-        >
+    onImageSelected = (event) => {
+        var file = event.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            this.setState({path: reader.result});
+            this.props.saveOrgLogo(this.state.valid ? reader.result : undefined);
+            console.log(this.state.value);
+        };
+        reader.onerror = (error) => {
+            console.log("Error", error);
+        };
+    };
+
+    // Draws the components on the screen
+    render() {
+        let currentTheme = themeable(theme);
+        return (
+            <div
+                {...currentTheme(11, "orgLogoSection")}
+            >
+                <br/>
+                Organization Logo:
+                <br/>
+                <span
+                    {...currentTheme(12, "orgLogoPreview")}
+                >
         <img id="largeImage" src={this.state.path} {...currentTheme(19, "largeImage")}/>
         <img id="smallImage" src={this.state.path} {...currentTheme(20, "smallImage")}/>
         </span>
-        <br/>
-        <br/>
-        <div>
-          <input
-            id="logoButton"
-            type="file"
-            accept="image/*"
-            onChange={(event) => this.onImageSelected(event)}
-            size={5120}
-            {...currentTheme(13, "orgLogoInputField")}
-          />
-          <label htmlFor="logoButton" id="logoLabel" {...currentTheme(14, "orgLogoInputLabel")}>Upload New Photo</label>
-        </div>
-        <br/>
-        <i>Images must be no bigger than 5MB</i>
-      </div>
-    );
-  }
+                <br/>
+                <br/>
+                <div>
+                    <input
+                        id="logoButton"
+                        type="file"
+                        accept="image/*"
+                        onChange={(event) => this.onImageSelected(event)}
+                        size={5120}
+                        {...currentTheme(13, "orgLogoInputField")}
+                    />
+                    <label htmlFor="logoButton" id="logoLabel" {...currentTheme(14, "orgLogoInputLabel")}>Upload New Photo</label>
+                </div>
+                <br/>
+                <i>Images must be no bigger than 5MB</i>
+            </div>
+        );
+    }
 }
 
 // class OrganizationBannerField extends React.Component {
@@ -413,36 +363,36 @@ class OrganizationLogoField extends React.Component {
 // }
 
 class OrganizationDescriptionField extends React.Component {
-  state = {
-    value: ""
-  };
+    state = {
+        value: ""
+    };
 
-  onChange = (value) => {
-    console.log("Description: " + value);
-    this.setState({value: value});
-    this.props.saveOrgDescription(value);
-  };
+    onChange = (value) => {
+        console.log("Description: " + value);
+        this.setState({value: value});
+        this.props.saveOrgDescription(value);
+    };
 
-  // Draws the components on the screen
-  render() {
-    let currentTheme = themeable(theme);
-    return (
-      <div>
-        Organization Description:
-        <br/>
+    // Draws the components on the screen
+    render() {
+        let currentTheme = themeable(theme);
+        return (
+            <div>
+                Organization Description:
+                <br/>
 
-        <textarea
-          id="descriptionArea"
-          columns="80"
-          rows="5"
-          onChange={(event) => this.onChange(event.target.value)}
-          {...currentTheme(16, "orgDescriptionTextBox")}
-        />
-        <br/>
-      </div>
-    );
-  }
+                <textarea
+                    id="descriptionArea"
+                    columns="80"
+                    rows="5"
+                    onChange={(event) => this.onChange(event.target.value)}
+                    {...currentTheme(16, "orgDescriptionTextBox")}
+                />
+                <br/>
+            </div>
+        );
+    }
 }
 
-export default createOrganization(createAgentRelationship(Registration));
+export default createAgentRelationship(createOrganization(Registration));
 
