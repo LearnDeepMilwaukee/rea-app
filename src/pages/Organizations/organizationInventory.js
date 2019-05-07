@@ -14,9 +14,10 @@ import {connect} from 'react-redux';
 import getMyAgent from "../../queries/Agent/getMyAgent"
 let default_image = require("../../resources/default_resource_img.jpg");
 let orgId = -1;
-let createItem;
+let history;
+let connected = false;
 
-const AddItemButton = getMyAgent(({agent, loading, error}) => {
+const GetConnected = getMyAgent(({agent, loading, error}) => {
     if (loading) {
         return (
             <Loader>Loading</Loader>
@@ -28,14 +29,47 @@ const AddItemButton = getMyAgent(({agent, loading, error}) => {
     } else {
         for (let i = 0; i < agent.agentRelationships.length; i++) {
             if(agent.agentRelationships[i].object.id === orgId){
-                return (<Button className="ui right floated primary" onClick={createItem}>Add Item</Button>);
+                connected = true;
             }
-
         }
         return <div/>
     }
 
 });
+
+class AddItemButton extends React.Component {
+
+    createItem = () => {
+        history.push("/CreateInventoryItem/"+orgId);
+        window.location.reload();
+    };
+
+    render(){
+        console.log(connected);
+        if(connected) {
+            return (<Button className="ui right floated primary" onClick={this.createItem}>Add Item</Button>);
+        }else{
+            return (<div/>);
+        }
+    }
+}
+
+class EditItemButton extends React.Component {
+
+    createItem = () => {
+        history.push("/OrgInventory/"+orgId+"/Edit/"+this.props.resId);
+        window.location.reload();
+    };
+
+    render(){
+        console.log(connected);
+        if(connected) {
+            return (<Button className="ui right floated primary" onClick={this.createItem}>Edit</Button>);
+        }else{
+            return (<div/>);
+        }
+    }
+}
 
 
 /**
@@ -108,7 +142,7 @@ export const EconomicResource = (props) => {
                     <p>Added on: {economicResource.createdDate}</p>
                 </Item.Description>
                 <Item.Extra>
-                    <Button className="ui right floated primary">Edit</Button>
+                    <EditItemButton resId={economicResource.id}/>
                 </Item.Extra>
             </Item.Content>
         </Item>
@@ -117,19 +151,25 @@ export const EconomicResource = (props) => {
 
 class OrganizationInventory extends React.Component {
     componentDidMount() {
-        createItem = () => {
-            this.props.history.push("/CreateInventoryItem/"+orgId);
-            window.location.reload();
-        }
-
+        // createItem = () => {
+        //     this.props.history.push("/CreateInventoryItem/"+orgId);
+        //     window.location.reload();
+        // };
+        //
+        // editItem = (resId) => {
+        //     this.props.history.push("/OrgInventory/"+orgId+"/Edit/"+resId);
+        // };
+        history = this.props.history
     }
+
+
     render() {
         orgId = this.props.match.params.id;
 
         return (
             <div className="ui container">
+                <GetConnected/>
                 <GetSingleOrganization organizationId={this.props.match.params.id}/>
-
             </div>
         )
     }

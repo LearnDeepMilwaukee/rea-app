@@ -124,6 +124,7 @@ class CreateInventoryItem extends React.Component {
         this.setState({userRan: true});
 
     };
+
     handleChange = (e, {name, value}) => {
         this.setState({[name]: value});
         if (name === "units") {
