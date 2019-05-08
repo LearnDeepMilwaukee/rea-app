@@ -110,7 +110,7 @@ class Registration extends React.Component {
                         this.props.createAgentRelationship({parts}).then((response) => {        // perform the mutation
                             let agentRelationshipValue = response.data;
                             if (agentRelationshipValue) {
-                                alert("A relationship between & "+c+"!");
+                                alert("Your org has created a relationship with "+newOrganization.note+".");
                             }
                         }).catch((error) => {
                             console.log(error);
