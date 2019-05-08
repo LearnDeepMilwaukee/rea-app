@@ -5,22 +5,28 @@
 import * as React from "react";
 import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration";
-import {withRouter} from 'react-router-dom';
+import * as Modal from "react-modal";
 import createAgentRelationship from "../../queries/AgentRelationship/createNewAgentRelationship";
-
+import {Link} from "react-router-dom";
 import createOrganization from "../../queries/Organization/CreateOrganization";
-import getMyAgent from "../../queries/Agent/getMyAgent";
-
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
+import {isNullOrUndefined} from "util";
 
-var myAgentId = -2; //Global variable that holds value returned from GetMyAgent
+ import getMyAgent from "../../queries/Agent/getMyAgent";
+var parts = {
+    note: "Test", // Gives context to relationship,
+    subjectId: 14,
+    objectId: 20,
+    relationshipId: 2
+}
 
+var myAgentId = 0; //Global variable that holds value returned from GetMyAgent
 //Global query that returns id of current user logged in else returns -1
 export const GetMyAgent = getMyAgent(({ agent, loading, error}) => {
     if (loading) {
-        myAgentId = -3;
+        myAgentId = -1;
     } else if (error) {
-        myAgentId = -4;
+        myAgentId = -1;
     } else {
         myAgentId = agent.id;
     }
@@ -36,11 +42,22 @@ class Registration extends React.Component {
             type: "For-profit Company", // Required
             logo: undefined,
             banner: undefined, // TODO:  Not yet used because of missing backend implementation
-            description: undefined
+            description: undefined,
+            newOrganizationID: undefined,
+            modalIsOpen: false
         };
 
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
+    }
 
     getRegistrationJSON = (event) => {
         event.preventDefault();
@@ -48,6 +65,12 @@ class Registration extends React.Component {
             this.state.name !== undefined
             && this.state.type !== undefined;
 
+        // console.log("name: " + this.state.name + "\n" +
+        //   "type: " + this.state.type + "\n" +
+        //   "logo: " + this.state.logo + "\n" +
+        //   "banner: " + this.state.banner + "\n" +
+        //   "description: " + this.state.description + "\n\n" +
+        //   "valid?  " + requiredFieldsValid);
 
         if (!requiredFieldsValid) {
             alert("Please enter valid data into all required fields!");
@@ -57,29 +80,35 @@ class Registration extends React.Component {
                 type: this.state.type,
                 image: this.state.logo,
                 note: this.state.description
+                // primaryLocationId: TODO
+                // TODO add banner field
             };
-
+            // variables.token = this.props.token; // add the token in afterwards
             // perform the mutation
             this.props.createOrgMutation({variables}).then((response) => {
                 let newOrganization = response.data.createOrganization.organization.id;
                 if (newOrganization) {
-                    console.log(newOrganization);
+                    this.openModal();
+                    this.setState({newOrganizationID: newOrganization,});
                     var parts = {
-                        note: "", // Gives context to relationship,
+                        note: "A new org", // Gives context to relationship,
                         subjectId: 0,
                         relationshipId: 0,
-                        objectId: 0
-                    };
-                    parts.objectId= parseInt(this.state.newOrganizationID);
-                    parts.subjectId= parseInt(myAgentId);
-                    parts.relationshipId= 6;
-                    parts.note= this.state.name;
+                        objectId:0
+                    }
+                    parts.objectId = parseInt(this.state.newOrganizationID);
+                    parts.subjectId = parseInt(myAgentId);
+                    parts.relationshipId = parseInt(6);
+                    parts.note = this.state.name;
+                    console.log(parts);
                     this.props.createAgentRelationship({variables: parts}).then((response) => {        // perform the mutation
-                        this.props.history.push("/");
-                        window.location.reload();
-                    }).catch((error) => {
-                        console.log(error);
-                    });
+                        let agentRelationshipValue = response.data;
+                            if (agentRelationshipValue) {
+                                alert("Your org has created a relationship with a new org.");
+                            }
+                        }).catch((error) => {
+                            console.log(error);
+                        });
 
                 }
             }).catch((error) => {
@@ -95,41 +124,51 @@ class Registration extends React.Component {
             <div id="baseElement"
                  {...currentTheme(0, "registrationPage")}
             >
-              <h1>Register a new organization</h1>
-              <form
-                  id="form"
-                  onSubmit={this.getRegistrationJSON}
-                  {...currentTheme(2, "registrationForm")}
-              >
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this.closeModal}
+                    {...currentTheme(1, "popup")}
+                >
+                    <Link
+                        to={"/projects/" + this.state.newOrganizationID}
+                    >Take me there!
+                    </Link>
+                </Modal>
+                <h1>Register a new organization</h1>
+                <form
+                    id="form"
+                    onSubmit={this.getRegistrationJSON}
+                    {...currentTheme(2, "registrationForm")}
+                >
 
-                <OrganizationNameField
-                    saveOrgName={(name) => this.setState({name})}
-                />
-                <br/>
-                <OrganizationTypeField
-                    saveOrgType={(type) => this.setState({type})}
-                />
-                <br/>
-                <OrganizationLogoField
-                    saveOrgLogo={(logo) => this.setState({logo})}
-                />
-                <br/>
-                  {/*<OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>*/}
-                  {/*<br/>*/}
-                <OrganizationDescriptionField
-                    saveOrgDescription={(description) => this.setState({description})}
-                />
-                <br/>
-                <p {...currentTheme(3, "required")}>*required</p>
-
-                <br/>
-                <a href="/" {...currentTheme(18, "cancel")} id="cancelButton"> Cancel </a>
-                <input {...currentTheme(17, "submit")}
-                       type="submit"
-                       id="submit"
-                       value="Register"
-                />
-              </form>
+                    <OrganizationNameField
+                        saveOrgName={(name) => this.setState({name})}
+                    />
+                    <br/>
+                    <OrganizationTypeField
+                        saveOrgType={(type) => this.setState({type})}
+                    />
+                    <br/>
+                    <OrganizationLogoField
+                        saveOrgLogo={(logo) => this.setState({logo})}
+                    />
+                    <br/>
+                    {/*<OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>*/}
+                    {/*<br/>*/}
+                    <OrganizationDescriptionField
+                        saveOrgDescription={(description) => this.setState({description})}
+                    />
+                    <br/>
+                    <p {...currentTheme(3, "required")}>*required</p>
+                    <GetMyAgent/>
+                    <br/>
+                    <a href="/" {...currentTheme(18, "cancel")} id="cancelButton"> Cancel </a>
+                    <input {...currentTheme(17, "submit")}
+                           type="submit"
+                           id="submit"
+                           value="Register"
+                    />
+                </form>
 
             </div>
         );
@@ -183,18 +222,18 @@ export const OrganizationTypeList = GetOrganizationTypes(({orgTypeList, loading,
                 <div
                     {...currentTheme(6, "orgTypeInputField")}
                 >
-                  <select id="orgTypeDropdown"
-                          onChange={onChange}
-                          {...currentTheme(7, "orgTypeDropdown")}
-                  >
-                      {orgTypeList.map((orgType) => (
-                          <option
-                              id={orgType.name}
-                              value={orgType.name}
-                          >
-                              {orgType.name}
-                          </option>))}
-                  </select>
+                    <select id="orgTypeDropdown"
+                            onChange={onChange}
+                            {...currentTheme(7, "orgTypeDropdown")}
+                    >
+                        {orgTypeList.map((orgType) => (
+                            <option
+                                id={orgType.name}
+                                value={orgType.name}
+                            >
+                                {orgType.name}
+                            </option>))}
+                    </select>
                 </div>
             )
         )
@@ -257,34 +296,71 @@ class OrganizationLogoField extends React.Component {
             <div
                 {...currentTheme(11, "orgLogoSection")}
             >
-              <br/>
-              Organization Logo:
-              <br/>
-              <span
-                  {...currentTheme(12, "orgLogoPreview")}
-              >
+                <br/>
+                Organization Logo:
+                <br/>
+                <span
+                    {...currentTheme(12, "orgLogoPreview")}
+                >
         <img id="largeImage" src={this.state.path} {...currentTheme(19, "largeImage")}/>
         <img id="smallImage" src={this.state.path} {...currentTheme(20, "smallImage")}/>
         </span>
-              <br/>
-              <br/>
-              <div>
-                <input
-                    id="logoButton"
-                    type="file"
-                    accept="image/*"
-                    onChange={(event) => this.onImageSelected(event)}
-                    size={5120}
-                    {...currentTheme(13, "orgLogoInputField")}
-                />
-                <label htmlFor="logoButton" id="logoLabel" {...currentTheme(14, "orgLogoInputLabel")}>Upload New Photo</label>
-              </div>
-              <br/>
-              <i>Images must be no bigger than 5MB</i>
+                <br/>
+                <br/>
+                <div>
+                    <input
+                        id="logoButton"
+                        type="file"
+                        accept="image/*"
+                        onChange={(event) => this.onImageSelected(event)}
+                        size={5120}
+                        {...currentTheme(13, "orgLogoInputField")}
+                    />
+                    <label htmlFor="logoButton" id="logoLabel" {...currentTheme(14, "orgLogoInputLabel")}>Upload New Photo</label>
+                </div>
+                <br/>
+                <i>Images must be no bigger than 5MB</i>
             </div>
         );
     }
 }
+
+// class OrganizationBannerField extends React.Component {
+//
+//   state = {
+//     valid: true,
+//     path: ""
+//   };
+//
+//   onImageSelected = (event) => {
+//     var file = event.target.files[0];
+//     let reader = new FileReader();
+//     reader.readAsDataURL(file);
+//     reader.onload = () => {
+//       this.setState({path: reader.result});
+//       this.props.saveOrgBanner(this.state.valid ? reader.result : undefined);
+//       console.log(this.state.value);
+//     };
+//     reader.onerror = (error) => {
+//       console.log("Error", error);
+//     };
+//   };
+//
+//   // Draws the components on the screen
+//   render() {
+//     return (
+//       <div>
+//         Organization Banner:
+//         <input type="file" accept="image/*" onChange={(event) => this.onImageSelected(event)}/>
+//         (800x200)
+//         <br/>
+//         Preview:
+//         <br/>
+//         <img src={this.state.path} height={200} width={800}/>
+//       </div>
+//     );
+//   }
+// }
 
 class OrganizationDescriptionField extends React.Component {
     state = {
@@ -302,21 +378,21 @@ class OrganizationDescriptionField extends React.Component {
         let currentTheme = themeable(theme);
         return (
             <div>
-              Organization Description:
-              <br/>
+                Organization Description:
+                <br/>
 
-              <textarea
-                  id="descriptionArea"
-                  columns="80"
-                  rows="5"
-                  onChange={(event) => this.onChange(event.target.value)}
-                  {...currentTheme(16, "orgDescriptionTextBox")}
-              />
-              <br/>
+                <textarea
+                    id="descriptionArea"
+                    columns="80"
+                    rows="5"
+                    onChange={(event) => this.onChange(event.target.value)}
+                    {...currentTheme(16, "orgDescriptionTextBox")}
+                />
+                <br/>
             </div>
         );
     }
 }
 
-export default withRouter(createOrganization(createAgentRelationship(Registration)));
+export default createAgentRelationship(createOrganization(Registration));
 

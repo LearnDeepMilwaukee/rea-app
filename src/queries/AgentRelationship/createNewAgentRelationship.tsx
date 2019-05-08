@@ -14,10 +14,10 @@ import { agentRelationshipInterface } from "./agentRelationshipInterface";
 export const mutation = gql`
   mutation(
     $note: String,
-    $subjectId: Int = 105,
-    $relationshipId: Int = 1,
+    $subjectId: Int!,
+    $relationshipId: Int!,
     $token: String!,
-    $objectId: Int = 105
+    $objectId: Int!
   ){
   createAgentRelationship(
     note: $note,
