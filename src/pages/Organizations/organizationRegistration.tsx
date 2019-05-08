@@ -98,24 +98,18 @@ class Registration extends React.Component {
                     }
                     parts.objectId = parseInt(this.state.newOrganizationID);
                     parts.subjectId = parseInt(myAgentId);
-                    parts.relationshipId = parseInt(String(parts.objectId)+String(parts.subjectId));
+                    parts.relationshipId = parseInt(6);
                     parts.note = this.state.name;
-                    let requiredParamsValid =
-                        this.state.objectId !== 105 //The 105 pertains to the backend represents default agent that has to be overwritten or error is thrown
-                        && this.state.subjectId !== 105;
                     console.log(parts);
-                    if (!requiredParamsValid) {
-                        alert("Error occurred agent relationship params sets as default!");
-                    } else {
-                        this.props.createAgentRelationship({parts}).then((response) => {        // perform the mutation
-                            let agentRelationshipValue = response.data;
+                    this.props.createAgentRelationship({variables: parts}).then((response) => {        // perform the mutation
+                        let agentRelationshipValue = response.data;
                             if (agentRelationshipValue) {
-                                alert("Your org has created a relationship with "+newOrganization.note+".");
+                                alert("Your org has created a relationship with a new org.");
                             }
                         }).catch((error) => {
                             console.log(error);
                         });
-                    }
+
                 }
             }).catch((error) => {
                 console.log(error);
