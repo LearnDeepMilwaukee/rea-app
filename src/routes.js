@@ -23,7 +23,7 @@ import EconomicEvent from './pages/Api/EconomicEvent'
 import CreateEconomicEvent from './pages/Api/CreateEconomicEvent'
 import AgentRelationshipRoles from './pages/Api/AgentRelationshipRole'
 import CreateInventoryItem from './pages/Inventory/createInventoryItem'
-import EditInventoryItem from './pages/Inventory/EditInventoryItem'
+
 
 class Routes extends Component {
     render() {
@@ -37,7 +37,6 @@ class Routes extends Component {
                     <ProtectedRoute exact path="/RegisterOrg" component={OrganizationRegistration}/>
                     <ProtectedRoute exact path="/EditOrg/:id" component={orgEdit}/>
                     <ProtectedRoute exact path="/OrgInventory/:id" component={OrganizationInventory}/>
-                    <ProtectedRoute exact path="/OrgInventory/:orgId/Edit/:resId" component={EditInventoryItem}/>
                     <ProtectedRoute exact path="/RegisterIndividual" component={IndividualRegistration}/>
                     <ProtectedRoute exact path="/" component={OrganizationCatalog}/>
                     <ProtectedRoute exact path="/CreateInventoryItem/:orgId" component={CreateInventoryItem}/>

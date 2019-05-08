@@ -1,13 +1,12 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css'
 import {withRouter} from 'react-router-dom';
-import {Form, Button, Grid, Header, Segment, Image, Label, Message} from 'semantic-ui-react'
+import {Form, Button, Grid, Header, Segment, Image, Label, Message, Modal} from 'semantic-ui-react'
 import createEconomicEvent from "../../queries/EconomicEvent/CreateEconomicEvent";
 import getMyAgent from "../../queries/Agent/getMyAgent";
 import GetUnits from "../../queries/Unit/getAllUnits";
 import createResourceClassification from "../../queries/ResourceClassification/createResourceClassification";
 import createUnit from "../../queries/Unit/createUnit";
-import getEconomicResourceById from "../../queries/EconomicResource/getEconomicResourceById.tsx";
 
 let default_image = require("../../resources/default_resource_img.jpg");
 let units = "";
@@ -27,7 +26,6 @@ const GetMyAgent = getMyAgent(({agent, loading, error}) => {
     );
 });
 
-
 const UnitExist = GetUnits(({unitList, loading, error}) => {
     running = true;
     if (!loading && !error) {
@@ -42,31 +40,9 @@ const UnitExist = GetUnits(({unitList, loading, error}) => {
     return <div/>
 });
 
-/**
- * Gets a single economic resource that the organization owns
- */
-const GetResource = getEconomicResourceById(({economicResource, loading, error}) => {
-    if (loading) {
-
-    } else if (error) {
-        return (
-            <p style={{color: "#F00"}}>API error</p>
-        );
-    } else {
-        resource = economicResource;
-        console.log(resource);
-    }
-    return (
-        <div/>
-    );
-});
-
 class EditInventoryItem extends React.Component {
     state = {
         image: default_image,
-        orgId: this.props.orgId,
-        resId: this.props.resId,
-        resource: undefined,
         name: "",
         notes: "",
         quantity: "",
@@ -79,14 +55,13 @@ class EditInventoryItem extends React.Component {
 
     constructor(props) {
         super(props);
-
-        if (resource !== undefined) {
+        if (this.props.resource !== undefined) {
             this.state = {
-                name: resource.trackingIdentifier,
-                notes: resource.note,
-                quantiy: resource.currentQuantity.numericValue,
-                units: resource.currentQuantity.unit.name,
-                image: resource.image
+                name: this.props.resource.trackingIdentifier,
+                notes: this.props.resource.note,
+                quantity: this.props.resource.currentQuantity.numericValue,
+                units: this.props.resource.currentQuantity.unit.name,
+                image: this.props.resource.image
             }
         }
     }
@@ -97,53 +72,53 @@ class EditInventoryItem extends React.Component {
         this.setState({resource: resource})
     }
 
-    createItemUnitExists = () => {
-        this.props.createResourceClassification({variables: mutationVars}).then((response) => {
-            mutationVars["affectedResourceClassifiedAsId"] = response.data.createResourceClassification.resourceClassification.id;
-            this.props.createEconomicEvent({variables: mutationVars}).then(() => {
-                running = false;
-                mutationVars = [];
-                this.setState({
-                    image: default_image,
-                    name: "",
-                    notes: "",
-                    quantity: "",
-                    units: "",
-                    userRan: false,
-                    success: true,
-                    messageToDisplay: "The item has been created!"
-                });
-                return <div/>;
-
-            }).catch((error) => {
-                running = false;
-                console.log(error);
-                this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
-                return <div/>;
-            });
-        }).catch((error) => {
-            running = false;
-            console.log(error);
-            this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
-
-            return <div/>;
-        });
-    };
-
-    createItemUnitDoesNotExist = () => {
-        let unitMutationVars = [];
-        unitMutationVars["name"] = this.state.units;
-        unitMutationVars["symbol"] = this.state.units;
-        this.props.createUnit({variables: unitMutationVars}).then(() => {
-            this.createItemUnitExists();
-        }).catch((error) => {
-            running = false;
-            console.log(error);
-            this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
-
-            return <div/>;
-        });
-    };
+    // createItemUnitExists = () => {
+    //     this.props.createResourceClassification({variables: mutationVars}).then((response) => {
+    //         mutationVars["affectedResourceClassifiedAsId"] = response.data.createResourceClassification.resourceClassification.id;
+    //         this.props.createEconomicEvent({variables: mutationVars}).then(() => {
+    //             running = false;
+    //             mutationVars = [];
+    //             this.setState({
+    //                 image: default_image,
+    //                 name: "",
+    //                 notes: "",
+    //                 quantity: "",
+    //                 units: "",
+    //                 userRan: false,
+    //                 success: true,
+    //                 messageToDisplay: "The item has been created!"
+    //             });
+    //             return <div/>;
+    //
+    //         }).catch((error) => {
+    //             running = false;
+    //             console.log(error);
+    //             this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
+    //             return <div/>;
+    //         });
+    //     }).catch((error) => {
+    //         running = false;
+    //         console.log(error);
+    //         this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
+    //
+    //         return <div/>;
+    //     });
+    // };
+    //
+    // createItemUnitDoesNotExist = () => {
+    //     let unitMutationVars = [];
+    //     unitMutationVars["name"] = this.state.units;
+    //     unitMutationVars["symbol"] = this.state.units;
+    //     this.props.createUnit({variables: unitMutationVars}).then(() => {
+    //         this.createItemUnitExists();
+    //     }).catch((error) => {
+    //         running = false;
+    //         console.log(error);
+    //         this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
+    //
+    //         return <div/>;
+    //     });
+    // };
 
     handleSubmit = () => {
 
@@ -190,10 +165,10 @@ class EditInventoryItem extends React.Component {
     };
 
     render() {
-
         return (
+            <Modal trigger={<Button className="ui right floated primary" onClick={this.editItem}>Edit</Button>} basic>
+                <Modal.Content>
             <div className='editItem'>
-                <GetResource economicResourceId={this.props.match.params.resId}/>
                 <style>{`
                 body > div,
                 body > div > div,
@@ -255,7 +230,7 @@ class EditInventoryItem extends React.Component {
                                     </Grid>
 
                                 </Form.Field>
-                                <Button color='blue' fluid type='submit' size='large'>Create</Button>
+                                <Button color='blue' fluid type='submit' size='large'>Edit</Button>
                             </Segment>
                         </Form>
 
@@ -266,23 +241,11 @@ class EditInventoryItem extends React.Component {
                     </Grid.Column>
                 </Grid>
             </div>
+                </Modal.Content>
+            </Modal>
         );
 
     }
 }
 
-class EditItemPage extends React.Component {
-    state = {
-        resource: undefined
-    };
-
-    render() {
-      return(
-          <div>
-              <GetResource economicResourceId={this.props.match.params.resId}/>
-          </div>
-      );
-    }
-}
-
-export default withRouter(createUnit(createResourceClassification(createEconomicEvent(EditItemPage))));
+export default withRouter(createUnit(createResourceClassification(createEconomicEvent(EditInventoryItem))));

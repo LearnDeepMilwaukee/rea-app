@@ -11,6 +11,8 @@ import getEconomicResourceById from "../../queries/EconomicResource/getEconomicR
 import {isNullOrUndefined} from "util"
 import {Item, Button, Loader} from 'semantic-ui-react'
 import {connect} from 'react-redux';
+import EditInventoryItem from '../Inventory/EditInventoryItem'
+
 import getMyAgent from "../../queries/Agent/getMyAgent"
 let default_image = require("../../resources/default_resource_img.jpg");
 let orgId = -1;
@@ -45,7 +47,6 @@ class AddItemButton extends React.Component {
     };
 
     render(){
-        console.log(connected);
         if(connected) {
             return (<Button className="ui right floated primary" onClick={this.createItem}>Add Item</Button>);
         }else{
@@ -56,15 +57,21 @@ class AddItemButton extends React.Component {
 
 class EditItemButton extends React.Component {
 
-    createItem = () => {
-        history.push("/OrgInventory/"+orgId+"/Edit/"+this.props.resId);
-        window.location.reload();
+    state = {
+        showModal: false,
+        resource: this.props.resource
+    };
+
+    editItem = () => {
+        this.setState({showModal: true})
     };
 
     render(){
-        console.log(connected);
         if(connected) {
-            return (<Button className="ui right floated primary" onClick={this.createItem}>Edit</Button>);
+            return (
+                <div>
+                    <EditInventoryItem resource={this.state.resource}/>
+                </div>);
         }else{
             return (<div/>);
         }
@@ -142,7 +149,7 @@ export const EconomicResource = (props) => {
                     <p>Added on: {economicResource.createdDate}</p>
                 </Item.Description>
                 <Item.Extra>
-                    <EditItemButton resId={economicResource.id}/>
+                    <EditItemButton resource={economicResource}/>
                 </Item.Extra>
             </Item.Content>
         </Item>
