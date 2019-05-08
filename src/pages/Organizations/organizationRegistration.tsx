@@ -10,7 +10,6 @@ import createAgentRelationship from "../../queries/AgentRelationship/createNewAg
 import {withRouter} from 'react-router-dom';
 import createOrganization from "../../queries/Organization/CreateOrganization";
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
-import {withRouter} from 'react-router-dom';
  import getMyAgent from "../../queries/Agent/getMyAgent";
 
 var myAgentId = 0; //Global variable that holds value returned from GetMyAgent
@@ -71,7 +70,6 @@ class Registration extends React.Component {
                     parts.subjectId = parseInt(myAgentId);
                     parts.relationshipId = parseInt(6);
                     parts.note = this.state.name;
-                    console.log(parts);
                     this.props.createAgentRelationship({variables: parts}).then(() => {        // perform the mutation
                         this.props.history.push("/");
                         window.location.reload();
@@ -113,8 +111,6 @@ class Registration extends React.Component {
                         saveOrgLogo={(logo) => this.setState({logo})}
                     />
                     <br/>
-                    {/*<OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>*/}
-                    {/*<br/>*/}
                     <OrganizationDescriptionField
                         saveOrgDescription={(description) => this.setState({description})}
                     />
