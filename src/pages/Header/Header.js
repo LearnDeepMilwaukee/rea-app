@@ -4,12 +4,14 @@ import getOrganizationById from "../../queries/Organization/getOrganizationById"
 import {Link} from 'react-router-dom';
 import {bindActionCreators} from 'redux';
 import * as currentOrgActions from '../../redux/actions/currentOrgActions';
+import * as currentUserActions from '../../redux/actions/currentUserActions';
+import { withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as defaultImage from "../../resources/defaultImage.jpg";
 import * as logo from '../../resources/upcycleLogo.png'
 import React, {Component} from "react";
 import {render} from "react-dom";
-import {Image, Menu, Input, Dropdown, Loader} from "semantic-ui-react";
+import {Image, Menu, Input, Dropdown, Loader, Button} from "semantic-ui-react";
 import './Header.css';
 import 'semantic-ui-css/semantic.min.css'
 
@@ -21,9 +23,8 @@ const menuDropDown = [
     {key: 'projects', text: 'Projects', as: Link, to: '/'},
     {key: 'activities', text: 'Activities', as: Link, to: '/'},
     {key: 'profile', text: 'Profile', as: Link, to: '/'},
-    {key: 'notifications', text: 'Notifications', as: Link, to: '/'}
-
-];
+    {key: 'notifications', text: 'Notifications', as: Link, to: '/'},
+    ];
 
 let OrgNameByID = getOrganizationById(({organization, loading, error}) => {
     if (loading) {
@@ -137,18 +138,39 @@ let MyAgent = getMyAgent(({agent, loading, error}) => {
     );
 });
 
-const NavMenu = () => (
+class NavMenu extends Component {
 
-    <Menu fixed="top">
-        <Menu.Item fitted="vertically">
-            <Image size="mini" src={logo} href={'/'}/>
-        </Menu.Item>
-        <Menu.Item fitted="vertically">
-            <Input className='icon' icon='search' placeholder='Searching is disabled' disabled/>
-        </Menu.Item>
-        <MyAgent/>
-    </Menu>
-);
+    state = {
+        currentUserActions: undefined
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = ({currentUserActions: this.props.currentUserActions});
+    }
+
+    logout = () => {
+        this.state.currentUserActions.setCurrentUserToken("N/A");
+    };
+
+    render() {
+        return(
+            <Menu fixed="top">
+                <Menu.Item fitted="vertically">
+                    <Image size="mini" src={logo} href={'/'}/>
+                </Menu.Item>
+                <Menu.Item fitted="vertically">
+                    <Input className='icon' icon='search' placeholder='Searching is disabled' disabled/>
+                </Menu.Item>
+                <MyAgent/>
+                <Menu.Item onClick={this.logout} className="text">
+                    Log Out
+                </Menu.Item>
+            </Menu>
+        );
+    }
+
+}
 
 
 class NavBar extends Component {
@@ -158,7 +180,7 @@ class NavBar extends Component {
         setCurrentOrganizationId = this.props.currentOrgActions.setCurrentId;
         return (
             <div style={{height: 50, marginBottom:10}}>
-                <NavMenu/>
+                <NavMenu currentUserActions={this.props.currentUserActions}/>
             </div>
         );
     }
@@ -168,17 +190,19 @@ class NavBar extends Component {
 function mapStateToProps(state) {
     return {
         currentOrganizationId: state.getUserInfo.currentOrgId,
+        currentUserToken: state.getUserInfo.currentUserToken,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        currentOrgActions: bindActionCreators(currentOrgActions, dispatch)
+        currentOrgActions: bindActionCreators(currentOrgActions, dispatch),
+        currentUserActions: bindActionCreators(currentUserActions, dispatch)
     };
 }
 
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(NavBar);
+)(NavBar));

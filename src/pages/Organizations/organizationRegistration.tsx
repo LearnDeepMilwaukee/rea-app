@@ -6,6 +6,8 @@ import * as React from "react";
 import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration";
 import createAgentRelationship from "../../queries/AgentRelationship/createNewAgentRelationship";
+
+import {withRouter} from 'react-router-dom';
 import createOrganization from "../../queries/Organization/CreateOrganization";
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
 import {withRouter} from 'react-router-dom';
@@ -35,7 +37,6 @@ class Registration extends React.Component {
             banner: undefined, // TODO:  Not yet used because of missing backend implementation
             description: undefined
         };
-
     }
 
     getRegistrationJSON = (event) => {
@@ -43,13 +44,6 @@ class Registration extends React.Component {
         let requiredFieldsValid =
             this.state.name !== undefined
             && this.state.type !== undefined;
-
-        // console.log("name: " + this.state.name + "\n" +
-        //   "type: " + this.state.type + "\n" +
-        //   "logo: " + this.state.logo + "\n" +
-        //   "banner: " + this.state.banner + "\n" +
-        //   "description: " + this.state.description + "\n\n" +
-        //   "valid?  " + requiredFieldsValid);
 
         if (!requiredFieldsValid) {
             alert("Please enter valid data into all required fields!");
@@ -290,43 +284,6 @@ class OrganizationLogoField extends React.Component {
         );
     }
 }
-
-// class OrganizationBannerField extends React.Component {
-//
-//   state = {
-//     valid: true,
-//     path: ""
-//   };
-//
-//   onImageSelected = (event) => {
-//     var file = event.target.files[0];
-//     let reader = new FileReader();
-//     reader.readAsDataURL(file);
-//     reader.onload = () => {
-//       this.setState({path: reader.result});
-//       this.props.saveOrgBanner(this.state.valid ? reader.result : undefined);
-//       console.log(this.state.value);
-//     };
-//     reader.onerror = (error) => {
-//       console.log("Error", error);
-//     };
-//   };
-//
-//   // Draws the components on the screen
-//   render() {
-//     return (
-//       <div>
-//         Organization Banner:
-//         <input type="file" accept="image/*" onChange={(event) => this.onImageSelected(event)}/>
-//         (800x200)
-//         <br/>
-//         Preview:
-//         <br/>
-//         <img src={this.state.path} height={200} width={800}/>
-//       </div>
-//     );
-//   }
-// }
 
 class OrganizationDescriptionField extends React.Component {
     state = {
