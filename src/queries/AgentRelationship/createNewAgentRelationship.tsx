@@ -1,35 +1,37 @@
 /**
  * Contains the query and Apollo connection to create a new Organization relationship
  *
- * @author Donal Moloney <Moloneda@msoe.edu>
+ * @author Donal Moloney <Moloneyda@msoe.edu>
  * @date 4/5/19
  */
 
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
+import { getActiveLoginToken } from "@vflows/store/selectors/auth";
 import { agentRelationshipInterface } from "./agentRelationshipInterface";
-
+//The 105 pertains to the backend represents default agent that has to be overwritten or error is thrown
 export const mutation = gql`
   mutation(
-    $objectId: Int!,
-    $relationshipId: Int!,
+    $note: String,
+    $subjectId: Int = 105,
+    $relationshipId: Int = 1,
     $token: String!,
-    $subjectId: Int!,
-    $note: String
+    $objectId: Int = 105
   ){
   createAgentRelationship(
-    objectId: $objectId,
+    note: $note,
+    subjectId: $subjectId,
     relationshipId: $relationshipId,
     token: $token,
-    subjectId: $subjectId,
-    note: $note
+    objectId: $objectId
   ){
     agentRelationship{
-        id
+     ...agentRelationshipInterface
     }
   }
 }
+${agentRelationshipInterface}
 `;
 
 export default compose(
@@ -38,6 +40,5 @@ export default compose(
     })),
     graphql(mutation, {
         name: "createAgentRelationship"
-    }
-    )
+    })
 );
