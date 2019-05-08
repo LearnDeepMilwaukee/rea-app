@@ -5,20 +5,11 @@
 import * as React from "react";
 import * as themeable from "react-themeable";
 import * as theme from "./organizationRegistration";
-import * as Modal from "react-modal";
 import createAgentRelationship from "../../queries/AgentRelationship/createNewAgentRelationship";
-import {Link} from "react-router-dom";
 import createOrganization from "../../queries/Organization/CreateOrganization";
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
-import {isNullOrUndefined} from "util";
-
+import {withRouter} from 'react-router-dom';
  import getMyAgent from "../../queries/Agent/getMyAgent";
-var parts = {
-    note: "Test", // Gives context to relationship,
-    subjectId: 14,
-    objectId: 20,
-    relationshipId: 2
-}
 
 var myAgentId = 0; //Global variable that holds value returned from GetMyAgent
 //Global query that returns id of current user logged in else returns -1
@@ -42,21 +33,9 @@ class Registration extends React.Component {
             type: "For-profit Company", // Required
             logo: undefined,
             banner: undefined, // TODO:  Not yet used because of missing backend implementation
-            description: undefined,
-            newOrganizationID: undefined,
-            modalIsOpen: false
+            description: undefined
         };
 
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-    }
-
-    openModal() {
-        this.setState({modalIsOpen: true});
-    }
-
-    closeModal() {
-        this.setState({modalIsOpen: false});
     }
 
     getRegistrationJSON = (event) => {
@@ -83,12 +62,10 @@ class Registration extends React.Component {
                 // primaryLocationId: TODO
                 // TODO add banner field
             };
-            // variables.token = this.props.token; // add the token in afterwards
             // perform the mutation
             this.props.createOrgMutation({variables}).then((response) => {
                 let newOrganization = response.data.createOrganization.organization.id;
                 if (newOrganization) {
-                    this.openModal();
                     this.setState({newOrganizationID: newOrganization,});
                     var parts = {
                         note: "A new org", // Gives context to relationship,
@@ -101,11 +78,9 @@ class Registration extends React.Component {
                     parts.relationshipId = parseInt(6);
                     parts.note = this.state.name;
                     console.log(parts);
-                    this.props.createAgentRelationship({variables: parts}).then((response) => {        // perform the mutation
-                        let agentRelationshipValue = response.data;
-                            if (agentRelationshipValue) {
-                                alert("Your org has created a relationship with a new org.");
-                            }
+                    this.props.createAgentRelationship({variables: parts}).then(() => {        // perform the mutation
+                        this.props.history.push("/");
+                        window.location.reload();
                         }).catch((error) => {
                             console.log(error);
                         });
@@ -124,16 +99,7 @@ class Registration extends React.Component {
             <div id="baseElement"
                  {...currentTheme(0, "registrationPage")}
             >
-                <Modal
-                    isOpen={this.state.modalIsOpen}
-                    onRequestClose={this.closeModal}
-                    {...currentTheme(1, "popup")}
-                >
-                    <Link
-                        to={"/projects/" + this.state.newOrganizationID}
-                    >Take me there!
-                    </Link>
-                </Modal>
+
                 <h1>Register a new organization</h1>
                 <form
                     id="form"
@@ -394,5 +360,5 @@ class OrganizationDescriptionField extends React.Component {
     }
 }
 
-export default createAgentRelationship(createOrganization(Registration));
+export default withRouter(createAgentRelationship(createOrganization(Registration)));
 
