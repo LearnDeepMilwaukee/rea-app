@@ -92,24 +92,30 @@ class Registration extends React.Component {
                     this.setState({newOrganizationID: newOrganization,});
                     var parts = {
                         note: "A new org", // Gives context to relationship,
-                        subjectId: 14,
-                        relationshipId: 1,
-                        objectId:20
+                        subjectId: 0,
+                        relationshipId: 0,
+                        objectId:0
                     }
-                    // parts.objectId= parseInt(this.state.newOrganizationID);
-                    // parts.subjectId= parseInt(myAgentId);
-                    // parts.relationshipId= parseInt(String(parts.objectId)+String(parts.subjectId));
-                    // parts.note= this.state.name;
+                    parts.objectId = parseInt(this.state.newOrganizationID);
+                    parts.subjectId = parseInt(myAgentId);
+                    parts.relationshipId = parseInt(String(parts.objectId)+String(parts.subjectId));
+                    parts.note = this.state.name;
+                    let requiredParamsValid =
+                        this.state.objectId !== 105 //The 105 pertains to the backend represents default agent that has to be overwritten or error is thrown
+                        && this.state.subjectId !== 105;
                     console.log(parts);
-                    this.props.createAgentRelationship({parts}).then((response) => {        // perform the mutation
-                        alert("made it");
-                        let agentRelationshipValue = response.data;
-                        if (agentRelationshipValue) {
-                            alert("A relationship between your account and the newly created org. has been made!");
-                        }
-                    }).catch((error) => {
-                        console.log(error);
-                    });
+                    if (!requiredParamsValid) {
+                        alert("Error occurred agent relationship params sets as default!");
+                    } else {
+                        this.props.createAgentRelationship({parts}).then((response) => {        // perform the mutation
+                            let agentRelationshipValue = response.data;
+                            if (agentRelationshipValue) {
+                                alert("A relationship between & "+c+"!");
+                            }
+                        }).catch((error) => {
+                            console.log(error);
+                        });
+                    }
                 }
             }).catch((error) => {
                 console.log(error);

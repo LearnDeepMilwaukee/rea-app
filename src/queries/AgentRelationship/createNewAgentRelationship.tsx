@@ -10,14 +10,14 @@ import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 import { getActiveLoginToken } from "@vflows/store/selectors/auth";
 import { agentRelationshipInterface } from "./agentRelationshipInterface";
-
+//The 105 pertains to the backend represents default agent that has to be overwritten or error is thrown
 export const mutation = gql`
   mutation(
     $note: String,
-    $subjectId: Int = 14,
+    $subjectId: Int = 105,
     $relationshipId: Int = 1,
     $token: String!,
-    $objectId: Int = 20
+    $objectId: Int = 105
   ){
   createAgentRelationship(
     note: $note,
