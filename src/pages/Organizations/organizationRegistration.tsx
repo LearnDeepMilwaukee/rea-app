@@ -4,7 +4,7 @@
 
 import * as React from "react";
 import createAgentRelationship from "../../queries/AgentRelationship/createNewAgentRelationship";
-import {Form, Button, Grid, Header, Segment, Message, Label, Image} from 'semantic-ui-react'
+import {Form, Button, Grid, Header, Segment, Message, Label, Image, TextArea} from 'semantic-ui-react'
 
 import {withRouter} from 'react-router-dom';
 import createOrganization from "../../queries/Organization/CreateOrganization";
@@ -45,7 +45,7 @@ class Registration extends React.Component {
             this.state.errorMessage.splice(index, 1);
         }
         if (this.state.errorMessage.length == 0) {
-            this.setState({error: true})
+            this.setState({error: false})
         }
     };
 
@@ -67,27 +67,27 @@ class Registration extends React.Component {
             }
         } else {
             this.removeStringFromErrorMessage(requiredFieldsMessage);
-            let variables = {
+            let createOrgMutatonVariables = {
                 name: this.state.name,
                 type: this.state.type,
                 image: this.state.logo,
                 note: this.state.description
             };
 
-            this.props.createOrgMutation({variables}).then((response) => {
+            this.props.createOrgMutation({createOrgMutatonVariables}).then((response) => {
 
                 let newOrganizationId = response.data.createOrganization.organization.id;
 
                 if (newOrganizationId) {
                     this.setState({newOrganizationID: newOrganizationId});
-                    let parts = {
+                    let createOrgConnectionMutationVariables = {
                         note: this.state.name,
                         subjectId: parseInt(myAgentId),
                         relationshipId: parseInt(6),
                         objectId: parseInt(newOrganizationId)
                     };
 
-                    this.props.createAgentRelationship({variables: parts}).then(() => {
+                    this.props.createAgentRelationship({variables: createOrgConnectionMutationVariables}).then(() => {
                         this.props.history.push("/");
                         window.location.reload();
                     }).catch((error) => {
@@ -112,7 +112,7 @@ class Registration extends React.Component {
         let errorMessage = "There was an error when processing the image";
         reader.readAsDataURL(file);
         reader.onload = () => {
-            this.setState({image: reader.result});
+            this.setState({logo: reader.result});
             this.removeStringFromErrorMessage(errorMessage);
         };
         reader.onerror = (error) => {
@@ -168,7 +168,7 @@ class Registration extends React.Component {
                                     </Grid>
                                 </Form.Field>
                                 <Form.Field>
-                                    <Form.Input fluid placeholder='Description' name='description'
+                                    <Form.TextArea fluid placeholder='Description' name='description'
                                                 value={this.state.description}
                                                 onChange={this.handleChange}/>
                                 </Form.Field>
@@ -203,7 +203,7 @@ export const OrganizationTypeList = GetOrganizationTypes(({orgTypeList, loading,
             orgList.push({key: event.name, text: event.name, value: event.name})
         });
         return (
-            <Form.Select fluid id={"typeDropdown"} label='Organization Type' placeholder="Choose an organization type"
+            <Form.Select fluid id={"typeDropdown"} placeholder="Choose an organization type"
                          options={orgList} onChange={(e, {value}) => onChange(value)}/>);
 
     }
