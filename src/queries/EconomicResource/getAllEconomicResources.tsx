@@ -32,7 +32,7 @@ export default compose(
   })),
 
   graphql(query, {
-    // read query vars into query from input data above
+      // read query vars into query from input data above
     options: (props) => ({ variables: {
         ...props.variables,
       } }),

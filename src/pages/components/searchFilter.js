@@ -114,7 +114,7 @@ class OrgFilter extends React.Component{
                     </div>
                     <div className="column">
                         <label>Type:</label><br/>
-                        <select onChange={(event) => this.onTypeFilterChange(event.target.value)} style={{width: '100px'}}>
+                        <select onChange={(event) => this.onTypeFilterChange(event.target.value)} style={{width: '100px'}} id={"dropdown"}>
                             <option selected={this.state.typeFilter === 'All'} value={'All'}>All</option>
                             <option selected={this.state.typeFilter === 'School'} value={'School'}>School</option>
                             <option selected={this.state.typeFilter === 'Church'} value={'Church'}>Church</option>
@@ -132,7 +132,7 @@ class OrgFilter extends React.Component{
                             </option>
                         </select>
                     </div>
-                    <div className="coulumn">
+                    <div className="column">
                         <label>Sort:</label>
                         <select onChange={(event) => this.onSortFilterChange(event.target.value)}>
                             <option selected={this.state.sorting === 'alphabetical'} value={'alphabetical'}>Alphabetical</option>

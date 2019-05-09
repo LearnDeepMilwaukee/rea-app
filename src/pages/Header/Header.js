@@ -12,7 +12,7 @@ import * as logo from '../../resources/upcycleLogo.png'
 import React, {Component} from "react";
 import {render} from "react-dom";
 import {Image, Menu, Input, Dropdown, Loader, Button} from "semantic-ui-react";
-import './Header.css';
+import styles from './Header.css';
 import 'semantic-ui-css/semantic.min.css'
 
 let myAgentId = -1;
@@ -35,7 +35,7 @@ let OrgNameByID = getOrganizationById(({organization, loading, error}) => {
     } else {
         if (currentOrganizationId === organization.id) {
             return (
-                <div>
+                <div className={styles.blueify}>
                     <Image src={organization.image ? organization.image : defaultImage} avatar/>
                     <span>{organization.name}</span>
                 </div>
@@ -44,7 +44,7 @@ let OrgNameByID = getOrganizationById(({organization, loading, error}) => {
         else {
             return (<Dropdown.Item onClick={() => {
                     setCurrentOrganizationId(organization.id);
-                }} text={organization.name} value={organization.id}/>
+                }} text={organization.name} value={organization.id} className={styles.blueify}/>
             );
         }
     }
@@ -56,13 +56,13 @@ let AgentRelationships = getAllAgentRelationships(({agentRelationshipList, loadi
 
         return (
             <Menu.Item fitted="vertically">
-                <Dropdown width={250} loading text={"Loading"} id={"orgDropdown"}/>
+                <Dropdown width={250} loading text={"Loading"} id={"orgDropdown"} className={styles.blueify}/>
             </Menu.Item>
         );
     } else if (error) {
         return (
             <Menu.Item fitted="vertically">
-                <Dropdown width={250} loading text={"Error"} id={"orgDropdown"}/>;
+                <Dropdown width={250} loading text={"Error"} id={"orgDropdown"} className={styles.blueify}/>;
             </Menu.Item>
         );
 
@@ -85,14 +85,13 @@ let AgentRelationships = getAllAgentRelationships(({agentRelationshipList, loadi
             //Empty
         }
         return (
-            <div>
-                <Menu.Item fitted="vertically">
-
-                    <Dropdown selection width={250} options={orgList}
-                              text={currentOrganizationId != -1 ?<OrgNameByID organizationId={currentOrganizationId}/> :
-                                  <div>
+            <div className={styles.blueify}>
+                <Menu.Item fitted="vertically" >
+                    <Dropdown selection width={250} options={orgList} className={styles.blueify}
+                              text={currentOrganizationId != -1 ?<OrgNameByID organizationId={currentOrganizationId} /> :
+                                  <div className={styles.blueify}>
                                   <Image src={defaultImage} avatar/>
-                                  <span>{"Select an organization"}</span>
+                                  <span>{"Select an organization ▼"}</span>
                                   </div>
                                   } id={"orgDropdown"}
                               icon={null}/>
@@ -113,25 +112,25 @@ let MyAgent = getMyAgent(({agent, loading, error}) => {
     } else {
         myAgentId = agent.id;
         return (
-            <Menu.Menu position="right">
+            <Menu.Menu position="right" className={styles.blueify}>
                 <Menu.Item fitted="vertically">
                     <AgentRelationships/>
                     <Image src={agent.image ? agent.image : "https://via.placeholder.com/200.png?text=Logo%20Preview"}
                            avatar/>
                     <span id={"username"}>{agent.name}</span>
                 </Menu.Item>
-                <Menu.Item>
-                    <Dropdown floating options={menuDropDown} text='°°°' icon={null}/>
+                <Menu.Item  className={styles.text}>
+                    <Dropdown floating options={menuDropDown} text='More ▼' icon={null}/>
                 </Menu.Item>
             </Menu.Menu>
         );
     }
     return (
-        <Menu.Menu position="right">
+        <Menu.Menu position="right" className={styles.blueify}>
             <Menu.Item>
                 {errorOrLoadingPart}
             </Menu.Item>
-            <Menu.Item>
+            <Menu.Item  className={styles.text}>
                 <Dropdown floating options={menuDropDown} text='°°°' icon={null}/>
             </Menu.Item>
         </Menu.Menu>
@@ -155,7 +154,7 @@ class NavMenu extends Component {
 
     render() {
         return(
-            <Menu fixed="top">
+            <Menu fixed="top" className={styles.blueify}>
                 <Menu.Item fitted="vertically">
                     <Image size="mini" src={logo} href={'/'}/>
                 </Menu.Item>
@@ -163,7 +162,7 @@ class NavMenu extends Component {
                     <Input className='icon' icon='search' placeholder='Searching is disabled' disabled/>
                 </Menu.Item>
                 <MyAgent/>
-                <Menu.Item onClick={this.logout} className="text">
+                <Menu.Item onClick={this.logout} className={styles.text}>
                     Log Out
                 </Menu.Item>
             </Menu>
