@@ -3,10 +3,11 @@ import 'semantic-ui-css/semantic.min.css'
 import {withRouter} from 'react-router-dom';
 import {Form, Button, Grid, Header, Segment, Image, Label, Message, Modal} from 'semantic-ui-react'
 import createEconomicEvent from "../../queries/EconomicEvent/CreateEconomicEvent";
+import updateEconomicEvent from "../../queries/EconomicResource/updateEconominResource";
 import getMyAgent from "../../queries/Agent/getMyAgent";
-import GetUnits from "../../queries/Unit/getAllUnits";
-import createResourceClassification from "../../queries/ResourceClassification/createResourceClassification";
 import createUnit from "../../queries/Unit/createUnit";
+import GetUnits from "../../queries/Unit/getAllUnits";
+
 
 let default_image = require("../../resources/default_resource_img.jpg");
 let units = "";
@@ -104,21 +105,6 @@ class EditInventoryItem extends React.Component {
     //         return <div/>;
     //     });
     // };
-    //
-    // createItemUnitDoesNotExist = () => {
-    //     let unitMutationVars = [];
-    //     unitMutationVars["name"] = this.state.units;
-    //     unitMutationVars["symbol"] = this.state.units;
-    //     this.props.createUnit({variables: unitMutationVars}).then(() => {
-    //         this.createItemUnitExists();
-    //     }).catch((error) => {
-    //         running = false;
-    //         console.log(error);
-    //         this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
-    //
-    //         return <div/>;
-    //     });
-    // };
 
     handleSubmit = () => {
 
@@ -166,7 +152,7 @@ class EditInventoryItem extends React.Component {
 
     render() {
         return (
-            <Modal trigger={<Button className="ui right floated primary" onClick={this.editItem}>Edit</Button>} basic>
+            <Modal trigger={<Button className="ui right floated primary">Edit</Button>} basic>
                 <Modal.Content>
             <div className='editItem'>
                 <style>{`

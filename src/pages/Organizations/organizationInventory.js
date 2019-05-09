@@ -58,7 +58,6 @@ class AddItemButton extends React.Component {
 class EditItemButton extends React.Component {
 
     state = {
-        showModal: false,
         resource: this.props.resource
     };
 
