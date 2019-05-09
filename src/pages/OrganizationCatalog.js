@@ -96,8 +96,19 @@ class BasePage extends React.Component {
             this.setState({distanceFilter: parseInt(event.target.value), userEnteredDistance: parseInt(event.target.value)});
     };
 
-    handleReset = function () {
-        this.setState({distanceFilter: 50, sorting: "alphabetical", typeFilter: "All", nameFilter: "", myOrgsFilter: false, pubOrgsFilter: false, userEnteredDistance: ""});
+    handleReset = function (event) {
+        //0 mean the enter key was hit
+        if(event.detail !== 0) {
+            this.setState({
+                distanceFilter: 50,
+                sorting: "alphabetical",
+                typeFilter: "All",
+                nameFilter: "",
+                myOrgsFilter: false,
+                pubOrgsFilter: false,
+                userEnteredDistance: ""
+            });
+        }
     };
     onNameChange = function (event) {
             this.setState({nameFilter: event.target.value});
@@ -141,28 +152,6 @@ class BasePage extends React.Component {
 
 
     render() {
-        //Get all agent relationships that the agent is apart of and get the orgs that are related
-        const MyOrgs = getAllOrganizations(({organizationList, loading, error}) => {
-            if (loading) {
-                console.log("LOADING");
-                return (
-                    <strong>Loading...</strong>
-                );
-            } else if (error) {
-                console.log(error);
-
-                return (
-                    <p style={{color: "#F00"}}>API error</p>
-                );
-            } else {
-                return this.filterAndSortOrgs(organizationList);
-
-            }
-        });
-
-
-
-
         const OrgList = getAllOrganizations(({organizationList, loading, error}) => {
             if (loading) {
                 console.log("LOADING");
@@ -180,7 +169,6 @@ class BasePage extends React.Component {
 
             }
         });
-
         return (
             <div className={"ui container"}>
                 <Form>
@@ -194,14 +182,13 @@ class BasePage extends React.Component {
                         <Form.Select fluid label='Sort' options={optionsSort} value={this.state.sorting} onChange={this.onSortFilterChange} />
                     </Form.Group>
                     <Form.Group inline>
-                        <Form.Radio label='My Orgs' value='myOrgs' checked={this.state.myOrgsFilter === true} onChange={this.onMyOrgsChange}/>
+                        {/*<Form.Radio label='My Orgs' value='myOrgs' checked={this.state.myOrgsFilter === true} onChange={this.onMyOrgsChange}/>*/}
                         {/*<Form.Radio label='Public Orgs' value='publicOrgs' checked={this.state.myOrgsFilter === false} onChange={this.onPubOrgsChange}/>*/}
                         <Form.Button className="ui negative" color={'red'} onClick={this.handleReset}>Reset filters</Form.Button>
                     </Form.Group>
                 </Form>
                 <div className={"ui container"}>
-                    {this.state.myOrgsFilter ? <MyOrgs/> : <OrgList/>}
-                    {/*<MyOrgs/>*/}
+                    <OrgList/>
                 </div>
             </div>
         )
