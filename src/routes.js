@@ -38,7 +38,6 @@ class Routes extends Component {
                     <ProtectedRoute exact path="/OrgInventory/:id" component={OrganizationInventory}/>
                     <ProtectedRoute exact path="/RegisterIndividual" component={IndividualRegistration}/>
                     <ProtectedRoute exact path="/" component={OrganizationCatalog}/>
-                    <ProtectedRoute exact path="/CreateInventoryItem/:orgId" component={CreateInventoryItem}/>
                     {/*Below here are the api pages*/}
                     <Route path="/api/processClassification" component={ProcessClassificationPage}/>
                     <Route path="/api/unit" component={UnitPage}/>

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'semantic-ui-css/semantic.min.css'
 import {withRouter} from 'react-router-dom';
-import {Form, Button, Grid, Header, Segment, Image, Label, Message} from 'semantic-ui-react'
+import {Form, Button, Grid, Header, Segment, Image, Label, Message, Modal} from 'semantic-ui-react'
 import createEconomicEvent from "../../queries/EconomicEvent/CreateEconomicEvent";
 import getMyAgent from "../../queries/Agent/getMyAgent";
 import GetUnits from "../../queries/Unit/getAllUnits";
@@ -43,7 +43,7 @@ const UnitExist = GetUnits(({unitList, loading, error}) => {
 class CreateInventoryItem extends React.Component {
     state = {
         image: default_image,
-        orgId: this.props.match.params.orgId,
+        orgId: this.props.orgId,
         name: "",
         notes: "",
         quantity: "",
@@ -149,10 +149,15 @@ class CreateInventoryItem extends React.Component {
             console.log(error);
         };
     };
+    onClose = () => {
+        window.location.reload();
+    };
 
     render() {
-
         return (
+            <Modal trigger={<Button className="ui right floated primary">Create Item</Button>}
+                   basic closeIcon centered onClose={this.onClose}>
+                <Modal.Content>
             <div className='createItem'>
 
                 <style>{`
@@ -227,6 +232,8 @@ class CreateInventoryItem extends React.Component {
                     </Grid.Column>
                 </Grid>
             </div>
+                </Modal.Content>
+            </Modal>
         );
 
     }
