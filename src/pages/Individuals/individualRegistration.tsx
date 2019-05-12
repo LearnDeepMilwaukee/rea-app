@@ -128,14 +128,22 @@ function CreateUser(props) {
 class IndividualRegistration extends React.Component {
     componentDidMount() {
         loginUser = this.loginUserMethod;
-
         if (this.props.currentUserToken !== "N/A") {
             this.props.history.push("/");
             window.location.reload();
         }
     }
 
-    loginUserMethod = () => {
+    componentDidUpdate() {
+        alert("????????");
+        if(window.history && window.history.pushState){
+            $(window).on('popstate', function(){
+               alert("HI");
+            });
+        }
+    }
+
+        loginUserMethod = () => {
         if (!this.state.loggingIn && !this.state.loggedIn) {
             this.setState({loggingIn: true}, () => {
                 let mutationVariables = {
