@@ -56,7 +56,7 @@ class LoginPage extends React.Component {
         });
     };
 
-    handleRegister() {
+    handleRegister=()=> {
         this.props.history.push("/RegisterIndividual");
         window.location.reload();
     }
@@ -98,7 +98,7 @@ class LoginPage extends React.Component {
                                     </Form.Field>
                                     <Form.Group inline>
                                         <Button color='blue' fluid type='submit' size='large'>Login</Button>
-                                        <Button color='blue' fluid type='button' onClick={this.handleRegister()} size='large'>Register</Button>
+                                        <Button color='blue' fluid type='button' onClick={this.handleRegister} size='large'>Register</Button>
                                     </Form.Group>
                             </Segment>
                                 <Message error header='Login attempt failed!'

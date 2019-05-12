@@ -9,7 +9,7 @@ import userEmailExist from "../../queries/User/UserEmailExists";
 import usernameExists from "../../queries/User/UsernameExists";
 import createToken from "../../queries/User/createToken.js";
 import * as EmailValidator from "email-validator";
-// import {adminToken} from "../../apiKeys.json";
+import {adminToken} from "../../apiKeys.json";
 import "./individualRegistration.css";
 import {Form, Button, Grid, Header, Segment, Message} from 'semantic-ui-react'
 import {isUndefined} from "util";
