@@ -31,7 +31,7 @@ class Registration extends React.Component {
 
         this.state = {
             name: undefined, // Required
-            type: "For-profit Company", // Required
+            type: undefined, // Required
             logo: undefined,
             description: undefined,
             errorMessage: [],
@@ -48,7 +48,13 @@ class Registration extends React.Component {
             this.setState({error: false})
         }
     };
-
+    addStringToErrorMessage = (stringToAdd) => {
+        let index = this.state.errorMessage.indexOf(stringToAdd);
+        if (index < 0) {
+            this.state.errorMessage.push(stringToAdd);
+            this.setState({error: true})
+        }
+    };
     handleChange = (e, {name, value}) => {
         this.setState({[name]: value});
     };
@@ -57,14 +63,11 @@ class Registration extends React.Component {
         event.preventDefault();
         let requiredFieldsValid =
             this.state.name !== undefined
-            && this.state.type !== undefined;
+            && this.state.type !== undefined && this.state.name.trim() != "";
         let requiredFieldsMessage = "You need to fill in the name and organization type fields";
         if (!requiredFieldsValid) {
-            let index = this.state.errorMessage.indexOf(requiredFieldsMessage);
-            if (index < 0) {
-                this.state.errorMessage.push(requiredFieldsMessage);
-                this.setState({error: true})
-            }
+            this.addStringToErrorMessage(requiredFieldsMessage);
+
         } else {
             this.removeStringFromErrorMessage(requiredFieldsMessage);
             let createOrgMutatonVariables = {
@@ -74,7 +77,7 @@ class Registration extends React.Component {
                 note: this.state.description
             };
 
-            this.props.createOrgMutation({createOrgMutatonVariables}).then((response) => {
+            this.props.createOrgMutation({variables: createOrgMutatonVariables}).then((response) => {
 
                 let newOrganizationId = response.data.createOrganization.organization.id;
 
@@ -91,17 +94,13 @@ class Registration extends React.Component {
                         this.props.history.push("/");
                         window.location.reload();
                     }).catch((error) => {
-                        this.state.errorMessage.push("There was an error when connecting your account to your organization");
-                        this.setState({error: true});
+                        this.addStringToErrorMessage("There was an error when connecting your account to your organization");
                         console.log(error);
                     });
                 }
                 this.removeStringFromErrorMessage("There was an error when creating your organization");
             }).catch((error) => {
-
-                this.state.errorMessage.push("There was an error when creating your organization");
-                this.setState({error: true});
-
+                this.addStringToErrorMessage("There was an error when creating your organization");
                 console.log(error);
             });
         }
@@ -116,10 +115,7 @@ class Registration extends React.Component {
             this.removeStringFromErrorMessage(errorMessage);
         };
         reader.onerror = (error) => {
-            let index = this.state.errorMessage.indexOf(errorMessage);
-            if (index < 0) {
-                this.state.errorMessage.push(errorMessage);
-            }
+            this.addStringToErrorMessage(errorMessage);
             console.log(error);
         };
     };
