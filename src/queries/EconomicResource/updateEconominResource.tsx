@@ -9,7 +9,7 @@
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import EconomicEventFragment from "../EconomicEvent/EconomicEvent.tsx";
+//import { economicResourceInterface } from "./economicResourceInterface"
 
 export const mutation = gql`
   mutation(
@@ -26,12 +26,11 @@ export const mutation = gql`
       note: $note,
       image: $image
     ) {
-      economicEvent {
-        ...economicEventInterface
+      economicResource {
+        id
       }
     }
   }
-${EconomicEventFragment}
 `;
 
 /**

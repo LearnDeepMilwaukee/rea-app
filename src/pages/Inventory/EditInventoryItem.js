@@ -6,16 +6,15 @@ import createEconomicEvent from "../../queries/EconomicEvent/CreateEconomicEvent
 import GetUnits from "../../queries/Unit/getAllUnits";
 import createResourceClassification from "../../queries/ResourceClassification/createResourceClassification";
 import createUnit from "../../queries/Unit/createUnit";
-import updateEconomicEvent from "../../queries/EconomicResource/updateEconominResource";
+import updateEconomicResource from "../../queries/EconomicResource/updateEconominResource";
 import getMyAgent from "../../queries/Agent/getMyAgent";
 
 
 let default_image = require("../../resources/default_resource_img.jpg");
 let units = "";
 let mutationVars = [];
-let createItemUnitExists;
+let editItem;
 let running = false;
-let resource = undefined;
 
 const GetMyAgent = getMyAgent(({agent, loading, error}) => {
 
@@ -32,7 +31,7 @@ const UnitExist = GetUnits(({unitList, loading, error}) => {
     if (!loading && !error) {
         for (let i = 0; i < unitList.length; i++) {
             if (units.toLowerCase() === unitList[i].name.toLowerCase()) {
-                return <div>{createItemUnitExists()}</div>
+                return <div>{editItem()}</div>
             }
         }
     }
@@ -56,6 +55,7 @@ class EditInventoryItem extends React.Component {
 
     constructor(props) {
         super(props);
+        console.log(this.props.resource);
         if (this.props.resource !== undefined) {
             this.state = {
                 name: this.props.resource.trackingIdentifier,
@@ -64,29 +64,47 @@ class EditInventoryItem extends React.Component {
                 units: this.props.resource.currentQuantity.unit.name,
                 image: this.props.resource.image
             };
+
+            if(this.props.resource.image === undefined){
+                this.setState({image: default_image});
+            }
             units = this.props.resource.currentQuantity.unit.name;
         }
 
     }
 
     componentDidMount() {
-        createItemUnitExists = this.createItemUnitExists;
-        this.setState({resource: resource})
+        editItem = this.editItem;
+        // this.setState({resource: resource})
     }
 
-    createItemUnitExists = () => {
+    editItem = () => {
 
-        console.log(mutationVars);
-            this.props.createEconomicEvent({variables: mutationVars}).then(() => {
+        this.props.createEconomicEvent({variables: mutationVars}).then(() => {
                 running = false;
                 mutationVars = [];
-                console.log("It Worked");
-                return <div/>;
 
-            }).catch((error) => {
+                //Apply mutation vars for updateEconomicResource
+                mutationVars["id"] = this.props.resource.id;
+                mutationVars["image"] = this.state.image;
+                mutationVars["trackingIdentifier"] = this.state.name;
+                mutationVars["note"] = this.state.notes;
+
+                this.props.updateEconomicResource({variables: mutationVars}).then(() => {
+                    running = false;
+                    mutationVars = [];
+                    this.setState({error: false, messageToDisplay: "Item successfully updated", success: true});
+                    return <div/>;
+                }).catch((error) => {
+                    running = false;
+                    console.log(error);
+                    this.setState({error: true, messageToDisplay: "There was an error when editing the item"});
+                    return <div/>;
+                });
+        }).catch((error) => {
                 running = false;
                 console.log(error);
-                this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
+                this.setState({error: true, messageToDisplay: "There was an error when editing the item"});
                 return <div/>;
             });
     };
@@ -94,7 +112,7 @@ class EditInventoryItem extends React.Component {
     handleSubmit = () => {
 
         if(isNaN(Number(this.state.quantity))){
-
+            this.setState({error: true, messageToDisplay: "Quantity must be a number!"})
         }else{
             var change = this.state.quantity - this.props.resource.currentQuantity.numericValue;
 
@@ -143,9 +161,13 @@ class EditInventoryItem extends React.Component {
         };
     };
 
+    onClose = () => {
+        window.location.reload();
+    };
+
     render() {
         return (
-            <Modal trigger={<Button className="ui right floated primary">Edit</Button>} basic closeIcon centered>
+            <Modal trigger={<Button className="ui right floated primary">Edit</Button>} basic closeIcon centered onClose={this.onClose}>
                 <Modal.Content>
             <div className='editItem'>
                 <style>{`
@@ -193,7 +215,7 @@ class EditInventoryItem extends React.Component {
                                     </Grid>
                                 </Form.Field>
                                 <Form.Field>
-                                    <Image src={this.state.image} size='small' centered/>
+                                    <Image src={this.state.image} size='small' centered onError={i => i.target.src = default_image}/>
                                 </Form.Field>
 
                                 <Form.Field>
@@ -209,7 +231,7 @@ class EditInventoryItem extends React.Component {
                                     </Grid>
 
                                 </Form.Field>
-                                <Button color='blue' fluid type='submit' size='large'>Edit</Button>
+                                <Button color='blue' fluid type='submit' size='large'>Save</Button>
                             </Segment>
                         </Form>
 
@@ -227,4 +249,4 @@ class EditInventoryItem extends React.Component {
     }
 }
 
-export default withRouter(createUnit(createResourceClassification(createEconomicEvent(EditInventoryItem))));
+export default withRouter(createUnit(createResourceClassification(createEconomicEvent(updateEconomicResource(EditInventoryItem)))));
