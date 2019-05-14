@@ -6,7 +6,7 @@ import createEconomicEvent from "../../queries/EconomicEvent/CreateEconomicEvent
 import GetUnits from "../../queries/Unit/getAllUnits";
 import createResourceClassification from "../../queries/ResourceClassification/createResourceClassification";
 import createUnit from "../../queries/Unit/createUnit";
-import updateEconomicResource from "../../queries/EconomicResource/updateEconominResource";
+import updateEconomicResource from "../../queries/EconomicResource/updateEconomicResource";
 import getMyAgent from "../../queries/Agent/getMyAgent";
 
 
@@ -112,28 +112,36 @@ class EditInventoryItem extends React.Component {
 
         editItem = this.editItem;
 
-        if(isNaN(Number(this.state.quantity))){
-            this.setState({error: true, messageToDisplay: "Quantity must be a number!"})
-        }else{
-            var change = this.state.quantity - this.props.resource.currentQuantity.numericValue;
+        if(this.state.name.substr(0) === ' '){
+            this.setState({error: true, messageToDisplay: "Name cannot start with whitespace!"})
 
-            mutationVars["receiverId"] = this.props.orgId;
-            mutationVars["createResource"] = false;
-            mutationVars["resourceImage"] = this.props.resource.image;
-            mutationVars["affectedUnitId"] = 4;
-            mutationVars["resourceNote"] = this.props.resource.notes;
-            mutationVars["action"] = "produce";
-            mutationVars["affectedNumericValue"] = change;
-            mutationVars["resourceTrackingIdentifier"] = this.props.resource.trackingIdentifier;
-            mutationVars["name"] = this.props.resource.trackingIdentifier;
-            mutationVars["scopeId"] = this.props.orgId;
-            mutationVars["unit"] = this.state.units;
-            mutationVars["affectsId"] = this.props.resource.id;
-            mutationVars["affectedResourceClassifiedAsId"] = this.props.resource.resourceClassifiedAs.id;
+        }else {
+            this.setState({name: this.state.name.trim()});
+            if (isNaN(Number(this.state.quantity))) {
+                this.setState({error: true, messageToDisplay: "Quantity must be a number!"})
+            } else if (Number(this.state.quantity) < 0) {
+                this.setState({error: true, messageToDisplay: "Quantity greater than 0!"})
+            } else {
+                var change = this.state.quantity - this.props.resource.currentQuantity.numericValue;
 
-            this.setState({userRan: true});
+                mutationVars["receiverId"] = this.props.orgId;
+                mutationVars["createResource"] = false;
+                mutationVars["resourceImage"] = this.props.resource.image;
+                mutationVars["affectedUnitId"] = 4;
+                mutationVars["resourceNote"] = this.props.resource.notes;
+                mutationVars["action"] = "produce";
+                mutationVars["affectedNumericValue"] = change;
+                mutationVars["resourceTrackingIdentifier"] = this.props.resource.trackingIdentifier;
+                mutationVars["name"] = this.props.resource.trackingIdentifier;
+                mutationVars["scopeId"] = this.props.orgId;
+                mutationVars["unit"] = this.state.units;
+                mutationVars["affectsId"] = this.props.resource.id;
+                mutationVars["affectedResourceClassifiedAsId"] = this.props.resource.resourceClassifiedAs.id;
+
+                this.setState({userRan: true});
+            }
+
         }
-
     };
 
     handleChange = (e, {name, value}) => {

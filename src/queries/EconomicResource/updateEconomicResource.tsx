@@ -9,7 +9,6 @@
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-//import { economicResourceInterface } from "./economicResourceInterface"
 
 export const mutation = gql`
   mutation(

@@ -58,7 +58,7 @@ class EditItemButton extends React.Component {
         if(connected) {
             return (
                 <div>
-                    <EditInventoryItem orgId={orgId} resource={this.state.resource}/>
+                    <EditInventoryItem orgId={orgId} resource={this.props.resource}/>
                 </div>);
         }else{
             return (<div/>);
