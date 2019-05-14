@@ -93,7 +93,11 @@ class BasePage extends React.Component {
     };
 
     onDistanceFilterChange = function (event) {
+        if(event.target.value === ""){
+            this.setState({distanceFilter: "", userEnteredDistance: ""});
+        }else{
             this.setState({distanceFilter: parseInt(event.target.value), userEnteredDistance: parseInt(event.target.value)});
+        }
     };
 
     handleReset = function (event) {
