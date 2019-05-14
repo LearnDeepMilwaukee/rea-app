@@ -1,16 +1,24 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "lib": [
       "dom",
       "es2015",
       "es2017"
     ],
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es5",
     "sourceMap": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true
   },
   "files": [
     "./custom.d.ts",

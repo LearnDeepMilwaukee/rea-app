@@ -1,0 +1,9 @@
+:local(.blueify) {
+    background-color: #26547c !important;
+    color: white;
+
+}
+
+:local(.text), #orgDropdown, #username {
+    color: white !important;
+}
