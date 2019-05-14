@@ -148,7 +148,7 @@ export const EconomicResource = (props) => {
                     <p>Added on: {economicResource.createdDate}</p>
                 </Item.Description>
                 <Item.Extra>
-                    <EditItemButton resource={economicResource}/>
+                    <EditItemButton resource={props.economicResource}/>
                 </Item.Extra>
             </Item.Content>
         </Item>

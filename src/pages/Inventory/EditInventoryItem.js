@@ -74,13 +74,12 @@ class EditInventoryItem extends React.Component {
 
     componentDidMount() {
         editItem = this.editItem;
-        // this.setState({resource: resource})
     }
 
     editItem = () => {
 
         this.props.createEconomicEvent({variables: mutationVars}).then(() => {
-                running = false;
+
                 mutationVars = [];
 
                 //Apply mutation vars for updateEconomicResource
@@ -88,6 +87,7 @@ class EditInventoryItem extends React.Component {
                 mutationVars["image"] = this.state.image;
                 mutationVars["trackingIdentifier"] = this.state.name;
                 mutationVars["note"] = this.state.notes;
+
 
                 this.props.updateEconomicResource({variables: mutationVars}).then(() => {
                     running = false;
@@ -109,6 +109,8 @@ class EditInventoryItem extends React.Component {
     };
 
     handleSubmit = () => {
+
+        editItem = this.editItem;
 
         if(isNaN(Number(this.state.quantity))){
             this.setState({error: true, messageToDisplay: "Quantity must be a number!"})
