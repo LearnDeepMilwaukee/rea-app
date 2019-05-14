@@ -205,7 +205,7 @@ class CreateInventoryItem extends React.Component {
 
                                 <Form.Field>
                                     <Grid centered>
-                                        <Grid.Column width={6}>
+                                        <Grid.Column textAlign={"center"}>
                                             <Label as="label" htmlFor="imageButton" size="large" width={6}>
                                                 Upload Image
                                             </Label>

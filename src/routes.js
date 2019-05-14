@@ -40,20 +40,20 @@ class Routes extends Component {
                     <ProtectedRoute exact path="/" component={OrganizationCatalog}/>
                     <ProtectedRoute exact path="/CreateInventoryItem/:orgId" component={CreateInventoryItem}/>
                     {/*Below here are the api pages*/}
-                    <Route path="/api/processClassification" component={ProcessClassificationPage}/>
-                    <Route path="/api/unit" component={UnitPage}/>
-                    <Route path="/api/orgType" component={OrgTypePage}/>
-                    <Route path="/api/agent" component={AgentPage}/>
-                    <Route path="/api/organization" component={OrganizationPage}/>
-                    <Route path="/api/economicresource" component={EconomicResourcePage}/>
-                    <Route path="/api/agentrelationship" component={AgentRelationship}/>
-                    <Route path="/api/process" component={Process}/>
-                    <Route path="/api/plan" component={Plan}/>
-                    <Route path="/api/person" component={PersonPage}/>
-                    <Route path="/api/agentrelationshiprole" component={AgentRelationshipRoles}/>
-                    <Route path="/api/createeconomicevent" component={CreateEconomicEvent}/>
-
-                    <Route path="/api/economicevent" component={EconomicEvent}/>
+                    {/*<Route path="/api/processClassification" component={ProcessClassificationPage}/>*/}
+                    {/*<Route path="/api/unit" component={UnitPage}/>*/}
+                    {/*<Route path="/api/orgType" component={OrgTypePage}/>*/}
+                    {/*<Route path="/api/agent" component={AgentPage}/>*/}
+                    {/*<Route path="/api/organization" component={OrganizationPage}/>*/}
+                    {/*<Route path="/api/economicresource" component={EconomicResourcePage}/>*/}
+                    {/*<Route path="/api/agentrelationship" component={AgentRelationship}/>*/}
+                    {/*<Route path="/api/process" component={Process}/>*/}
+                    {/*<Route path="/api/plan" component={Plan}/>*/}
+                    {/*<Route path="/api/person" component={PersonPage}/>*/}
+                    {/*<Route path="/api/agentrelationshiprole" component={AgentRelationshipRoles}/>*/}
+                    {/*<Route path="/api/createeconomicevent" component={CreateEconomicEvent}/>*/}
+                    {/**/}
+                    {/*<Route path="/api/economicevent" component={EconomicEvent}/>*/}
 
                     <Route component={ErrorPage}/>
                 </Switch>
