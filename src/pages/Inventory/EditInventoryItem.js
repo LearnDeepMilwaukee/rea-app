@@ -55,7 +55,6 @@ class EditInventoryItem extends React.Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props.resource);
         if (this.props.resource !== undefined) {
             this.state = {
                 name: this.props.resource.trackingIdentifier,
