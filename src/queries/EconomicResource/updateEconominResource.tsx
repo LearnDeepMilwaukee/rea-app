@@ -9,7 +9,7 @@
 import { connect } from "react-redux";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import EconomicEventFragment from "./EconomicEvent.tsx";
+import EconomicEventFragment from "../EconomicEvent/EconomicEvent.tsx";
 
 export const mutation = gql`
   mutation(

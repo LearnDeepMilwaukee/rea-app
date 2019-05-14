@@ -3,17 +3,17 @@ import 'semantic-ui-css/semantic.min.css'
 import {withRouter} from 'react-router-dom';
 import {Form, Button, Grid, Header, Segment, Image, Label, Message, Modal} from 'semantic-ui-react'
 import createEconomicEvent from "../../queries/EconomicEvent/CreateEconomicEvent";
+import GetUnits from "../../queries/Unit/getAllUnits";
+import createResourceClassification from "../../queries/ResourceClassification/createResourceClassification";
+import createUnit from "../../queries/Unit/createUnit";
 import updateEconomicEvent from "../../queries/EconomicResource/updateEconominResource";
 import getMyAgent from "../../queries/Agent/getMyAgent";
-import createUnit from "../../queries/Unit/createUnit";
-import GetUnits from "../../queries/Unit/getAllUnits";
 
 
 let default_image = require("../../resources/default_resource_img.jpg");
 let units = "";
 let mutationVars = [];
 let createItemUnitExists;
-let createItemUnitDoesNotExist;
 let running = false;
 let resource = undefined;
 
@@ -35,7 +35,6 @@ const UnitExist = GetUnits(({unitList, loading, error}) => {
                 return <div>{createItemUnitExists()}</div>
             }
         }
-        return <div>{createItemUnitDoesNotExist()}</div>;
     }
 
     return <div/>
@@ -44,6 +43,7 @@ const UnitExist = GetUnits(({unitList, loading, error}) => {
 class EditInventoryItem extends React.Component {
     state = {
         image: default_image,
+        orgId: this.props.orgId,
         name: "",
         notes: "",
         quantity: "",
@@ -63,64 +63,57 @@ class EditInventoryItem extends React.Component {
                 quantity: this.props.resource.currentQuantity.numericValue,
                 units: this.props.resource.currentQuantity.unit.name,
                 image: this.props.resource.image
-            }
+            };
+            units = this.props.resource.currentQuantity.unit.name;
         }
+
     }
 
     componentDidMount() {
         createItemUnitExists = this.createItemUnitExists;
-        createItemUnitDoesNotExist = this.createItemUnitDoesNotExist;
         this.setState({resource: resource})
     }
 
-    // createItemUnitExists = () => {
-    //     this.props.createResourceClassification({variables: mutationVars}).then((response) => {
-    //         mutationVars["affectedResourceClassifiedAsId"] = response.data.createResourceClassification.resourceClassification.id;
-    //         this.props.createEconomicEvent({variables: mutationVars}).then(() => {
-    //             running = false;
-    //             mutationVars = [];
-    //             this.setState({
-    //                 image: default_image,
-    //                 name: "",
-    //                 notes: "",
-    //                 quantity: "",
-    //                 units: "",
-    //                 userRan: false,
-    //                 success: true,
-    //                 messageToDisplay: "The item has been created!"
-    //             });
-    //             return <div/>;
-    //
-    //         }).catch((error) => {
-    //             running = false;
-    //             console.log(error);
-    //             this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
-    //             return <div/>;
-    //         });
-    //     }).catch((error) => {
-    //         running = false;
-    //         console.log(error);
-    //         this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
-    //
-    //         return <div/>;
-    //     });
-    // };
+    createItemUnitExists = () => {
+
+        console.log(mutationVars);
+            this.props.createEconomicEvent({variables: mutationVars}).then(() => {
+                running = false;
+                mutationVars = [];
+                console.log("It Worked");
+                return <div/>;
+
+            }).catch((error) => {
+                running = false;
+                console.log(error);
+                this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
+                return <div/>;
+            });
+    };
 
     handleSubmit = () => {
 
-        mutationVars["receiverId"] = this.state.orgId;
-        mutationVars["createResource"] = true;
-        mutationVars["resourceImage"] = this.state.image;
-        mutationVars["affectedUnitId"] = 4;
-        mutationVars["resourceNote"] = this.state.notes;
-        mutationVars["action"] = "produce";
-        mutationVars["affectedNumericValue"] = this.state.quantity;
-        mutationVars["resourceTrackingIdentifier"] = this.state.name;
-        mutationVars["name"] = this.state.name;
-        mutationVars["scopeId"] = this.state.orgId;
-        mutationVars["unit"] = this.state.units;
+        if(isNaN(Number(this.state.quantity))){
 
-        // this.setState({userRan: true});
+        }else{
+            var change = this.state.quantity - this.props.resource.currentQuantity.numericValue;
+
+            mutationVars["receiverId"] = this.props.orgId;
+            mutationVars["createResource"] = false;
+            mutationVars["resourceImage"] = this.props.resource.image;
+            mutationVars["affectedUnitId"] = 4;
+            mutationVars["resourceNote"] = this.props.resource.notes;
+            mutationVars["action"] = "produce";
+            mutationVars["affectedNumericValue"] = change;
+            mutationVars["resourceTrackingIdentifier"] = this.props.resource.trackingIdentifier;
+            mutationVars["name"] = this.props.resource.trackingIdentifier;
+            mutationVars["scopeId"] = this.props.orgId;
+            mutationVars["unit"] = this.state.units;
+            mutationVars["affectsId"] = this.props.resource.id;
+            mutationVars["affectedResourceClassifiedAsId"] = this.props.resource.resourceClassifiedAs.id;
+
+            this.setState({userRan: true});
+        }
 
     };
 
@@ -152,7 +145,7 @@ class EditInventoryItem extends React.Component {
 
     render() {
         return (
-            <Modal trigger={<Button className="ui right floated primary">Edit</Button>} basic>
+            <Modal trigger={<Button className="ui right floated primary">Edit</Button>} basic closeIcon centered>
                 <Modal.Content>
             <div className='editItem'>
                 <style>{`
@@ -193,7 +186,7 @@ class EditInventoryItem extends React.Component {
                                                         onChange={this.handleChange}/>
                                         </Grid.Column>
                                         <Grid.Column floated='right' width={9}>
-                                            <Form.Input fluid placeholder='Units' name='units' left="true"
+                                            <Form.Input fluid disabled placeholder='Units' name='units' left="true"
                                                         value={this.state.units}
                                                         onChange={this.handleChange}/>
                                         </Grid.Column>
