@@ -14,9 +14,10 @@ import {connect} from 'react-redux';
 import EditInventoryItem from '../Inventory/EditInventoryItem'
 
 import getMyAgent from "../../queries/Agent/getMyAgent"
+import CreateInventoryItem from "../Inventory/createInventoryItem"
+
 let default_image = require("../../resources/default_resource_img.jpg");
 let orgId = -1;
-let history;
 let connected = false;
 
 const GetConnected = getMyAgent(({agent, loading, error}) => {
@@ -40,15 +41,12 @@ const GetConnected = getMyAgent(({agent, loading, error}) => {
 });
 
 class AddItemButton extends React.Component {
-
-    createItem = () => {
-        history.push("/CreateInventoryItem/"+orgId);
-        window.location.reload();
-    };
-
     render(){
         if(connected) {
-            return (<Button className="ui right floated primary" onClick={this.createItem}>Add Item</Button>);
+            return (
+                <div>
+                    <CreateInventoryItem orgId={orgId}/>
+                </div>)
         }else{
             return (<div/>);
         }
@@ -56,15 +54,6 @@ class AddItemButton extends React.Component {
 }
 
 class EditItemButton extends React.Component {
-
-    state = {
-        resource: this.props.resource
-    };
-
-    editItem = () => {
-        this.setState({showModal: true})
-    };
-
     render(){
         if(connected) {
             return (
@@ -156,11 +145,6 @@ export const EconomicResource = (props) => {
 };
 
 class OrganizationInventory extends React.Component {
-    componentDidMount() {
-        history = this.props.history
-    }
-
-
     render() {
         orgId = this.props.match.params.id;
 

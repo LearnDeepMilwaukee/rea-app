@@ -22,7 +22,7 @@ export const mutation = gql`
     createOrganization (
       token: $token,
       type: $type,
-      name: $name
+      name: $name,
       image: $image,
       note: $note
     ) {
@@ -38,5 +38,5 @@ export default compose(
   connect(state => ({
     token: state.getUserInfo.currentUserToken
   })),
-  graphql(mutation)
+  graphql(mutation,{name:"createOrgMutation"})
 );

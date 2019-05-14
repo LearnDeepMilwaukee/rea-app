@@ -1,7 +1,9 @@
-.ui[class*="top fixed"].menu, [class*="visible menu transition"], #orgDropdown {
+:local(.blueify) {
     background-color: #26547c !important;
+    color: white;
 
 }
-.text, #orgDropdown, #username {
+
+:local(.text), #orgDropdown, #username {
     color: white !important;
 }
