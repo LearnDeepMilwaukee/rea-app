@@ -33,10 +33,10 @@ class Routes extends Component {
                 <Route path="/" render={(props) => (props.location.pathname !== "/login" && props.location.pathname !== "/RegisterIndividual") && <Header/>}/>
                 <Switch>
                     <Route exact path="/login" component={LoginPage}/>
+                    <Route exact path="/RegisterIndividual" component={IndividualRegistration}/>
                     <ProtectedRoute exact path="/RegisterOrg" component={OrganizationRegistration}/>
                     <ProtectedRoute exact path="/EditOrg/:id" component={orgEdit}/>
                     <ProtectedRoute exact path="/OrgInventory/:id" component={OrganizationInventory}/>
-                    <ProtectedRoute exact path="/RegisterIndividual" component={IndividualRegistration}/>
                     <ProtectedRoute exact path="/" component={OrganizationCatalog}/>
                     {/*Below here are the api pages*/}
                     {/*<Route path="/api/processClassification" component={ProcessClassificationPage}/>*/}

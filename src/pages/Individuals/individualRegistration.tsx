@@ -18,29 +18,12 @@ import {bindActionCreators} from 'redux';
 import {withRouter} from 'react-router-dom';
 import * as currentUserActions from '../../redux/actions/currentUserActions.js';
 
-/**
- * This data structure stores the information that is entered by
- * the User into the fields on the page, and is sent to the
- * mutation to create a new User account.
- */
-let userInformation = {
-    email: "",
-    pswd: "",
-    username: "",
-    name: "",
-    image: "",
-    userRan: false,
-    allValid: false,
-    errorMessage: []
-};
 
-let loginUser;
 /**
  * Verifies if a User exists in the database with that email.
  * If the email is unique, create a new User.
- * @type {React.ComponentClass<{}>}
  */
-const EmailExistsQuery = userEmailExist(({emailExists, loading, error, setErrorMessage, removeErrorMessage}) => {
+const EmailExistsQuery = userEmailExist(({emailExists, loading, error, setErrorMessage, removeErrorMessage, userInformation, loginUser}) => {
     if (loading) {
         return <p/>;
     } else if (error) {
@@ -48,7 +31,6 @@ const EmailExistsQuery = userEmailExist(({emailExists, loading, error, setErrorM
     }
     if (emailExists === true) {
         setErrorMessage("An account with this email already exists");
-        // userInformation.errorMessage.push("An account with this email already exists");
         return <p/>;
     } else if (emailExists === false) {
         removeErrorMessage("An account with this email already exists");
@@ -57,15 +39,14 @@ const EmailExistsQuery = userEmailExist(({emailExists, loading, error, setErrorM
 
     return <CreateUser allValid={userInformation.allValid}
                        username={userInformation.username} email={userInformation.email}
-                       pswd={userInformation.pswd} name={userInformation.name} image={userInformation.image}
-                       setErrorMessage={setErrorMessage}
+                       pswd={userInformation.submittalPassword}
+                       image={userInformation.image} loginUser={loginUser}
     />
 
 });
 
 /**
  * Checks to see if the current username the user entered is in the database
- * @type {any}
  */
 const UsernameExistsQuery = usernameExists(({usernameExists, loading, error, setErrorMessage, removeErrorMessage}) => {
     if (loading) {
@@ -84,9 +65,8 @@ const UsernameExistsQuery = usernameExists(({usernameExists, loading, error, set
 
 /**
  * Creates a new User in the database
- * @type {React.ComponentClass<{}>}
  */
-const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
+const CreateUserQuery = createUserPerson(({error, loginUser}) => {
     if (!isUndefined(error) && !error.message.includes("UNIQUE constraint failed: valueaccounting_economicagent.")) {
         return <Message visible error content="An error occurred attempting to register"/>
     } else {
@@ -98,11 +78,8 @@ const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
 
 /**
  * Calls the create User query using the values passed in through props
- * @param props contains the infomation to be used in the query
  */
 function CreateUser(props) {
-    console.log(props);
-    console.log("Inside createUser")
     let element;
     if (props.allValid) {
         element = (
@@ -110,16 +87,12 @@ function CreateUser(props) {
                 username={props.username}
                 email={props.email}
                 pswd={props.pswd}
-                name={props.name}
+                name={props.username}
                 token={adminToken}
                 image={props.image}
+                loginUser={props.loginUser}
             />
         );
-    }
-    else if(userInformation.errorMessage.length > 0){
-        this.props.setErrorMessage(userInformation.errorMessage);
-        console.log(userInformation.errorMessage);
-
     }
     return <div>{element}</div>;
 }
@@ -129,9 +102,22 @@ function CreateUser(props) {
  * This handles basic validation of the values passed and calls the queries to create a new User.
  */
 class IndividualRegistration extends React.Component {
-    componentDidMount() {
-        loginUser = this.loginUserMethod;
+    state = {
+        username: '',
+        name: '',
+        password1: '',
+        password2: '',
+        submittalPassword: '',
+        email: '',
+        loggingIn: false,
+        loggedIn: false,
+        errorMessage: [],
+        allValid: false,
+        userRan: false,
+        image: ''
+    };
 
+    componentDidMount() {
         if (this.props.currentUserToken !== "N/A") {
             this.props.history.push("/");
             window.location.reload();
@@ -154,7 +140,7 @@ class IndividualRegistration extends React.Component {
                 }).catch((error) => {
                     if (error.message.includes("'NoneType' object has no attribute")) {
                         return <Message visible error
-                                        content="An error occurred when attempting to redirect you to the homepage.
+                                        content="An error occurred when attempting to log you in.
                                         \nHowever, you were registered"/>
                     }
                     this.setState({loggingIn: false});
@@ -172,89 +158,92 @@ class IndividualRegistration extends React.Component {
     runEmailExists = () => {
         this.removeErrorMessage("Please enter an email");
         if (EmailValidator.validate(this.state.email)) {
-            return <EmailExistsQuery email={this.state.email} token={adminToken} allValid={userInformation.allValid} setErrorMessage={this.setErrorMessage} removeErrorMessage={this.removeErrorMessage}/>;
-        } else {
-            userInformation.allValid = false;
-            return <p/>
+            return <EmailExistsQuery email={this.state.email} token={adminToken} allValid={this.state.allValid}
+                                     setErrorMessage={this.setErrorMessage} removeErrorMessage={this.removeErrorMessage}
+                                     userInformation={this.state} loginUser={this.loginUserMethod}/>;
+        } else if (this.state.allValid) {
+            this.setState({allValid: false});
         }
+        return <p/>
 
     };
+
     runUsernameExists = () => {
         return <UsernameExistsQuery username={this.state.username} token={adminToken}
-                                    allValid={userInformation.allValid} setErrorMessage={this.setErrorMessage} removeErrorMessage={this.removeErrorMessage}/>;
+                                    allValid={this.state.allValid} setErrorMessage={this.setErrorMessage}
+                                    removeErrorMessage={this.removeErrorMessage}/>;
+
     };
+
     setErrorMessage = (message) => {
-        if(this.state.errorMessage.indexOf(message) < 0){
-            var array = this.state.errorMessage;
+        if (this.state.errorMessage.indexOf(message) < 0) {
+            let array = this.state.errorMessage;
             array.push(message);
 
-            this.setState({errorMessage:array});
+            this.setState({errorMessage: array});
 
         }
     };
 
     removeErrorMessage = (message) => {
-        let index= this.state.errorMessage.indexOf(message);
-        if(index > -1){
-            var array = this.state.errorMessage;
-            array.splice(index,1);
-            this.setState({errorMessage:array});
+        let index = this.state.errorMessage.indexOf(message);
+        if (index > -1) {
+            let array = this.state.errorMessage;
+            array.splice(index, 1);
+            this.setState({errorMessage: array});
         }
     };
 
-
-    state = {
-        username: '',
-        password1: '',
-        password2: '',
-        submittalPassword: '',
-        email: '',
-        queryingEmail: '',
-        loggingIn: false,
-        loggedIn: false,
-        errorMessage: []
-    };
-
-    handleChange = (e, {name, value}) => {
+    updatePassword = ({name, value}) => {
         if ((name == 'password1' && value == this.state.password2) || (name == 'password2' && value == this.state.password1)) {
             this.setState({[name]: value, submittalPassword: value});
             this.removeErrorMessage("Your passwords do not match");
         } else if (name == 'password1' || name == 'password2') {
-            this.setState({submittalPassword: ""});
-            userInformation.userRan = false;
+            this.setState({submittalPassword: "", userRan: false, [name]:value});
         }
-        if(name == 'username'){
-            this.removeErrorMessage("Please enter a username");
-        }
-        this.setState({[name]: value});
 
     };
+
+    updateUsername = (value) => {
+        this.setState({name: value, username:value});
+        this.removeErrorMessage("Please enter a username");
+    };
+
+    updateEmail = (value) => {
+        if(EmailValidator.validate(value)) this.removeErrorMessage("Please enter a valid email");
+        this.setState({email: value});
+
+    };
+
 
     handleSubmit = () => {
         if (EmailValidator.validate(this.state.email)) {
-            userInformation.email = this.state.email;
+            this.removeErrorMessage("Please enter a valid email");
+            this.setState({allValid: (this.state.email != "" && this.state.submittalPassword != "" && this.state.username != "" )})
+
         }
         else {
-            setErrorMessage("Please enter an email");
+            this.setErrorMessage("Please enter a valid email");
         }
-        userInformation.pswd = this.state.submittalPassword;
-        userInformation.username = this.state.username;
-        userInformation.name = this.state.username;
-        userInformation.allValid = (userInformation.email != "" && userInformation.pswd != "" && userInformation.username != "");
 
-        if (userInformation.pswd == "") {
+        if (this.state.password1 == "" || this.state.password2 == "") {
+            this.setErrorMessage("Please confirm your password");
+            this.removeErrorMessage("Your passwords do not match");
+
+        }
+        if (this.state.submittalPassword == "") {
             this.setErrorMessage("Your passwords do not match");
-        }
-        if (userInformation.username == "") {
-            this.setErrorMessage("Please enter a username");
+            this.removeErrorMessage("Please confirm your password");
 
         }
-        userInformation.userRan = true;
-        this.setState({queryingEmail: this.state.email});
+
+        if (this.state.username == "") {
+            this.setErrorMessage("Please enter a username");
+            this.removeErrorMessage("An account with this username already exists");
+        }
     };
 
     render() {
-        const {username, email, password1, password2} = this.state;
         return (
             <div className='login'>
                 <style>{`
@@ -274,23 +263,23 @@ class IndividualRegistration extends React.Component {
                               error={this.state.errorMessage.length != 0}>
                             <Segment stacked>
                                 <Form.Field required>
-                                    <Form.Input fluid placeholder='Username' name='username' value={username}
-                                                onChange={this.handleChange}/>
+                                    <Form.Input fluid placeholder='Username' name='username' value={this.state.username}
+                                                onChange={(event) => this.updateUsername(event.target.value)}/>
                                 </Form.Field>
                                 <Form.Field required>
-                                    <Form.Input fluid placeholder='Email' name='email' value={email}
-                                                onChange={this.handleChange}/>
+                                    <Form.Input fluid placeholder='Email' name='email' value={this.state.email}
+                                                onChange={(event) => this.updateEmail(event.target.value)}/>
                                 </Form.Field>
 
                                 <Form.Field required>
                                     <Form.Input fluid type='password' placeholder='Password' name='password1'
-                                                value={password1}
-                                                onChange={this.handleChange}/>
+                                                value={this.state.password1}
+                                                onChange={(event) => this.updatePassword(event.target)}/>
                                 </Form.Field>
                                 <Form.Field required>
                                     <Form.Input fluid type='password' placeholder='Confirm Password' name='password2'
-                                                value={password2}
-                                                onChange={this.handleChange}/>
+                                                value={this.state.password2}
+                                                onChange={(event) => this.updatePassword(event.target)}/>
                                 </Form.Field>
                                 <Button color='blue' fluid type='submit' size='large'>Register</Button>
                             </Segment>
