@@ -10,11 +10,11 @@ import getOrganizationById from "../../queries/Organization/getOrganizationById.
 import getEconomicResourceById from "../../queries/EconomicResource/getEconomicResourceById.tsx";
 import {isNullOrUndefined} from "util"
 import {Item, Button, Loader} from 'semantic-ui-react'
-import {connect} from 'react-redux';
 import getMyAgent from "../../queries/Agent/getMyAgent"
+import CreateInventoryItem from "../Inventory/createInventoryItem"
+
 let default_image = require("../../resources/default_resource_img.jpg");
 let orgId = -1;
-let createItem;
 
 const AddItemButton = getMyAgent(({agent, loading, error}) => {
     if (loading) {
@@ -28,7 +28,7 @@ const AddItemButton = getMyAgent(({agent, loading, error}) => {
     } else {
         for (let i = 0; i < agent.agentRelationships.length; i++) {
             if(agent.agentRelationships[i].object.id === orgId){
-                return (<Button className="ui right floated primary" onClick={createItem}>Add Item</Button>);
+                return <CreateInventoryItem orgId={orgId}/>
             }
 
         }
@@ -116,13 +116,6 @@ export const EconomicResource = (props) => {
 };
 
 class OrganizationInventory extends React.Component {
-    componentDidMount() {
-        createItem = () => {
-            this.props.history.push("/CreateInventoryItem/"+orgId);
-            window.location.reload();
-        }
-
-    }
     render() {
         orgId = this.props.match.params.id;
 
