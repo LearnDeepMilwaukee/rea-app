@@ -9,7 +9,7 @@ import userEmailExist from "../../queries/User/UserEmailExists";
 import usernameExists from "../../queries/User/UsernameExists";
 import createToken from "../../queries/User/createToken.js";
 import * as EmailValidator from "email-validator";
-//import {adminToken} from "../../apiKeys.json";
+import {adminToken} from "../../apiKeys.json";
 import "./individualRegistration.css";
 import {Form, Button, Grid, Header, Segment, Message} from 'semantic-ui-react'
 import {isUndefined} from "util";
@@ -40,47 +40,44 @@ let loginUser;
  * If the email is unique, create a new User.
  * @type {React.ComponentClass<{}>}
  */
-const EmailExistsQuery = userEmailExist(({emailExists, loading, error}) => {
+const EmailExistsQuery = userEmailExist(({emailExists, loading, error, setErrorMessage, removeErrorMessage}) => {
     if (loading) {
         return <p/>;
     } else if (error) {
         return <Message visible error content="An error occured, please contact Makerspace"/>
     }
-    if (emailExists === false && userInformation.userRan) {
-        return <CreateUser allValid={userInformation.allValid}
-                           username={userInformation.username} email={userInformation.email}
-                           pswd={userInformation.pswd} name={userInformation.name} image={userInformation.image}
-        />
-    } else if (emailExists === true && userInformation.errorMessage.indexOf("An account with this email already exists") < 0) {
-        userInformation.errorMessage.push("An account with this email already exists");
+    if (emailExists === true) {
+        setErrorMessage("An account with this email already exists");
+        // userInformation.errorMessage.push("An account with this email already exists");
         return <p/>;
     } else if (emailExists === false) {
-        let indexToRemove = userInformation.errorMessage.indexOf("An account with this email already exists");
-        if (indexToRemove > -1) {
-            userInformation.errorMessage.splice(indexToRemove, 1);
-        }
+        removeErrorMessage("An account with this email already exists");
     }
-    return <p/>
+
+
+    return <CreateUser allValid={userInformation.allValid}
+                       username={userInformation.username} email={userInformation.email}
+                       pswd={userInformation.pswd} name={userInformation.name} image={userInformation.image}
+                       setErrorMessage={setErrorMessage}
+    />
+
 });
 
 /**
  * Checks to see if the current username the user entered is in the database
  * @type {any}
  */
-const UsernameExistsQuery = usernameExists(({usernameExists, loading, error}) => {
+const UsernameExistsQuery = usernameExists(({usernameExists, loading, error, setErrorMessage, removeErrorMessage}) => {
     if (loading) {
         return <p/>;
     } else if (error) {
         return <Message visible error content="An error occured, please contact Makerspace"/>
     }
-    if (usernameExists === true && userInformation.errorMessage.indexOf("An account with this username already exists") < 0) {
-        userInformation.errorMessage.push("An account with this username already exists");
-        userInformation.allValid = false;
+    if (usernameExists === true) {
+        setErrorMessage("An account with this username already exists");
+        return <p/>;
     } else if (usernameExists === false) {
-        let indexToRemove = userInformation.errorMessage.indexOf("An account with this username already exists");
-        if (indexToRemove > -1) {
-            userInformation.errorMessage.splice(indexToRemove, 1);
-        }
+        removeErrorMessage("An account with this username already exists");
     }
     return <p/>;
 });
@@ -104,7 +101,8 @@ const CreateUserQuery = createUserPerson(({createUserPersonVar, error}) => {
  * @param props contains the infomation to be used in the query
  */
 function CreateUser(props) {
-
+    console.log(props);
+    console.log("Inside createUser")
     let element;
     if (props.allValid) {
         element = (
@@ -117,6 +115,11 @@ function CreateUser(props) {
                 image={props.image}
             />
         );
+    }
+    else if(userInformation.errorMessage.length > 0){
+        this.props.setErrorMessage(userInformation.errorMessage);
+        console.log(userInformation.errorMessage);
+
     }
     return <div>{element}</div>;
 }
@@ -167,8 +170,9 @@ class IndividualRegistration extends React.Component {
     };
 
     runEmailExists = () => {
+        this.removeErrorMessage("Please enter an email");
         if (EmailValidator.validate(this.state.email)) {
-            return <EmailExistsQuery email={this.state.email} token={adminToken} allValid={userInformation.allValid}/>;
+            return <EmailExistsQuery email={this.state.email} token={adminToken} allValid={userInformation.allValid} setErrorMessage={this.setErrorMessage} removeErrorMessage={this.removeErrorMessage}/>;
         } else {
             userInformation.allValid = false;
             return <p/>
@@ -177,7 +181,25 @@ class IndividualRegistration extends React.Component {
     };
     runUsernameExists = () => {
         return <UsernameExistsQuery username={this.state.username} token={adminToken}
-                                    allValid={userInformation.allValid}/>;
+                                    allValid={userInformation.allValid} setErrorMessage={this.setErrorMessage} removeErrorMessage={this.removeErrorMessage}/>;
+    };
+    setErrorMessage = (message) => {
+        if(this.state.errorMessage.indexOf(message) < 0){
+            var array = this.state.errorMessage;
+            array.push(message);
+
+            this.setState({errorMessage:array});
+
+        }
+    };
+
+    removeErrorMessage = (message) => {
+        let index= this.state.errorMessage.indexOf(message);
+        if(index > -1){
+            var array = this.state.errorMessage;
+            array.splice(index,1);
+            this.setState({errorMessage:array});
+        }
     };
 
 
@@ -189,42 +211,44 @@ class IndividualRegistration extends React.Component {
         email: '',
         queryingEmail: '',
         loggingIn: false,
-        loggedIn: false
+        loggedIn: false,
+        errorMessage: []
     };
 
     handleChange = (e, {name, value}) => {
         if ((name == 'password1' && value == this.state.password2) || (name == 'password2' && value == this.state.password1)) {
             this.setState({[name]: value, submittalPassword: value});
+            this.removeErrorMessage("Your passwords do not match");
         } else if (name == 'password1' || name == 'password2') {
             this.setState({submittalPassword: ""});
             userInformation.userRan = false;
+        }
+        if(name == 'username'){
+            this.removeErrorMessage("Please enter a username");
         }
         this.setState({[name]: value});
 
     };
 
     handleSubmit = () => {
-        let userErrorMessage = [];
-        if (userInformation.errorMessage.indexOf("An account with this email already exists") > 0) {
-            userErrorMessage.push("An account with this email already exists");
-        }
         if (EmailValidator.validate(this.state.email)) {
             userInformation.email = this.state.email;
         }
         else {
-            userErrorMessage.push("Please enter an email");
+            setErrorMessage("Please enter an email");
         }
         userInformation.pswd = this.state.submittalPassword;
         userInformation.username = this.state.username;
         userInformation.name = this.state.username;
         userInformation.allValid = (userInformation.email != "" && userInformation.pswd != "" && userInformation.username != "");
+
         if (userInformation.pswd == "") {
-            userErrorMessage.push("Your passwords do not match");
+            this.setErrorMessage("Your passwords do not match");
         }
         if (userInformation.username == "") {
-            userErrorMessage.push("Please enter a username");
+            this.setErrorMessage("Please enter a username");
+
         }
-        userInformation.errorMessage = userErrorMessage;
         userInformation.userRan = true;
         this.setState({queryingEmail: this.state.email});
     };
@@ -247,7 +271,7 @@ class IndividualRegistration extends React.Component {
                             User Registration
                         </Header>
                         <Form size='large' onSubmit={this.handleSubmit}
-                              error={userInformation.errorMessage.length != 0}>
+                              error={this.state.errorMessage.length != 0}>
                             <Segment stacked>
                                 <Form.Field required>
                                     <Form.Input fluid placeholder='Username' name='username' value={username}
@@ -273,7 +297,7 @@ class IndividualRegistration extends React.Component {
                             {/*These queries should be run everytime this component is loaded*/}
                             {this.state.username ? this.runUsernameExists() : ""}
                             {this.state.email ? this.runEmailExists() : ""}
-                            <Message error list={userInformation.errorMessage}/>
+                            <Message error list={this.state.errorMessage}/>
                         </Form>
                     </Grid.Column>
                 </Grid>
