@@ -18,9 +18,8 @@ import CreateInventoryItem from "../Inventory/createInventoryItem"
 
 let default_image = require("../../resources/default_resource_img.jpg");
 let orgId = -1;
-let connected = false;
 
-const GetConnected = getMyAgent(({agent, loading, error}) => {
+const GetConnected = getMyAgent(({agent, loading, error,setConnected}) => {
     if (loading) {
         return (
             <Loader>Loading</Loader>
@@ -32,7 +31,7 @@ const GetConnected = getMyAgent(({agent, loading, error}) => {
     } else {
         for (let i = 0; i < agent.agentRelationships.length; i++) {
             if(agent.agentRelationships[i].object.id === orgId){
-                connected = true;
+                setConnected(true);
             }
         }
         return <div/>
@@ -42,27 +41,19 @@ const GetConnected = getMyAgent(({agent, loading, error}) => {
 
 class AddItemButton extends React.Component {
     render(){
-        if(connected) {
             return (
                 <div>
                     <CreateInventoryItem orgId={orgId}/>
                 </div>)
-        }else{
-            return (<div/>);
-        }
     }
 }
 
 class EditItemButton extends React.Component {
     render(){
-        if(connected) {
             return (
                 <div>
                     <EditInventoryItem orgId={orgId} resource={this.props.resource}/>
                 </div>);
-        }else{
-            return (<div/>);
-        }
     }
 }
 
@@ -70,7 +61,7 @@ class EditItemButton extends React.Component {
 /**
  * Gets an organizations data
  */
-export const GetSingleOrganization = getOrganizationById(({organization, loading, error}) => {
+export const GetSingleOrganization = getOrganizationById(({organization, loading, error, connected}) => {
     if (loading) {
         return (
             <Loader>Loading</Loader>
@@ -85,13 +76,13 @@ export const GetSingleOrganization = getOrganizationById(({organization, loading
             <div>
                 <h2 className="ui header">{organization.name} Inventory</h2>
 
-                <AddItemButton/>
+                {connected ? <AddItemButton/> : <div/>}
 
 
                 <Item.Group divided>
                     {(economicResourceList.length === 0) ?
                         <p>Inventory Empty</p> : (economicResourceList.map((economicResource) =>
-                            (<GetSingleEconomicResource economicResourceId={economicResource.id}/>)
+                            (<GetSingleEconomicResource economicResourceId={economicResource.id} connected={connected}/>)
                         ))}
                 </Item.Group>
             </div>
@@ -102,7 +93,7 @@ export const GetSingleOrganization = getOrganizationById(({organization, loading
 /**
  * Gets a single economic resource that the organization owns
  */
-export const GetSingleEconomicResource = getEconomicResourceById(({economicResource, loading, error}) => {
+export const GetSingleEconomicResource = getEconomicResourceById(({economicResource, loading, error, connected}) => {
     if (loading) {
         return (
             <Loader>Loading</Loader>
@@ -113,7 +104,7 @@ export const GetSingleEconomicResource = getEconomicResourceById(({economicResou
         );
     } else {
         return (
-            <EconomicResource economicResource={economicResource}/>
+            <EconomicResource economicResource={economicResource} connected={connected}/>
         );
     }
 });
@@ -137,7 +128,7 @@ export const EconomicResource = (props) => {
                     <p>Added on: {economicResource.createdDate}</p>
                 </Item.Description>
                 <Item.Extra>
-                    <EditItemButton resource={props.economicResource}/>
+                    {props.connected ? <EditItemButton resource={props.economicResource}/> : <div/>}
                 </Item.Extra>
             </Item.Content>
         </Item>
@@ -145,13 +136,22 @@ export const EconomicResource = (props) => {
 };
 
 class OrganizationInventory extends React.Component {
+    state = {
+        connected: false
+    };
+
+    setConnected = (connected) => {
+        if(this.state.connected != connected){
+            this.setState({connected:connected})
+        }
+    };
     render() {
         orgId = this.props.match.params.id;
 
         return (
             <div className="ui container">
-                <GetConnected/>
-                <GetSingleOrganization organizationId={this.props.match.params.id}/>
+                <GetConnected setConnected={this.setConnected}/>
+                <GetSingleOrganization organizationId={this.props.match.params.id} connected={this.state.connected}/>
             </div>
         )
     }
