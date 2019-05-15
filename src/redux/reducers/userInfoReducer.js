@@ -1,5 +1,5 @@
 import {initialUserState} from '../store/initialState.js';
-import {SET_CURRENT_ORG_ID, SET_USER_TOKEN, SET_USER_ID} from "../actions/actionTypes";
+import {SET_CURRENT_ORG_ID, SET_USER_TOKEN} from "../actions/actionTypes";
 
 /**
  * Reducer that performs the action onto the state
@@ -16,10 +16,6 @@ export default function getUserInfogetUserInfo(state = initialUserState, action)
         case SET_USER_TOKEN:
             return Object.assign({}, state, {
                 currentUserToken: action.newUserToken
-            });
-        case SET_USER_ID:
-            return Object.assign({}, state, {
-                currentUserId: action.newUserId
             });
 
         default:

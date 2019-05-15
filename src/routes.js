@@ -22,7 +22,7 @@ import PersonPage from './pages/Api/person';
 import EconomicEvent from './pages/Api/EconomicEvent'
 import CreateEconomicEvent from './pages/Api/CreateEconomicEvent'
 import AgentRelationshipRoles from './pages/Api/AgentRelationshipRole'
-
+import CreateInventoryItem from './pages/Inventory/createInventoryItem'
 
 class Routes extends Component {
     render() {
@@ -37,24 +37,22 @@ class Routes extends Component {
                     <ProtectedRoute exact path="/EditOrg/:id" component={orgEdit}/>
                     <ProtectedRoute exact path="/OrgInventory/:id" component={OrganizationInventory}/>
                     <ProtectedRoute exact path="/" component={OrganizationCatalog}/>
-
                     <Route exact path="/RegisterIndividual" component={IndividualRegistration}/>
-
                     {/*Below here are the api pages*/}
-                    <Route path="/api/processClassification" component={ProcessClassificationPage}/>
-                    <Route path="/api/unit" component={UnitPage}/>
-                    <Route path="/api/orgType" component={OrgTypePage}/>
-                    <Route path="/api/agent" component={AgentPage}/>
-                    <Route path="/api/organization" component={OrganizationPage}/>
-                    <Route path="/api/economicresource" component={EconomicResourcePage}/>
-                    <Route path="/api/agentrelationship" component={AgentRelationship}/>
-                    <Route path="/api/process" component={Process}/>
-                    <Route path="/api/plan" component={Plan}/>
-                    <Route path="/api/person" component={PersonPage}/>
-                    <Route path="/api/agentrelationshiprole" component={AgentRelationshipRoles}/>
-                    <Route path="/api/createeconomicevent" component={CreateEconomicEvent}/>
-
-                    <Route path="/api/economicevent" component={EconomicEvent}/>
+                    {/*<Route path="/api/processClassification" component={ProcessClassificationPage}/>*/}
+                    {/*<Route path="/api/unit" component={UnitPage}/>*/}
+                    {/*<Route path="/api/orgType" component={OrgTypePage}/>*/}
+                    {/*<Route path="/api/agent" component={AgentPage}/>*/}
+                    {/*<Route path="/api/organization" component={OrganizationPage}/>*/}
+                    {/*<Route path="/api/economicresource" component={EconomicResourcePage}/>*/}
+                    {/*<Route path="/api/agentrelationship" component={AgentRelationship}/>*/}
+                    {/*<Route path="/api/process" component={Process}/>*/}
+                    {/*<Route path="/api/plan" component={Plan}/>*/}
+                    {/*<Route path="/api/person" component={PersonPage}/>*/}
+                    {/*<Route path="/api/agentrelationshiprole" component={AgentRelationshipRoles}/>*/}
+                    {/*<Route path="/api/createeconomicevent" component={CreateEconomicEvent}/>*/}
+                    {/**/}
+                    {/*<Route path="/api/economicevent" component={EconomicEvent}/>*/}
 
                     <Route component={ErrorPage}/>
                 </Switch>

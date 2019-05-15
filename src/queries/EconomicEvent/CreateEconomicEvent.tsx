@@ -103,5 +103,5 @@ export default compose(
    * The graphql function wraps the GraphQL mutation defined above
    * as an Apollo recognized mutation.
    */
-  graphql(mutation)
+  graphql(mutation,{name:"createEconomicEvent"})
 );

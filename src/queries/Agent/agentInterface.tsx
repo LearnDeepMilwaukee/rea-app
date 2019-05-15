@@ -42,6 +42,9 @@ fragment agentInterface on Agent {
   }
   agentRelationships{
     id 
+    object {
+      id
+    }
   }
   agentRoles{
     id

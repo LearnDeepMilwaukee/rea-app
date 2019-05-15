@@ -71,7 +71,8 @@ class BasePage extends React.Component {
             load: true,
             nameFilter: "",
             myOrgsFilter: false,
-            pubOrgsFilter: true
+            pubOrgsFilter: true,
+            userEnteredDistance: ""
         };
         this.onTypeFilterChange = this.onTypeFilterChange.bind(this);
         this.onSortFilterChange = this.onSortFilterChange.bind(this);
@@ -79,7 +80,8 @@ class BasePage extends React.Component {
         this.handleReset = this.handleReset.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
         this.onMyOrgsChange = this.onMyOrgsChange.bind(this);
-        this.onPubOrgsChange = this.onPubOrgsChange.bind(this);
+        this.filterAndSortOrgs = this.filterAndSortOrgs.bind(this);
+        // this.onPubOrgsChange = this.onPubOrgsChange.bind(this);
     }
 
     onSortFilterChange = function (event, {value}) {
@@ -90,41 +92,66 @@ class BasePage extends React.Component {
         this.setState({typeFilter: value});
     };
 
-    //Override is here for the distance slider so that it updates the value as well.
-    onDistanceFilterChange = function (event, override) {
-        if (event.key === 'Enter' || override) {
-            event.preventDefault();
-            this.setState({distanceFilter: parseInt(event.target.value)});
+    onDistanceFilterChange = function (event) {
+        if(event.target.value === ""){
+            this.setState({distanceFilter: "", userEnteredDistance: ""});
+        }else{
+            this.setState({distanceFilter: parseInt(event.target.value), userEnteredDistance: parseInt(event.target.value)});
         }
     };
 
-    handleReset = function (event, {value}) {
-        this.setState({distanceFilter: 50});
-        this.setState({sorting: "alphabetical"});
-        this.setState({typeFilter: "All"});
-        this.setState({nameFilter: ""});
-        this.setState({myOrgsFilter: false});
-        this.setState({pubOrgsFilter: true});
+    handleReset = function (event) {
+        //0 mean the enter key was hit
+        if(event.detail !== 0) {
+            this.setState({
+                distanceFilter: 50,
+                sorting: "alphabetical",
+                typeFilter: "All",
+                nameFilter: "",
+                myOrgsFilter: false,
+                pubOrgsFilter: false,
+                userEnteredDistance: ""
+            });
+        }
     };
     onNameChange = function (event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-
             this.setState({nameFilter: event.target.value});
-        }
     };
     onMyOrgsChange = function (event, {value}) {
         this.setState({myOrgsFilter: true});
         this.setState({pubOrgsFilter: false});
 
     };
-    onPubOrgsChange = function (event, {value}) {
-        this.setState({myOrgsFilter: false});
-        this.setState({pubOrgsFilter: true});
-    };
+    filterAndSortOrgs = function(organizationList){
+        let filteredOrgs = [];
+        for (let org of organizationList) {
+            if ((this.state.nameFilter === null) || (this.state.nameFilter === "undefined") || org.name.includes(this.state.nameFilter)) {
+                filteredOrgs.push(org);
+            }
+        }
 
-    notImplementedFunction = function () {
-        alert("This feature is not yet implemented");
+        if (this.state.distanceFilter !== '') {
+            filteredOrgs = filterByDistance(filteredOrgs, this.state.distanceFilter, msoeCC);
+        }
+        if (this.state.typeFilter !== "All") {
+            filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
+        }
+        if (this.state.sorting === "alphabetical") {
+            filteredOrgs = sortByName(filteredOrgs);
+        }
+        else if (this.state.sorting === "distance") {
+            filteredOrgs = sortByDistance(filteredOrgs, msoeCC);
+        }
+        const cardsArray = filteredOrgs.map(org => (
+            <OrgCard org={org} history={this.props.history}/>
+        ));
+        return (
+            <div>
+                <Item.Group divided>
+                    {cardsArray}
+                </Item.Group>
+            </div>
+        );
     };
 
 
@@ -142,62 +169,30 @@ class BasePage extends React.Component {
                     <p style={{color: "#F00"}}>API error</p>
                 );
             } else {
-                let filteredOrgs = [];
-                for (let org of organizationList) {
+                return this.filterAndSortOrgs(organizationList);
 
-
-                    if ((this.state.nameFilter === null) || (this.state.nameFilter === "undefined") || org.name.includes(this.state.nameFilter)) {
-                        filteredOrgs.push(org);
-                    }
-                }
-                if (this.state.distanceFilter !== '') {
-                    filteredOrgs = filterByDistance(filteredOrgs, this.state.distanceFilter, msoeCC);
-                }
-                if (this.state.typeFilter !== "All") {
-                    filteredOrgs = filterByType(filteredOrgs, this.state.typeFilter);
-                }
-                if (this.state.sorting === "alphabetical") {
-                    filteredOrgs = sortByName(filteredOrgs);
-                }
-                else if (this.state.sorting === "distance") {
-                    filteredOrgs = sortByDistance(filteredOrgs, msoeCC);
-                }
-                const cardsArray = filteredOrgs.map(org => (
-                    <OrgCard org={org} history={this.props.history}/>
-                ));
-                return (
-                    <div>
-                        <Item.Group divided>
-                            {cardsArray}
-                        </Item.Group>
-                    </div>
-                );
             }
         });
-        console.log("typeFilter:", this.state.typeFilter)
-        console.log("sorting:", this.state.sorting)
-
         return (
             <div className={"ui container"}>
                 <Form>
                     <h2 className={"ui header"}>All Orgs</h2>
                     <Form.Group widths='equal'>
-                        <Form.Input fluid label='Search For Org' placeholder='Search' onKeyPress={this.onNameChange} />
+                        <Form.Input fluid label='Search For Org' placeholder='Search' value={this.state.nameFilter} onChange={this.onNameChange} />
                         <Form.Field>
-                            <Form.Input fluid label='Search Distance' placeholder='Initially 50 mi' onKeyPress={this.onDistanceFilterChange} />
+                            <Form.Input fluid label='Search Distance' placeholder='Initially 50 mi' value={this.state.userEnteredDistance} onChange={this.onDistanceFilterChange} />
                         </Form.Field>
                         <Form.Select fluid label='Type' options={optionsType} value={this.state.typeFilter} onChange={this.onTypeFilterChange} />
                         <Form.Select fluid label='Sort' options={optionsSort} value={this.state.sorting} onChange={this.onSortFilterChange} />
                     </Form.Group>
                     <Form.Group inline>
-                        <Form.Radio label='My Orgs' value='myOrgs' checked={this.state.myOrgsFilter === true} onChange={this.onMyOrgsChange}/>
-                        <Form.Radio label='Public Orgs' value='publicOrgs' checked={this.state.myOrgsFilter === false} onChange={this.onPubOrgsChange}/>
+                        {/*<Form.Radio label='My Orgs' value='myOrgs' checked={this.state.myOrgsFilter === true} onChange={this.onMyOrgsChange}/>*/}
+                        {/*<Form.Radio label='Public Orgs' value='publicOrgs' checked={this.state.myOrgsFilter === false} onChange={this.onPubOrgsChange}/>*/}
                         <Form.Button className="ui negative" color={'red'} onClick={this.handleReset}>Reset filters</Form.Button>
                     </Form.Group>
                 </Form>
                 <div className={"ui container"}>
-                    <OrgList
-                        token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNvbm5vciIsImlhdCI6MTU1MTg0ODI3MSwicGFzc3dvcmQiOiI3YzA4ODliOWU5ZmNjYzAxZDIzMDcwNzljNDk5OTcyNDFlNTZlNzU0IiwiaWQiOjZ9.unIuk6g8HcmyIuF1sONrLAiftApTlcuqMWWLO6DtqUQ"/>
+                    <OrgList/>
                 </div>
             </div>
         )

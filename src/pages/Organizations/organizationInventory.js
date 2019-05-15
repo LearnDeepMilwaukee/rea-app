@@ -10,30 +10,60 @@ import getOrganizationById from "../../queries/Organization/getOrganizationById.
 import getEconomicResourceById from "../../queries/EconomicResource/getEconomicResourceById.tsx";
 import {isNullOrUndefined} from "util"
 import {Item, Button, Loader} from 'semantic-ui-react'
+import getMyAgent from "../../queries/Agent/getMyAgent"
+import CreateInventoryItem from "../Inventory/createInventoryItem"
 
 let default_image = require("../../resources/default_resource_img.jpg");
+let orgId = -1;
+
+const AddItemButton = getMyAgent(({agent, loading, error}) => {
+    if (loading) {
+        return (
+            <Loader>Loading</Loader>
+        );
+    } else if (error) {
+        return (
+            <p style={{color: "#F00"}}>API error</p>
+        );
+    } else {
+        for (let i = 0; i < agent.agentRelationships.length; i++) {
+            if(agent.agentRelationships[i].object.id === orgId){
+                return <CreateInventoryItem orgId={orgId}/>
+            }
+
+        }
+        return <div/>
+    }
+
+});
+
 
 /**
  * Gets an organizations data
  */
-export const GetSingleOrganization = getOrganizationById(({ organization, loading, error }) => {
+export const GetSingleOrganization = getOrganizationById(({organization, loading, error}) => {
     if (loading) {
-        return(
+        return (
             <Loader>Loading</Loader>
         );
     } else if (error) {
-        return(
+        return (
             <p style={{color: "#F00"}}>API error</p>
         );
     } else {
         let economicResourceList = organization.ownedEconomicResources;
-        return(
+        return (
             <div>
                 <h2 className="ui header">{organization.name} Inventory</h2>
+
+                <AddItemButton/>
+
+
                 <Item.Group divided>
-                {(economicResourceList.length ===0)? <p>Inventory Empty</p> :(economicResourceList.map( (economicResource) =>
-                    (<GetSingleEconomicResource economicResourceId={economicResource.id}/>)
-                ))}
+                    {(economicResourceList.length === 0) ?
+                        <p>Inventory Empty</p> : (economicResourceList.map((economicResource) =>
+                            (<GetSingleEconomicResource economicResourceId={economicResource.id}/>)
+                        ))}
                 </Item.Group>
             </div>
         );
@@ -43,18 +73,18 @@ export const GetSingleOrganization = getOrganizationById(({ organization, loadin
 /**
  * Gets a single economic resource that the organization owns
  */
-export const GetSingleEconomicResource = getEconomicResourceById(({ economicResource, loading, error }) => {
+export const GetSingleEconomicResource = getEconomicResourceById(({economicResource, loading, error}) => {
     if (loading) {
-        return(
+        return (
             <Loader>Loading</Loader>
         );
     } else if (error) {
-        return(
+        return (
             <p style={{color: "#F00"}}>API error</p>
         );
     } else {
-        return(
-                <EconomicResource economicResource={economicResource}/>
+        return (
+            <EconomicResource economicResource={economicResource}/>
         );
     }
 });
@@ -64,14 +94,17 @@ export const GetSingleEconomicResource = getEconomicResourceById(({ economicReso
  */
 export const EconomicResource = (props) => {
     let economicResource = props.economicResource;
-    return(
+    return (
         <Item classname={""}>
-            <Item.Image className={"ui small rounded image"} src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_image : economicResource.image} onError={i => i.target.src=default_image}/>
+            <Item.Image className={"ui small rounded image"}
+                        src={isNullOrUndefined(economicResource.image) || economicResource.image === "" ? default_image : economicResource.image}
+                        onError={i => i.target.src = default_image}/>
             <Item.Content>
-                <Item.Header as='h1' >{economicResource.trackingIdentifier}</Item.Header>
+                <Item.Header as='h1'>{economicResource.trackingIdentifier}</Item.Header>
                 <Item.Description>
                     <p>{(economicResource.note === "") ? "(no description available)" : economicResource.note}</p>
-                    <p>Quantity: {economicResource.currentQuantity.numericValue} {economicResource.currentQuantity.unit.name}(s)</p>
+                    <p>
+                        Quantity: {economicResource.currentQuantity.numericValue} {economicResource.currentQuantity.unit.name}(s)</p>
                     <p>Added on: {economicResource.createdDate}</p>
                 </Item.Description>
                 <Item.Extra>
@@ -84,6 +117,8 @@ export const EconomicResource = (props) => {
 
 class OrganizationInventory extends React.Component {
     render() {
+        orgId = this.props.match.params.id;
+
         return (
             <div className="ui container">
                 <GetSingleOrganization organizationId={this.props.match.params.id}/>
@@ -92,5 +127,6 @@ class OrganizationInventory extends React.Component {
         )
     }
 }
+
 
 export default OrganizationInventory;

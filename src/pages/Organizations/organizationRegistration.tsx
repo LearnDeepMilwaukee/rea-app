@@ -3,356 +3,208 @@
  */
 
 import * as React from "react";
-import * as themeable from "react-themeable";
-import * as theme from "./organizationRegistration";
-import * as Modal from "react-modal";
+import createAgentRelationship from "../../queries/AgentRelationship/createNewAgentRelationship";
+import {Form, Button, Grid, Header, Segment, Message, Label, Image, TextArea} from 'semantic-ui-react'
 
-import {Link} from "react-router-dom";
+import {withRouter} from 'react-router-dom';
 import createOrganization from "../../queries/Organization/CreateOrganization";
 import GetOrganizationTypes from "../../queries/OrganizationType/getAllOrganizationTypes";
+import getMyAgent from "../../queries/Agent/getMyAgent";
 
-class Registration extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      name: undefined, // Required
-      type: "For-profit Company", // Required
-      logo: undefined,
-      banner: undefined, // TODO:  Not yet used because of missing backend implementation
-      description: undefined,
-      newOrganizationID: undefined,
-      modalIsOpen: false
-    };
-
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-  }
-
-  openModal() {
-    this.setState({modalIsOpen: true});
-  }
-
-  closeModal() {
-    this.setState({modalIsOpen: false});
-  }
-
-  getRegistrationJSON = (event) => {
-    event.preventDefault();
-    let requiredFieldsValid =
-      this.state.name !== undefined
-      && this.state.type !== undefined;
-
-    console.log("name: " + this.state.name + "\n" +
-      "type: " + this.state.type + "\n" +
-      "logo: " + this.state.logo + "\n" +
-      "banner: " + this.state.banner + "\n" +
-      "description: " + this.state.description + "\n\n" +
-      "valid?  " + requiredFieldsValid);
-
-    if (!requiredFieldsValid) {
-      alert("Please enter valid data into all required fields!");
+let myAgentId = 0; //Global variable that holds value returned from GetMyAgent
+//Global query that returns id of current user logged in else returns -1
+export const GetMyAgent = getMyAgent(({agent, loading, error}) => {
+    if (loading) {
+        myAgentId = -1;
+    } else if (error) {
+        myAgentId = -1;
     } else {
-      let variables = {
-        name: this.state.name,
-        type: this.state.type,
-        image: this.state.logo,
-        note: this.state.description
-        // primaryLocationId: TODO
-        // TODO add banner field
-      };
-      variables.token = this.props.token; // add the token in afterwards
-
-      // perform the mutation
-      this.props.mutate({variables}).then((response) => {
-        let newOrganization = response.data.createOrganization.organization.id;
-        if (newOrganization) {
-          console.log(newOrganization);
-          this.setState({newOrganizationID: newOrganization,});
-          this.openModal();
-        }
-      }).catch((error) => {
-        console.log(error);
-      });
+        myAgentId = agent.id;
     }
-  };
-
-  // Draws all of the components on the screen
-  render() {
-    let currentTheme = themeable(theme);
-    return (
-      <div id="baseElement"
-           {...currentTheme(0, "registrationPage")}
-      >
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          {...currentTheme(1, "popup")}
-        >
-          <Link
-            to={"/projects/" + this.state.newOrganizationID}
-          >Take me there!
-          </Link>
-        </Modal>
-        <h1>Register a new organization</h1>
-        <form
-          id="form"
-          onSubmit={this.getRegistrationJSON}
-          {...currentTheme(2, "registrationForm")}
-        >
-
-          <OrganizationNameField
-            saveOrgName={(name) => this.setState({name})}
-          />
-          <br/>
-          <OrganizationTypeField
-            saveOrgType={(type) => this.setState({type})}
-          />
-          <br/>
-          <OrganizationLogoField
-            saveOrgLogo={(logo) => this.setState({logo})}
-          />
-          <br/>
-          {/*<OrganizationBannerField saveOrgBanner={(banner) => this.setState({banner})}/>*/}
-          {/*<br/>*/}
-          <OrganizationDescriptionField
-            saveOrgDescription={(description) => this.setState({description})}
-          />
-          <br/>
-          <p {...currentTheme(3, "required")}>*required</p>
-
-          <br/>
-            <a href="/" {...currentTheme(18, "cancel")} id="cancelButton"> Cancel </a>
-          <input {...currentTheme(17, "submit")}
-                 type="submit"
-                 id="submit"
-                 value="Register"
-          />
-        </form>
-
-      </div>
-    );
-  }
-}
-
-class OrganizationNameField extends React.Component {
-
-  state = {
-    valid: true,
-    value: ""
-  };
-
-  validate = (name) => {
-    let valid = name.length > 0;
-    this.setState({valid: valid});
-    return valid;
-  };
-
-  onChange = (value) => {
-    let valid = this.validate(value);
-    this.setState({value: value});
-    this.props.saveOrgName(valid ? value : undefined);
-  };
-
-  render() {
-    let currentTheme = themeable(theme);
-    return (
-      <span
-        {...currentTheme(4, "orgNameSection")}
-      >
-        <span>Organization Name<p {...currentTheme(3, "required")}>*</p>&nbsp;</span>
-        <input
-          id="nameBox"
-          type="text"
-          onChange={(event) => this.onChange(event.target.value)}
-          {...currentTheme(5, "orgNameInputField")}
-        />
-        <br/>
-      </span>
-    );
-
-  }
-}
-
-export const OrganizationTypeList = GetOrganizationTypes(({orgTypeList, loading, error, onChange, checked}) => {
-  let currentTheme = themeable(theme);
-  return (
-    loading ? <strong>Loading...</strong> : (
-      error ? <p style={{color: "#F00"}}>API error</p> : (
-        <div
-          {...currentTheme(6, "orgTypeInputField")}
-        >
-          <select id="orgTypeDropdown"
-                  onChange={onChange}
-                  {...currentTheme(7, "orgTypeDropdown")}
-          >
-            {orgTypeList.map((orgType) => (
-              <option
-                id={orgType.name}
-                value={orgType.name}
-              >
-                {orgType.name}
-              </option>))}
-          </select>
-        </div>
-      )
-    )
-  );
+    return <div/>;
 });
 
-class OrganizationTypeField extends React.Component {
 
-  state = {
-    valid: true,
-    value: ""
-  };
+class Registration extends React.Component {
+    constructor() {
+        super();
 
-  onChange = (value) => {
-    this.setState({value: value});
-    this.props.saveOrgType(this.state.valid ? value : undefined);
-  };
+        this.state = {
+            name: undefined, // Required
+            type: undefined, // Required
+            logo: undefined,
+            description: undefined,
+            errorMessage: [],
+            error: false
+        };
+    }
 
-  render() {
-    let currentTheme = themeable(theme);
-    return (
-      <span
-        {...currentTheme(8, "orgTypeSection")}
-      >
-        <span
-          {...currentTheme(9, "orgTypeLabel")}
-        >
-          Organization Type<p {...currentTheme(10, "required")}>*</p></span>
-        <OrganizationTypeList onChange={(event) => this.onChange(event.target.value)} checked={this.state.value}/>
-      </span>
-    );
-  }
-}
-
-class OrganizationLogoField extends React.Component {
-
-  state = {
-    valid: true,
-    path: "https://via.placeholder.com/200.png?text=Logo%20Preview"
-  };
-
-  onImageSelected = (event) => {
-    var file = event.target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.setState({path: reader.result});
-      this.props.saveOrgLogo(this.state.valid ? reader.result : undefined);
-      console.log(this.state.value);
+    removeStringFromErrorMessage = (stringToRemove) => {
+        let index = this.state.errorMessage.indexOf(stringToRemove);
+        if (index > -1) {
+            this.state.errorMessage.splice(index, 1);
+        }
+        if (this.state.errorMessage.length == 0) {
+            this.setState({error: false})
+        }
     };
-    reader.onerror = (error) => {
-      console.log("Error", error);
+    addStringToErrorMessage = (stringToAdd) => {
+        let index = this.state.errorMessage.indexOf(stringToAdd);
+        if (index < 0) {
+            this.state.errorMessage.push(stringToAdd);
+            this.setState({error: true})
+        }
     };
-  };
+    handleChange = (e, {name, value}) => {
+        this.setState({[name]: value});
+    };
 
-  // Draws the components on the screen
-  render() {
-    let currentTheme = themeable(theme);
-    return (
-      <div
-        {...currentTheme(11, "orgLogoSection")}
-      >
-        <br/>
-        Organization Logo:
-        <br/>
-        <span
-          {...currentTheme(12, "orgLogoPreview")}
-        >
-        <img id="largeImage" src={this.state.path} {...currentTheme(19, "largeImage")}/>
-        <img id="smallImage" src={this.state.path} {...currentTheme(20, "smallImage")}/>
-        </span>
-        <br/>
-        <br/>
-        <div>
-          <input
-            id="logoButton"
-            type="file"
-            accept="image/*"
-            onChange={(event) => this.onImageSelected(event)}
-            size={5120}
-            {...currentTheme(13, "orgLogoInputField")}
-          />
-          <label htmlFor="logoButton" id="logoLabel" {...currentTheme(14, "orgLogoInputLabel")}>Upload New Photo</label>
-        </div>
-        <br/>
-        <i>Images must be no bigger than 5MB</i>
-      </div>
-    );
-  }
+    getRegistrationJSON = (event) => {
+        event.preventDefault();
+        let requiredFieldsValid =
+            this.state.name !== undefined
+            && this.state.type !== undefined && this.state.name.trim() != "";
+        let requiredFieldsMessage = "You need to fill in the name and organization type fields";
+        if (!requiredFieldsValid) {
+            this.addStringToErrorMessage(requiredFieldsMessage);
+
+        } else {
+            this.removeStringFromErrorMessage(requiredFieldsMessage);
+            let createOrgMutatonVariables = {
+                name: this.state.name,
+                type: this.state.type,
+                image: this.state.logo,
+                note: this.state.description
+            };
+
+            this.props.createOrgMutation({variables: createOrgMutatonVariables}).then((response) => {
+
+                let newOrganizationId = response.data.createOrganization.organization.id;
+
+                if (newOrganizationId) {
+                    this.setState({newOrganizationID: newOrganizationId});
+                    let createOrgConnectionMutationVariables = {
+                        note: this.state.name,
+                        subjectId: parseInt(myAgentId),
+                        relationshipId: parseInt(6),
+                        objectId: parseInt(newOrganizationId)
+                    };
+
+                    this.props.createAgentRelationship({variables: createOrgConnectionMutationVariables}).then(() => {
+                        this.props.history.push("/");
+                        window.location.reload();
+                    }).catch((error) => {
+                        this.addStringToErrorMessage("There was an error when connecting your account to your organization");
+                        console.log(error);
+                    });
+                }
+                this.removeStringFromErrorMessage("There was an error when creating your organization");
+            }).catch((error) => {
+                this.addStringToErrorMessage("There was an error when creating your organization");
+                console.log(error);
+            });
+        }
+    };
+    onImageSelected = (event) => {
+        let file = event.target.files[0];
+        let reader = new FileReader();
+        let errorMessage = "There was an error when processing the image";
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            this.setState({logo: reader.result});
+            this.removeStringFromErrorMessage(errorMessage);
+        };
+        reader.onerror = (error) => {
+            this.addStringToErrorMessage(errorMessage);
+            console.log(error);
+        };
+    };
+
+    render() {
+        return (
+            <div className='login'>
+                <style>{`
+                body > div,
+                body > div > div,
+                body > div > div > div.login {
+                    height: 100%;
+                }
+            `}
+                </style>
+                <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
+                    <Grid.Column style={{maxWidth: 450}}>
+                        <Header as='h2' textAlign='center'>
+                            Organization Registration
+                        </Header>
+                        <Form size='large' onSubmit={this.getRegistrationJSON} error={this.state.error}>
+                            <Segment stacked>
+                                <Form.Field>
+                                    <Form.Input fluid placeholder='Organization Name' name='name'
+                                                value={this.state.name}
+                                                onChange={this.handleChange}/>
+                                </Form.Field>
+                                <OrganizationTypeList onChange={(value) => this.setState({type: value})}/>
+
+                                <Form.Field>
+                                    <Image
+                                        src={this.state.logo ? this.state.logo : "https://via.placeholder.com/200.png?text=Logo%20Preview"}
+                                        size='small' centered/>
+                                </Form.Field>
+
+                                <Form.Field>
+                                    <Grid centered>
+                                        <Grid.Column textAlign={"center"}>
+                                            <Label as="label" htmlFor="logoButton" size="large">
+                                                Upload Logo
+                                            </Label>
+                                            <input id="logoButton" hidden type="file" accept="image/*"
+                                                   onChange={(event) => this.onImageSelected(event)}/>
+                                        </Grid.Column>
+
+                                    </Grid>
+                                </Form.Field>
+                                <Form.Field>
+                                    <Form.TextArea fluid placeholder='Description' name='description'
+                                                value={this.state.description}
+                                                onChange={this.handleChange}/>
+                                </Form.Field>
+
+                                <Button color='blue' fluid type='submit' size='large'>Register</Button>
+                            </Segment>
+                            <Message error list={this.state.errorMessage}/>
+
+                        </Form>
+                    </Grid.Column>
+                </Grid>
+
+                <GetMyAgent/>
+            </div>
+
+        );
+    }
 }
 
-// class OrganizationBannerField extends React.Component {
-//
-//   state = {
-//     valid: true,
-//     path: ""
-//   };
-//
-//   onImageSelected = (event) => {
-//     var file = event.target.files[0];
-//     let reader = new FileReader();
-//     reader.readAsDataURL(file);
-//     reader.onload = () => {
-//       this.setState({path: reader.result});
-//       this.props.saveOrgBanner(this.state.valid ? reader.result : undefined);
-//       console.log(this.state.value);
-//     };
-//     reader.onerror = (error) => {
-//       console.log("Error", error);
-//     };
-//   };
-//
-//   // Draws the components on the screen
-//   render() {
-//     return (
-//       <div>
-//         Organization Banner:
-//         <input type="file" accept="image/*" onChange={(event) => this.onImageSelected(event)}/>
-//         (800x200)
-//         <br/>
-//         Preview:
-//         <br/>
-//         <img src={this.state.path} height={200} width={800}/>
-//       </div>
-//     );
-//   }
-// }
 
-class OrganizationDescriptionField extends React.Component {
-  state = {
-    value: ""
-  };
+export const OrganizationTypeList = GetOrganizationTypes(({orgTypeList, loading, error, onChange}) => {
+    if (loading) {
+        return (<Form.Select width={250} loading text={"Loading"} id={"orgDropdown"}/>);
+    }
+    else if (error) {
+        return (
+            <Form.Select width={250} error text={"Error loading Organization types"} id={"orgDropdown"}/>
+        );
+    } else {
+        let orgList = [];
+        orgTypeList.forEach((event) => {
+            orgList.push({key: event.name, text: event.name, value: event.name})
+        });
+        return (
+            <Form.Select fluid id={"typeDropdown"} placeholder="Choose an organization type"
+                         options={orgList} onChange={(e, {value}) => onChange(value)}/>);
 
-  onChange = (value) => {
-    console.log("Description: " + value);
-    this.setState({value: value});
-    this.props.saveOrgDescription(value);
-  };
+    }
+});
 
-  // Draws the components on the screen
-  render() {
-    let currentTheme = themeable(theme);
-    return (
-      <div>
-        Organization Description:
-        <br/>
 
-        <textarea
-          id="descriptionArea"
-          columns="80"
-          rows="5"
-          onChange={(event) => this.onChange(event.target.value)}
-          {...currentTheme(16, "orgDescriptionTextBox")}
-        />
-        <br/>
-      </div>
-    );
-  }
-}
-
-export default createOrganization(Registration);
+export default withRouter(createAgentRelationship(createOrganization(Registration)));
 
