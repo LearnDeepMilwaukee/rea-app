@@ -86,7 +86,7 @@ class EditInventoryItem extends React.Component {
                 mutationVars["id"] = this.props.resource.id;
                 mutationVars["image"] = this.state.image;
                 mutationVars["trackingIdentifier"] = this.state.name;
-                mutationVars["note"] = this.state.notes;
+                mutationVars["note"] = this.state.notes == "" ? " " : this.state.notes;
 
 
                 this.props.updateEconomicResource({variables: mutationVars}).then(() => {
