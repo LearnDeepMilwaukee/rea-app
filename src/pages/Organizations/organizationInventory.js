@@ -39,25 +39,6 @@ const GetConnected = getMyAgent(({agent, loading, error,setConnected}) => {
 
 });
 
-class AddItemButton extends React.Component {
-    render(){
-            return (
-                <div>
-                    <CreateInventoryItem orgId={orgId}/>
-                </div>)
-    }
-}
-
-class EditItemButton extends React.Component {
-    render(){
-            return (
-                <div>
-                    <EditInventoryItem orgId={orgId} resource={this.props.resource}/>
-                </div>);
-    }
-}
-
-
 /**
  * Gets an organizations data
  */
@@ -76,7 +57,7 @@ export const GetSingleOrganization = getOrganizationById(({organization, loading
             <div>
                 <h2 className="ui header">{organization.name} Inventory</h2>
 
-                {connected ? <AddItemButton/> : <div/>}
+                {connected ? <CreateInventoryItem orgId={orgId}/> : <div/>}
 
 
                 <Item.Group divided>
@@ -128,7 +109,7 @@ export const EconomicResource = (props) => {
                     <p>Added on: {economicResource.createdDate}</p>
                 </Item.Description>
                 <Item.Extra>
-                    {props.connected ? <EditItemButton resource={props.economicResource}/> : <div/>}
+                    {props.connected ? <EditInventoryItem orgId={orgId} resource={props.economicResource}/> : <div/>}
                 </Item.Extra>
             </Item.Content>
         </Item>
@@ -151,7 +132,7 @@ class OrganizationInventory extends React.Component {
         return (
             <div className="ui container">
                 <GetConnected setConnected={this.setConnected}/>
-                <GetSingleOrganization organizationId={this.props.match.params.id} connected={this.state.connected}/>
+                <GetSingleOrganization organizationId={orgId} connected={this.state.connected}/>
             </div>
         )
     }
