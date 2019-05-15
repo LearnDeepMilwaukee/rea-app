@@ -10,13 +10,16 @@ import getOrganizationById from "../../queries/Organization/getOrganizationById.
 import getEconomicResourceById from "../../queries/EconomicResource/getEconomicResourceById.tsx";
 import {isNullOrUndefined} from "util"
 import {Item, Button, Loader} from 'semantic-ui-react'
+import {connect} from 'react-redux';
+import EditInventoryItem from '../Inventory/EditInventoryItem'
+
 import getMyAgent from "../../queries/Agent/getMyAgent"
 import CreateInventoryItem from "../Inventory/createInventoryItem"
 
 let default_image = require("../../resources/default_resource_img.jpg");
 let orgId = -1;
 
-const AddItemButton = getMyAgent(({agent, loading, error}) => {
+const GetConnected = getMyAgent(({agent, loading, error,setConnected}) => {
     if (loading) {
         return (
             <Loader>Loading</Loader>
@@ -28,20 +31,18 @@ const AddItemButton = getMyAgent(({agent, loading, error}) => {
     } else {
         for (let i = 0; i < agent.agentRelationships.length; i++) {
             if(agent.agentRelationships[i].object.id === orgId){
-                return <CreateInventoryItem orgId={orgId}/>
+                setConnected(true);
             }
-
         }
         return <div/>
     }
 
 });
 
-
 /**
  * Gets an organizations data
  */
-export const GetSingleOrganization = getOrganizationById(({organization, loading, error}) => {
+export const GetSingleOrganization = getOrganizationById(({organization, loading, error, connected}) => {
     if (loading) {
         return (
             <Loader>Loading</Loader>
@@ -56,13 +57,13 @@ export const GetSingleOrganization = getOrganizationById(({organization, loading
             <div>
                 <h2 className="ui header">{organization.name} Inventory</h2>
 
-                <AddItemButton/>
+                {connected ? <CreateInventoryItem orgId={orgId}/> : <div/>}
 
 
                 <Item.Group divided>
                     {(economicResourceList.length === 0) ?
                         <p>Inventory Empty</p> : (economicResourceList.map((economicResource) =>
-                            (<GetSingleEconomicResource economicResourceId={economicResource.id}/>)
+                            (<GetSingleEconomicResource economicResourceId={economicResource.id} connected={connected}/>)
                         ))}
                 </Item.Group>
             </div>
@@ -73,7 +74,7 @@ export const GetSingleOrganization = getOrganizationById(({organization, loading
 /**
  * Gets a single economic resource that the organization owns
  */
-export const GetSingleEconomicResource = getEconomicResourceById(({economicResource, loading, error}) => {
+export const GetSingleEconomicResource = getEconomicResourceById(({economicResource, loading, error, connected}) => {
     if (loading) {
         return (
             <Loader>Loading</Loader>
@@ -84,7 +85,7 @@ export const GetSingleEconomicResource = getEconomicResourceById(({economicResou
         );
     } else {
         return (
-            <EconomicResource economicResource={economicResource}/>
+            <EconomicResource economicResource={economicResource} connected={connected}/>
         );
     }
 });
@@ -108,7 +109,7 @@ export const EconomicResource = (props) => {
                     <p>Added on: {economicResource.createdDate}</p>
                 </Item.Description>
                 <Item.Extra>
-                    <Button className="ui right floated primary">Edit</Button>
+                    {props.connected ? <EditInventoryItem orgId={orgId} resource={props.economicResource}/> : <div/>}
                 </Item.Extra>
             </Item.Content>
         </Item>
@@ -116,13 +117,22 @@ export const EconomicResource = (props) => {
 };
 
 class OrganizationInventory extends React.Component {
+    state = {
+        connected: false
+    };
+
+    setConnected = (connected) => {
+        if(this.state.connected != connected){
+            this.setState({connected:connected})
+        }
+    };
     render() {
         orgId = this.props.match.params.id;
 
         return (
             <div className="ui container">
-                <GetSingleOrganization organizationId={this.props.match.params.id}/>
-
+                <GetConnected setConnected={this.setConnected}/>
+                <GetSingleOrganization organizationId={orgId} connected={this.state.connected}/>
             </div>
         )
     }

@@ -3,17 +3,19 @@ import 'semantic-ui-css/semantic.min.css'
 import {withRouter} from 'react-router-dom';
 import {Form, Button, Grid, Header, Segment, Image, Label, Message, Modal} from 'semantic-ui-react'
 import createEconomicEvent from "../../queries/EconomicEvent/CreateEconomicEvent";
-import getMyAgent from "../../queries/Agent/getMyAgent";
 import GetUnits from "../../queries/Unit/getAllUnits";
 import createResourceClassification from "../../queries/ResourceClassification/createResourceClassification";
 import createUnit from "../../queries/Unit/createUnit";
+import updateEconomicResource from "../../queries/EconomicResource/updateEconomicResource";
+import getMyAgent from "../../queries/Agent/getMyAgent";
+
 
 let default_image = require("../../resources/default_resource_img.jpg");
 let units = "";
 let mutationVars = [];
-let createItemUnitExists;
-let createItemUnitDoesNotExist;
+let editItem;
 let running = false;
+
 const GetMyAgent = getMyAgent(({agent, loading, error}) => {
 
     if (!loading && !error) {
@@ -24,23 +26,20 @@ const GetMyAgent = getMyAgent(({agent, loading, error}) => {
     );
 });
 
-
 const UnitExist = GetUnits(({unitList, loading, error}) => {
     running = true;
     if (!loading && !error) {
         for (let i = 0; i < unitList.length; i++) {
             if (units.toLowerCase() === unitList[i].name.toLowerCase()) {
-                return <div>{createItemUnitExists()}</div>
+                return <div>{editItem()}</div>
             }
         }
-        return <div>{createItemUnitDoesNotExist()}</div>;
     }
 
     return <div/>
 });
 
-
-class CreateInventoryItem extends React.Component {
+class EditInventoryItem extends React.Component {
     state = {
         image: default_image,
         orgId: this.props.orgId,
@@ -54,75 +53,95 @@ class CreateInventoryItem extends React.Component {
         success: false
     };
 
-    componentDidMount() {
-        createItemUnitExists = this.createItemUnitExists;
-        createItemUnitDoesNotExist = this.createItemUnitDoesNotExist;
+    constructor(props) {
+        super(props);
+        if (this.props.resource !== undefined) {
+            this.state = {
+                name: this.props.resource.trackingIdentifier,
+                notes: this.props.resource.note,
+                quantity: this.props.resource.currentQuantity.numericValue,
+                units: this.props.resource.currentQuantity.unit.name,
+                image: this.props.resource.image
+            };
+
+            if(this.props.resource.image === undefined){
+                this.setState({image: default_image});
+            }
+            units = this.props.resource.currentQuantity.unit.name;
+        }
+
     }
 
-    createItemUnitExists = () => {
-        this.props.createResourceClassification({variables: mutationVars}).then((response) => {
-            mutationVars["affectedResourceClassifiedAsId"] = response.data.createResourceClassification.resourceClassification.id;
-            this.props.createEconomicEvent({variables: mutationVars}).then(() => {
-                running = false;
-                mutationVars = [];
-                this.setState({
-                    image: default_image,
-                    name: "",
-                    notes: "",
-                    quantity: "",
-                    units: "",
-                    userRan: false,
-                    success: true,
-                    messageToDisplay: "The item has been created!"
-                });
-                return <div/>;
+    componentDidMount() {
+        editItem = this.editItem;
+    }
 
-            }).catch((error) => {
+    editItem = () => {
+
+        this.props.createEconomicEvent({variables: mutationVars}).then(() => {
+
+                mutationVars = [];
+
+                //Apply mutation vars for updateEconomicResource
+                mutationVars["id"] = this.props.resource.id;
+                mutationVars["image"] = this.state.image;
+                mutationVars["trackingIdentifier"] = this.state.name;
+                mutationVars["note"] = this.state.notes == "" ? " " : this.state.notes;
+
+
+                this.props.updateEconomicResource({variables: mutationVars}).then(() => {
+                    running = false;
+                    mutationVars = [];
+                    this.setState({error: false, messageToDisplay: "Item successfully updated", success: true});
+                    return <div/>;
+                }).catch((error) => {
+                    running = false;
+                    console.log(error);
+                    this.setState({error: true, messageToDisplay: "There was an error when editing the item"});
+                    return <div/>;
+                });
+        }).catch((error) => {
                 running = false;
                 console.log(error);
-                this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
+                this.setState({error: true, messageToDisplay: "There was an error when editing the item"});
                 return <div/>;
             });
-        }).catch((error) => {
-            running = false;
-            console.log(error);
-            this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
-
-            return <div/>;
-        });
-    };
-
-    createItemUnitDoesNotExist = () => {
-        let unitMutationVars = [];
-        unitMutationVars["name"] = this.state.units;
-        unitMutationVars["symbol"] = this.state.units;
-        this.props.createUnit({variables: unitMutationVars}).then(() => {
-            this.createItemUnitExists();
-        }).catch((error) => {
-            running = false;
-            console.log(error);
-            this.setState({error: true, messageToDisplay: "There was an error when creating the item"});
-
-            return <div/>;
-        });
     };
 
     handleSubmit = () => {
 
-        mutationVars["receiverId"] = this.state.orgId;
-        mutationVars["createResource"] = true;
-        mutationVars["resourceImage"] = this.state.image;
-        mutationVars["affectedUnitId"] = 4;
-        mutationVars["resourceNote"] = this.state.notes;
-        mutationVars["action"] = "produce";
-        mutationVars["affectedNumericValue"] = this.state.quantity;
-        mutationVars["resourceTrackingIdentifier"] = this.state.name;
-        mutationVars["name"] = this.state.name;
-        mutationVars["scopeId"] = this.state.orgId;
-        mutationVars["unit"] = this.state.units;
+        editItem = this.editItem;
 
-        this.setState({userRan: true});
+        if(this.state.name.trim() === ""){
+            this.setState({error: true, messageToDisplay: "Name cannot just be whitespace!"})
 
+        }else {
+            this.setState({name: this.state.name.trim()});
+            if (isNaN(Number(this.state.quantity))) {
+                this.setState({error: true, messageToDisplay: "Quantity must be a number!"})
+            } else if (Number(this.state.quantity) < 0) {
+                this.setState({error: true, messageToDisplay: "Quantity greater than 0!"})
+            } else {
+                var change = this.state.quantity - this.props.resource.currentQuantity.numericValue;
+
+                mutationVars["receiverId"] = this.props.orgId;
+                mutationVars["createResource"] = false;
+                mutationVars["resourceImage"] = this.props.resource.image;
+                mutationVars["affectedUnitId"] = 4;
+                mutationVars["resourceNote"] = this.props.resource.notes;
+                mutationVars["action"] = "produce";
+                mutationVars["affectedNumericValue"] = change;
+                mutationVars["resourceTrackingIdentifier"] = this.props.resource.trackingIdentifier;
+                mutationVars["name"] = this.props.resource.trackingIdentifier;
+                mutationVars["scopeId"] = this.props.orgId;
+                mutationVars["unit"] = this.state.units;
+                mutationVars["affectsId"] = this.props.resource.id;
+                mutationVars["affectedResourceClassifiedAsId"] = this.props.resource.resourceClassifiedAs.id;
+
+                this.setState({userRan: true});
+            }
+
+        }
     };
 
     handleChange = (e, {name, value}) => {
@@ -150,17 +169,16 @@ class CreateInventoryItem extends React.Component {
             console.log(error);
         };
     };
+
     onClose = () => {
         window.location.reload();
     };
 
     render() {
         return (
-            <Modal trigger={<Button className="ui right floated primary">Create Item</Button>}
-                   basic closeIcon centered onClose={this.onClose}>
+            <Modal trigger={<Button className="ui right floated primary">Edit</Button>} basic closeIcon centered onClose={this.onClose}>
                 <Modal.Content>
-            <div className='createItem'>
-
+            <div className='editItem'>
                 <style>{`
                 body > div,
                 body > div > div,
@@ -178,7 +196,7 @@ class CreateInventoryItem extends React.Component {
                 <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
                     <Grid.Column style={{maxWidth: 450}}>
                         <Header as='h2' textAlign='center'>
-                            Create an Item
+                            Edit Item
                         </Header>
                         <Form size='large' onSubmit={this.handleSubmit}>
                             <Segment stacked>
@@ -199,21 +217,21 @@ class CreateInventoryItem extends React.Component {
                                                         onChange={this.handleChange}/>
                                         </Grid.Column>
                                         <Grid.Column floated='right' width={9}>
-                                            <Form.Input fluid placeholder='Units' name='units' left="true"
+                                            <Form.Input fluid disabled placeholder='Units' name='units' left="true"
                                                         value={this.state.units}
                                                         onChange={this.handleChange}/>
                                         </Grid.Column>
                                     </Grid>
                                 </Form.Field>
                                 <Form.Field>
-                                    <Image src={this.state.image} size='small' centered/>
+                                    <Image src={this.state.image} size='small' centered onError={i => i.target.src = default_image}/>
                                 </Form.Field>
 
                                 <Form.Field>
                                     <Grid centered>
-                                        <Grid.Column textAlign={"center"}>
-                                            <Label as="label" htmlFor="imageButton" size="large" width={6}>
-                                                Upload Image
+                                        <Grid.Column width={8} textAlign={"centered"}>
+                                            <Label as="label" htmlFor="imageButton" size="large" width={8}>
+                                                Upload New Image
                                             </Label>
                                             <input id="imageButton" hidden type="file" accept="image/*"
                                                    onChange={(event) => this.onImageSelected(event)}/>
@@ -222,7 +240,7 @@ class CreateInventoryItem extends React.Component {
                                     </Grid>
 
                                 </Form.Field>
-                                <Button color='blue' fluid type='submit' size='large'>Create</Button>
+                                <Button color='blue' fluid type='submit' size='large'>Update Item</Button>
                             </Segment>
                         </Form>
 
@@ -240,5 +258,4 @@ class CreateInventoryItem extends React.Component {
     }
 }
 
-
-export default withRouter(createUnit(createResourceClassification(createEconomicEvent(CreateInventoryItem))));
+export default withRouter(createUnit(createResourceClassification(createEconomicEvent(updateEconomicResource(EditInventoryItem)))));
