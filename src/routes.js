@@ -24,6 +24,7 @@ import CreateEconomicEvent from './pages/Api/CreateEconomicEvent'
 import AgentRelationshipRoles from './pages/Api/AgentRelationshipRole'
 import CreateInventoryItem from './pages/Inventory/createInventoryItem'
 
+
 class Routes extends Component {
     render() {
         return (
