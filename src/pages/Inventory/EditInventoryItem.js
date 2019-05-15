@@ -112,8 +112,8 @@ class EditInventoryItem extends React.Component {
 
         editItem = this.editItem;
 
-        if(this.state.name.substr(0) === ' '){
-            this.setState({error: true, messageToDisplay: "Name cannot start with whitespace!"})
+        if(this.state.name.trim() === ""){
+            this.setState({error: true, messageToDisplay: "Name cannot just be whitespace!"})
 
         }else {
             this.setState({name: this.state.name.trim()});
@@ -229,9 +229,9 @@ class EditInventoryItem extends React.Component {
 
                                 <Form.Field>
                                     <Grid centered>
-                                        <Grid.Column width={6}>
-                                            <Label as="label" htmlFor="imageButton" size="large" width={6}>
-                                                Upload Image
+                                        <Grid.Column width={8} textAlign={"centered"}>
+                                            <Label as="label" htmlFor="imageButton" size="large" width={8}>
+                                                Upload New Image
                                             </Label>
                                             <input id="imageButton" hidden type="file" accept="image/*"
                                                    onChange={(event) => this.onImageSelected(event)}/>
@@ -240,7 +240,7 @@ class EditInventoryItem extends React.Component {
                                     </Grid>
 
                                 </Form.Field>
-                                <Button color='blue' fluid type='submit' size='large'>Save</Button>
+                                <Button color='blue' fluid type='submit' size='large'>Update Item</Button>
                             </Segment>
                         </Form>
 
